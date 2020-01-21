@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 /**
  * Label for each detail
@@ -12,6 +13,10 @@ function OptionLabel(props) {
 			<span style={{height: '100%'}}>{label}</span>
 		</React.Fragment>
 	)
+}
+
+OptionLabel.propTypes = {
+	label: PropTypes.string.isRequired
 }
 
 export default OptionLabel

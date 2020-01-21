@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 import OptionLabel from './OptionLabel'
 import OptionHelp from './OptionHelp'
@@ -21,6 +22,10 @@ function OptionDetailsItem(props) {
 			<OptionInputField />
 		</div>
 	)
+}
+
+OptionDetailsItem.propTypes = {
+	label: PropTypes.string.isRequired
 }
 
 export default OptionDetailsItem

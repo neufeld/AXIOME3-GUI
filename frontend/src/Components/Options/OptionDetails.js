@@ -38,7 +38,52 @@ function OptionDetails(props) {
 }
 
 OptionDetails.propTypes = {
-  options: PropTypes.object.isRequired,
+  options: PropTypes.shape({
+  	optionList: PropTypes.shape({
+  		entities:PropTypes.shape({
+  			basicOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					summaryText: PropTypes.string,
+					defaultExpanded: PropTypes.bool
+  			}),
+  			advancedOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					summaryText: PropTypes.string,
+					defaultExpanded: PropTypes.bool
+  			})
+  		}),
+  		keys: PropTypes.array
+  	}),
+
+  	basicOptions: PropTypes.shape({
+  		entities:PropTypes.shape({
+  			basicOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					label: PropTypes.string,
+  			}),
+  			advancedOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					label: PropTypes.string,
+  			})
+  		}),
+  		keys: PropTypes.array
+  	}),
+
+  	advancedOptions: PropTypes.shape({
+  		entities:PropTypes.shape({
+  			basicOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					label: PropTypes.string,
+  			}),
+  			advancedOptions: PropTypes.shape({
+  				id: PropTypes.string,
+					label: PropTypes.string,
+  			})
+  		}),
+  		keys: PropTypes.array
+  	})
+  }),
+  optionType: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
