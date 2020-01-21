@@ -47,28 +47,26 @@ export const selectFile = (id, file) => (dispatch, getState) => {
 			selectedFile: file,
 			id: id
 		}
+		newSelectedFiles.push(selectedFile)
+		
 	} else {
-		// Check if same ID already exists
 		var doesIdExist = false
-
-		newSelectedFiles.forEach(file => {
-			if(file.id === id) { doesIdExist = true }
+		// Check if same ID already exists
+		newSelectedFiles.forEach(f => {
+			if(f.id === id) { 
+				// Replace existing content
+				f.selectedFile = file
+				doesIdExist = true
+			}
 		})
 
-		// If ID exists, update the existing item
-		if(doesIdExist === true) {
-			newSelectedFiles.map(f => {
-				// Make new file object
-				f.selectedFile = (f.id === id) ? file : f.selectedFile
-			})
-		} else { // Add new item if ID does not exist
+		if(doesIdExist === false) { // Add new item if ID does not exist
 			selectedFile = {
 				selectedFile: file,
 				id: id
 			}
+			newSelectedFiles.push(selectedFile)
 		}
-
-		newSelectedFiles.push(selectedFile)
 	}
 
 	dispatch({
