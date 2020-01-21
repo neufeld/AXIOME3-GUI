@@ -25,7 +25,8 @@ function BrowseMoreButton(props) {
 }
 
 BrowseMoreButton.propTypes = {
-  getFiles: PropTypes.func.isRequired
+  getFiles: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
