@@ -38,16 +38,15 @@ export const selectFile = (id, file) => (dispatch, getState) => {
 	// if file is empty, return
 	if(!file) { return }
 
-	const newSelectedFiles = [ ...getState().upload.selectedFiles ]
+	const newSelectedFiles = [ ...getState().upload.selectedFiles ];
+	let selectedFile;
 
 	// If nothing in the array, add
 	if(newSelectedFiles.length === 0) {
-		const selectedFile = {
+		selectedFile = {
 			selectedFile: file,
 			id: id
 		}
-
-		newSelectedFiles.push(selectedFile)
 	} else {
 		// Check if same ID already exists
 		var doesIdExist = false
@@ -63,13 +62,13 @@ export const selectFile = (id, file) => (dispatch, getState) => {
 				f.selectedFile = (f.id === id) ? file : f.selectedFile
 			})
 		} else { // Add new item if ID does not exist
-			const selectedFile = {
+			selectedFile = {
 				selectedFile: file,
 				id: id
 			}
-
-			newSelectedFiles.push(selectedFile)
 		}
+
+		newSelectedFiles.push(selectedFile)
 	}
 
 	dispatch({
