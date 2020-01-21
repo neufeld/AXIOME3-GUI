@@ -24,8 +24,8 @@ function InputUploadComponent(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "manifest-file", file: "", label: "Manifest File (.txt, .tsv, .csv)"},
-			{id: 1, name: "metadata-file", file: "", label: "Metadata File"}
+			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"},
+			{id: 1, name: "metadata-file", label: "Metadata File"}
 		]
 		// Get upload elements
 		getUploadField(uploadField)

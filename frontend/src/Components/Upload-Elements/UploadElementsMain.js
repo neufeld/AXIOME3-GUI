@@ -8,7 +8,8 @@ import BrowseMoreButton from './BrowseMoreButton'
 import DropZone from './DropZone'
 
 function UploadElement(props) {
-	const { uploadField, selectedFiles, getFiles } = props
+	// Redux state
+	const { uploadField } = props
 
 	const uploadItems = uploadField.map(item => {
 		return(
@@ -38,7 +39,13 @@ function UploadElement(props) {
 }
 
 UploadElement.propTypes = {
-  uploadField: PropTypes.array.isRequired
+  uploadField: PropTypes.arrayOf(
+  	PropTypes.shape({
+  		id: PropTypes.number.isRequired,
+  		name: PropTypes.string.isRequired,
+  		label: PropTypes.string.isRequired
+  	})
+  ).isRequired
 }
 
 const mapStateToProps = state => ({
