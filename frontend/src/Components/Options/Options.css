@@ -1,0 +1,47 @@
+.option-container {
+	width: 100%;
+	margin-top: 80px;
+}
+
+.summary.text {
+	font-weight: bold;
+	font-variant: small-caps;
+	font-size: 18px;
+}
+
+.option-detail-container {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.option-detail-item-container {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.option-label-help-outer {
+	display: flex;
+	height: 30px;
+}
+
+.option-label-container {
+	margin-left: 10px;
+	margin-right: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
+.option-help-container {
+	margin-right: 10px;
+	display: inline-block;
+}
+
+.option-input-container {
+	margin-left: 10px;
+	margin-right: 10px;
+}

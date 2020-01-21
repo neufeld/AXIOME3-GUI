@@ -1,0 +1,55 @@
+.filebrowse-outer {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border: solid;
+	overflow-y: scroll;
+	height: 600px;
+}
+
+.filebrowse-inner {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+	padding-bottom: 15px;
+	text-align: left;
+}
+
+.display-container {
+	width: 80%;
+	overflow: auto;	
+}
+
+.checkbox {
+	width: 20%;
+	text-align: center;
+}
+
+.header {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	direction: rtl;
+	padding-left: 5px;
+}
+
+.header-container {
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin: 0;
+	text-align: left;
+	border: solid;
+}
+
+.icon {
+	display: inline-block;
+	vertical-align: middle;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.text {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}

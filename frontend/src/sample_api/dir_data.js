@@ -1,0 +1,49 @@
+const data = 
+{
+   "/home/danielm710/tmp/a":{
+      "type":"file",
+      "path":"/home/danielm710/tmp/a"
+   },
+   "/home/danielm710/tmp/b":{
+      "type":"file",
+      "path":"/home/danielm710/tmp/b"
+   },
+   "/home/danielm710/tmp/c":{
+      "type":"file",
+      "path":"/home/danielm710/tmp/c"
+   },
+   "/home/danielm710/tmp/tmp1/aa":{
+      "type":"file",
+      "path":"/home/danielm710/tmp/tmp1/aa"
+   },
+   "/home/danielm710/tmp/tmp1/bb":{
+      "type":"file",
+      "path":"/home/danielm710/tmp/tmp1/bb"
+   },
+   "/home/danielm710/tmp/tmp1/tmp2":{
+      "path":"/home/danielm710/tmp/tmp1/tmp2",
+      "type":"dir"
+   },
+   "/home/danielm710/tmp/tmp1":{
+      "path":"/home/danielm710/tmp/tmp1",
+      "type":"dir",
+      "children":[
+         "/home/danielm710/tmp/tmp1/aa",
+         "/home/danielm710/tmp/tmp1/bb",
+         "/home/danielm710/tmp/tmp1/tmp2"
+      ]
+   },
+   "/home/danielm710/tmp":{
+      "path":"/home/danielm710/tmp",
+      "type":"dir",
+      "isRoot":true,
+      "children":[
+         "/home/danielm710/tmp/a",
+         "/home/danielm710/tmp/b",
+         "/home/danielm710/tmp/c",
+         "/home/danielm710/tmp/tmp1"
+      ]
+   }
+}
+
+export default data
