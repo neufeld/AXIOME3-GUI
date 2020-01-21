@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function UploadedItemDisplay(props) {
-	// Redux actions
-	const { uploadField, selectedFiles } = props
+	// Redux state
+	const { selectedFiles } = props
 
 	// Props passed from the parent component (UploadElementMain.js)
 	const { id } = props
@@ -27,12 +27,16 @@ function UploadedItemDisplay(props) {
 }
 
 UploadedItemDisplay.propTypes = {
-  selectedFiles: PropTypes.array.isRequired
+  selectedFiles: PropTypes.arrayOf(
+  	PropTypes.shape({
+  		id: PropTypes.number.isRequired,
+  		selectedFile: PropTypes.object.isRequired
+  	})
+  ).isRequired
 }
 
 const mapStateToProps = state => ({
-  selectedFiles: state.upload.selectedFiles,
-  uploadField: state.upload.uploadField
+  selectedFiles: state.upload.selectedFiles
 })
 
 export default connect(mapStateToProps)(UploadedItemDisplay)
