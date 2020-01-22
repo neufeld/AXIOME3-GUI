@@ -16,7 +16,7 @@ function OptionLabel(props) {
 }
 
 OptionLabel.propTypes = {
-	label: PropTypes.string.isRequired
+	label: PropTypes.string
 }
 
 export default OptionLabel

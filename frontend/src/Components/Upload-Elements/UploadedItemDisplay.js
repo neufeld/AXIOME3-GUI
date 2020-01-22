@@ -30,10 +30,12 @@ UploadedItemDisplay.propTypes = {
   selectedFiles: PropTypes.arrayOf(
   	PropTypes.shape({
   		id: PropTypes.number.isRequired,
-  		selectedFile: PropTypes.object.isRequired
+  		selectedFile: PropTypes.shape({
+  			name: PropTypes.string.isRequired
+  		}).isRequired
   	})
-  ).isRequired,
-  id: PropTypes.number.isRequired
+  ),
+  id: PropTypes.number
 }
 
 const mapStateToProps = state => ({
