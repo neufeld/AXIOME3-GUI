@@ -1,6 +1,9 @@
 import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE } from './types';
 import axios from 'axios'
 
+// Helper functions
+import { updateSelectedFiles } from './actionHelper'
+
 export const getUploadField = (data) => dispatch => {
 
 	dispatch({
@@ -35,39 +38,9 @@ export const getFiles = (id, path='./') => async dispatch => {
 }
 
 export const selectFile = (id, file) => (dispatch, getState) => {
-	// if file is empty, return
-	if(!file) { return }
-
-	const newSelectedFiles = [ ...getState().upload.selectedFiles ];
-	let selectedFile;
-
-	// If nothing in the array, add
-	if(newSelectedFiles.length === 0) {
-		selectedFile = {
-			selectedFile: file,
-			id: id
-		}
-		newSelectedFiles.push(selectedFile)
-		
-	} else {
-		var doesIdExist = false
-		// Check if same ID already exists
-		newSelectedFiles.forEach(f => {
-			if(f.id === id) { 
-				// Replace existing content
-				f.selectedFile = file
-				doesIdExist = true
-			}
-		})
-
-		if(doesIdExist === false) { // Add new item if ID does not exist
-			selectedFile = {
-				selectedFile: file,
-				id: id
-			}
-			newSelectedFiles.push(selectedFile)
-		}
-	}
+	const prevSelectedFiles = [ ...getState().upload.selectedFiles ];
+	
+	const newSelectedFiles = updateSelectedFiles(id, file, prevSelectedFiles)
 
 	dispatch({
 		type: SELECT_FILE,
