@@ -26,9 +26,9 @@ const baseStyle = {
 
 // Looks like react-dropzone only supports inline styling or 
 // styled components as of 2019.
-function DropZone(props) {
+export function DropZone(props) {
   // Props passsed from parent component (UploadElementMain.js)
-  const { id, label } = props
+  const { id  = -1, label = "" } = props
 
   // Redux action
   const { selectFile } = props
@@ -64,8 +64,8 @@ function DropZone(props) {
 }
 
 DropZone.propTypes = {
-  id: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  label: PropTypes.string,
   selectFile: PropTypes.func.isRequired
 }
 
