@@ -5,12 +5,12 @@ import { getFiles } from '../../redux/actions/uploadAction'
 
 import UploadedItemDisplay from './UploadedItemDisplay'
 
-function BrowseMoreButton(props) {
+export function BrowseMoreButton(props) {
 	// Redux action
 	const { getFiles } = props
 
 	// Props passed from the parent component (UploadElementMain.js)
-	const { id } = props
+	const { id = -1 } = props
 
 	return(
 		<div className="flex-container browse-more">
