@@ -7,7 +7,7 @@ import OptionDetailsItem from './OptionDetailsItem'
 /**
  * Container for detail view for each type of option: basic and advanced.
  */
-function OptionDetails(props) {
+export function OptionDetails(props) {
 	// String specifying which type of option it is (e.g. basicOptions or advancedOptions)
 	// These can be used to access respective items in the redux state
 	const { optionType } = props
@@ -42,14 +42,14 @@ OptionDetails.propTypes = {
   	optionList: PropTypes.shape({
   		entities:PropTypes.shape({
   			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					summaryText: PropTypes.string,
-					defaultExpanded: PropTypes.bool
+  				id: PropTypes.string.isRequired,
+					summaryText: PropTypes.string.isRequired,
+					defaultExpanded: PropTypes.bool.isRequired
   			}),
   			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					summaryText: PropTypes.string,
-					defaultExpanded: PropTypes.bool
+  				id: PropTypes.string.isRequired,
+					summaryText: PropTypes.string.isRequired,
+					defaultExpanded: PropTypes.bool.isRequired
   			})
   		}),
   		keys: PropTypes.array
@@ -57,13 +57,9 @@ OptionDetails.propTypes = {
 
   	basicOptions: PropTypes.shape({
   		entities:PropTypes.shape({
-  			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			}),
-  			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
+  			basicOption1: PropTypes.shape({
+  				id: PropTypes.string.isRequired,
+					label: PropTypes.string.isRequired,
   			})
   		}),
   		keys: PropTypes.array
@@ -71,13 +67,9 @@ OptionDetails.propTypes = {
 
   	advancedOptions: PropTypes.shape({
   		entities:PropTypes.shape({
-  			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			}),
-  			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
+  			advancedOption1: PropTypes.shape({
+  				id: PropTypes.string.isRequired,
+					label: PropTypes.string.isRequired,
   			})
   		}),
   		keys: PropTypes.array

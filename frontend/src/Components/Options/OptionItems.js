@@ -14,7 +14,7 @@ import OptionDetails from './OptionDetails'
  * Container for each type of option: basic and advanced.
  * Outermost container
  */
-function OptionItems(props) {
+export function OptionItems(props) {
 	// Redux state storing list of options
 	const { options } = props	
 
@@ -51,49 +51,41 @@ function OptionItems(props) {
 
 OptionItems.propTypes = {
   options: PropTypes.shape({
-  	optionList: PropTypes.shape({
-  		entities:PropTypes.shape({
-  			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					summaryText: PropTypes.string,
-					defaultExpanded: PropTypes.bool
-  			}),
-  			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					summaryText: PropTypes.string,
-					defaultExpanded: PropTypes.bool
-  			})
-  		}),
-  		keys: PropTypes.array
-  	}),
+    optionList: PropTypes.shape({
+      entities:PropTypes.shape({
+        basicOptions: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          summaryText: PropTypes.string.isRequired,
+          defaultExpanded: PropTypes.bool.isRequired
+        }),
+        advancedOptions: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          summaryText: PropTypes.string.isRequired,
+          defaultExpanded: PropTypes.bool.isRequired
+        })
+      }),
+      keys: PropTypes.array
+    }),
 
-  	basicOptions: PropTypes.shape({
-  		entities:PropTypes.shape({
-  			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			}),
-  			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			})
-  		}),
-  		keys: PropTypes.array
-  	}),
+    basicOptions: PropTypes.shape({
+      entities:PropTypes.shape({
+        basicOption1: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        })
+      }),
+      keys: PropTypes.array
+    }),
 
-  	advancedOptions: PropTypes.shape({
-  		entities:PropTypes.shape({
-  			basicOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			}),
-  			advancedOptions: PropTypes.shape({
-  				id: PropTypes.string,
-					label: PropTypes.string,
-  			})
-  		}),
-  		keys: PropTypes.array
-  	})
+    advancedOptions: PropTypes.shape({
+      entities:PropTypes.shape({
+        advancedOption1: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        })
+      }),
+      keys: PropTypes.array
+    })
   })
 }
 
