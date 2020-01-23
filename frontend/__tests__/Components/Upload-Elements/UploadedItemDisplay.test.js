@@ -33,7 +33,7 @@ describe('UploadedItemDisplay renders', () => {
 		expect(wrapper.find('div')).toHaveLength(1);
 	});
 
-	it('Should return one div and one p with proper text if one matching ID', () => {
+	it('Should return one div and one p with proper text if matching ID', () => {
 		let wrapper = shallow(<UploadedItemDisplay selectedFiles={selectedFiles} id={id1}/>);
 
 		expect(wrapper.find('p')).toHaveLength(1);
