@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-function UploadedItemDisplay(props) {
+export function UploadedItemDisplay(props) {
 	// Redux state
-	const { selectedFiles } = props
+	const { selectedFiles = [] } = props;
 
 	// Props passed from the parent component (UploadElementMain.js)
-	const { id } = props
+	const { id = -1 } = props
 
 	// Retrieve uploaded file from redux states
 	const uploadedFile = selectedFiles.map(selected => {
