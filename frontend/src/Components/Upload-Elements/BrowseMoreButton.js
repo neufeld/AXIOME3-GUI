@@ -26,7 +26,7 @@ export function BrowseMoreButton(props) {
 
 BrowseMoreButton.propTypes = {
   getFiles: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  id: PropTypes.number
 }
 
 const mapStateToProps = state => ({
