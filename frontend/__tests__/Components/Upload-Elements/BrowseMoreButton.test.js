@@ -7,6 +7,7 @@ let wrapper;
 let mockCallback;
 
 beforeEach(() => {
+	mockCallback = jest.fn();
 	wrapper = shallow(<BrowseMoreButton getFiles={mockCallback}/>);
 });
 
