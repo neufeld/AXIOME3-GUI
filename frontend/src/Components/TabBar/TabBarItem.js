@@ -42,19 +42,25 @@ const useTabStyles = makeStyles(theme => ({
 
 }));
 
-function TabBarItem(props) {
+export function TabBarItem(props) {
 	const tabsClasses = useTabsStyles();
   const tabClasses = useTabStyles();
-	const { navBarField, currentTab } = props;
+
+  // Props passed from the parent
+	const { navBarField } = props;
+
+  // React Router specific props
+  const { history } = props;
 
   const handleChange = (event, newValue) => {
-    props.history.push(newValue)
+    history.push(newValue)
   };
 
   const tabItems = navBarField.map(navItem => {
     const path = navItem.value
   	return (
   		<Tab
+        key={navItem.id}
         classes={{
           root: tabClasses.root,
           selected: tabClasses.selected,
@@ -68,7 +74,7 @@ function TabBarItem(props) {
   })
 
 	return (
-		<Tabs classes={{root: tabsClasses.root}} value={props.history.location.pathname} onChange={handleChange} aria-label="simple tabs example">
+		<Tabs classes={{root: tabsClasses.root}} value={history.location.pathname} onChange={handleChange} aria-label="simple tabs example">
 			{tabItems}
     </Tabs>
 	)

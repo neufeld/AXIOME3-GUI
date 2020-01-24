@@ -30,9 +30,9 @@ export function OptionItems(props) {
 	  	      aria-controls="panel1a-content"
 	  	      id="panel1a-header"
 	  	     >
-	  	     	<p className="summary text">{optionEntity.summaryText}</p>
+	  	     	<p className="summary text" test-attr={k}>{optionEntity.summaryText}</p>
 	  	    </ExpansionPanelSummary>
-	  	    <ExpansionPanelDetails>
+	  	    <ExpansionPanelDetails >
 	  	      <OptionDetails optionType={k}/>
 	  	    </ExpansionPanelDetails>
     	  </ExpansionPanel>
