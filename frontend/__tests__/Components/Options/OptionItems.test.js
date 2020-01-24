@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { createShallow } from '@material-ui/core/test-utils';
 
 import { OptionItems } from '../../../src/Components/Options/OptionItems'
 
@@ -50,16 +49,28 @@ describe('<OptionItems /> render', () => {
 
 		// There should be 1 React.Fragment and nothing else
 		expect(wrapper.find('Fragment')).toHaveLength(1);
-		expect(wrapper.find('ExpansionPanel')).toHaveLength(0);
-		expect(wrapper.find('ExpansionPanelSummary')).toHaveLength(0);
-		expect(wrapper.find('ExpansionPanelDetails')).toHaveLength(0);
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanel))')).toHaveLength(0);
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanelSummary))')).toHaveLength(0);
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanelDetails))')).toHaveLength(0);
 		expect(wrapper.find('p')).toHaveLength(0);
 	});
 
 	it('Should render two expansion panels if options specified', () => {
 		const wrapper = shallow(<OptionItems options={options}/>);
 
-		expect(wrapper).toMatchSnapshot();
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanel))')).toHaveLength(2);
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanelSummary))')).toHaveLength(2);
+		expect(wrapper.find('WithStyles(ForwardRef(ExpansionPanelDetails))')).toHaveLength(2);
+		expect(wrapper.find('p')).toHaveLength(2);
+	});
 
+	it('Should render correct text if options specified', () => {
+		const wrapper = shallow(<OptionItems options={options}/>);
+
+		options.optionList.keys.forEach(k => {
+			var expectedText = options.optionList.entities[k].summaryText;
+
+			expect(wrapper.find(`p[test-attr='${k}']`).text()).toEqual(expectedText);
+		});
 	});
 });
