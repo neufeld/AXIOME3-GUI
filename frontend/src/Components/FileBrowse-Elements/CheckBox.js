@@ -5,12 +5,20 @@ import { connect } from 'react-redux';
 import { selectFile } from '../../redux/actions/uploadAction'
 
 /**
-* ADD DOCSTRING
-*/
-function CheckBox(props) {
-	const { matchedFileName, file, id, selectFile } = props
+ * Adds radio button next to each item populated in the 
+ * filebrowse table.  
+ */
+export function CheckBox(props) {
+	// Props passed from the parent (FileBrowseElementMain.js)
+	const { matchedFileName, file } = props
 
-	let radioButton
+	// Redux actions
+	const { selectFile } = props
+
+	// Redux states
+	const { id } = props
+
+	let radioButton;
 	if(file.type === "file") {
 		radioButton = <input
 										type="radio"
@@ -28,9 +36,18 @@ function CheckBox(props) {
 	)
 }
 
+const filePropType = {
+  isRoot: PropTypes.bool,
+  type: PropTypes.string,
+  path: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  isParent: PropTypes.bool
+ }
+
 CheckBox.propTypes = {
   id: PropTypes.number.isRequired,
-  selectFile: PropTypes.func.isRequired
+  selectFile: PropTypes.func.isRequired,
+  file: PropTypes.shape(filePropType)
 }
 
 const mapStateToProps = state => ({

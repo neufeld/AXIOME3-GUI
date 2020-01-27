@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { convertObj2Array } from './FileBrowseHelper'
 
-function HeaderBar(props) {
-	const { files } = props
+export function HeaderBar(props) {
+	// Redux state
+	const { files = [] } = props
 
-	const headerText = convertObj2Array(files).map(file => {
+	const headerText = files.map(file => {
 		if(file.isRoot === true) {
 			const id = file.name + "_header"
 			return <p className="header" key={id}>{file.path}</p>
@@ -20,8 +20,18 @@ function HeaderBar(props) {
 	)
 }
 
+const filePropType = {
+  isRoot: PropTypes.bool,
+  type: PropTypes.string,
+  path: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  isParent: PropTypes.bool
+ }
+
 HeaderBar.propTypes = {
-  files: PropTypes.object.isRequired
+  files: PropTypes.arrayOf(
+  	PropTypes.shape(filePropType)
+  )
 }
 
 const mapStateToProps = state => ({
