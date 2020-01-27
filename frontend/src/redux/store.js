@@ -7,6 +7,19 @@ const initialState = {};
 
 const middleware = [thunk];
 
+const composeEnhancers = composeWithDevTools({
+  trace: true,
+  traceLimit: 25,
+})
+
+// Enable action trace for easier debug
+const store = createStore(
+	rootReducer, 
+	initialState,
+	composeEnhancers(applyMiddleware(...middleware))
+);
+
+/*
 const store = createStore(
 	rootReducer, 
 	initialState,
@@ -14,5 +27,6 @@ const store = createStore(
 		applyMiddleware(...middleware)
 	)
 );
+*/
 
 export default store;
