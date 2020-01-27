@@ -14,7 +14,7 @@ describe('Upload Reducer', () => {
 		});
 
 		it('Should return default state for files', () => {
-			expect(newState.files).toEqual({});
+			expect(newState.files).toEqual([]);
 		});
 
 		it('Should return default state for selectedFiles', () => {
