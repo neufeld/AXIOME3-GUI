@@ -27,7 +27,7 @@ export const getFiles = (id, path='./') => async dispatch => {
 		dispatch({
 			type: GET_FILES,
 			payload: {
-				files: res.data,
+				files: res.data.files,
 				id: id
 			}
 		})
@@ -62,7 +62,7 @@ export const emptySelectedFiles = () => (dispatch) => {
 }
 
 export const emptyFiles = () => (dispatch) => {
-	const emptyObj = {}
+	const emptyObj = []
 
 	dispatch({
 		type: GET_FILES,

@@ -2,7 +2,7 @@ import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE } from '../actions/types';
 
 const initialState = {
 	uploadField: [],
-	files: {},
+	files: [],
 	selectedFiles: []
 }
 
