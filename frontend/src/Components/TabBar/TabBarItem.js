@@ -81,7 +81,13 @@ export function TabBarItem(props) {
 }
 
 TabBarItem.propTypes = {
-	navBarField: PropTypes.array.isRequired,
+	navBarField: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  )
 }
 
 export default withRouter(TabBarItem)

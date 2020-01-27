@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types';
 
 import './TabBar.css'
 import TabBarItem from './TabBarItem'
@@ -22,6 +23,16 @@ function TabBarMain(props) {
 		<div className="analysis-nav-container">
 			<TabBarItem navBarField={field} />
 		</div>	
+	)
+}
+
+TabBarMain.propTypes = {
+	navBarField: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.number.isRequired,
+			label: PropTypes.string.isRequired,
+			value: PropTypes.string.isRequired
+		})
 	)
 }
 
