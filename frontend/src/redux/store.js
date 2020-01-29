@@ -5,7 +5,7 @@ import rootReducer from './reducers';
 
 const initialState = {};
 
-const middleware = [thunk];
+export const middleware = [thunk];
 
 const composeEnhancers = composeWithDevTools({
   trace: true,
