@@ -1,4 +1,7 @@
+import moxios from 'moxios';
+import { makeMockStore } from '../../Utils/integration_utils';
 import { updateSelectedFiles } from '../../src/redux/actions/actionHelper'
+import { getFiles } from '../../src/redux/actions/uploadAction'
 
 describe("Upload Actions", () => {
 	describe("Testing selectFile", () => {
@@ -82,4 +85,50 @@ describe("Upload Actions", () => {
 		});
 	});
 
+	describe('Testing getFiles', () => {
+		let store;
+
+		beforeEach(() => {
+			moxios.install();
+			store = makeMockStore({});
+		})
+
+		afterEach(() => {
+			moxios.uninstall();
+		});
+
+		it('Should make correct API call', () => {
+			const fileArray = [
+				{name: 'root', path: '/root', isRoot: true},
+				{name: 'parent', path: '/parent', isParent: true},
+				{name: 'file', path: 'file'}
+			];
+
+			const expectedFiles = {
+				files: fileArray
+			};
+
+			const expectedId = 1;
+
+			moxios.wait(() => {
+				const request = moxios.requests.mostRecent();
+				request.respondWith({
+					status: 200,
+					response: expectedFiles
+				})
+			});
+
+			return store.dispatch(getFiles(expectedId))
+			.then(() => {
+				// Redux-mock-store doesn't actually update states
+				//const newState = store.getState();
+
+				const actions = store.getActions()
+				
+				expect(actions[0].payload.id).toEqual(expectedId);
+				expect(actions[0].payload.files).toEqual(fileArray);
+			});
+
+		});
+	});
 });
