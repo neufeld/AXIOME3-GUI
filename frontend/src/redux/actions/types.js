@@ -6,3 +6,5 @@ export const SELECT_FILE = 'SELECT_FILE'
 export const UPDATE_TAB = 'UPDATE_TAB'
 // optionAction related
 export const UPDATE_OPTIONS = 'UPDATE_OPTIONS'
+// submitAction related
+//export const SUBMIT = 'SUBMIT'

@@ -43,9 +43,11 @@ function AnalysisComponent(props) {
 		<div className="main-display">
 			<TabBarMain />
 			<div className="sub-display" style={subDisplayStyles}>
-				<DescriptionMain description={"This is for Analysis!"}/>
-				<UploadElementsMain />
-				<OptionsMain />
+				<form>
+					<DescriptionMain description={"This is for Analysis!"}/>
+					<UploadElementsMain />
+					<OptionsMain />
+				</form>
 			</div>
 		</div>
 	)		

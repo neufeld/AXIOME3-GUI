@@ -11,6 +11,10 @@ import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
 import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
+import SubmitButton from './SubmitButton/SubmitButton'
+
+// Custom helper functions
+import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 // Import option interface data
 import InputUploadOption from './data/InputUploadOption'
@@ -22,10 +26,12 @@ function InputUploadComponent(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props
 
+	// Redux states
+	const { selectedFiles, options } = props
+
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"},
-			{id: 1, name: "metadata-file", label: "Metadata File"}
+			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"}
 		]
 		// Get upload elements
 		getUploadField(uploadField)
@@ -46,19 +52,30 @@ function InputUploadComponent(props) {
 		padding: "5%"
 	}
 
+	// Type of the form;
+	// For server side processing
+	const formType = "InputUpload"
+
 	return (
 		<div className="main-display">
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<DescriptionMain description={"This is for Input Upload!"}/>
-				<UploadElementsMain />
-				<OptionsMain />
+				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, options)}}>
+					<DescriptionMain description={"This is for Input Upload!"}/>
+					<UploadElementsMain />
+					<OptionsMain />
+					<SubmitButton />
+				</form>
 			</div>
 		</div>
 	)		
 }
 
 const mapStateToProps = state => ({
+	selectedFiles: state.upload.selectedFiles,
+	options: state.option.options
 })
 
-export default withRouter(connect(mapStateToProps, { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles })(InputUploadComponent))
+const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles }
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(InputUploadComponent))

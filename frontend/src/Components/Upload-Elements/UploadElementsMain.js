@@ -31,9 +31,7 @@ export function UploadElementsMain(props) {
 
 	return(
 		<div className="upload-container">
-			<form>
-				{uploadItems}
-			</form>
+			{uploadItems}
 		</div>
 	)
 }
