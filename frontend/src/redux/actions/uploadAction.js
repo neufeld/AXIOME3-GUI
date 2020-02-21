@@ -14,7 +14,7 @@ export const getUploadField = (data) => dispatch => {
 	})
 }
 
-export const getFiles = (id, path='./') => async dispatch => {
+export const getFiles = (id, path='/hostfs') => async dispatch => {
 	
 	const data = JSON.stringify({path: path})
 	try {
