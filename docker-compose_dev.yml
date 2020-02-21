@@ -1,0 +1,33 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+      args:
+        - QIIME2_RELEASE=2019.10
+    command: ["flask", "run", "--host", "0.0.0.0"]
+    volumes:
+      - ./backend:/backend
+      - /:/hostfs:ro
+    ports:
+      - '5000:5000'
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=server.py
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    command: ["npm", "start"]
+    volumes:
+      - ./frontend:/frontend
+      #- /frontend/node_module
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+    links:
+      - backend
