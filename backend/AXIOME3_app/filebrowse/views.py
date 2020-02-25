@@ -1,14 +1,13 @@
-from filebrowse import filebrowse_app, filetree_generator
+from filebrowse import filetree_generator
 from flask import Blueprint, request, jsonify
-from werkzeug.utils import secure_filename
 import json
 
 # For console debugging
 import sys
 
-filebrowse_bp = Blueprint('filebrowse_bp', __name__)
+blueprint = Blueprint("filebrowse", __name__, url_prefix="/filebrowse")
 
-@filebrowse_bp.route('/filebrowse', methods=['GET', 'POST'])
+@blueprint.route("/", methods=['GET', 'POST'])
 def generate_files():
 	if request.method == 'POST':
 		# Generate file tree (list of dict)
