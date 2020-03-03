@@ -11,7 +11,7 @@ import axios from 'axios'
  const handleSubmit = async (e, formType, selectedFiles, options) => {
  	e.preventDefault();
 
- 	const endpoint = '/submit'
+ 	const endpoint = '/datahandle/'
 
  	const formData = new FormData();
 
@@ -21,25 +21,24 @@ import axios from 'axios'
  	if(formType === "InputUpload") {
  		// Check if "empty" form
  		if(selectedFiles.length === 0) {
- 			alert("Form not completed. Please upload the manifest file.")
+ 			alert("Please upload the manifest file.")
  			return
  		}
 
- 		// Check there is only one element in selectedFiles?
  		//TODO
-
+ 		// Check there is only one element in selectedFiles?
  		formData.append("manifest", selectedFiles[0].selectedFile)
  	}
 
- 	// Check formData properly filled out?
  	//TODO
-
+ 	// Check formData properly filled out?
  	try {
  		const res = await axios.post(endpoint, formData, {
 	 		headers: {
 	 			'Content-Type': 'multipart/form-data'
 	 		}
 	 	})
+	 	console.log(res)
  	} catch (err) {
 		console.log(err)
 	}
