@@ -17,12 +17,18 @@ services:
     command: ["flask", "run", "--host", "0.0.0.0"]
     volumes:
       - ./backend:/backend
-      - /:/hostfs:ro
+      - /:/hostfs:ro # Assumes host root is '/'
+      - ./output:/output # Stores all the output to this directory
+      - ./log:/log # For logging
+      - input:/input # Named volume
+      - ./pipeline:/pipeline # TEMPORARY
     ports:
       - '5000:5000'
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
+      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
     links:
       - rabbit
 
@@ -35,9 +41,15 @@ services:
     command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline"
     volumes:
       - ./backend:/backend
+      - ./output:/output # Stores all the output to this directory
+      - ./log:/log # For logging
+      - input:/input # Named volume
+      - ./pipeline:/pipeline # TEMPORARY
     environment:
-      - CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
-      - CELERY_RESULT_BACKEND=rpc://
+      #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
+      #- CELERY_RESULT_BACKEND=rpc://
+      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
     links:
       - rabbit
 
@@ -56,3 +68,5 @@ services:
       - HOST=0.0.0.0
     links:
       - backend
+volumes:
+  input:

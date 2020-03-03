@@ -22,14 +22,16 @@ RUN qiime dev refresh-cache
 RUN echo "source activate qiime2-${QIIME2_RELEASE}" >> $HOME/.bashrc
 RUN echo "source tab-qiime" >> $HOME/.bashrc
 
-# Make directory to store backend code
+# Make directory to store pipeline
+WORKDIR /pipeline
+# clone AXIOME3 Pipeline repository
+RUN git clone --single-branch --branch web-app https://github.com/neufeld/AXIOME3.git
+
+# Make /backend working directory; flask code lives here
 WORKDIR /backend
 
-# clone AXIOME3 Pipeline repository
-RUN git clone https://github.com/neufeld/AXIOME3.git
-
 # Install biopython
-RUN conda install -c conda-forge biopython
+#RUN conda install -c conda-forge biopython
 
 # Install from requirements.txt using pip
 COPY requirements.txt requirements.txt
