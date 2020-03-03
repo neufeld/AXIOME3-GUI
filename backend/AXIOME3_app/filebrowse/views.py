@@ -1,4 +1,4 @@
-from filebrowse import filetree_generator
+from AXIOME3_app.filebrowse import filetree_generator
 from flask import Blueprint, request, jsonify
 import json
 

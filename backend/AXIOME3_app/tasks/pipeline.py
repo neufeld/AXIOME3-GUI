@@ -1,12 +1,14 @@
 from AXIOME3_app.extensions import celery
-import time
+import luigi
+import pipeline # AXIOME3 Pipeline; its path shouldve been added
+import importlib
 
 @celery.task(bind=True, name="pipeline.run.import")
 def dummy_task(self):
-	time.sleep(1)
-	self.update_state(state="PROGRESS", meta={'progress': 50})
-	time.sleep(1)
-	self.update_state(state="PROGRESS", meta={'progress': 90})
-	time.sleep(1)
+	# Reload pipeline to apply new config setting?
+	importlib.invalidate_caches()
+	importlib.reload(pipeline)
 
-	return 'hello world'
+	isSuccess = luigi.build([pipeline.Import_Data()], local_scheduler=True)
+
+	return "Done!"
