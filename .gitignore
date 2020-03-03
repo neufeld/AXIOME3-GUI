@@ -1,3 +1,7 @@
 node_modules
 backup
 __pycache__
+output
+log
+pipeline
+Data
