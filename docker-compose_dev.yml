@@ -40,6 +40,7 @@ services:
         - QIIME2_RELEASE=2019.10
     command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline"
     volumes:
+      - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
