@@ -119,4 +119,4 @@ def reformat_manifest(_id, _file, format="PairedEndFastqManifestPhred33"):
 	new_manifest_path = os.path.join(input_dir, new_manifest_name)
 	df.to_csv(new_manifest_path, index=False)
 
-	return new_manifest_path
+	return 200, new_manifest_path

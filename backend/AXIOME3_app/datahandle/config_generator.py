@@ -99,7 +99,7 @@ def make_log_config(_id):
 
 	base_dir = os.path.join('/log', _id)
 	logfile_path = os.path.join(base_dir, "luigi_log.log")
-	config_data = config_data.replace("<LOGFILE_PATH>", str(logfile_path))
+	config_data = config_data.replace("<LOGFILE_PATH>", logfile_path)
 
 	# Write a new config file
 	new_config_path = os.path.join(base_dir, "logging.conf")
