@@ -13,7 +13,6 @@ describe('UploadElementsMain renders', () => {
 		const wrapper = shallow(<UploadElementsMain uploadField={[]}/>);
 
 		expect(wrapper.find('div')).toHaveLength(1);
-		expect(wrapper.find('form')).toHaveLength(1);
 	});
 
 	it('Should render correctly when valid props passed', () => {
@@ -23,7 +22,6 @@ describe('UploadElementsMain renders', () => {
 		expect(wrapper.find('.upload-inner-left')).toHaveLength(2);
 		expect(wrapper.find('.upload-inner-right')).toHaveLength(2);
 		expect(wrapper.find('div')).toHaveLength(7);
-		expect(wrapper.find('form')).toHaveLength(1);
 	})
 
 });
