@@ -8,6 +8,8 @@ from AXIOME3_app import datahandle
 # Import extension packages
 from AXIOME3_app.extensions import celery
 
+import logging
+
 def create_app(testing=False):
 	"""
 	Application factory. Create application here.
@@ -23,6 +25,13 @@ def create_app(testing=False):
 
 	# Initialize celery app?
 	init_celery(app)
+
+	# Initialize logger
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	fh = logging.FileHandler('/log/backend.log', mode='a')
+	fh.setLevel(level=logging.WARNING)
+	fh.setFormatter(formatter)
+	app.logger.addHandler(fh)
 
 	return app
 
