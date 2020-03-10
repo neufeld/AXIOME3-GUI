@@ -5,6 +5,12 @@ from flask import current_app
 from textwrap import dedent
 import copy
 
+# Flask backend util functions
+from AXIOME3_app import utils
+
+# Config helper functions
+from AXIOME3_app.datahandle import config_generator
+
 def make_dir(dirpath):
 	"""
 	Make directory with given UUID as directory name.
@@ -101,40 +107,83 @@ def save_upload(_id, _file):
 
 	return 200, input_path
 
+def input_upload_pre_check(_id, request):
+	"""
+	Do pre-checks as to decrease the chance of job failing.
+
+	Tests the followings:
+		1. manifest file
+			- fastq files exist?
+			- duplicate entries?
+			- absoluate filepath?
+
+	Returns:
+		- status code and message
+	"""
+	# Save uploaded manifest file in the docker container
+	manifest_path = utils.responseIfError(save_upload, _id=_id, _file=request.files["manifest"])
+
+	utils.responseIfError(manifest_fastq_exist, manifest_path=manifest_path)
+
+	return manifest_path
+
+def manifest_fastq_exist(manifest_path):
+	"""
+	Check if fastq files actually exist on the host.
+
+	Input:
+		- manifest_path: path to manifest file in the container
+
+	Returns:
+		- doesExist: pandas series indicating whether each fastq in the manifest file exist on the host.
+	"""
+	df = pd.read_csv(manifest_path)
+	df_original = copy.deepcopy(df)
+	# Seems header names are fixed for QIIME2 manifest file
+	df["absolute-filepath"] = "/hostfs" + df["absolute-filepath"]
+
+	doesExist = df.apply(lambda x: os.path.exists(x["absolute-filepath"]), axis=1)
+
+	# Fastq files exist?
+	if(doesExist.all() == False):
+		non_file_list = df_original.loc[~doesExist, "absolute-filepath"].values
+		
+		code = 400
+		# Client error message
+		client_message = dedent("""\
+			Error in the manifest file.
+			Following FASTQ files do NOT exist:
+			{files}
+		""".format(files='\n'.join(non_file_list)))
+
+		# Log error message
+		log_message = dedent("""\
+			Error in the manifest file, {manifest}.
+			Following FASTQ files do NOT exist:
+			{files}
+		""".format(manifest=manifest_path,
+							files='\n'.join(non_file_list)))
+
+		current_app.logger.error(log_message)
+
+		return code, client_message
+
+	return 200, "Success"
+
+
 def reformat_manifest(_id, _file, format="PairedEndFastqManifestPhred33"):
 	"""
 	Check the followings:
 		1. Specified FASTQ actually exists
 		2. Rename paths to be compatible with docker
 	"""
-
-
 	# Two cases: V1 and V2 (im using V1 format by default)
 	# TODO: different cases for different formats
 
-	original_df = pd.read_csv(_file)
-	df = copy.deepcopy(original_df)
-
-	# TODO: Exception if given relative path
+	df = pd.read_csv(_file)
 
 	# Seems header names are fixed for QIIME2 manifest file
 	df["absolute-filepath"] = "/hostfs" + df["absolute-filepath"]
-
-	# TODO: Exception if data does not exist
-	doesExist = df.apply(lambda x: os.path.exists(x["absolute-filepath"]), axis=1)
-
-	if(doesExist.all() == False):
-		non_file_list = original_df.loc[~doesExist, "absolute-filepath"].values
-		
-		code = 400
-		message = dedent("""\
-			Error in the manifest file. Following FASTQ files do NOT exist:
-			{files}
-		""".format(files='\n'.join(non_file_list)))
-
-		current_app.logger.error(message)
-
-		return code, message
 
 	# Save file
 	base_input_dir = "/input"
@@ -145,3 +194,36 @@ def reformat_manifest(_id, _file, format="PairedEndFastqManifestPhred33"):
 	df.to_csv(new_manifest_path, index=False)
 
 	return 200, new_manifest_path
+
+def pipeline_setup(_id):
+	"""
+	Set up directories (output, log, config) prior to running the pipeline.
+	This is to be run in every type of request.
+
+	Input:
+		- _id: UUID4 in string representation
+
+	Returns:
+		- log_config_path: path to logging configuration file.
+	"""
+	utils.responseIfError(make_output_dir, _id=_id)
+
+	# Make sub log dir in /log
+	utils.responseIfError(make_log_dir, _id=_id)
+
+	# Create luigi logging config file
+	log_config_path = utils.responseIfError(config_generator.make_log_config, _id=_id)
+
+	return log_config_path
+
+def input_upload(manifest_path, _id, log_config_path):
+	"""
+	Run all "Input Upload" related steps
+
+	Input:
+		- manifest_path: path to manifest file in the container
+		- _id: UUID4 in string representation
+		- log_config_path: path to logging configuration file.
+	"""
+	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
+	code, config_path = config_generator.make_luigi_config(_id, log_config_path, manifest=new_manifest_path)
