@@ -5,6 +5,10 @@ from flask import current_app
 from textwrap import dedent
 import copy
 
+# QIIME2 modules
+import qiime2
+import q2_types
+
 # Flask backend util functions
 from AXIOME3_app import utils
 
@@ -27,7 +31,6 @@ def make_dir(dirpath):
 								module=__name__,
 								dir=dirpath)
 		)
-		current_app.logger.error(message)
 
 		return False, message	
 
@@ -111,65 +114,62 @@ def input_upload_pre_check(_id, request):
 	"""
 	Do pre-checks as to decrease the chance of job failing.
 
-	Tests the followings:
-		1. manifest file
-			- fastq files exist?
-			- duplicate entries?
-			- absoluate filepath?
+	Input:
+		- id: UUID4 in string representation.
+		- request: request object
 
 	Returns:
-		- status code and message
+		- path to modified manifest file if valid input
 	"""
 	# Save uploaded manifest file in the docker container
 	manifest_path = utils.responseIfError(save_upload, _id=_id, _file=request.files["manifest"])
+	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
+	input_format = request.form["Input Format"]
 
-	utils.responseIfError(manifest_fastq_exist, manifest_path=manifest_path)
+	utils.responseIfError(validate_manifest, manifest_path=new_manifest_path, input_format=input_format)
 
-	return manifest_path
+	return new_manifest_path
 
-def manifest_fastq_exist(manifest_path):
+def validate_manifest(manifest_path, input_format):
 	"""
-	Check if fastq files actually exist on the host.
-
-	Input:
-		- manifest_path: path to manifest file in the container
-
-	Returns:
-		- doesExist: pandas series indicating whether each fastq in the manifest file exist on the host.
+	Validate user supplied manifest file using QIIME2 modules.
 	"""
-	df = pd.read_csv(manifest_path)
-	df_original = copy.deepcopy(df)
-	# Seems header names are fixed for QIIME2 manifest file
-	df["absolute-filepath"] = "/hostfs" + df["absolute-filepath"]
+	try:
+		if(input_format == "SingleEndFastqManifestPhred33"):
+			q2_types.per_sample_sequences.SingleEndFastqManifestPhred33(manifest_path, mode='r').validate()
+		elif(input_format == "SingleEndFastqManifestPhred33V2"):
+			q2_types.per_sample_sequences.SingleEndFastqManifestPhred33V2(manifest_path, mode='r').validate()
+		elif(input_format == "SingleEndFastqManifestPhred64"):
+			q2_types.per_sample_sequences.SingleEndFastqManifestPhred64(manifest_path, mode='r').validate()
+		elif(input_format == "SingleEndFastqManifestPhred64V2"):
+			q2_types.per_sample_sequences.SingleEndFastqManifestPhred64V2(manifest_path, mode='r').validate()
+		elif(input_format == "PairedEndFastqManifestPhred33"):
+			q2_types.per_sample_sequences.PairedEndFastqManifestPhred33(manifest_path, mode='r').validate()
+		elif(input_format == "PairedEndFastqManifestPhred33V2"):
+			q2_types.per_sample_sequences.PairedEndFastqManifestPhred33V2(manifest_path, mode='r').validate()
+		elif(input_format == "PairedEndFastqManifestPhred64"):
+			q2_types.per_sample_sequences.PairedEndFastqManifestPhred64(manifest_path, mode='r').validate()
+		elif(input_format == "PairedEndFastqManifestPhred64V2"):
+			q2_types.per_sample_sequences.PairedEndFastqManifestPhred64V2(manifest_path, mode='r').validate()
+		else:
+			invalid_format_msg = \
+				"Specified input format, {input_format}, is not compatible with QIIME2..."\
+				.format(input_format=input_format)
 
-	doesExist = df.apply(lambda x: os.path.exists(x["absolute-filepath"]), axis=1)
+			raise ValueError(invalid_format_msg)
 
-	# Fastq files exist?
-	if(doesExist.all() == False):
-		non_file_list = df_original.loc[~doesExist, "absolute-filepath"].values
-		
-		code = 400
-		# Client error message
-		client_message = dedent("""\
-			Error in the manifest file.
-			Following FASTQ files do NOT exist:
-			{files}
-		""".format(files='\n'.join(non_file_list)))
+	except qiime2.core.exceptions.ValidationError as err:
+		message = str(err)
 
-		# Log error message
-		log_message = dedent("""\
-			Error in the manifest file, {manifest}.
-			Following FASTQ files do NOT exist:
-			{files}
-		""".format(manifest=manifest_path,
-							files='\n'.join(non_file_list)))
+		return 400, message
 
-		current_app.logger.error(log_message)
+	except ValueError as err:
+		message = str(err)
 
-		return code, client_message
+		return 400, message
 
-	return 200, "Success"
 
+	return 200, "Manifest good!"
 
 def reformat_manifest(_id, _file, format="PairedEndFastqManifestPhred33"):
 	"""
@@ -216,7 +216,7 @@ def pipeline_setup(_id):
 
 	return log_config_path
 
-def input_upload(manifest_path, _id, log_config_path):
+def input_upload(manifest_path, request, _id, log_config_path):
 	"""
 	Run all "Input Upload" related steps
 
@@ -225,5 +225,11 @@ def input_upload(manifest_path, _id, log_config_path):
 		- _id: UUID4 in string representation
 		- log_config_path: path to logging configuration file.
 	"""
-	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
-	code, config_path = config_generator.make_luigi_config(_id, log_config_path, manifest=new_manifest_path)
+	sample_type = request.form['Sample Type']
+	input_format = request.form['Input Format']
+
+	code, config_path = config_generator.make_luigi_config(_id,
+																												log_config_path,
+																												manifest=manifest_path,
+																												sample_type=sample_type,
+																												input_format=input_format)
