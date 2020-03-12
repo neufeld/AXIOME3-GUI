@@ -18,9 +18,9 @@ const isObjectEmpty = (obj) => {
  * Update selected files given ID and file
  * 
  * Input
- * id: ID of the upload field the file is being selected for
+ * id: ID of the upload field file is being selected for
  * file: File object (as returned by either custom backend code or Javascript file API)
- * prevSelectedFiles: selected files for the previous state
+ * prevSelectedFiles: selected files in the previous state
  */
 export const updateSelectedFiles = (id, file, prevSelectedFiles) => {
 	// if file is empty, return prev state
