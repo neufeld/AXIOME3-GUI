@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 // Upload redux
 import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList } from '../redux/actions/optionAction'
+import { updateOptionList, resetSelectedOptions, resetOptions } from '../redux/actions/optionAction'
 
 import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
@@ -18,23 +18,30 @@ import DenoiseOption from './data/DenoiseOption'
 
 function DenoiseComponent(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props
+	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
 
+	// Intentionally using [] as dependency;
+	// Only want these to run once when it first mounts.
 	useEffect(() => {
 		// Get upload elements
 		const uploadField = [
 			{id: 0, name: "demultiplexed-seqs", file: "", label: "Demultiplexed Sequences (.qza)"}
 		]		
-		getUploadField(uploadField)
-
-		// Get option list
-		updateOptionList(DenoiseOption)
-
 		// Reset selected file
 		emptySelectedFiles()
 
 		// Reset server-browsed files
 		emptyFiles()
+
+		// Reset selected options
+		resetSelectedOptions()
+
+		resetOptions()
+
+		getUploadField(uploadField)
+
+		// Get option list
+		updateOptionList(DenoiseOption)
 	}, [])
 
 	const subDisplayStyles = {
@@ -65,4 +72,6 @@ DenoiseComponent.propTypes = {
 const mapStateToProps = state => ({
 })
 
-export default withRouter(connect(mapStateToProps, { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles })(DenoiseComponent))
+const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions }
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DenoiseComponent))
