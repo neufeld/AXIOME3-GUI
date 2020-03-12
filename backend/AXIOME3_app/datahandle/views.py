@@ -30,7 +30,7 @@ def generate_files():
 			# Do preliminary checks
 			manifest_path = luigi_prep_helper.input_upload_pre_check(_id=_id, request=request)
 			log_config_path = luigi_prep_helper.pipeline_setup(_id)
-			luigi_prep_helper.input_upload(manifest_path, _id, log_config_path)
+			luigi_prep_helper.input_upload(manifest_path, request, _id, log_config_path)
 
 	except CustomError as err:
 		# TODO: remove output and log dir for failed request?
