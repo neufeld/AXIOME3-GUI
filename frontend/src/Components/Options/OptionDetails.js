@@ -22,6 +22,9 @@ export function OptionDetails(props) {
 			return(
 				<OptionDetailsItem
 					label={options[optionType].entities[k].label}
+					type={options[optionType].entities[k].type}
+					dropdownOption={options[optionType].entities[k].dropdownOption}
+					defaultValue={options[optionType].entities[k].defaultValue}
 					key={id}
 				/>
 			)

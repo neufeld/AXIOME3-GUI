@@ -10,8 +10,9 @@ import OptionInputField from './OptionInputField'
  * Container for each detail.
  */
 function OptionDetailsItem(props) {
-	// label passed as props
-	const { label } = props
+	// label: input label
+	// type: input type (e.g. number, text, dropdown)
+	const { label, type, defaultValue, dropdownOption = [] } = props
 
 	return(
 		<div className="option-detail-item-container">
@@ -19,7 +20,11 @@ function OptionDetailsItem(props) {
 				<OptionLabel label={label}/>
 				<OptionHelp />
 			</div>
-			<OptionInputField />
+			<OptionInputField
+				type={type}
+				dropdownOption={dropdownOption}
+				name={label}
+				defaultValue={defaultValue}/>
 		</div>
 	)
 }
