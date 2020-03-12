@@ -1,4 +1,4 @@
-import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE } from './types';
+import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE, RESET_SELECTED_FILES } from './types';
 import axios from 'axios'
 
 // Helper functions
@@ -54,10 +54,7 @@ export const emptySelectedFiles = () => (dispatch) => {
 	const emptyArr = []
 
 	dispatch({
-		type: SELECT_FILE,
-		payload: {
-			selectedFiles: emptyArr
-		}
+		type: RESET_SELECTED_FILES
 	})
 }
 
