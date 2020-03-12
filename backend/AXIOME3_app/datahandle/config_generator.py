@@ -16,10 +16,6 @@ def make_luigi_config(_id, logging_config, manifest=None, sample_type=None, inpu
 
 	config_data = read_template_config(template_config_path)
 
-	# TEMPORARY: sample_type and input_format will have fixed values.
-	sample_type = "SampleData[PairedEndSequencesWithQuality]"
-	input_format = "PairedEndFastqManifestPhred33"
-
 	# Replace output prefix placeholder with actual path
 	output_dir = os.path.join("/output", _id)
 	config_data = config_data.replace("<OUTPUT>", output_dir)
@@ -38,22 +34,22 @@ def make_luigi_config(_id, logging_config, manifest=None, sample_type=None, inpu
 		config_data = config_data.replace("<INPUT_FORMAT>", input_format)
 
 	if(trim_left_f is not None):
-		config_data = config_data.replace("<TRIM_LEFT_F>", trim_left_f)
+		config_data = config_data.replace("<TRIM_LEFT_F>", str(trim_left_f))
 
 	if(trunc_len_f is not None):
-		config_data = config_data.replace("<TRUNC_LEN_F>", trunc_len_f)
+		config_data = config_data.replace("<TRUNC_LEN_F>", str(trunc_len_f))
 
 	if(trim_left_r is not None):
-		config_data = config_data.replace("<TRIM_LEFT_R>", trim_left_r)
+		config_data = config_data.replace("<TRIM_LEFT_R>", str(trim_left_r))
 
 	if(trunc_len_r is not None):
-		config_data = config_data.replace("<TRUNC_LEN_R>", trunc_len_r)
+		config_data = config_data.replace("<TRUNC_LEN_R>", str(trunc_len_r))
 
 	if(classifier is not None):
 		config_data = config_data.replace("<CLASSIFIER_PATH>", classifier)
 
 	if(sampling_depth is not None):
-		config_data = config_data.replace("<SAMPLING_DEPTH>", sampling_depth)
+		config_data = config_data.replace("<SAMPLING_DEPTH>", str(sampling_depth))
 
 	# Overwrite existing config file
 	# Can't set env variable inside docker container,
