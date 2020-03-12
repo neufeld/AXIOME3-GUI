@@ -28,7 +28,7 @@ services:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
-      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
     links:
       - rabbit
 
@@ -50,7 +50,7 @@ services:
       #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
       #- CELERY_RESULT_BACKEND=rpc://
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
-      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
     links:
       - rabbit
 
