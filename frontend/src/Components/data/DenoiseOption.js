@@ -20,19 +20,27 @@ const DenoiseOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: "trunc-len-f"
+				label: "trunc-len-f",
+				type: "number",
+				defaultValue: 250
 			},
 			basicOption2: {
 				id: "basicOption2",
-				label: "trunc-len-r"
+				label: "trunc-len-r",
+				type: "number",
+				defaultValue: 250
 			},
 			basicOption3: {
 				id: "basicOption3",
-				label: "trim-len-f"
+				label: "trim-len-f",
+				type: "number",
+				defaultValue: 0
 			},
 			basicOption4: {
 				id: "basicOption4",
-				label: "trim-len-r"
+				label: "trim-len-r",
+				type: "number",
+				defaultValue: 0
 			}
 		},
 		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4"]
@@ -41,7 +49,9 @@ const DenoiseOption = {
 		entities: {
 			advancedOption1: {
 				id: "advancedOption1",
-				label: "Some advanced option"
+				label: "Some advanced option",
+				type: "text",
+				defaultValue: "hello"
 			}
 		},
 		keys: ["advancedOption1"]
