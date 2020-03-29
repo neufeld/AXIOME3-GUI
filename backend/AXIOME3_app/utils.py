@@ -23,7 +23,7 @@ def responseIfError(func, **kwargs):
 	"""
 	code, result = func(**kwargs)
 	if(code != 200):
-		# Log the error message
+		# Log error message
 		current_app.logger.error(result)
 
 		if(str(code).startswith("5")):
