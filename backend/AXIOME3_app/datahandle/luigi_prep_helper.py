@@ -110,7 +110,7 @@ def save_upload(_id, _file):
 
 	return 200, input_path
 
-def input_upload_pre_check(_id, request):
+def input_upload_pre_check(_id, uploaded_manifest, input_format):
 	"""
 	Do pre-checks as to decrease the chance of job failing.
 
@@ -122,9 +122,8 @@ def input_upload_pre_check(_id, request):
 		- path to modified manifest file if valid input
 	"""
 	# Save uploaded manifest file in the docker container
-	manifest_path = utils.responseIfError(save_upload, _id=_id, _file=request.files["manifest"])
+	manifest_path = utils.responseIfError(save_upload, _id=_id, _file=uploaded_manifest)
 	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
-	input_format = request.form["Input Format"]
 
 	utils.responseIfError(validate_manifest, manifest_path=new_manifest_path, input_format=input_format)
 
@@ -216,7 +215,7 @@ def pipeline_setup(_id):
 
 	return log_config_path
 
-def input_upload(manifest_path, request, _id, log_config_path):
+def luigi_config_generator(_id, log_config_path, **kwargs):
 	"""
 	Run all "Input Upload" related steps
 
@@ -225,11 +224,7 @@ def input_upload(manifest_path, request, _id, log_config_path):
 		- _id: UUID4 in string representation
 		- log_config_path: path to logging configuration file.
 	"""
-	sample_type = request.form['Sample Type']
-	input_format = request.form['Input Format']
-
-	code, config_path = config_generator.make_luigi_config(_id,
-																												log_config_path,
-																												manifest=manifest_path,
-																												sample_type=sample_type,
-																												input_format=input_format)
+	config_path = utils.responseIfError(config_generator.make_luigi_config,
+																			_id=_id,
+																			logging_config=log_config_path,
+																			**kwargs)

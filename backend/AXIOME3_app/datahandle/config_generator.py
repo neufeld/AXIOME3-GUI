@@ -1,9 +1,9 @@
 import os
 import sys
 
-def make_luigi_config(_id, logging_config, manifest=None, sample_type=None, input_format=None,
+def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None, input_format=None,
 				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None,
-				classifier=None, sampling_depth=None):
+				classifier_path=None, sampling_depth=None):
 	"""
 	Make configuration file for luigi from the template file
 	(at /pipeline/AXIOME3/configuration/template.cfg).
@@ -21,11 +21,11 @@ def make_luigi_config(_id, logging_config, manifest=None, sample_type=None, inpu
 	config_data = config_data.replace("<OUTPUT>", output_dir)
 
 	# Replace logging path placeholder with actual path
-	config_data = config_data.replace("<LUIGI_CONFIG_FILE>", logging_config)
+	config_data = config_data.replace("<LOGGING_CONFIG_FILE>", logging_config)
 
 	# Replace resptive field with user specified values
-	if(manifest is not None):
-		config_data = config_data.replace("<MANIFEST_PATH>", manifest)
+	if(manifest_path is not None):
+		config_data = config_data.replace("<MANIFEST_PATH>", manifest_path)
 
 	if(sample_type is not None):
 		config_data = config_data.replace("<SAMPLE_TYPE>", sample_type)
@@ -45,8 +45,8 @@ def make_luigi_config(_id, logging_config, manifest=None, sample_type=None, inpu
 	if(trunc_len_r is not None):
 		config_data = config_data.replace("<TRUNC_LEN_R>", str(trunc_len_r))
 
-	if(classifier is not None):
-		config_data = config_data.replace("<CLASSIFIER_PATH>", classifier)
+	if(classifier_path is not None):
+		config_data = config_data.replace("<CLASSIFIER_PATH>", classifier_path)
 
 	if(sampling_depth is not None):
 		config_data = config_data.replace("<SAMPLING_DEPTH>", str(sampling_depth))
