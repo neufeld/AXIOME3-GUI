@@ -1,12 +1,9 @@
 version: '3'
 services:
-  rabbit:
-    image: rabbitmq:management
+  redis:
+    image: redis:alpine
     ports:
-      - '15673:15672' # in case user has rabbitMQ installed on host
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=mypass
+      - '6379:6379'
 
   backend:
     build:
@@ -30,7 +27,7 @@ services:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
     links:
-      - rabbit
+      - redis
 
   celery:
     build:
@@ -52,7 +49,7 @@ services:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
     links:
-      - rabbit
+      - redis
 
   frontend:
     build:

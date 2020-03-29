@@ -1,5 +1,6 @@
 luigi==2.8.11
 plotnine==0.6.0
-celery
+celery[redis]
 flask
 flask-cors
+flask-socketio
