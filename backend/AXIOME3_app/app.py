@@ -1,7 +1,12 @@
+import eventlet
+eventlet.monkey_patch()
+
 import os
 from flask import Flask
-# To resolve CORS issues
-from flask_cors import CORS, cross_origin
+from flask_socketio import SocketIO
+from flask_cors import CORS
+from werkzeug.debug import DebuggedApplication
+
 # Import different applications
 from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
@@ -10,12 +15,18 @@ from AXIOME3_app.extensions import celery
 
 import logging
 
-def create_app(testing=False):
+socketio = SocketIO(cors_allowed_origins='*')
+
+def create_app(testing=False, debug=False, development=False):
 	"""
 	Application factory. Create application here.
 	"""
 	app = Flask(__name__)
+	app.debug = debug
 	app.config.from_object("AXIOME3_app.config")
+
+	if development is True:
+		app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
 	if testing is True:
 		app.config["TESTING"] = True
@@ -32,6 +43,12 @@ def create_app(testing=False):
 	fh.setLevel(level=logging.WARNING)
 	fh.setFormatter(formatter)
 	app.logger.addHandler(fh)
+
+	# Initialize Socket.IO
+	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], logger=True, engineio_logger=True)
+
+	# CORS
+	#CORS(app)
 
 	return app
 
