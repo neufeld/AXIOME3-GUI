@@ -7,14 +7,7 @@ import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions
 // Option redux
 import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 
-import UploadElementsMain from './Upload-Elements/UploadElementsMain'
-import DescriptionMain from './Description/DescriptionMain'
-import OptionsMain from './Options/OptionsMain'
-import TabBarMain from './TabBar/TabBarMain'
-import SubmitButton from './SubmitButton/SubmitButton'
-
-// Custom helper functions
-import { handleSubmit } from './SubmitButton/SubmitHelper'
+import MainTemplate from './MainTemplate'
 
 // Import option interface data
 import InputUploadOption from './data/InputUploadOption'
@@ -52,29 +45,21 @@ function InputUploadComponent(props) {
 		updateOptionList(InputUploadOption)
 	}, [])
 
-	const subDisplayStyles = {
-		background: "#DCDCDC",
-		margin: "auto",
-		padding: "5%"
-	}
-
 	// Type of the form;
 	// For server side processing
 	const formType = "InputUpload"
+	const description = "This is for Input Upload!"
 
 	return (
-		<div className="main-display">
-			<TabBarMain/>
-			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions)}}>
-					<DescriptionMain description={"This is for Input Upload!"}/>
-					<UploadElementsMain />
-					<OptionsMain />
-					<SubmitButton />
-				</form>
-			</div>
-		</div>
-	)		
+		<React.Fragment>
+			<MainTemplate
+				formType={formType}
+				selectedFiles={selectedFiles}
+				selectedOptions={selectedOptions}
+				description={description}
+			/>
+		</React.Fragment>
+	)
 }
 
 const mapStateToProps = state => ({

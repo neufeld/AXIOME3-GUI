@@ -8,10 +8,7 @@ import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions
 // Option redux
 import { updateOptionList, resetSelectedOptions, resetOptions } from '../redux/actions/optionAction'
 
-import UploadElementsMain from './Upload-Elements/UploadElementsMain'
-import DescriptionMain from './Description/DescriptionMain'
-import OptionsMain from './Options/OptionsMain'
-import TabBarMain from './TabBar/TabBarMain'
+import MainTemplate from './MainTemplate'
 
 // Import option interface data
 import DenoiseOption from './data/DenoiseOption'
@@ -19,6 +16,9 @@ import DenoiseOption from './data/DenoiseOption'
 function DenoiseComponent(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
+
+	// Redux states
+	const { selectedFiles, selectedOptions } = props
 
 	// Intentionally using [] as dependency;
 	// Only want these to run once when it first mounts.
@@ -44,23 +44,18 @@ function DenoiseComponent(props) {
 		updateOptionList(DenoiseOption)
 	}, [])
 
-	const subDisplayStyles = {
-		background: "#DCDCDC",
-		margin: "auto",
-		padding: "5%"
-	}
+	const formType = "DenoiseOption"
+	const description = "This is for Denoise!"
 
 	return (
-		<div className="main-display">
-			<TabBarMain />
-			<div className="sub-display" style={subDisplayStyles}>
-				<form >
-					<DescriptionMain description={"This is for Denoise!"}/>
-					<UploadElementsMain />
-					<OptionsMain />
-				</form>
-			</div>
-		</div>
+		<React.Fragment>
+			<MainTemplate
+				formType={formType}
+				selectedFiles={selectedFiles}
+				selectedOptions={selectedOptions}
+				description={description}
+			/>
+		</React.Fragment>
 	)		
 }
 
@@ -70,6 +65,9 @@ DenoiseComponent.propTypes = {
 }
 
 const mapStateToProps = state => ({
+	selectedFiles: state.upload.selectedFiles,
+	selectedOptions: state.option.selectedOptions,
+	options: state.option.options
 })
 
 const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions }

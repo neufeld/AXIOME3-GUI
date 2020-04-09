@@ -5,55 +5,60 @@ import { withRouter } from 'react-router-dom'
 
 import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList } from '../redux/actions/optionAction'
+import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 
-import UploadElementsMain from './Upload-Elements/UploadElementsMain'
-import DescriptionMain from './Description/DescriptionMain'
-import OptionsMain from './Options/OptionsMain'
-import TabBarMain from './TabBar/TabBarMain'
+import MainTemplate from './MainTemplate'
 
 function AnalysisComponent(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props
+	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
+
+	// Redux states
+	const { selectedFiles, selectedOptions } = props
 
 	useEffect(() => {
 		const uploadField = [
 			{id: 0, name: "classifier-file", file: "", label: "Classifier"}
 		]
-		// Get upload elements
-		getUploadField(uploadField)
-
-		// Reset option elements
-		updateOptionList({})
-
 		// Reset selected files
 		emptySelectedFiles()
 
 		// Reset server-browsed files
 		emptyFiles()
+
+		// Reset options
+		resetOptions()
+
+		// Reset selected options
+		resetSelectedOptions()
+
+		// Get upload elements
+		getUploadField(uploadField)
 	}, [])
 
-	const subDisplayStyles = {
-		background: "#DCDCDC",
-		margin: "auto",
-		padding: "5%"
-	}
+	// Type of the form;
+	// For server side processing
+	const formType = "Analysis"
+	const description = "This is for Analysis!"
 
 	return (
-		<div className="main-display">
-			<TabBarMain />
-			<div className="sub-display" style={subDisplayStyles}>
-				<form>
-					<DescriptionMain description={"This is for Analysis!"}/>
-					<UploadElementsMain />
-					<OptionsMain />
-				</form>
-			</div>
-		</div>
-	)		
+		<React.Fragment>
+			<MainTemplate
+				formType={formType}
+				selectedFiles={selectedFiles}
+				selectedOptions={selectedOptions}
+				description={description}
+			/>
+		</React.Fragment>
+	)
 }
 
 const mapStateToProps = state => ({
+	selectedFiles: state.upload.selectedFiles,
+	selectedOptions: state.option.selectedOptions,
+	options: state.option.options
 })
 
-export default withRouter(connect(mapStateToProps, { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles })(AnalysisComponent))
+const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetOptions, resetSelectedOptions }
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AnalysisComponent))
