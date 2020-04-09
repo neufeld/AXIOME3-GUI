@@ -21,16 +21,18 @@ import axios from 'axios'
  		formData.append(k, selectedOptions[k])
  	});
 
- 	if(formType === "InputUpload") {
- 		// Check if "empty" form
- 		if(selectedFiles.length === 0) {
- 			alert("Please upload the manifest file.")
- 			return
- 		}
+ 	// Check if "empty" form
+ 	if(selectedFiles.length === 0) {
+ 		alert("Please upload the manifest file.")
+ 		return
+ 	}
 
+ 	if(formType === "InputUpload") {
  		//TODO
  		// Check there is only one element in selectedFiles?
  		formData.append("manifest", selectedFiles[0].selectedFile)
+ 	} else if(formType === "Denoise") {
+ 		formData.append("demultiplexed", selectedFiles[0].selectedFile)
  	}
 
  	try {
