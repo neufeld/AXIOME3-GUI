@@ -17,15 +17,17 @@ import axios from 'axios'
  	// Form Type
  	formData.append("formType", formType)
 
+ 	// Check if "empty" form
+ 	if(selectedFiles.length === 0) {
+ 		alert("Please upload the input file.")
+ 		return
+ 	}
+
+ 	// Add options
+ 	// Key is same as the option label
  	Object.keys(selectedOptions).forEach(k => {
  		formData.append(k, selectedOptions[k])
  	});
-
- 	// Check if "empty" form
- 	if(selectedFiles.length === 0) {
- 		alert("Please upload the manifest file.")
- 		return
- 	}
 
  	if(formType === "InputUpload") {
  		//TODO
