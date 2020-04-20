@@ -8,7 +8,10 @@ export function OptionInputField(props) {
 	// type: input tag type
 	// dropdownOption: options to be used for dropdown menu
 	// name: name of the option (to update redux state)
-	const { type, dropdownOption = [], name, defaultValue, options } = props;
+	const { type, dropdownOption = [], label, defaultValue } = props;
+
+	// Redux state
+	const { options, selectedOptions } = props;
 
 	// Redux action
 	const { selectOptions } = props;
@@ -17,7 +20,7 @@ export function OptionInputField(props) {
 	// Initially update redux state with the default value 
 	useEffect(() => {
 		//console.log(options)
-		selectOptions(name, defaultValue)
+		selectOptions(label, defaultValue)
 	}, [options])
 
 	if(type === "dropdown") {
@@ -30,14 +33,16 @@ export function OptionInputField(props) {
 		inputField = <select
 										className="styled-dropdown"
 										defaultValue={defaultValue}
-										onChange={e => {selectOptions(name, e.target.value)}}
+										onChange={e => {selectOptions(label, e.target.value)}}
 									>
 									{options}
 									</select>
 	} else {
+		let value = selectedOptions[label] || 0;
 		inputField = <input
-										type={type}	
-										onChange={e => {selectOptions(name, e.target.value)}}
+										type={type}
+										value={value}
+										onChange={e => {selectOptions(label, e.target.value)}}
 									>
 									</input>
 	}

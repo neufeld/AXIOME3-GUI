@@ -23,7 +23,7 @@ function OptionDetailsItem(props) {
 			<OptionInputField
 				type={type}
 				dropdownOption={dropdownOption}
-				name={label}
+				label={label}
 				defaultValue={defaultValue}/>
 		</div>
 	)
