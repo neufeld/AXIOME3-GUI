@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 
 import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
@@ -9,6 +11,8 @@ import SubmitButton from './SubmitButton/SubmitButton'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
+import { getUid } from '../redux/actions/downloadAction'
+
 function MainTemplate(props) {
 	const subDisplayStyles = {
 		background: "#DCDCDC",
@@ -16,8 +20,11 @@ function MainTemplate(props) {
 		padding: "5%"
 	}
 
-	// props
-	const { formType, selectedFiles, selectedOptions, description } = props
+	// props from parent component
+	const { formType, selectedFiles, selectedOptions, description } = props;
+
+	// Redux actions
+	const { getUid } = props;
 
 	return (
 		<div className="main-display">
@@ -31,8 +38,17 @@ function MainTemplate(props) {
 				</form>
 			</div>
 			<ResultMain/>
+			<a href='#' onClick={() => {props.history.push('/tmp')}}>Click Me</a>
 		</div>
 	)
 }
 
-export default MainTemplate
+const mapStateToProps  = state => ({
+	
+})
+
+const mapDispatchToProps = {
+	getUid
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainTemplate))
