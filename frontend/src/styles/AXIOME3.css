@@ -1,0 +1,55 @@
+.main-container {
+	width: 100%;
+	text-align: center;
+	font-family: Arial;
+}
+
+.main-content {
+	margin: 0 20%;
+	min-height: 700px;
+}
+
+.sidebar {
+	position:	absolute;
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+}
+
+.site-header {
+	height: 150px;
+}
+
+.site-footer {
+	background-color: #303030;
+	overflow: auto;
+	color: white;
+	margin-top: 20px;
+}
+
+.footer-block {
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	padding: 10px 10px 10px 10px;
+	margin-top: 20px;
+}
+
+.footer-block p {
+	padding-left: 10px;
+	margin-top: 10px;
+}
+
+.clickable {
+	text-decoration: underline;
+}
+
+.clickable:hover {
+	cursor: pointer;
+	color: #FF00FF;
+}
+
+.clickable:active {
+	cursor: pointer;
+	color: #FF0000 ;
+}
