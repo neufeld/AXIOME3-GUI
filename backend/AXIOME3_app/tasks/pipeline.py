@@ -2,13 +2,14 @@ from AXIOME3_app.extensions import celery
 import luigi
 #import pipeline # AXIOME3 Pipeline; its path shouldve been added
 import importlib
-import shutil
 import os
 import sys
 import subprocess
 
+from flask_socketio import SocketIO
+
 @celery.task(name="pipeline.run.import")
-def dummy_task():
+def import_data_task(_id, URL):
 	# Path to configuration file to be used
 	#config_path = "/pipeline/AXIOME3/configuration/luigi.cfg"
 	#luigi.configuration.add_config_path(config_path)
@@ -17,9 +18,20 @@ def dummy_task():
 	#importlib.invalidate_caches()
 	#importlib.reload(pipeline)
 
+	local_socketio = SocketIO(message_queue=URL)
+	local_socketio.emit(
+		'test',
+		{'data': 'Running import data!'},
+		namespace='/test',
+		engineio_logger=True,
+		logger=True,
+		async_mode='threading', 
+		broadcast=True
+	)
+
 	# Running luigi in python sub-shell so that each request can be logged in separate logfile.
 	# It's really hard to have separate logfile if running luigi as a module.
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Import_Data", "--local-scheduler"]
+	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Summarize", "--local-scheduler"]
 	proc = subprocess.Popen(cmd,
 		stdout=subprocess.PIPE,
 		stderr=subprocess.PIPE
@@ -28,14 +40,33 @@ def dummy_task():
 
 	#isSuccess = luigi.build([pipeline.Import_Data()], local_scheduler=True)
 
-	# luigi log file path
-	log_file = "/pipeline/AXIOME3/luigi_log/luigi.log"
-	return log_file
+	return _id
 
 @celery.task(name="pipeline.run.move")
-def move_log_task(original_log, _id):
-	new_log = os.path.join("/log", _id, "luigi.log")
+def check_output_task(_id, URL, form_type):
+	output_dir = os.path.join("output", _id)
+	# Path to luigi log file for each request
+	luigi_log_path = os.path.join("/log", _id, "luigi_log.log")
 
-	shutil.move(original_log, new_log)
+	# Check if final output for each step is generated.
+	# If can't be found, return content of the logfile to the client
+	luigi_log_content = ''
+	if(form_type == "InputUpload"):
+		final_output = os.path.join(output_dir, "paired-end-demux.qzv")
 
-	return "Moved!"
+		# Read the content of the logfile
+		if not(os.path.exists(final_output)):
+			with open(luigi_log_path, 'r') as fh:
+				luigi_log_content = fh.readlines()
+
+	local_socketio = SocketIO(message_queue=URL)
+	message = luigi_log_content if luigi_log_content else "Complete!"
+	local_socketio.emit(
+		'test',
+		{'data': message},
+		namespace='/test',
+		engineio_logger=True,
+		logger=True,
+		async_mode='threading', 
+		broadcast=True
+	)
