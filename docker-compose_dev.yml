@@ -20,13 +20,14 @@ services:
       - ./log:/log # For logging
       - input:/input # Named volume
       - ./pipeline:/pipeline # TEMPORARY
+      - ./Data:/data # TEMPORARY
     ports:
       - '5000:5000'
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
-      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
     links:
       - redis
 
@@ -48,7 +49,7 @@ services:
       #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
       #- CELERY_RESULT_BACKEND=rpc://
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
-      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
     links:
       - redis
 
