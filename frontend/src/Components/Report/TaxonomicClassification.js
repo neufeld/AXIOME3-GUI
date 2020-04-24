@@ -1,31 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { updateDownloadPath } from '../../redux/actions/downloadAction';
-
 function TaxonomicClassification(props) {
-	// Redux action
-	const { updateDownloadPath } = props;
+	// UUID; redux state
+	const { uid } = props;
 
-	const downloadPath = '/report/'
+	// Event handler from parent component
+	const { handleClick } = props;
 
-	const handleClick = () => {
-		updateDownloadPath(downloadPath)
-	}
+	const downloadPath = '/report/';
+	const inputField = [
+		{name: 'uid', value: uid}
+	];
+
 	return (
 		<section className="report-section">
 			<h2>Taxonomic Classification</h2>
-			<a href='#' onClick={() => {handleClick()}}>Download file</a>
+			<a href='#' onClick={() => {handleClick(downloadPath, inputField)}}>Download file</a>
 		</section>
 	)
 }
 
 const mapStateToProps  = state => ({
-	
+	uid: state.download.uid
 })
 
 const mapDispatchToProps = {
-	updateDownloadPath
+	
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaxonomicClassification)
