@@ -1,7 +1,8 @@
-import { GET_DOWNLOAD_PATH, RESET_DOWNLOAD_PATH, GET_UID } from '../actions/types';
+import { GET_DOWNLOAD_PATH, RESET_DOWNLOAD_PATH, GET_INPUT_FIELD, GET_UID } from '../actions/types';
 
 const initialState = {
-	downloadPath: null,
+	downloadPath: '',
+	inputField: [],
 	uid: ''
 }
 
@@ -15,7 +16,14 @@ export default function(state = initialState, action) {
 
 		case RESET_DOWNLOAD_PATH:
 			return {
-				...initialState
+				...state,
+				downloadPath: initialState.downloadPath
+			}
+
+		case GET_INPUT_FIELD:
+			return {
+				...state,
+				inputField: action.payload.inputField
 			}
 
 		case GET_UID:

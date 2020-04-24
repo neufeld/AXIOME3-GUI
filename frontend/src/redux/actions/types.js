@@ -12,5 +12,6 @@ export const RESET_SELECTED_OPTIONS = 'RESET_SELECTED_OPTIONS'
 export const RESET_OPTIONS = 'RESET_OPTIONS'
 // downloadAction related
 export const GET_DOWNLOAD_PATH = 'GET_DOWNLOAD_PATH'
+export const GET_INPUT_FIELD = 'GET_INPUT_FIELD'
 export const RESET_DOWNLOAD_PATH = 'RESET_DOWNLOAD_PATH'
 export const GET_UID = 'GET_UID'

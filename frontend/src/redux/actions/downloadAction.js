@@ -1,4 +1,4 @@
-import { GET_DOWNLOAD_PATH, RESET_DOWNLOAD_PATH, GET_UID } from './types';
+import { GET_DOWNLOAD_PATH, GET_INPUT_FIELD, RESET_DOWNLOAD_PATH, GET_UID } from './types';
 
 export const updateDownloadPath = (path) => dispatch => {
 	dispatch({
@@ -20,6 +20,15 @@ export const getUid = (uid) => dispatch => {
 		type: GET_UID,
 		payload: {
 			uid: uid
+		}
+	})
+}
+
+export const updateInputField = (field) => dispatch => {
+	dispatch({
+		type: GET_INPUT_FIELD,
+		payload: {
+			inputField: field
 		}
 	})
 }
