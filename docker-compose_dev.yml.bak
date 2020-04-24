@@ -1,0 +1,73 @@
+version: '3'
+services:
+  rabbit:
+    image: rabbitmq:management
+    ports:
+      - '15673:15672' # in case user has rabbitMQ installed on host
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+      args:
+        - QIIME2_RELEASE=2019.10
+    command: ["flask", "run", "--host", "0.0.0.0"]
+    volumes:
+      - ./backend:/backend
+      - /:/hostfs:ro # Assumes host root is '/'
+      - ./output:/output # Stores all the output to this directory
+      - ./log:/log # For logging
+      - input:/input # Named volume
+      - ./pipeline:/pipeline # TEMPORARY
+    ports:
+      - '5000:5000'
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=AXIOME3_app/app
+      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
+    links:
+      - rabbit
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+      args:
+        - QIIME2_RELEASE=2019.10
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline"
+    volumes:
+      - /:/hostfs:ro # Assumes host root is '/'
+      - ./backend:/backend
+      - ./output:/output # Stores all the output to this directory
+      - ./log:/log # For logging
+      - input:/input # Named volume
+      - ./pipeline:/pipeline # TEMPORARY
+    environment:
+      #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
+      #- CELERY_RESULT_BACKEND=rpc://
+      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/template.cfg
+    links:
+      - rabbit
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    command: ["npm", "start"]
+    volumes:
+      - ./frontend:/frontend
+      #- /frontend/node_module
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+    links:
+      - backend
+volumes:
+  input:

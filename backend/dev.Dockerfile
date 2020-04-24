@@ -2,6 +2,12 @@ FROM continuumio/miniconda3
 
 ARG QIIME2_RELEASE
 
+RUN apt-get install wget
+# Install Pandoc
+RUN wget https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-1-amd64.deb
+RUN dpkg -i /pandoc-2.9.2.1-1-amd64.deb
+
+# Install QIIME2
 ENV PATH /opt/conda/envs/qiime2-${QIIME2_RELEASE}/bin:$PATH
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8

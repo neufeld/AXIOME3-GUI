@@ -44,7 +44,7 @@ function DenoiseComponent(props) {
 		updateOptionList(DenoiseOption)
 	}, [])
 
-	const formType = "DenoiseOption"
+	const formType = "Denoise"
 	const description = "This is for Denoise!"
 
 	return (

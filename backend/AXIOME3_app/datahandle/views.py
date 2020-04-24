@@ -11,6 +11,7 @@ from AXIOME3_app.datahandle import config_generator
 
 # Celery task
 from AXIOME3_app.tasks.pipeline import import_data_task
+from AXIOME3_app.tasks.pipeline import check_output_task
 
 # Custom Exceptions
 from AXIOME3_app.exceptions.exception import CustomError
@@ -25,6 +26,7 @@ def generate_files():
 
 	# Use UUID4 for unique identifier
 	_id = str(uuid.uuid4())
+	URL = current_app.config["CELERY_BROKER_URL"]
 
 	try:
 		if(form_type == "InputUpload"):
@@ -47,13 +49,21 @@ def generate_files():
 				sample_type=sample_type,
 				input_format=input_format
 			)
+
+			import_data_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
 			# Run the pipeline
-			import_data_task.apply_async(args=[_id, current_app.config["CELERY_BROKER_URL"]])
+		elif(form_type == "Denoise"):
+			trunc_len_f = request.form["trunc-len-f"]
+			trunc_len_r = request.form["trunc-len-r"]
+			trim_len_f = request.form["trim-len-f"]
+			trim_len_r = request.form["trim-len-r"]
+
+			return Response("Denoise!", status=200, mimetype='text/html')
 
 	except CustomError as err:
 		return err.response
 
-	return Response(current_app.config["CELERY_BROKER_URL"], status=200, mimetype='text/html')
+	return Response(_id, status=200, mimetype='text/html')
 
 #@socketio.on('')
 

@@ -5,10 +5,10 @@ import axios from 'axios'
  *
  * Input:
  *	- e: Target event
- *	- e: which form is being submitted? (e.g. InputUpload, Denoise, Analysis)
+ *	- formType: which form is being submitted? (e.g. InputUpload, Denoise, Analysis)
  */
 
- const handleSubmit = async (e, formType, selectedFiles, selectedOptions) => {
+ const handleSubmit = async (e, formType, selectedFiles, selectedOptions, getUid) => {
  	e.preventDefault();
 
  	const endpoint = '/datahandle/'
@@ -38,12 +38,17 @@ import axios from 'axios'
  	}
 
  	try {
+ 		// Receive UUID for each request server generated
  		const res = await axios.post(endpoint, formData, {
 	 		headers: {
 	 			'Content-Type': 'multipart/form-data'
 	 		}
 	 	})
 	 	console.log(res)
+	 	const uid = res.data;
+
+	 	getUid(uid);
+
  	} catch (err) {
  		if(err.response) {
  			// Catching custom error codes

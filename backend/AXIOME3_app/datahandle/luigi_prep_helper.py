@@ -133,6 +133,7 @@ def validate_manifest(manifest_path, input_format):
 	"""
 	Validate user supplied manifest file using QIIME2 modules.
 	"""
+
 	try:
 		if(input_format == "SingleEndFastqManifestPhred33"):
 			q2_types.per_sample_sequences.SingleEndFastqManifestPhred33(manifest_path, mode='r').validate()

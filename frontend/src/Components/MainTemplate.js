@@ -30,7 +30,7 @@ function MainTemplate(props) {
 		<div className="main-display">
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions)}}>
+				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, getUid)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
