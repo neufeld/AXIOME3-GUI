@@ -1,47 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DownloadFile from './DownloadFile';
 import TaxonomicClassification from './TaxonomicClassification';
 import CombinedASVTable from './CombinedASVTable';
+import PcoaPlots from './PcoaPlots';
 
+import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
 
 function ReportMain(props) {
 	const endpoint = '/report/'
-	useEffect(() => {
-		// API call
-		/*
-		console.log("m")
-		const getData = async () => {
-			try {
-				const res = await axios.post(endpoint)
-				console.log(res)
-				let blob = new Blob([res.data], { type: 'application/octet-stream' })
-				let downloadUrl = window.URL.createObjectURL(blob)
 
-				let a = document.createElement("a");
-		    if (typeof a.download === "undefined") {
-		        window.location.href = downloadUrl;
-		    } else {
-		        a.href = downloadUrl;
-		        a.download = "tmp.qzv";
-		        document.body.appendChild(a);
-		        a.click();
-		    }
-			} catch(err) {
-				console.log(err)
-			}
-		}
-		getData();
-		*/
-	}, [])
+	// Redux action
+	const { updateDownloadPath, updateInputField } = props;
+
+	// State change should only occur throug handleClick event
+	const handleClick = (downloadPath, inputField) => {
+		updateDownloadPath(downloadPath)
+		updateInputField(inputField)
+	}
 
 	return(
 		<div>
-			<TaxonomicClassification />
-			<CombinedASVTable />
-			<DownloadFile downloadPath={props.downloadPath} key={props.downloadPath}/>
+			<TaxonomicClassification handleClick={handleClick}/>
+			<CombinedASVTable handleClick={handleClick}/>
+			<PcoaPlots handleClick={handleClick}/>
+			<DownloadFile
+				key={props.downloadPath}
+			/>
 		</div>
 	)
 }
@@ -51,7 +38,8 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-
+	updateDownloadPath,
+	updateInputField
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportMain)

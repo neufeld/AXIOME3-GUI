@@ -5,6 +5,20 @@ import { connect } from 'react-redux';
 
 import { resetDownloadPath } from '../../redux/actions/downloadAction';
 
+const getInputTag = (inputField) => {
+	if(inputField.length === 0) {
+		return
+	}
+
+	const inputTags = inputField.map(field => {
+		return(
+			<input key={field.name} name={field.name} value={field.value} onChange={console.log}/>
+		)
+	})
+
+	return inputTags
+};
+
 class DownloadFile extends React.Component {
 	constructor(props) {
 		super(props);
@@ -12,7 +26,7 @@ class DownloadFile extends React.Component {
 
 	componentDidMount() {
 		//ReactDOM.findDOMNode(this).submit();
-		if(this.props.downloadPath !== null) {
+		if(this.props.downloadPath !== '') {
 			console.log("DownloadFile Component mounted!")
 			ReactDOM.findDOMNode(this).submit();
 		}
@@ -21,12 +35,14 @@ class DownloadFile extends React.Component {
 	}
 	
 	render() {
+		// InputField
+		const { inputField } = this.props;
 		return(
 				<form
 					action={this.props.downloadPath}
 					method='POST'
 				>
-				<input name="uid" type="text" value={this.props.uid} onChange={(e) => {console.log()}}/>
+				{getInputTag(inputField)}
 				</form>
 		)
 	}
@@ -34,6 +50,7 @@ class DownloadFile extends React.Component {
 
 const mapStateToProps  = state => ({
 	downloadPath: state.download.downloadPath,
+	inputField: state.download.inputField,
 	uid: state.download.uid
 })
 
