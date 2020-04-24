@@ -2,7 +2,6 @@ from flask import Blueprint, request, send_file
 import sys
 import os
 import io
-from PIL import Image
 
 blueprint = Blueprint("report", __name__, url_prefix="/report")
 
@@ -36,14 +35,6 @@ def pcoa_jpeg():
 	pcoa_plot = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type, file_name)
 	#pcoa_plot = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
 
-
-	#image_data = Image.open(pcoa_plot)
-	#bytes_object = io.BytesIO()
-	#image_data.save(bytes_object, 'JPEG')
-	#bytes_object.seek(0)
-
-	#return send_file(bytes_object, mimetype='image/jpeg')
-
 	with open(pcoa_plot, 'rb') as bytes_obj:
 		return send_file(
 			io.BytesIO(bytes_obj.read()),
@@ -51,3 +42,14 @@ def pcoa_jpeg():
 			attachment_filename=distance_type+"_"+file_name,
 			mimetype='image/jpeg'
 		)
+
+@blueprint.route("/pcoa/pdf", methods=['POST'])
+def pcoa_pdf():
+	uid = request.form["uid"]
+	distance_type = request.form["distance"]
+
+	# Absolute path to the metadata column json file
+	pdf_file = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type + '_pcoa_plots.pdf') # TEMP
+	#pdf_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+
+	return send_file(pdf_file, mimetype='application/octet-stream', as_attachment=True)
