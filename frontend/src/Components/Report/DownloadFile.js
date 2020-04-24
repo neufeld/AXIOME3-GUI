@@ -23,16 +23,18 @@ class DownloadFile extends React.Component {
 	render() {
 		return(
 				<form
-					action={'/report/'}
+					action={this.props.downloadPath}
 					method='POST'
 				>
+				<input name="uid" type="text" value={this.props.uid} onChange={(e) => {console.log()}}/>
 				</form>
 		)
 	}
 }
 
 const mapStateToProps  = state => ({
-	downloadPath: state.download.downloadPath
+	downloadPath: state.download.downloadPath,
+	uid: state.download.uid
 })
 
 const mapDispatchToProps = {
