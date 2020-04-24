@@ -3,9 +3,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DownloadFile from './DownloadFile';
-import TaxonomicClassification from './TaxonomicClassification';
-import CombinedASVTable from './CombinedASVTable';
-import PcoaPlots from './PcoaPlots';
+import TaxonomicClassification from './Taxonomy/TaxonomicClassification';
+import CombinedASVTable from './ASVTable/CombinedASVTable';
+import PcoaPlots from './PCoA/PcoaPlots';
 
 import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
 
