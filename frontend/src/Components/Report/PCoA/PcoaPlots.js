@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import PcoaPreview from './PcoaPreview';
 
+import './PCoAStyles.css'
+
 function PcoaPlots(props) {
 	// States
 	const [ columns, setColumns ] = useState({});

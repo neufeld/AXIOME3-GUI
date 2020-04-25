@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import PcoaDropDown from './PcoaDropDown';
+import PcoaDropDownLabel from './PcoaDropDownLabel'
+
 function PcoaPreview(props) {
 	const [ source, setSource ] = useState('')
 
@@ -59,21 +62,31 @@ function PcoaPreview(props) {
 
 	return(
 		<div>
-			<select
-				name='distanceType'
-				onChange={handleChange}
-				value={distanceOptionValue}
-			>
-				{distanceOptions}
-			</select>
-			<select
-				name='columnType'
-				onChange={handleChange}
-				value={columnOptionValue}
-			>
-				{columnOptions}
-			</select>
-			<img src={`data:image/jpeg;base64,${source}`} />
+			<div className="pcoa-dropdown-outer-container">
+				<div className="pcoa-dropdown-inner-container">
+					<PcoaDropDownLabel label="Distance metric:"/>
+					<PcoaDropDown
+						className="pcoa-dropdown"
+						name='distanceType'
+						handleChange={handleChange}
+						value={distanceOptionValue}
+						options={distanceOptions}
+					/>
+				</div>
+				<div className="pcoa-dropdown-inner-container">
+					<PcoaDropDownLabel label="Metadata group:"/>
+					<PcoaDropDown
+						className="pcoa-dropdown"
+						name='columnType'
+						handleChange={handleChange}
+						value={columnOptionValue}
+						options={columnOptions}
+					/>
+				</div>
+			</div>
+			<div className="pcoa-plot-container">
+				<img src={`data:image/jpeg;base64,${source}`} />
+			</div>
 		</div>
 	)
 }
