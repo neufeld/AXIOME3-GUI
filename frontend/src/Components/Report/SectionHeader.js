@@ -4,7 +4,7 @@ function SectionHeader(props) {
 	const { header } = props;
 
 	return(
-		<h2>{header}</h2>
+		<p className="section-header">{header}</p>
 	)
 }
 
