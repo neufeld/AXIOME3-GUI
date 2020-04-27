@@ -5,7 +5,6 @@ import SectionHeader from '../SectionHeader'
 import DownloadButton from '../DownloadButton';
 import GeneralHeader from '../GeneralHeader';
 
-
 import { capitalizeFirstLetter } from '../ReportHelper';
 
 import './TaxonomyStyle.css';
@@ -29,7 +28,6 @@ const TaxaCollapseHeaderStyle = {
 function TaxonomyMain(props) {
 	// Description about this section
 	const mainDescription = "16S rRNA data Taxonomic Classification Result"
-	const detailDescription = "Database, amplicon region, plugin type"
 	// UUID; redux state
 	const { uid } = props;
 
@@ -43,18 +41,21 @@ function TaxonomyMain(props) {
 
 	const taxa_list = ['domain', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
 
-	const collapsed_downloads = taxa_list.map(taxa => {
+	const collapsedDownloads = taxa_list.map(taxa => {
 		const header = '- ' + capitalizeFirstLetter(taxa) + ':'
 		const inputField = [
 			{name: 'uid', value: uid},
 			{name: 'taxa', value: taxa}
 		];
 
-		const exportedDownloadPath = "/report/taxa_collapse/tsv";
-		const qiimeDownloadPath = "/report/taxa_collapse/qza";
+		const exportedDownloadPath = "/taxonomy/collapse/tsv";
+		const qiimeDownloadPath = "/taxonomy/collapse/qza";
+
+		const exportedText = ".tsv";
+		const qiimeText = ".qza"
 
 		return(
-			<div className="taxa-collapse-download-container">
+			<div className="download-container" key={taxa}>
 				<GeneralHeader
 					header={header}
 					style={DownloadHeaderStyle}
@@ -66,11 +67,13 @@ function TaxonomyMain(props) {
 					qiimeDownloadPath={qiimeDownloadPath}
 					isQza={true}
 					isExported={true}
+					qiimeText={qiimeText}
+					exportedText={exportedText}
 					inputField={inputField}
 				/>
 			</div>
 		)
-	})
+	});
 
 	return (
 		<section className="report-section">
@@ -79,10 +82,31 @@ function TaxonomyMain(props) {
 			/>
 			<p className="section-description">{mainDescription}</p>
 			<GeneralHeader 
+				header={"ASV Level"}
+				style={TaxaCollapseHeaderStyle}
+			/>
+			<div className="download-container">
+				<GeneralHeader
+					header={"- ASV:"}
+					style={DownloadHeaderStyle}
+				/>
+				<DownloadButton
+					style={DownloadButtonStyle}
+					handleClick={handleClick}
+					exportedDownloadPath={"/taxonomy/asv/tsv"}
+					qiimeDownloadPath={"/taxonomy/asv/qza"}
+					isQza={true}
+					isExported={true}
+					qiimeText={".qza"}
+					exportedText={".tsv"}
+					inputField={inputField}
+				/>
+			</div>
+			<GeneralHeader 
 				header={"Collapsed Taxonomy"}
 				style={TaxaCollapseHeaderStyle}
 			/>
-			{collapsed_downloads}
+			{collapsedDownloads}
 		</section>
 	)
 }

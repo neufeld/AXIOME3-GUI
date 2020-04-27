@@ -12,7 +12,13 @@ const getInputTag = (inputField) => {
 
 	const inputTags = inputField.map(field => {
 		return(
-			<input key={field.name} name={field.name} value={field.value} onChange={console.log}/>
+			<input
+				className="hidden"
+				key={field.name}
+				name={field.name}
+				value={field.value}
+				onChange={console.log}
+			/>
 		)
 	})
 
