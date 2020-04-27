@@ -7,6 +7,8 @@ function DownloadButton(props) {
 	const { isQza, isExported } = props;
 	// onClick handler
 	const { handleClick } = props;
+	// inner text
+	const { qiimeText, exportedText } = props;
 	// Style
 	const { style } = props;
 
@@ -17,7 +19,7 @@ function DownloadButton(props) {
 				style={{display: (isQza === true) ? 'inline' : 'None'}}
 				onClick={() => {handleClick(qiimeDownloadPath, inputField)}}
 			>
-			.qza
+			{qiimeText}
 			</span>
 			<span
 				style={{display: (isQza === true && isExported === true) ? 'inline' : 'None'}}
@@ -29,7 +31,7 @@ function DownloadButton(props) {
 				style={{display: (isExported === true) ? 'inline' : 'None'}}
 				onClick={() => {handleClick(exportedDownloadPath, inputField)}}
 			>
-			.tsv
+			{exportedText}
 			</span>
 			<span> (Click to download) </span>
 		</div>
