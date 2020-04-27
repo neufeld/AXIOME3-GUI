@@ -11,6 +11,8 @@ from werkzeug.debug import DebuggedApplication
 from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
 from AXIOME3_app import report
+from AXIOME3_app.report import pcoa
+from AXIOME3_app.report import taxonomy
 # Import extension packages
 from AXIOME3_app.extensions import celery
 
@@ -57,6 +59,8 @@ def register_blueprints(app):
 	app.register_blueprint(filebrowse.views.blueprint)
 	app.register_blueprint(datahandle.views.blueprint)
 	app.register_blueprint(report.views.blueprint)
+	app.register_blueprint(pcoa.views.blueprint)
+	app.register_blueprint(taxonomy.views.blueprint)
 
 def init_celery(app=None):
 	"""

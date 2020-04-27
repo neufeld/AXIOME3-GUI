@@ -15,41 +15,26 @@ def download_file():
 
 	return send_file(qzv, mimetype='application/octet-stream', as_attachment=True)
 
-@blueprint.route("/pcoa/columns", methods=['POST'])
-def pcoa_columns():
+@blueprint.route("/taxa_collapse/tsv", methods=['GET', 'POST'])
+def taxa_collapse_tsv():
 	uid = request.form["uid"]
+	taxa = request.form["taxa"]
 
+	extension = ".tsv"
 	# Absolute path to the metadata column json file
-	json_file = os.path.join('/data/output/post_analysis/pcoa_plots/', 'pcoa_columns.json') # TEMP
-	#json_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+	collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension) # TEMP
+	#collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
 
-	return send_file(json_file, mimetype='application/json')
+	return send_file(collapsed_taxa, mimetype='text/tab-separated-values', as_attachment=True)
 
-@blueprint.route("/pcoa", methods=['POST'])
-def pcoa_jpeg():
+@blueprint.route("/taxa_collapse/qza", methods=['GET', 'POST'])
+def taxa_collapse_qza():
 	uid = request.form["uid"]
-	distance_type = request.form["distance"]
-	file_name = request.form["column"]
+	taxa = request.form["taxa"]
 
-	# Absolute path to requested PCoA plot
-	pcoa_plot = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type, file_name)
-	#pcoa_plot = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
-
-	with open(pcoa_plot, 'rb') as bytes_obj:
-		return send_file(
-			io.BytesIO(bytes_obj.read()),
-			as_attachment=True,
-			attachment_filename=distance_type+"_"+file_name,
-			mimetype='image/jpeg'
-		)
-
-@blueprint.route("/pcoa/pdf", methods=['POST'])
-def pcoa_pdf():
-	uid = request.form["uid"]
-	distance_type = request.form["distance"]
-
+	extension = ".qza"
 	# Absolute path to the metadata column json file
-	pdf_file = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type + '_pcoa_plots.pdf') # TEMP
-	#pdf_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+	collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension) # TEMP
+	#collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
 
-	return send_file(pdf_file, mimetype='application/octet-stream', as_attachment=True)
+	return send_file(collapsed_taxa, mimetype='text/tab-separated-values', as_attachment=True)
