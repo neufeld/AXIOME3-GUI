@@ -1,0 +1,26 @@
+/* 
+Defines general styling rules for Report component
+*/
+
+.report-main-container {
+	font-family: arial;
+}
+
+.report-section {
+	margin-bottom: 30px;
+}
+
+.section-header {
+	font-size: 32px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.section-description {
+	font-size: 18px;
+	margin-left: 5px;
+}
+
+.hidden {
+	display: none;
+}
