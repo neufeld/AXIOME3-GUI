@@ -8,6 +8,7 @@ import copy
 # QIIME2 modules
 import qiime2
 import q2_types
+from qiime2 import Artifact
 
 # Flask backend util functions
 from AXIOME3_app import utils
@@ -110,7 +111,7 @@ def save_upload(_id, _file):
 
 	return 200, input_path
 
-def input_upload_pre_check(_id, uploaded_manifest, input_format):
+def input_upload_precheck(_id, uploaded_manifest, input_format):
 	"""
 	Do pre-checks as to decrease the chance of job failing.
 
@@ -194,6 +195,40 @@ def reformat_manifest(_id, _file, format="PairedEndFastqManifestPhred33"):
 	df.to_csv(new_manifest_path, index=False)
 
 	return 200, new_manifest_path
+
+def denoise_precheck(_id, input_file):
+	"""
+	Do prechecks as to decrease the chance of job failing.
+
+	Input:
+		- input_file: QIIME2 artifact
+	"""
+	# Save uploaded file in the docker container
+	upload_path = utils.responseIfError(save_upload, _id=_id, _file=input_file)
+
+	utils.responseIfError(validate_imported_data, input_file=upload_path)
+
+def validate_imported_data(input_file):
+	"""
+	Precheck input files prior to running denoise step
+
+	Input:
+		- input_file: QIIME2 artifact
+	"""
+
+	# Check Artifact type
+	try:
+		q2_artifact = Artifact.load(input_file)
+		if(str(pcoa_artifact.type) != "SampleData[PairedEndSequencesWithQuality]"):
+			msg = "Input QIIME2 Artifact is not of type 'SampleData[PairedEndSequencesWithQuality]'!"
+			raise ValueError(msg)
+	except ValueError as err:
+		message = str(err)
+
+		return 400, message
+
+	return 200, "Imported data good!"
+
 
 def pipeline_setup(_id):
 	"""

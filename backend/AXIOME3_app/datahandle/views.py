@@ -16,8 +16,6 @@ from AXIOME3_app.tasks.pipeline import check_output_task
 # Custom Exceptions
 from AXIOME3_app.exceptions.exception import CustomError
 
-import redis
-
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
 
 @blueprint.route("/", methods=['POST'])
@@ -35,7 +33,7 @@ def generate_files():
 			sample_type = request.form["Sample Type"]
 
 			# Do preliminary checks on manifest file
-			manifest_path = luigi_prep_helper.input_upload_pre_check(
+			manifest_path = luigi_prep_helper.input_upload_precheck(
 				_id=_id,
 				uploaded_manifest=manifest_file,
 				input_format=input_format
@@ -53,10 +51,13 @@ def generate_files():
 			import_data_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
 			# Run the pipeline
 		elif(form_type == "Denoise"):
+			imported_qza = request.files["demultiplexed"]
 			trunc_len_f = request.form["trunc-len-f"]
 			trunc_len_r = request.form["trunc-len-r"]
 			trim_len_f = request.form["trim-len-f"]
 			trim_len_r = request.form["trim-len-r"]
+
+			luigi_prep_helper.denoise_precheck(_id=_id, input_file=imported_qza)
 
 			return Response("Denoise!", status=200, mimetype='text/html')
 
