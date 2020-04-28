@@ -19,7 +19,7 @@ function PcoaPreview(props) {
 
 	// Whenever dropdown value changes, make API request
 	useEffect(() => {
-		const pcoaImageEndpoint = '/report/pcoa'
+		const pcoaImageEndpoint = '/pcoa/jpeg'
 		const getPcoaImage = async () => {
 			const formData = new FormData();
 

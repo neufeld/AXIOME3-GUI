@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import SectionHeader from '../SectionHeader'
 import PcoaPreview from './PcoaPreview';
 
 import './PCoAStyles.css'
@@ -15,7 +16,7 @@ function PcoaPlots(props) {
 
 	// Get metadata column names from the server on mount
 	useEffect(() => {
-		const pcoaEndpoint = '/report/pcoa/columns';
+		const pcoaEndpoint = '/pcoa/columns';
 
 		const getMetadataColumns = async () => {
 			const formData = new FormData();
@@ -58,7 +59,7 @@ function PcoaPlots(props) {
 	// Event handler from parent component
 	const { handleClick } = props;
 
-	const downloadPath = '/report/pcoa/pdf';
+	const downloadPath = '/pcoa/pdf';
 	const inputField = [
 		{name: 'uid', value: uid},
 		{name: 'distance', value: distanceTypes[distanceOptionValue]}
@@ -66,7 +67,7 @@ function PcoaPlots(props) {
 
 	return (
 		<section className="report-section">
-			<h2>Principal Coordinate Analysis (PCoA) Plots</h2>
+			<SectionHeader header={"Principal Coordinate Analysis (PCoA) Plots"} />
 			<PcoaPreview
 				columns={columns}
 				distanceTypes={distanceTypes}

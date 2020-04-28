@@ -3,11 +3,13 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DownloadFile from './DownloadFile';
-import TaxonomicClassification from './Taxonomy/TaxonomicClassification';
+import TaxonomyMain from './Taxonomy/TaxonomyMain';
 import CombinedASVTable from './ASVTable/CombinedASVTable';
 import PcoaPlots from './PCoA/PcoaPlots';
 
 import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
+
+import './ReportStyle.css';
 
 function ReportMain(props) {
 	const endpoint = '/report/'
@@ -22,8 +24,8 @@ function ReportMain(props) {
 	}
 
 	return(
-		<div>
-			<TaxonomicClassification handleClick={handleClick}/>
+		<div className="report-main-container">
+			<TaxonomyMain handleClick={handleClick}/>
 			<CombinedASVTable handleClick={handleClick}/>
 			<PcoaPlots handleClick={handleClick}/>
 			<DownloadFile

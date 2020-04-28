@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import SectionHeader from '../SectionHeader'
+
 function CombinedASVTable(props) {
 	// UUID; redux state
 	const { uid } = props;
@@ -15,7 +17,7 @@ function CombinedASVTable(props) {
 
 	return (
 		<section className="report-section">
-			<h2>Combined ASV Table</h2>
+			<SectionHeader header={"Combined ASV Table"} />
 			<a href='#' onClick={() => {handleClick(downloadPath, inputField)}}>Download file</a>
 		</section>
 	)
