@@ -68,5 +68,6 @@ services:
       - HOST=0.0.0.0
     links:
       - backend
+    tty: true
 volumes:
   input:
