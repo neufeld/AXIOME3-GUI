@@ -18,7 +18,7 @@ function OptionDetailsItem(props) {
 		<div className="option-detail-item-container">
 			<div className="option-label-help-outer">
 				<OptionLabel label={label}/>
-				<OptionHelp />
+				<OptionHelp label={label}/>
 			</div>
 			<OptionInputField
 				type={type}

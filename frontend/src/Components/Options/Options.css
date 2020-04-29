@@ -47,8 +47,16 @@
 	min-width: 200px;
 }
 
+.option-label-container {
+	width: 100px;
+}
+
+.option-help-container {
+	width: 30px;
+}
+
 .styled-dropdown {
-	font-family:  Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	font-size: 16px;
 	font-weight: 700;
 	color: #444;
@@ -76,4 +84,15 @@
 	box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
 	color: #222;
 	outline: none;
+}
+
+.styled-input {
+	font-size: 20px;
+
+}
+
+.option-label {
+	font-weight: bold;
+	font-family: arial;
+	
 }

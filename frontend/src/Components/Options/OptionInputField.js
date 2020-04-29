@@ -40,6 +40,7 @@ export function OptionInputField(props) {
 	} else {
 		let value = selectedOptions[label] || 0;
 		inputField = <input
+										className="sytled-input"
 										type={type}
 										value={value}
 										onChange={e => {selectOptions(label, e.target.value)}}

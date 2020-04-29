@@ -9,9 +9,14 @@ function OptionLabel(props) {
 	const { label } = props || ""
 
 	return(
-		<React.Fragment>
-			<span style={{height: '100%'}}>{label}</span>
-		</React.Fragment>
+		<div className="option-label-container">
+			<span
+				style={{height: '100%'}}
+				className="option-label"
+			>
+				{label}
+			</span>
+		</div>
 	)
 }
 
