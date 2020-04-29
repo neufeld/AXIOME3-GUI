@@ -32,13 +32,13 @@ const DenoiseOption = {
 			},
 			basicOption3: {
 				id: "basicOption3",
-				label: "trim-len-f",
+				label: "trim-left-f",
 				type: "number",
 				defaultValue: 0
 			},
 			basicOption4: {
 				id: "basicOption4",
-				label: "trim-len-r",
+				label: "trim-left-r",
 				type: "number",
 				defaultValue: 0
 			}
