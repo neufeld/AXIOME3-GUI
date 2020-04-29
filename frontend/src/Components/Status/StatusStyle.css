@@ -1,0 +1,30 @@
+.file-progressbar-wrapper {
+	margin: 50px auto;
+	width: 800px;
+	display: grid;
+	grid-template-columns: calc(100% - 50px) 50px;
+}
+
+.file-progressbar-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.file-progressbar {
+	width: 700px;
+	height: 20px;
+	background-color: white;
+	border-radius: 50px;
+	border: 2px solid #333;
+}
+
+.file-progressbar-filler {
+	background-color: #4DFF4D;
+	border-radius: 50px;
+	height: 20px;
+}
+
+.file-progressbar-label {
+	margin-right: 10px;
+}
