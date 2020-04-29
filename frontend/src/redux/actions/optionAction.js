@@ -1,4 +1,9 @@
-import { UPDATE_OPTIONS, SELECT_OPTIONS, RESET_SELECTED_OPTIONS, RESET_OPTIONS } from './types';
+import { 
+	UPDATE_OPTIONS,
+	SELECT_OPTIONS,
+	RESET_SELECTED_OPTIONS,
+	RESET_OPTIONS,
+} from './types';
 
 export const updateOptionList = (options) => dispatch => {
 	dispatch({
@@ -25,7 +30,7 @@ export const resetOptions = () => (dispatch) => {
 	})
 }
 
-export const resetSelectedOptions = () => (dispatch, getState) => {	
+export const resetSelectedOptions = () => (dispatch) => {	
 	dispatch({
 		type: RESET_SELECTED_OPTIONS
 	})

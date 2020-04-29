@@ -1,9 +1,12 @@
-import { UPDATE_OPTIONS, SELECT_OPTIONS, RESET_SELECTED_OPTIONS, RESET_OPTIONS } from '../actions/types';
+import { 
+	UPDATE_OPTIONS,
+	SELECT_OPTIONS,
+	RESET_SELECTED_OPTIONS,
+	RESET_OPTIONS,
+} from '../actions/types';
 
 const initialState = {
-	options: {
-		
-	},
+	options: {},
 	selectedOptions: {}
 }
 
