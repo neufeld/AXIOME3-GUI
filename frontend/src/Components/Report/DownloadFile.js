@@ -57,7 +57,7 @@ class DownloadFile extends React.Component {
 const mapStateToProps  = state => ({
 	downloadPath: state.download.downloadPath,
 	inputField: state.download.inputField,
-	uid: state.download.uid
+	uid: state.submit.uid
 })
 
 const mapDispatchToProps = {

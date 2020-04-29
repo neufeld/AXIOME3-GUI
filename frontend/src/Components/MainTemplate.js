@@ -6,12 +6,13 @@ import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
 import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
-import ResultMain from './Result/ResultMain'
+import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
+import { submitData, resetFileUploadProgress } from '../redux/actions/submitAction'
 
 function MainTemplate(props) {
 	const subDisplayStyles = {
@@ -24,20 +25,20 @@ function MainTemplate(props) {
 	const { formType, selectedFiles, selectedOptions, description } = props;
 
 	// Redux actions
-	const { getUid } = props;
+	const { submitData, resetFileUploadProgress } = props;
 
 	return (
 		<div className="main-display">
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, getUid)}}>
+				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
 					<SubmitButton />
 				</form>
 			</div>
-			<ResultMain/>
+			<StatusMain/>
 			<a href='#' onClick={() => {props.history.push('/tmp')}}>Click Me</a>
 		</div>
 	)
@@ -48,7 +49,8 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	getUid
+	submitData,
+	resetFileUploadProgress
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainTemplate))

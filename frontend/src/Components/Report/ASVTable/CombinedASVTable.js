@@ -24,7 +24,7 @@ function CombinedASVTable(props) {
 }
 
 const mapStateToProps  = state => ({
-	uid: state.download.uid
+	uid: state.submit.uid
 })
 
 const mapDispatchToProps = {

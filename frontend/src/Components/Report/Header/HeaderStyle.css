@@ -1,0 +1,10 @@
+.report-title-container {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.report-title {
+	font-size: 32px;
+	font-family: arial;
+	font-weight: bold;
+}

@@ -3,6 +3,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DownloadFile from './DownloadFile';
+
+import HeaderMain from './Header/HeaderMain';
+import TableOfContentsMain from './TableOfContents/TableOfContentsMain';
 import TaxonomyMain from './Taxonomy/TaxonomyMain';
 import CombinedASVTable from './ASVTable/CombinedASVTable';
 import PcoaPlots from './PCoA/PcoaPlots';
@@ -25,6 +28,8 @@ function ReportMain(props) {
 
 	return(
 		<div className="report-main-container">
+			<HeaderMain />
+			<TableOfContentsMain />
 			<TaxonomyMain handleClick={handleClick}/>
 			<CombinedASVTable handleClick={handleClick}/>
 			<PcoaPlots handleClick={handleClick}/>
