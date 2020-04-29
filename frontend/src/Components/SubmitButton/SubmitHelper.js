@@ -8,7 +8,7 @@ import axios from 'axios'
  *	- formType: which form is being submitted? (e.g. InputUpload, Denoise, Analysis)
  */
 
- const handleSubmit = async (e, formType, selectedFiles, selectedOptions, getUid) => {
+ const handleSubmit = async (e, formType, selectedFiles, selectedOptions, submitData) => {
  	e.preventDefault();
 
  	const endpoint = '/datahandle/'
@@ -37,36 +37,7 @@ import axios from 'axios'
  		formData.append("demultiplexed", selectedFiles[0].selectedFile)
  	}
 
- 	try {
- 		// Receive UUID for each request server generated
- 		const res = await axios.post(endpoint, formData, {
-	 		headers: {
-	 			'Content-Type': 'multipart/form-data'
-	 		}
-	 	})
-	 	console.log(res)
-	 	const uid = res.data;
-
-	 	getUid(uid);
-
- 	} catch (err) {
- 		if(err.response) {
- 			// Catching custom error codes
- 			const client_error = /\b[4][0-9]{2}\b/g;
- 			const server_error = /\b[5][0-9]{2}\b/g;
- 			if(err.response.status.toString().match(client_error)) {
- 				alert(err.response.data)
- 			} else if(err.response.status.toString().match(server_error)) {
- 				alert("Internal server error...")
- 			}
- 		}
-		else {
-			alert("Server unexpectedly failed...")
-			console.log(err.response)
-		}
- 		console.log(err.response)
-	}
-
+ 	submitData(formData, endpoint);
  }
 
  export {
