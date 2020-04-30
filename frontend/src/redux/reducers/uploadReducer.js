@@ -1,4 +1,4 @@
-import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE, RESET_SELECTED_FILES } from '../actions/types';
+import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE, RESET_SELECTED_FILES } from '../types/types';
 
 const initialState = {
 	uploadField: [],

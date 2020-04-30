@@ -3,7 +3,7 @@ import {
 	SELECT_OPTIONS,
 	RESET_SELECTED_OPTIONS,
 	RESET_OPTIONS,
-} from '../actions/types';
+} from '../types/types';
 
 const initialState = {
 	options: {},

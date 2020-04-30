@@ -5,7 +5,7 @@ import {
 	IS_SUBMITTING,
 	SUBMIT_SUCCESS,
 	SUBMIT_FAIL 
-} from '../actions/types';
+} from '../types/types';
 
 const initialState = {
 	uid: '',

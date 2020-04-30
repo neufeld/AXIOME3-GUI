@@ -1,4 +1,4 @@
-import { GET_DOWNLOAD_PATH, GET_INPUT_FIELD, RESET_DOWNLOAD_PATH } from './types';
+import { GET_DOWNLOAD_PATH, GET_INPUT_FIELD, RESET_DOWNLOAD_PATH } from '../types/types';
 
 export const updateDownloadPath = (path) => dispatch => {
 	dispatch({

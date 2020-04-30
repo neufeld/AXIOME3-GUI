@@ -3,7 +3,7 @@ import {
 	SELECT_OPTIONS,
 	RESET_SELECTED_OPTIONS,
 	RESET_OPTIONS,
-} from './types';
+} from '../types/types';
 
 export const updateOptionList = (options) => dispatch => {
 	dispatch({

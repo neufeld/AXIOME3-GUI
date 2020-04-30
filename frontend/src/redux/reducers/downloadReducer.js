@@ -1,4 +1,4 @@
-import { GET_DOWNLOAD_PATH, RESET_DOWNLOAD_PATH, GET_INPUT_FIELD } from '../actions/types';
+import { GET_DOWNLOAD_PATH, RESET_DOWNLOAD_PATH, GET_INPUT_FIELD } from '../types/types';
 
 const initialState = {
 	downloadPath: '',

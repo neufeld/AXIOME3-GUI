@@ -1,4 +1,9 @@
-import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE, RESET_SELECTED_FILES } from './types';
+import {
+	GET_UPLOAD_FIELD,
+	GET_FILES,
+	SELECT_FILE,
+	RESET_SELECTED_FILES
+} from '../types/types';
 import axios from 'axios'
 
 // Helper functions

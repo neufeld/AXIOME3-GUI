@@ -1,4 +1,4 @@
-import { UPDATE_TAB } from '../actions/types';
+import { UPDATE_TAB } from '../types/types';
 
 const initialState = {
 	currentTab: ''

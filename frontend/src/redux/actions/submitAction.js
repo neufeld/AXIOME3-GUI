@@ -6,7 +6,7 @@ import {
 	IS_SUBMITTING,
 	SUBMIT_SUCCESS,
 	SUBMIT_FAIL 
-} from './types';
+} from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
 	dispatch({
