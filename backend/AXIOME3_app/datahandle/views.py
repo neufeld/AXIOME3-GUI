@@ -131,7 +131,7 @@ def generate_files():
 
 			analysis_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
 
-			return Response(metadata_path, status=200, mimetype='text/html')
+			return Response(_id, status=200, mimetype='text/html')
 
 	except CustomError as err:
 		return err.response
