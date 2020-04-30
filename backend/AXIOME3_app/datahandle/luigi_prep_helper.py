@@ -260,7 +260,7 @@ def analysis_precheck(_id, feature_table, rep_seqs, metadata):
 	if(isinstance(rep_seqs, FileStorage)):
 		rep_seqs_path = utils.responseIfError(save_upload, _id=_id, _file=rep_seqs)
 	else:
-		rep_seqs_path = feature_table
+		rep_seqs_path = rep_seqs
 
 	if(isinstance(metadata, FileStorage)):
 		metadata_path = utils.responseIfError(save_upload, _id=_id, _file=metadata)
