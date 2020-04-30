@@ -127,6 +127,11 @@ def input_upload_precheck(_id, uploaded_manifest, input_format):
 		manifest_path = utils.responseIfError(save_upload, _id=_id, _file=uploaded_manifest)
 	else:
 		manifest_path = uploaded_manifest
+		base_input_dir = "/input"
+		input_dir = os.path.join(base_input_dir, _id)
+
+		utils.responseIfError(make_dir, dirpath=input_dir)
+
 
 	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
 	utils.responseIfError(validate_manifest, manifest_path=new_manifest_path, input_format=input_format)
