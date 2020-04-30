@@ -9,6 +9,8 @@ import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/a
 
 import MainTemplate from './MainTemplate'
 
+import AnalysisOption from './data/AnalysisOption'
+
 function AnalysisComponent(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
@@ -18,7 +20,9 @@ function AnalysisComponent(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "classifier-file", file: "", label: "Classifier"}
+			{id: 0, name: "feature-table", file: "", label: "Feature Table (.qza)"},
+			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
+			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
 		]
 		// Reset selected files
 		emptySelectedFiles()
@@ -34,6 +38,9 @@ function AnalysisComponent(props) {
 
 		// Get upload elements
 		getUploadField(uploadField)
+
+		// Get option list
+		updateOptionList(AnalysisOption)
 	}, [])
 
 	// Type of the form;

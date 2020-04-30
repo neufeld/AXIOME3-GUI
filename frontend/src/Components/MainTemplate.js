@@ -39,7 +39,7 @@ function MainTemplate(props) {
 				</form>
 			</div>
 			<StatusMain/>
-			<a href='#' onClick={() => {props.history.push('/tmp')}}>Click Me</a>
+			<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
 		</div>
 	)
 }

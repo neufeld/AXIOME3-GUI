@@ -35,9 +35,25 @@ import axios from 'axios'
  		formData.append("manifest", selectedFiles[0].selectedFile)
  	} else if(formType === "Denoise") {
  		formData.append("demultiplexed", selectedFiles[0].selectedFile)
- 	}
+ 	} else if(formType === "Analysis") {
+ 		selectedFiles.forEach(fileObj => {
+ 			var _id = fileObj.id;
+ 			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
 
+ 			if(_id === 0) {
+ 				formData.append("feature_table", _file)
+ 				console.log(fileObj)
+ 			} else if(_id === 1) {
+ 				formData.append("rep_seqs", _file)
+ 				console.log(fileObj)
+ 			} else if(_id === 2) {
+ 				formData.append("metadata", _file)
+ 				console.log(fileObj)
+ 			}
+ 		})
+ 	}
  	submitData(formData, endpoint);
+
  }
 
  export {
