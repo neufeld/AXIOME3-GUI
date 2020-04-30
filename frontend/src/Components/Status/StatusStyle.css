@@ -28,3 +28,38 @@
 .file-progressbar-label {
 	margin-right: 10px;
 }
+
+.worker-wrapper {
+	margin-top: 20px;
+}
+
+.worker-status-header-container {
+	text-align: left;
+	margin-top: 0px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+.worker-status-header {
+	font-weight: bold;
+	font-size: 18px;
+	margin: 0;
+	text-decoration: underline;
+	display: inline-block;
+}
+
+.worker-status {
+	display: inline-block;
+	margin-left: 8px;
+	font-size: 18px;
+}
+
+.worker-message-container {
+	text-align: left;
+	margin-left: 10px;
+}
+
+.worker-message {
+	margin: 0;
+	font-size: 16px;
+}

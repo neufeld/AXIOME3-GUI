@@ -4,41 +4,11 @@ import { connect } from 'react-redux';
 import io from "socket.io-client";
 
 import FileUploadProgressBar from './FileUploadProgressBar'
-
+import RemoteWorkerTracker from './RemoteWorkerTracker'
 import './StatusStyle.css';
 
 function StatusMain(props) {
-	const [data, setData] = useState("initial data")
-
 	const { fileProgress, isSubmitting } = props;
-
-	//const URL = "http://localhost:5000/datahandle/stream/"
-	const endpoint = "http://localhost:5000/test"
-
-	useEffect(() => {
-		//socket = io.connect('http:127.0.0.1:5000/test')
-		const socket = io.connect(endpoint);
-
-		socket.on("error", err => {
-			console.log("SocketIO error")
-			console.log(err)
-		})
-
-		socket.on("test", data => {setData(data.data)})
-
-		socket.on("connect", () => {console.log("SocketIO connected!")})
-
-		// Clean up
-		return () => {
-			//eventSource.close()
-			socket.off("FromAPI")
-		}
-
-		//const eventSource = new EventSource(URL)
-		//eventSource.onmessage = e => {
-		//	setData(e.data)
-		//}
-	}, [])
 
 	let submittedFiles;
 
@@ -47,7 +17,7 @@ function StatusMain(props) {
 			const progress = fileProgress[fileID].progress;
 
 			return(
-				<FileUploadProgressBar progress={progress} />
+				<FileUploadProgressBar key={fileID} progress={progress} />
 			)
 		})
 	}
@@ -55,9 +25,7 @@ function StatusMain(props) {
 	return(
 		<div>
 			{submittedFiles}
-			<div>
-				Data is: {data}
-			</div>
+			<RemoteWorkerTracker />
 		</div>
 	)
 }
