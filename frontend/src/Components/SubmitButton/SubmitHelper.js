@@ -32,9 +32,15 @@ import axios from 'axios'
  	if(formType === "InputUpload") {
  		//TODO
  		// Check there is only one element in selectedFiles?
- 		formData.append("manifest", selectedFiles[0].selectedFile)
+ 		var fileObj = selectedFiles[0];
+ 		var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 		formData.append("manifest", _file)
  	} else if(formType === "Denoise") {
- 		formData.append("demultiplexed", selectedFiles[0].selectedFile)
+ 		var fileObj = selectedFiles[0];
+ 		var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 		formData.append("demultiplexed", _file)
  	} else if(formType === "Analysis") {
  		selectedFiles.forEach(fileObj => {
  			var _id = fileObj.id;
