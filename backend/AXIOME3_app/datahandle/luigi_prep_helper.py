@@ -125,10 +125,10 @@ def input_upload_precheck(_id, uploaded_manifest, input_format):
 	# Save uploaded manifest file in the docker container
 	if(isinstance(uploaded_manifest, FileStorage)):
 		manifest_path = utils.responseIfError(save_upload, _id=_id, _file=uploaded_manifest)
-		new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
 	else:
-		new_manifest_path = uploaded_manifest
-	
+		manifest_path = uploaded_manifest
+
+	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
 	utils.responseIfError(validate_manifest, manifest_path=new_manifest_path, input_format=input_format)
 
 	return new_manifest_path
