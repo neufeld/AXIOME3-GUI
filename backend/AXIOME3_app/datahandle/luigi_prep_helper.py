@@ -1,9 +1,10 @@
 import os
 import sys
+import shutil
 import pandas as pd
 from flask import current_app
+from werkzeug.datastructures import FileStorage
 from textwrap import dedent
-import copy
 
 # QIIME2 modules
 import qiime2
@@ -21,7 +22,7 @@ def make_dir(dirpath):
 	Make directory with given UUID as directory name.
 	"""
 	try:
-		os.mkdir(dirpath)
+		os.makedirs(dirpath, exist_ok=True)
 	
 	except OSError as err:
 		message = dedent(
@@ -32,10 +33,14 @@ def make_dir(dirpath):
 								module=__name__,
 								dir=dirpath)
 		)
+		return 500, message
 
-		return False, message	
+	except Exception as err:
+		message = str(err)
 
-	return True, ""
+		return 500, message	
+
+	return 200, "OK"
 
 def make_output_dir(_id):
 	"""
@@ -50,15 +55,9 @@ def make_output_dir(_id):
 	base_output_dir = "/output"
 	output_dir = os.path.join(base_output_dir, _id)
 
-	isMade, message = make_dir(output_dir)
+	utils.responseIfError(make_dir, dirpath=output_dir)
 
-	if(isMade == False):
-		#TODO: log failure
-		code = 500
-
-		return code, message
-
-	return 200, "Success"
+	return 200, "OK"
 
 def make_log_dir(_id):
 	"""
@@ -73,14 +72,9 @@ def make_log_dir(_id):
 	base_log_dir = "/log"
 	log_dir = os.path.join(base_log_dir, _id)
 
-	isMade, message = make_dir(log_dir)
+	utils.responseIfError(make_dir, dirpath=log_dir)
 
-	if(isMade == False):
-		code = 500
-
-		return code, message
-
-	return 200, "Success"
+	return 200, "OK"
 
 def save_upload(_id, _file):
 	"""
@@ -97,12 +91,7 @@ def save_upload(_id, _file):
 	base_input_dir = "/input"
 	input_dir = os.path.join(base_input_dir, _id)
 
-	isMade, message = make_dir(input_dir)
-
-	if(isMade == False):
-		code = 500
-
-		return code, message
+	utils.responseIfError(make_dir, dirpath=input_dir)
 
 	# File name to save as
 	input_path = os.path.join(input_dir, _file.filename)
@@ -110,6 +99,17 @@ def save_upload(_id, _file):
 	_file.save(input_path)
 
 	return 200, input_path
+
+def copy_file(source, destination):
+	try:
+		shutil.copyfile(source, destination)
+
+	except Exception as err:
+		message = str(err)
+
+		return 500, message
+
+	return 200, "OK"
 
 def input_upload_precheck(_id, uploaded_manifest, input_format):
 	"""
@@ -123,7 +123,11 @@ def input_upload_precheck(_id, uploaded_manifest, input_format):
 		- path to modified manifest file if valid input
 	"""
 	# Save uploaded manifest file in the docker container
-	manifest_path = utils.responseIfError(save_upload, _id=_id, _file=uploaded_manifest)
+	if(isinstance(uploaded_manifest, FileStorage)):
+		manifest_path = utils.responseIfError(save_upload, _id=_id, _file=uploaded_manifest)
+	else:
+		manifest_path = uploaded_manifest
+	
 	new_manifest_path = utils.responseIfError(reformat_manifest, _id=_id, _file=manifest_path)
 
 	utils.responseIfError(validate_manifest, manifest_path=new_manifest_path, input_format=input_format)
@@ -204,11 +208,16 @@ def denoise_precheck(_id, input_file):
 		- input_file: QIIME2 artifact
 	"""
 	# Save uploaded file in the docker container
-	upload_path = utils.responseIfError(save_upload, _id=_id, _file=input_file)
+	if(isinstance(input_file, FileStorage)):
+		upload_path = utils.responseIfError(save_upload, _id=_id, _file=input_file)
+	else:
+		upload_path = input_file
 
-	utils.responseIfError(validate_imported_data, input_file=upload_path)
+	utils.responseIfError(validate_denoise_input, input_file=upload_path)
 
-def validate_imported_data(input_file):
+	return upload_path
+
+def validate_denoise_input(input_file):
 	"""
 	Precheck input files prior to running denoise step
 
@@ -219,7 +228,7 @@ def validate_imported_data(input_file):
 	# Check Artifact type
 	try:
 		q2_artifact = Artifact.load(input_file)
-		if(str(pcoa_artifact.type) != "SampleData[PairedEndSequencesWithQuality]"):
+		if(str(q2_artifact.type) != "SampleData[PairedEndSequencesWithQuality]"):
 			msg = "Input QIIME2 Artifact is not of type 'SampleData[PairedEndSequencesWithQuality]'!"
 			raise ValueError(msg)
 	except ValueError as err:
@@ -229,6 +238,76 @@ def validate_imported_data(input_file):
 
 	return 200, "Imported data good!"
 
+def denoise_setup(denoise_input, _id):
+	destination_dir = os.path.join('/output', _id)
+	destination = os.path.join(destination_dir, "paired_end_demux.qza")
+
+	utils.responseIfError(make_dir, dirpath=destination_dir)
+	utils.responseIfError(copy_file, source=denoise_input, destination=destination)
+
+def analysis_precheck(_id, feature_table, rep_seqs, metadata):
+	"""
+	Do prechecks as to decrease the chance of job failing.
+
+	Input:
+		- feature_table: QIIME2 artifact of type FeatureTable[Frequency]
+		- rep_seqs: QIIME2 artifact of type FeatureData[Sequence]
+	"""
+	if(isinstance(feature_table, FileStorage)):
+		feature_table_path = utils.responseIfError(save_upload, _id=_id, _file=feature_table)
+	else:
+		feature_table_path = feature_table
+
+	if(isinstance(rep_seqs, FileStorage)):
+		rep_seqs_path = utils.responseIfError(save_upload, _id=_id, _file=rep_seqs)
+	else:
+		rep_seqs_path = feature_table
+
+	if(isinstance(metadata, FileStorage)):
+		metadata_path = utils.responseIfError(save_upload, _id=_id, _file=metadata)
+	else:
+		metadata_path = metadata
+	
+	utils.responseIfError(validate_analysis_input, feature_table=feature_table_path, rep_seqs=rep_seqs_path)
+
+	return feature_table_path, rep_seqs_path, metadata_path
+
+def validate_analysis_input(feature_table, rep_seqs):
+	"""
+	Precheck input files prior to running denoise step
+
+	Input:
+		- feature_table: Path to QIIME2 artifact of type FeatureTable[Frequency]
+		- rep_seqs: Path to QIIME2 artifact of type FeatureData[Sequence]
+	"""
+	# Check Artifact type
+	try:
+		feature_table_artifact = Artifact.load(feature_table)
+		rep_seqs_artifact = Artifact.load(rep_seqs)
+
+		if(str(feature_table_artifact.type) != "FeatureTable[Frequency]"):
+			msg = "Input Feature Table is not of type 'FeatureTable[Frequency]'!"
+			raise ValueError(msg)
+
+		if(str(rep_seqs_artifact.type) != "FeatureData[Sequence]"):
+			msg = "Input Representative Sequences is not of type 'FeatureData[Sequence]'!"
+			raise ValueError(msg)
+
+	except ValueError as err:
+		message = str(err)
+
+		return 400, message
+
+	return 200, "Imported data good!"
+
+def analysis_setup(_id, feature_table, rep_seqs):
+	destination_dir = os.path.join('/output', _id, 'dada2', 'merged')
+	feature_table_destination = os.path.join(destination_dir, "merged_table.qza")
+	rep_seqs_destination = os.path.join(destination_dir, "merged_rep_seqs.qza")
+
+	utils.responseIfError(make_dir, dirpath=destination_dir)
+	utils.responseIfError(copy_file, source=feature_table, destination=feature_table_destination)
+	utils.responseIfError(copy_file, source=rep_seqs, destination=rep_seqs_destination)
 
 def pipeline_setup(_id):
 	"""

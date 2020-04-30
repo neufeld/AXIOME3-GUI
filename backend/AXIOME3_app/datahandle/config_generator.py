@@ -3,7 +3,7 @@ import sys
 
 def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None, input_format=None,
 				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None,
-				classifier_path=None, sampling_depth=None):
+				classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 	"""
 	Make configuration file for luigi from the template file
 	(at /pipeline/AXIOME3/configuration/template.cfg).
@@ -50,6 +50,12 @@ def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None,
 
 	if(sampling_depth is not None):
 		config_data = config_data.replace("<SAMPLING_DEPTH>", str(sampling_depth))
+
+	if(metadata_path is not None):
+		config_data = config_data.replace("<METADATA_PATH>", str(metadata_path))
+
+	if(n_cores is not None):
+		config_data = config_data.replace("<N_CORES>", str(n_cores))
 
 	# Overwrite existing config file
 	# Can't set env variable inside docker container,
