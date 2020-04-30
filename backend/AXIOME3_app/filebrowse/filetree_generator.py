@@ -50,6 +50,7 @@ def getFileTree(path):
 			tmp_file_obj["path"] = abs_path
 			tmp_file_obj["type"] = "dir" if os.path.isdir(abs_path) else "file"
 			tmp_file_obj["name"] = ntpath.basename(abs_path)
+			tmp_file_obj["misc"] = "from_server"
 
 			# Add obj
 			files.append(tmp_file_obj)
