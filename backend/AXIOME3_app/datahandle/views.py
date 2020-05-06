@@ -25,8 +25,13 @@ def generate_files():
 	form_type = request.form['formType']
 
 	# Use UUID4 for unique identifier
-	_id = str(uuid.uuid4())
+	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
+
+	# path to file to record task progress
+	# It will be used to retrieve working progress
+	# Maybe replace it with database later
+	task_progress_file = os.path.join('/output', _id, 'task_progress.txt')
 
 	try:
 		if(form_type == "InputUpload"):
@@ -55,7 +60,7 @@ def generate_files():
 				input_format=input_format
 			)
 
-			import_data_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
+			import_data_task.apply_async(args=[URL, task_progress_file])
 
 		elif(form_type == "Denoise"):
 			# Check if the upload is made from the client or server
@@ -87,7 +92,7 @@ def generate_files():
 			# Copy input file to premade output dir
 			luigi_prep_helper.denoise_setup(denoise_input_path, _id)
 
-			denoise_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
+			denoise_task.apply_async(args=[_id, URL, task_progress_file])
 
 		elif(form_type == "Analysis"):
 			# Check if the upload is made from the client or server
@@ -129,7 +134,7 @@ def generate_files():
 			# Copy input file to premade output dir
 			luigi_prep_helper.analysis_setup(_id, feature_table_path, rep_seqs_path)
 
-			analysis_task.apply_async(args=[_id, URL], link=check_output_task.s(URL, form_type))
+			analysis_task.apply_async(args=[_id, URL, task_progress_file])
 
 			return Response(_id, status=200, mimetype='text/html')
 

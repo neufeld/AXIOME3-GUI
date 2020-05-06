@@ -7,37 +7,65 @@ import sys
 
 from flask_socketio import SocketIO
 
+from AXIOME3_app.tasks.utils import (
+	log_status,
+	emit_message,
+	run_command
+)
+
 @celery.task(name="pipeline.run.import")
-def import_data_task(_id, URL):
-	# Path to configuration file to be used
-	#config_path = "/pipeline/AXIOME3/configuration/luigi.cfg"
-	#luigi.configuration.add_config_path(config_path)
-
-	# Reload pipeline to apply new config setting?
-	#importlib.invalidate_caches()
-	#importlib.reload(pipeline)
-
+def import_data_task(URL, task_progress_file):
 	local_socketio = SocketIO(message_queue=URL)
-	local_socketio.emit(
-		'test',
-		{'data': 'Running import data!'},
-		namespace='/test',
-		engineio_logger=True,
-		logger=True,
-		async_mode='threading', 
-		broadcast=True
+	channel = 'test'
+	namespace = '/test'
+
+	isTaskDone = import_data(
+		socketio=local_socketio,
+		channel=channel,
+		namespace=namespace,
+		task_progress_file=task_progress_file
 	)
+
+	if(isTaskDone == False):
+		return
+	
+	message = "Done!"
+	emit_message(
+		socketio=local_socketio,
+		channel=channel,
+		message=message,
+		namespace=namespace 
+	)
+	log_status(task_progress_file, message)
+
+def import_data(socketio, channel, namespace, task_progress_file):
+	message = 'Running import data!'
+	emit_message(
+		socketio=socketio,
+		channel=channel,
+		message=message,
+		namespace=namespace 
+	)
+	log_status(task_progress_file, message)
 
 	# Running luigi in python sub-shell so that each request can be logged in separate logfile.
 	# It's really hard to have separate logfile if running luigi as a module.
 	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Summarize", "--local-scheduler"]
-	proc = subprocess.Popen(
-		cmd,
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE
-	)
-	stdout, stderr = proc.communicate()
+	stdout, stderr = run_command(cmd)
 
-	#isSuccess = luigi.build([pipeline.Import_Data()], local_scheduler=True)
+	decoded_stdout = stdout.decode('utf-8')
 
-	return _id
+	if("ERROR" in decoded_stdout):
+		# pipeline adds <--> to the error message as to extract the meaningful part 
+		message = decoded_stdout.split("<-->")[1]
+		emit_message(
+			socketio=socketio,
+			channel=channel,
+			message=message,
+			namespace=namespace 
+		)
+		log_status(task_progress_file, message)
+
+		return False
+
+	return True

@@ -2,23 +2,26 @@ import eventlet
 eventlet.monkey_patch()
 
 import os
+import logging
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from werkzeug.debug import DebuggedApplication
+# Import extension packages
+from AXIOME3_app.extensions import celery
+
+# Initialize socketio instance here to avoid circulr import
+socketio = SocketIO(cors_allowed_origins='*')
 
 # Import different applications
 from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
 from AXIOME3_app import report
+from AXIOME3_app import socketio_handlers
 from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
-# Import extension packages
-from AXIOME3_app.extensions import celery
 
-import logging
-
-socketio = SocketIO(cors_allowed_origins='*')
+#socketio = SocketIO(cors_allowed_origins='*')
 
 def create_app(testing=False, debug=False, development=False):
 	"""
@@ -48,7 +51,7 @@ def create_app(testing=False, debug=False, development=False):
 	app.logger.addHandler(fh)
 
 	# Initialize Socket.IO
-	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], logger=True, engineio_logger=True)
+	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], engineio_logger=True)
 
 	# CORS
 	#CORS(app)
@@ -56,6 +59,7 @@ def create_app(testing=False, debug=False, development=False):
 	return app
 
 def register_blueprints(app):
+	app.register_blueprint(socketio_handlers.views.blueprint)
 	app.register_blueprint(filebrowse.views.blueprint)
 	app.register_blueprint(datahandle.views.blueprint)
 	app.register_blueprint(report.views.blueprint)
