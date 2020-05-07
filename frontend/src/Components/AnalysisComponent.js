@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
+import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
+import { updateOptionList } from '../redux/actions/optionAction'
 
 import MainTemplate from './MainTemplate'
 
@@ -13,7 +13,7 @@ import AnalysisOption from './data/AnalysisOption'
 
 function AnalysisComponent(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
+	const { getUploadField, updateOptionList } = props
 
 	// Redux states
 	const { selectedFiles, selectedOptions } = props
@@ -24,18 +24,6 @@ function AnalysisComponent(props) {
 			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
 			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
 		]
-		// Reset selected files
-		emptySelectedFiles()
-
-		// Reset server-browsed files
-		emptyFiles()
-
-		// Reset options
-		resetOptions()
-
-		// Reset selected options
-		resetSelectedOptions()
-
 		// Get upload elements
 		getUploadField(uploadField)
 
@@ -66,6 +54,9 @@ const mapStateToProps = state => ({
 	options: state.option.options
 })
 
-const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetOptions, resetSelectedOptions }
+const mapDispatchToProps = {
+	getUploadField,
+	updateOptionList
+}
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AnalysisComponent))

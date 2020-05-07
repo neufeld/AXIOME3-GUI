@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
 // Upload redux
-import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
+import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList, resetSelectedOptions, resetOptions } from '../redux/actions/optionAction'
+import { updateOptionList } from '../redux/actions/optionAction'
 
 import MainTemplate from './MainTemplate'
 
@@ -15,7 +15,7 @@ import DenoiseOption from './data/DenoiseOption'
 
 function DenoiseComponent(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions } = props
+	const { getUploadField, updateOptionList } = props
 
 	// Redux states
 	const { selectedFiles, selectedOptions } = props
@@ -26,17 +26,7 @@ function DenoiseComponent(props) {
 		// Get upload elements
 		const uploadField = [
 			{id: 0, name: "demultiplexed-seqs", file: "", label: "Demultiplexed Sequences (.qza)"}
-		]		
-		// Reset selected file
-		emptySelectedFiles()
-
-		// Reset server-browsed files
-		emptyFiles()
-
-		// Reset selected options
-		resetSelectedOptions()
-
-		resetOptions()
+		]
 
 		getUploadField(uploadField)
 
@@ -70,6 +60,9 @@ const mapStateToProps = state => ({
 	options: state.option.options
 })
 
-const mapDispatchToProps = { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles, resetSelectedOptions, resetOptions }
+const mapDispatchToProps = {
+	getUploadField,
+	updateOptionList
+}
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DenoiseComponent))
