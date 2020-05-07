@@ -49,9 +49,9 @@ const DenoiseOption = {
 		entities: {
 			advancedOption1: {
 				id: "advancedOption1",
-				label: "Some advanced option",
-				type: "text",
-				defaultValue: "hello"
+				label: "cores",
+				type: "number",
+				defaultValue: 1,
 			}
 		},
 		keys: ["advancedOption1"]
