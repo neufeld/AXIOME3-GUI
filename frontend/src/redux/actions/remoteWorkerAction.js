@@ -2,7 +2,8 @@ import {
 	WORKER_DONE,
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,
-	UPDATE_INPUT_SESSION_ID
+	UPDATE_INPUT_SESSION_ID,
+	RESET_INPUT_SESSION_ID,
 } from '../types/types';
 
 export const trackWorkerStatus = (message) => dispatch => {
@@ -29,5 +30,11 @@ export const updateInputSessionId = (inputSessionId) => dispatch => {
 		payload: {
 			inputSessionId: inputSessionId
 		}
+	})
+}
+
+export const resetInputSessionId = () => dispatch => {
+	dispatch({
+		type: RESET_INPUT_SESSION_ID
 	})
 }

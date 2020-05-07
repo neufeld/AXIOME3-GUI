@@ -11,6 +11,8 @@ import {
 	IS_ANALYSIS_SUBMIT,
 	IS_RETRIEVE_SUBMIT,
 	UPDATE_INPUT_SESSION_ID,
+	RESET_ANALYSIS,
+	RESET_RETRIEVE,
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -149,5 +151,17 @@ export const retrieveSession = (formData, endpoint) => async dispatch => {
 export const resetFileUploadProgress = () => dispatch => {
 	dispatch({
 		type: RESET_PROGRESS,
+	})
+}
+
+export const resetAnalysis = () => dispatch => {
+	dispatch({
+		type: RESET_ANALYSIS
+	})
+}
+
+export const resetRetrieve = () => dispatch => {
+	dispatch({
+		type: RESET_RETRIEVE
 	})
 }

@@ -9,6 +9,8 @@ import {
 	HANDLE_CLIENT_FAILURE,
 	IS_ANALYSIS_SUBMIT,
 	IS_RETRIEVE_SUBMIT,
+	RESET_ANALYSIS,
+	RESET_RETRIEVE,
 } from '../types/types';
 
 const initialState = {
@@ -44,6 +46,18 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				fileProgress: { ...initialState.fileProgress }
+			}
+
+		case RESET_ANALYSIS:
+			return {
+				...state,
+				isAnalysisSubmit: initialState.isAnalysisSubmit
+			}
+
+		case RESET_RETRIEVE:
+			return {
+				...state,
+				isRetrieveSubmit: initialState.isRetrieveSubmit
 			}
 
 		case IS_SUBMITTING:

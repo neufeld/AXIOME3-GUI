@@ -4,6 +4,7 @@ import {
 	WORKER_FAIL,
 	RETRIEVE_STATUS,
 	UPDATE_INPUT_SESSION_ID,
+	RESET_INPUT_SESSION_ID
 } from '../types/types';
 
 const initialState = {
@@ -43,6 +44,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				inputSessionId: action.payload.inputSessionId
+			}
+
+		case RESET_INPUT_SESSION_ID:
+			return {
+				...state,
+				inputSessionId: initialState.inputSessionId
 			}
 
 		default:
