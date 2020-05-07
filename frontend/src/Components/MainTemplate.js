@@ -19,6 +19,8 @@ import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } fro
 import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
+// RemoteWorker redux
+import { resetInputSessionId } from '../redux/actions/remoteWorkerAction'
 
 function MainTemplate(props) {
 	const subDisplayStyles = {
@@ -39,6 +41,9 @@ function MainTemplate(props) {
 	// Option redux action
 	const { resetSelectedOptions, resetOptions } = props;
 
+	// RemoteWorker redux action
+	const { resetInputSessionId } = props;
+
 	useEffect(() => {
 		// Reset selected files
 		emptySelectedFiles()
@@ -57,6 +62,9 @@ function MainTemplate(props) {
 
 		// Reset session retrieve submit
 		resetRetrieve()
+
+		// Reset input session id
+		resetInputSessionId()
 	}, [])
 
 	return (
@@ -92,6 +100,7 @@ const mapDispatchToProps = {
 	resetFileUploadProgress,
 	resetAnalysis,
 	resetRetrieve,
+	resetInputSessionId,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainTemplate))
