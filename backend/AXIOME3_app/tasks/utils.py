@@ -1,4 +1,5 @@
 import subprocess
+import re
 
 def log_status(logfile, message):
 	with open(logfile, 'w') as fh:
@@ -25,3 +26,18 @@ def run_command(cmd):
 	stdout, stderr = proc.communicate()
 
 	return stdout, stderr
+
+def cleanup_error_message(msg):
+	"""
+	Removes anything between 'Traceback' and two newline characters
+	"""
+	pattern = r'(Traceback[\s\S]*?\n\n)'
+
+	matched = re.search(pattern, msg)
+
+	if(matched is None):
+		return msg
+
+	to_remove = matched.group(1)
+
+	return msg.replace(to_remove, '').strip()

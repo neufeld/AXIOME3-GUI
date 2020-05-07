@@ -6,7 +6,8 @@ from flask_socketio import SocketIO
 from AXIOME3_app.tasks.utils import (
 	log_status,
 	emit_message,
-	run_command
+	run_command,
+	cleanup_error_message
 )
 
 @celery.task(name="pipeline.run.analysis")
@@ -72,13 +73,14 @@ def taxonomic_classification(socketio, channel, namespace, task_progress_file):
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
 		message = decoded_stdout.split("<-->")[1]
+		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
 			channel=channel,
-			message=message,
+			message=message_cleanup,
 			namespace=namespace 
 		)
-		log_status(task_progress_file, message)
+		log_status(task_progress_file, message_cleanup)
 
 		return False
 
@@ -102,13 +104,14 @@ def generate_asv_table(socketio, channel, namespace, task_progress_file):
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
 		message = decoded_stdout.split("<-->")[1]
+		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
 			channel=channel,
-			message=message,
+			message=message_cleanup,
 			namespace=namespace 
 		)
-		log_status(task_progress_file, message)
+		log_status(task_progress_file, message_cleanup)
 
 		return False
 
@@ -132,13 +135,14 @@ def pcoa_plots(socketio, channel, namespace, task_progress_file):
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
 		message = decoded_stdout.split("<-->")[1]
+		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
 			channel=channel,
-			message=message,
+			message=message_cleanup,
 			namespace=namespace 
 		)
-		log_status(task_progress_file, message)
+		log_status(task_progress_file, message_cleanup)
 
 		return False
 
@@ -150,13 +154,14 @@ def pcoa_plots(socketio, channel, namespace, task_progress_file):
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
 		message = decoded_stdout.split("<-->")[1]
+		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
 			channel=channel,
-			message=message,
+			message=message_cleanup,
 			namespace=namespace 
 		)
-		log_status(task_progress_file, message)
+		log_status(task_progress_file, message_cleanup)
 
 		return False
 
