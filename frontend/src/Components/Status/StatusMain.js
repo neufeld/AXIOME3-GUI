@@ -5,6 +5,7 @@ import io from "socket.io-client";
 
 import FileUploadProgressBar from './FileUploadProgressBar'
 import RemoteWorkerTracker from './RemoteWorkerTracker'
+import SessionRetrieve from './SessionRetrieve'
 import './StatusStyle.css';
 
 function StatusMain(props) {
@@ -24,6 +25,7 @@ function StatusMain(props) {
 
 	return(
 		<div>
+			<SessionRetrieve />
 			{submittedFiles}
 			<RemoteWorkerTracker />
 		</div>
@@ -32,7 +34,7 @@ function StatusMain(props) {
 
 const mapStateToProps  = state => ({
 	fileProgress: state.submit.fileProgress,
-	isSubmitting: state.submit.isSubmitting
+	isSubmitting: state.submit.isSubmitting,
 })
 
 const mapDispatchToProps = {

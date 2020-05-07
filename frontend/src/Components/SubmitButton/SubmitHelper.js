@@ -1,5 +1,4 @@
-import axios from 'axios'
-
+import uuid from 'uuid';
 /**
  * Helper for form submission.
  *
@@ -11,11 +10,15 @@ import axios from 'axios'
  const handleSubmit = async (e, formType, selectedFiles, selectedOptions, submitData) => {
  	e.preventDefault();
 
+ 	const uuidV4 = uuid.v4()
  	const endpoint = '/datahandle/'
  	const formData = new FormData();
 
  	// Form Type
  	formData.append("formType", formType)
+
+ 	// UUID V4
+ 	formData.append("uuid", uuidV4)
 
  	// Check if "empty" form
  	if(selectedFiles.length === 0) {
@@ -62,6 +65,25 @@ import axios from 'axios'
 
  }
 
+ const handleRetrieveSession = async (e, sessionID, retrieveSession) => {
+ 		e.preventDefault();
+
+ 		const endpoint = '/session_retrieve/';
+
+ 		if(sessionID === '') {
+ 			alert("Please enter session ID!")
+
+ 			return
+ 		}
+
+ 		const formData = new FormData();
+
+ 		formData.append("session_id", sessionID)
+
+ 		retrieveSession(formData, endpoint)
+ }
+
  export {
-	handleSubmit
+	handleSubmit,
+	handleRetrieveSession
 }

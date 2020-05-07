@@ -12,7 +12,7 @@ function RemoteWorkerTracker(props) {
 	const { trackWorkerStatus } = props;
 
 	// Redux states
-	const { isWorkerRunning } = props;
+	const { isWorkerRunning, taskStatusFromRetrieve, isRetrieveSubmit } = props;
 
 	// State to store socket.io messages
 	const [data, setData] = useState("");
@@ -32,29 +32,42 @@ function RemoteWorkerTracker(props) {
 			trackWorkerStatus(message)
 		})
 
-		socket.on("connect", () => {console.log("SocketIO connected!")})
+		socket.on("connect", () => {
+			console.log("SocketIO connected!")
+		});
+
+		socket.on("disconnect", () => {
+			console.log("SocketIO disconnected!")
+		});
 
 		// Clean up
 		return () => {
+			socket.emit("disconnect", {data: "client disconnecting..."})
 			socket.off("FromAPI")
 		}
 	}, [])
+
+	const displayMessage = ((isRetrieveSubmit === true) && (taskStatusFromRetrieve !== ''))
+		? taskStatusFromRetrieve
+		: data
 
 	return(
 		<div className="worker-wrapper">
 			<RemoteWorkerStatusHeader 
 				isWorkerRunning={isWorkerRunning}
-				message={data}
+				message={displayMessage}
 			/>
 			<RemoteWorkerMessage
-				message={data}
+				message={displayMessage}
 			/>
 		</div>
 	)
 }
 
 const mapStateToProps  = state => ({
-	isWorkerRunning: state.remoteWorker.isWorkerRunning
+	isWorkerRunning: state.remoteWorker.isWorkerRunning,
+	taskStatusFromRetrieve: state.remoteWorker.taskStatusFromRetrieve,
+	isRetrieveSubmit: state.submit.isRetrieveSubmit,
 })
 
 const mapDispatchToProps = {

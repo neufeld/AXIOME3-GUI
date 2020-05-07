@@ -62,4 +62,9 @@
 .worker-message {
 	margin: 0;
 	font-size: 16px;
+	white-space: pre-line;
+}
+
+.session-id-content {
+	display: inline-block;
 }
