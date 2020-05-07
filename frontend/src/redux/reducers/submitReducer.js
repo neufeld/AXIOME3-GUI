@@ -4,13 +4,20 @@ import {
 	RESET_PROGRESS,
 	IS_SUBMITTING,
 	SUBMIT_SUCCESS,
-	SUBMIT_FAIL 
+	SUBMIT_FAIL,
+	RETRIEVE_STATUS,
+	HANDLE_CLIENT_FAILURE,
+	IS_ANALYSIS_SUBMIT,
+	IS_RETRIEVE_SUBMIT,
 } from '../types/types';
 
 const initialState = {
 	uid: '',
 	fileProgress: {},
-	isSubmitting: false
+	isSubmitting: false,
+	failureMessage: '',
+	isAnalysisSubmit: false,
+	isRetrieveSubmit: false
 }
 
 export default function(state = initialState, action) {
@@ -55,6 +62,26 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				isSubmitting: false
+			}
+
+		case HANDLE_CLIENT_FAILURE:
+			return {
+				...state,
+				failureMessage: action.payload.failureMessage
+			}
+
+		case IS_ANALYSIS_SUBMIT:
+			return {
+				...state,
+				isAnalysisSubmit: true,
+				isRetrieveSubmit: false,
+			}
+
+		case IS_RETRIEVE_SUBMIT:
+			return {
+				...state,
+				isAnalysisSubmit: false,
+				isRetrieveSubmit: true,
 			}
 
 		default:
