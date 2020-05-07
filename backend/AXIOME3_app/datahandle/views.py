@@ -72,6 +72,7 @@ def generate_files():
 			trunc_len_r = request.form["trunc-len-r"]
 			trim_left_f = request.form["trim-left-f"]
 			trim_left_r = request.form["trim-left-r"]
+			n_cores = request.form["cores"]
 
 			denoise_input_path = luigi_prep_helper.denoise_precheck(
 				_id=_id,
@@ -86,7 +87,8 @@ def generate_files():
 				trim_left_f=trim_left_f,
 				trunc_len_f=trunc_len_f,
 				trim_left_r=trim_left_r,
-				trunc_len_r=trunc_len_r
+				trunc_len_r=trunc_len_r,
+				n_cores=n_cores
 			)
 
 			# Copy input file to premade output dir

@@ -11,3 +11,4 @@ def on_connect():
 @socketio.on('disconnect')
 def on_disconnect():
 	print("FROM BACKEND: socketio disconnected", file=sys.stderr)
+	disconnect()

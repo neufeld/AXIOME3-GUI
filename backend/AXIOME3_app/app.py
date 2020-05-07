@@ -18,6 +18,7 @@ from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
 from AXIOME3_app import report
 from AXIOME3_app import socketio_handlers
+from AXIOME3_app import session_retrieve
 from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
 
@@ -62,6 +63,7 @@ def register_blueprints(app):
 	app.register_blueprint(socketio_handlers.views.blueprint)
 	app.register_blueprint(filebrowse.views.blueprint)
 	app.register_blueprint(datahandle.views.blueprint)
+	app.register_blueprint(session_retrieve.views.blueprint)
 	app.register_blueprint(report.views.blueprint)
 	app.register_blueprint(pcoa.views.blueprint)
 	app.register_blueprint(taxonomy.views.blueprint)
