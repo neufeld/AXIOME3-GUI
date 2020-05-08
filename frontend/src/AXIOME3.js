@@ -4,7 +4,7 @@ import store from './redux/store'
 import './styles/AXIOME3.css'
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   withRouter
@@ -29,8 +29,8 @@ function AXIOME3() {
 				  <div className="main-content">
 				  	<Switch>
 				  		<Route exact path={["/", "/inputupload"]} component={InputUploadComponent} />
-				  		<Route exact path="/denoise" component={DenoiseComponent} />
-				  		<Route exact path="/analysis" component={AnalysisComponent} />
+				  		<Route path="/denoise" component={DenoiseComponent} />
+				  		<Route path="/analysis" component={AnalysisComponent} />
 						</Switch>				    
 				  </div>				
 			    <Footer />
