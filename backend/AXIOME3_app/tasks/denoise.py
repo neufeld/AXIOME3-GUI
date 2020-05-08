@@ -14,10 +14,12 @@ from AXIOME3_app.tasks.utils import (
 def denoise_task(_id, URL, task_progress_file):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
-	namespace = '/test'
+	namespace = '/AXIOME3'
+	room = _id
 
 	isTaskDone = denoise(
 		socketio=local_socketio,
+		room=room,
 		channel=channel,
 		namespace=namespace,
 		task_progress_file=task_progress_file
@@ -31,17 +33,19 @@ def denoise_task(_id, URL, task_progress_file):
 		socketio=local_socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
-def denoise(socketio, channel, namespace, task_progress_file):
+def denoise(socketio, room, channel, namespace, task_progress_file):
 	message = 'Running denoise!'
 	emit_message(
 		socketio=socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
@@ -60,7 +64,8 @@ def denoise(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 

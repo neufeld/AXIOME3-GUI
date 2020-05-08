@@ -14,13 +14,15 @@ from AXIOME3_app.tasks.utils import (
 def analysis_task(_id, URL, task_progress_file):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
-	namespace = '/test'
+	namespace = '/AXIOME3'
+	room = _id
 
 	isTaskDone = taxonomic_classification(
 		socketio=local_socketio,
 		channel=channel,
 		namespace=namespace,
-		task_progress_file=task_progress_file
+		task_progress_file=task_progress_file,
+		room=room
 	)
 
 	if(isTaskDone == False):
@@ -30,7 +32,8 @@ def analysis_task(_id, URL, task_progress_file):
 		socketio=local_socketio,
 		channel=channel,
 		namespace=namespace,
-		task_progress_file=task_progress_file
+		task_progress_file=task_progress_file,
+		room=room
 	)
 
 	if(isTaskDone == False):
@@ -40,7 +43,8 @@ def analysis_task(_id, URL, task_progress_file):
 		socketio=local_socketio,
 		channel=channel,
 		namespace=namespace,
-		task_progress_file=task_progress_file
+		task_progress_file=task_progress_file,
+		room=room
 	)
 
 	if(isTaskDone == False):
@@ -51,17 +55,19 @@ def analysis_task(_id, URL, task_progress_file):
 		socketio=local_socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
-def taxonomic_classification(socketio, channel, namespace, task_progress_file):
+def taxonomic_classification(socketio, room, channel, namespace, task_progress_file):
 	message = 'Performing Taxonomic Classification...'
 	emit_message(
 		socketio=socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
@@ -78,7 +84,8 @@ def taxonomic_classification(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 
@@ -86,13 +93,14 @@ def taxonomic_classification(socketio, channel, namespace, task_progress_file):
 
 	return True
 
-def generate_asv_table(socketio, channel, namespace, task_progress_file):
+def generate_asv_table(socketio, room, channel, namespace, task_progress_file):
 	message = 'Generating ASV Table...'
 	emit_message(
 		socketio=socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
@@ -109,7 +117,8 @@ def generate_asv_table(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 
@@ -117,13 +126,14 @@ def generate_asv_table(socketio, channel, namespace, task_progress_file):
 
 	return True
 
-def pcoa_plots(socketio, channel, namespace, task_progress_file):
+def pcoa_plots(socketio, room, channel, namespace, task_progress_file):
 	message = 'Analyzing samples...'
 	emit_message(
 		socketio=socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room 
 	)
 	log_status(task_progress_file, message)
 
@@ -140,7 +150,8 @@ def pcoa_plots(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 
@@ -159,7 +170,8 @@ def pcoa_plots(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 

@@ -15,13 +15,15 @@ from AXIOME3_app.tasks.utils import (
 )
 
 @celery.task(name="pipeline.run.import")
-def import_data_task(URL, task_progress_file):
+def import_data_task(_id, URL, task_progress_file):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
-	namespace = '/test'
+	namespace = '/AXIOME3'
+	room = _id
 
 	isTaskDone = import_data(
 		socketio=local_socketio,
+		room=room,
 		channel=channel,
 		namespace=namespace,
 		task_progress_file=task_progress_file
@@ -35,17 +37,19 @@ def import_data_task(URL, task_progress_file):
 		socketio=local_socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
-def import_data(socketio, channel, namespace, task_progress_file):
+def import_data(socketio, room, channel, namespace, task_progress_file):
 	message = 'Running import data!'
 	emit_message(
 		socketio=socketio,
 		channel=channel,
 		message=message,
-		namespace=namespace 
+		namespace=namespace,
+		room=room
 	)
 	log_status(task_progress_file, message)
 
@@ -64,7 +68,8 @@ def import_data(socketio, channel, namespace, task_progress_file):
 			socketio=socketio,
 			channel=channel,
 			message=message_cleanup,
-			namespace=namespace 
+			namespace=namespace,
+			room=room
 		)
 		log_status(task_progress_file, message_cleanup)
 

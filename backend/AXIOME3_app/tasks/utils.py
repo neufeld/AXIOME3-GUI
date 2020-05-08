@@ -5,12 +5,13 @@ def log_status(logfile, message):
 	with open(logfile, 'w') as fh:
 		fh.write(message)
 
-def emit_message(socketio, channel, message, namespace):
+def emit_message(socketio, channel, message, namespace, room):
 	socketio.emit(
 		channel,
 		{'data': message},
 		namespace=namespace,
 		engineio_logger=True,
+		room=room,
 		logger=True,
 		async_mode='threading', 
 		broadcast=True

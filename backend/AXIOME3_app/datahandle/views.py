@@ -60,7 +60,7 @@ def generate_files():
 				input_format=input_format
 			)
 
-			import_data_task.apply_async(args=[URL, task_progress_file])
+			import_data_task.apply_async(args=[_id, URL, task_progress_file])
 
 		elif(form_type == "Denoise"):
 			# Check if the upload is made from the client or server
