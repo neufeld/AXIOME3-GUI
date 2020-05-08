@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import DownloadFile from './DownloadFile';
@@ -15,8 +14,6 @@ import { updateDownloadPath, updateInputField } from '../../redux/actions/downlo
 import './ReportStyle.css';
 
 function ReportMain(props) {
-	const endpoint = '/report/'
-
 	// Redux action
 	const { updateDownloadPath, updateInputField } = props;
 

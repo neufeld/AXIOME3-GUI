@@ -26,10 +26,6 @@ const getInputTag = (inputField) => {
 };
 
 class DownloadFile extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		//ReactDOM.findDOMNode(this).submit();
 		if(this.props.downloadPath !== '') {

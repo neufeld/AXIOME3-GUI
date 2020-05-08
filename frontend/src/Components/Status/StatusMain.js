@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import io from "socket.io-client";
 
 import FileUploadProgressBar from './FileUploadProgressBar'
 import RemoteWorkerTracker from './RemoteWorkerTracker'
