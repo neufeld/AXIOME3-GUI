@@ -6,7 +6,6 @@ import {
 	IS_SUBMITTING,
 	SUBMIT_SUCCESS,
 	SUBMIT_FAIL,
-	RETRIEVE_STATUS,
 	HANDLE_CLIENT_FAILURE,
 	IS_ANALYSIS_SUBMIT,
 	IS_RETRIEVE_SUBMIT,
@@ -21,6 +20,14 @@ export const submitData = (formData, endpoint) => async dispatch => {
 	})
 
 	const uuidV4 = formData.get('uuid');
+
+	// Dispatch uid
+	dispatch({
+		type: UPDATE_UID,
+		payload: {
+			uid: uuidV4
+		}
+	})
 
 	try {
 		// axios config
@@ -43,14 +50,6 @@ export const submitData = (formData, endpoint) => async dispatch => {
 
 		// Receive UUID for each request server generated
 		await axios(config);
-
-		// Dispatch uid
-		dispatch({
-			type: UPDATE_UID,
-			payload: {
-				uid: uuidV4
-			}
-		})
 
 		// Dispatch submitSuccess
 		dispatch({
@@ -99,27 +98,20 @@ export const retrieveSession = (formData, endpoint) => async dispatch => {
 		const config = {
 			url: endpoint,
 			method: 'post',
-			data: formData,
+			data: formData
 		};
 
-		const res = await axios(config);
-		
+		await axios(config);
+
 		dispatch({
-			type: RETRIEVE_STATUS,
+		type: UPDATE_UID,
 			payload: {
-				taskStatus: res.data
+				uid: uid
 			}
 		})
 
 		dispatch({
 			type: IS_RETRIEVE_SUBMIT
-		})
-
-		dispatch({
-			type: UPDATE_UID,
-			payload: {
-				uid: uid
-			}
 		})
 
 	} catch (err) {		

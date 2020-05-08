@@ -3,10 +3,18 @@ import {
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,
 	UPDATE_INPUT_SESSION_ID,
-	RESET_INPUT_SESSION_ID,
+	RESET_SESSION,
 } from '../types/types';
 
 export const trackWorkerStatus = (message) => dispatch => {
+	// Initial state for status message
+	if(message === '') {
+		dispatch({
+			type: RESET_SESSION
+		})
+		return
+	}
+
 	// Backend server will send 'Done!' if job is successfully complete
 	if(message === "Done!") {
 		dispatch({
@@ -35,6 +43,6 @@ export const updateInputSessionId = (inputSessionId) => dispatch => {
 
 export const resetInputSessionId = () => dispatch => {
 	dispatch({
-		type: RESET_INPUT_SESSION_ID
+		type: RESET_SESSION
 	})
 }

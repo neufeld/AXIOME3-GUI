@@ -5,7 +5,6 @@ import {
 	IS_SUBMITTING,
 	SUBMIT_SUCCESS,
 	SUBMIT_FAIL,
-	RETRIEVE_STATUS,
 	HANDLE_CLIENT_FAILURE,
 	IS_ANALYSIS_SUBMIT,
 	IS_RETRIEVE_SUBMIT,
@@ -51,7 +50,7 @@ export default function(state = initialState, action) {
 		case RESET_ANALYSIS:
 			return {
 				...state,
-				isAnalysisSubmit: initialState.isAnalysisSubmit
+				isAnalysisSubmit: initialState.isAnalysisSubmit,
 			}
 
 		case RESET_RETRIEVE:
@@ -75,7 +74,8 @@ export default function(state = initialState, action) {
 		case SUBMIT_FAIL:
 			return {
 				...state,
-				isSubmitting: false
+				isSubmitting: false,
+				uid: initialState.uid
 			}
 
 		case HANDLE_CLIENT_FAILURE:

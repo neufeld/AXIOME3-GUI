@@ -12,53 +12,58 @@ function RemoteWorkerTracker(props) {
 	const { trackWorkerStatus } = props;
 
 	// Redux states
-	const { isWorkerRunning, taskStatusFromRetrieve, isRetrieveSubmit } = props;
+	const { isWorkerRunning, uid } = props;
 
 	// State to store socket.io messages
 	const [data, setData] = useState("");
-	const endpoint = "http://localhost:5000/test";
+	const namespace = "/AXIOME3"
+	const endpoint = "http://localhost:5000" + namespace;
 
 	useEffect(() => {
-		const socket = io.connect(endpoint);
+		if(uid !== '') {
+			const socket = io.connect(endpoint);
 
-		socket.on("error", err => {
-			console.log("SocketIO error")
-			console.log(err)
-		})
+			socket.emit("join", {room: uid})
 
-		socket.on("test", data => {
-			const message = data.data
-			setData(message)
-			trackWorkerStatus(message)
-		})
+			socket.on("message", (message) => {
+				console.log(message)
+			})
 
-		socket.on("connect", () => {
-			console.log("SocketIO connected!")
-		});
+			socket.on("test", data => {
+				const message = data.data
+				setData(message)
+				trackWorkerStatus(message)
+			})
 
-		socket.on("disconnect", () => {
-			console.log("SocketIO disconnected!")
-		});
+			socket.on("connect", () => {
+				console.log("SocketIO connected!")
+			});
 
-		// Clean up
-		return () => {
-			socket.emit("disconnect", {data: "client disconnecting..."})
-			socket.off("FromAPI")
+			socket.on("disconnect", () => {
+				console.log("SocketIO disconnected!")
+			});
+
+			socket.on("error", err => {
+				console.log("SocketIO error")
+				console.log(err)
+			})
+
+			// Clean up
+			return () => {
+				socket.emit("disconnect", {data: "client disconnecting..."})
+				socket.off("FromAPI")
+			}
 		}
-	}, [])
-
-	const displayMessage = ((isRetrieveSubmit === true) && (taskStatusFromRetrieve !== ''))
-		? taskStatusFromRetrieve
-		: data
+	}, [uid])
 
 	return(
 		<div className="worker-wrapper">
 			<RemoteWorkerStatusHeader 
 				isWorkerRunning={isWorkerRunning}
-				message={displayMessage}
+				message={data}
 			/>
 			<RemoteWorkerMessage
-				message={displayMessage}
+				message={data}
 			/>
 		</div>
 	)
@@ -66,8 +71,7 @@ function RemoteWorkerTracker(props) {
 
 const mapStateToProps  = state => ({
 	isWorkerRunning: state.remoteWorker.isWorkerRunning,
-	taskStatusFromRetrieve: state.remoteWorker.taskStatusFromRetrieve,
-	isRetrieveSubmit: state.submit.isRetrieveSubmit,
+	uid: state.submit.uid
 })
 
 const mapDispatchToProps = {
