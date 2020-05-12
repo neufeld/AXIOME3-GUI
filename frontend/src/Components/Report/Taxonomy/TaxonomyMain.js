@@ -35,13 +35,12 @@ function TaxonomyMain(props) {
 	const { handleClick } = props;
 
 	const inputField = [
-		{name: 'uid', value: uid},
-		{name: 'taxa', value: 'phylum'}
+		{name: 'uid', value: uid}
 	];
 
 	const taxa_list = ['domain', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
 
-	const collapsedDownloads = taxa_list.map(taxa => {
+	const taxaCollapseDownloads = taxa_list.map(taxa => {
 		const header = '- ' + capitalizeFirstLetter(taxa) + ':'
 		const inputField = [
 			{name: 'uid', value: uid},
@@ -106,7 +105,7 @@ function TaxonomyMain(props) {
 				header={"Collapsed Taxonomy"}
 				style={TaxaCollapseHeaderStyle}
 			/>
-			{collapsedDownloads}
+			{taxaCollapseDownloads}
 		</section>
 	)
 }

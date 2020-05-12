@@ -8,6 +8,7 @@ import TableOfContentsMain from './TableOfContents/TableOfContentsMain';
 import TaxonomyMain from './Taxonomy/TaxonomyMain';
 import CombinedASVTable from './ASVTable/CombinedASVTable';
 import PcoaPlots from './PCoA/PcoaPlots';
+import AlphaDiversityMain from './AlphaDiversity/AlphaDiversityMain'
 
 import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
 
@@ -30,6 +31,7 @@ function ReportMain(props) {
 			<TaxonomyMain handleClick={handleClick}/>
 			<CombinedASVTable handleClick={handleClick}/>
 			<PcoaPlots handleClick={handleClick}/>
+			<AlphaDiversityMain handleClick={handleClick}/>
 			<DownloadFile
 				key={props.downloadPath}
 			/>
