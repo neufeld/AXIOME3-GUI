@@ -16,11 +16,11 @@ socketio = SocketIO(cors_allowed_origins='*')
 # Import different applications
 from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
-from AXIOME3_app import report
 from AXIOME3_app import socketio_handlers
 from AXIOME3_app import session_retrieve
 from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
+from AXIOME3_app.report import alpha_diversity
 
 #socketio = SocketIO(cors_allowed_origins='*')
 
@@ -60,13 +60,17 @@ def create_app(testing=False, debug=False, development=False):
 	return app
 
 def register_blueprints(app):
+	# SocketIO blueprint
 	app.register_blueprint(socketio_handlers.views.blueprint)
-	app.register_blueprint(filebrowse.views.blueprint)
-	app.register_blueprint(datahandle.views.blueprint)
 	app.register_blueprint(session_retrieve.views.blueprint)
-	app.register_blueprint(report.views.blueprint)
+	# Browsing files from backend server
+	app.register_blueprint(filebrowse.views.blueprint)
+	# Upload data handle blueprint
+	app.register_blueprint(datahandle.views.blueprint)
+	# Report related blueprints
 	app.register_blueprint(pcoa.views.blueprint)
 	app.register_blueprint(taxonomy.views.blueprint)
+	app.register_blueprint(alpha_diversity.views.blueprint)
 
 def init_celery(app=None):
 	"""

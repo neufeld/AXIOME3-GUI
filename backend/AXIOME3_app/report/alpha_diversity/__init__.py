@@ -1,0 +1,1 @@
+from AXIOME3_app.report.alpha_diversity import views
