@@ -78,7 +78,10 @@ def taxonomic_classification(socketio, room, channel, namespace, task_progress_f
 
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
-		message = decoded_stdout.split("<-->")[1]
+		if("<-->" in decoded_stdout):
+			message = decoded_stdout.split("<-->")[1]
+		else:
+			message = decoded_stdout
 		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
@@ -111,7 +114,10 @@ def generate_asv_table(socketio, room, channel, namespace, task_progress_file):
 	
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
-		message = decoded_stdout.split("<-->")[1]
+		if("<-->" in decoded_stdout):
+			message = decoded_stdout.split("<-->")[1]
+		else:
+			message = decoded_stdout
 		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
@@ -144,7 +150,10 @@ def pcoa_plots(socketio, room, channel, namespace, task_progress_file):
 	
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
-		message = decoded_stdout.split("<-->")[1]
+		if("<-->" in decoded_stdout):
+			message = decoded_stdout.split("<-->")[1]
+		else:
+			message = decoded_stdout
 		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
@@ -164,7 +173,10 @@ def pcoa_plots(socketio, room, channel, namespace, task_progress_file):
 	
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
-		message = decoded_stdout.split("<-->")[1]
+		if("<-->" in decoded_stdout):
+			message = decoded_stdout.split("<-->")[1]
+		else:
+			message = decoded_stdout
 		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,

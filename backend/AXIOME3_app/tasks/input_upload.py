@@ -61,8 +61,11 @@ def import_data(socketio, room, channel, namespace, task_progress_file):
 	decoded_stdout = stdout.decode('utf-8')
 
 	if("ERROR" in decoded_stdout):
-		# pipeline adds <--> to the error message as to extract the meaningful part 
-		message = decoded_stdout.split("<-->")[1]
+		# pipeline adds <--> to the error message as to extract the meaningful part
+		if("<-->" in decoded_stdout):
+			message = decoded_stdout.split("<-->")[1]
+		else:
+			message = decoded_stdout
 		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
 		emit_message(
 			socketio=socketio,
