@@ -23,17 +23,18 @@ def on_join(data):
 
 	# Retrive the latest task progress message specific to the room
 	# For now, it will just read from a file
-	# In the future, change to database call (wayyy more scalable)
+	# In the future, change to database call if needed (wayyy more scalable)
 	task_progress_file = os.path.join('/output', room, 'task_progress.txt')
-	with open(task_progress_file, 'r') as fh:
-		file_content = fh.readlines()
-	message = ''.join(file_content)
+	if(os.path.exists(task_progress_file)):
+		with open(task_progress_file, 'r') as fh:
+			file_content = fh.readlines()
+		message = ''.join(file_content)
 	
-	emit(
-		"test",
-		{'data': message},
-		namespace='/AXIOME3',
-		engineio_logger=True,
-		room=room,
-		logger=True,
-		broadcase=True)
+		emit(
+			"test",
+			{'data': message},
+			namespace='/AXIOME3',
+			engineio_logger=True,
+			room=room,
+			logger=True,
+			broadcase=True)
