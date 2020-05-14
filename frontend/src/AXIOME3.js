@@ -10,10 +10,18 @@ import {
   withRouter
 } from "react-router-dom";
 
+import {
+	INPUTUPLOAD_ROUTE,
+	DENOISE_ROUTE,
+	ANALYSIS_ROUTE,
+	EXTENSION_ROUTE,
+} from './RouteConfig';
+
 import Header from './Components/Header'
 import InputUploadComponent from './Components/InputUploadComponent'
 import DenoiseComponent from './Components/DenoiseComponent'
 import AnalysisComponent from './Components/AnalysisComponent'
+import ExtensionComponent from './Components/ExtensionComponent'
 import Footer from './Components/Footer'
 import FileBrowseElementsMain from './Components/FileBrowse-Elements/FileBrowseElementsMain'
 
@@ -28,9 +36,10 @@ function AXIOME3() {
 		  		</div>
 				  <div className="main-content">
 				  	<Switch>
-				  		<Route exact path={["/", "/inputupload"]} component={InputUploadComponent} />
-				  		<Route path="/denoise" component={DenoiseComponent} />
-				  		<Route path="/analysis" component={AnalysisComponent} />
+				  		<Route exact path={INPUTUPLOAD_ROUTE} component={InputUploadComponent} />
+				  		<Route path={DENOISE_ROUTE} component={DenoiseComponent} />
+				  		<Route path={ANALYSIS_ROUTE} component={AnalysisComponent} />
+				  		<Route path={EXTENSION_ROUTE} component={ExtensionComponent} />
 						</Switch>				    
 				  </div>				
 			    <Footer />

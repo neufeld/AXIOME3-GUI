@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 
 import './TabBar.css'
-import TabBarItem from './TabBarItem'
+import TabBarItem from './TabBarItem';
+
+import {
+	INPUTUPLOAD_ROUTE,
+	DENOISE_ROUTE,
+	ANALYSIS_ROUTE,
+	EXTENSION_ROUTE,
+} from '../../RouteConfig';
 
 function TabBarMain(props) {
 	// Currently selected tab
@@ -10,9 +17,10 @@ function TabBarMain(props) {
 
 	useEffect(() => {
 		const navBarField = [
-			{id: 0, label: "Input Upload", value: "/"},
-			{id: 1, label: "Denoise", value: "/denoise"},
-			{id: 2, label: "Analysis", value: "/analysis"}
+			{id: 0, label: "Input Upload", value: INPUTUPLOAD_ROUTE},
+			{id: 1, label: "Denoise", value: DENOISE_ROUTE},
+			{id: 2, label: "Analysis", value: ANALYSIS_ROUTE},
+			{id: 3, label: "Extension", value: EXTENSION_ROUTE}
 		]
 
 		setField(navBarField)
