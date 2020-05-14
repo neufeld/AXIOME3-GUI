@@ -37,8 +37,17 @@ export function OptionInputField(props) {
 									>
 									{options}
 									</select>
-	} else {
+	} else if(type === "number") {
 		let value = selectedOptions[label] || 0;
+		inputField = <input
+										className="sytled-input"
+										type={type}
+										value={value}
+										onChange={e => {selectOptions(label, e.target.value)}}
+									>
+									</input>
+	} else if(type === "text") {
+		let value = selectedOptions[label] || '';
 		inputField = <input
 										className="sytled-input"
 										type={type}
