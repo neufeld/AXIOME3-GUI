@@ -18,6 +18,7 @@ from AXIOME3_app.datahandle import (
 from AXIOME3_app.tasks.input_upload import import_data_task
 from AXIOME3_app.tasks.denoise import denoise_task
 from AXIOME3_app.tasks.analysis import analysis_task
+from AXIOME3_app.tasks.pcoa import pcoa_task
 from AXIOME3_app.tasks.pipeline import check_output_task
 
 # Custom Exceptions
@@ -201,16 +202,37 @@ def pcoa():
 			metadata = request.form["metadata"]
 
 		primary_target = request.form["Primary target"]
-		secondary_target = request.form["Secondary target"]
+		# Primary target must exist
+		if not(primary_target):
+			return Response("Please specify primary target!", status=400, mimetype='text/html')
+
+		secondary_target = request.form["Secondary target"] if request.form["Secondary target"] else None
 		alpha = request.form["alpha"]
 		stroke = request.form["stroke"]
 		point_size = request.form["point size"]
 
-		pcoa_helper.validate_pcoa_input(
+		metadata_path = pcoa_helper.validate_pcoa_input(
 			_id=_id,
 			metadata=metadata,
-			target_primary=primary_target
+			target_primary=primary_target,
+			target_secondary=secondary_target
 		)
+
+		pcoa_path = pcoa_helper.pcoa_setup(
+			_id=_id,
+			pcoa=pcoa_qza
+		)
+
+		pcoa_kwargs = {
+			'pcoa': pcoa_path,
+			'metadata': metadata_path, 
+			'colouring_variable': primary_target,
+			'shape_variable': secondary_target,
+			'alpha': float(alpha),
+			'stroke': float(stroke),
+			'point_size': float(point_size)
+		}
+		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
 
 	except CustomError as err:
 		return err.response
