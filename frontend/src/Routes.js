@@ -16,8 +16,8 @@ const Routes = () => (
 		<Router>
 			<div>
 				<Switch>
+					<Route exact path={REPORT_ROUTE} component={Report} />
 					<Route exact path={MAIN_ROUTE} component={AXIOME3} />
-					<Route path={REPORT_ROUTE} component={Report} />
 				</Switch>
 			</div>
 		</Router>

@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from './Routes';
+import AXIOME3 from './AXIOME3';
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+ReactDOM.render(<AXIOME3 />, document.getElementById('root'));
