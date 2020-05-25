@@ -14,13 +14,24 @@ import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
-import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } from '../redux/actions/submitAction'
+import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, updateFormType, resetFormType } from '../redux/actions/submitAction'
 // Upload redux
 import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
 import { resetInputSessionId } from '../redux/actions/remoteWorkerAction'
+
+import {
+	REPORT_ROUTE,
+} from '../RouteConfig';
+
+const openInNewTab = (URL) => {
+	const win = window.open(URL, '_blank');
+	if(win != null) {
+		win.focus();
+	}
+}
 
 function MainTemplate(props) {
 	const subDisplayStyles = {
@@ -33,7 +44,7 @@ function MainTemplate(props) {
 	const { formType, selectedFiles, selectedOptions, description } = props;
 
 	// Submit redux actions
-	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } = props;
+	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, updateFormType, resetFormType } = props;
 
 	// Upload redux actions
 	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props;
@@ -65,7 +76,16 @@ function MainTemplate(props) {
 
 		// Reset input session id
 		resetInputSessionId()
+
+		// Reset form type
+		//resetFormType()
 	}, [])
+
+	const handleClick = (formType, URL) => {
+		updateFormType(formType)
+		//openInNewTab(URL)
+		//props.history.push(URL)
+	}
 
 	return (
 		<div className="main-display">
@@ -80,7 +100,9 @@ function MainTemplate(props) {
 				<SessionIdDisplay />
 			</div>
 			<StatusMain/>
-			<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
+			<Link to={REPORT_ROUTE} onClick={() => {handleClick(formType, REPORT_ROUTE)}}>
+				Hello
+			</Link>
 		</div>
 	)
 }
@@ -101,6 +123,18 @@ const mapDispatchToProps = {
 	resetAnalysis,
 	resetRetrieve,
 	resetInputSessionId,
+	updateFormType,
+	resetFormType,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainTemplate))
+
+//<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
+/*
+<span
+				className="clickable"
+				onClick={() => {handleClick(formType, REPORT_ROUTE)}}
+			>
+				Click to view report
+			</span>
+			*/

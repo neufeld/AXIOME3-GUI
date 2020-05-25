@@ -10,6 +10,8 @@ import {
 	IS_RETRIEVE_SUBMIT,
 	RESET_ANALYSIS,
 	RESET_RETRIEVE,
+	UPDATE_FORMTYPE,
+	RESET_FORMTYPE,
 } from '../types/types';
 
 const initialState = {
@@ -18,7 +20,8 @@ const initialState = {
 	isSubmitting: false,
 	failureMessage: '',
 	isAnalysisSubmit: false,
-	isRetrieveSubmit: false
+	isRetrieveSubmit: false,
+	formType: '',
 }
 
 export default function(state = initialState, action) {
@@ -96,6 +99,18 @@ export default function(state = initialState, action) {
 				...state,
 				isAnalysisSubmit: false,
 				isRetrieveSubmit: true,
+			}
+
+		case UPDATE_FORMTYPE:
+			return {
+				...state,
+				formType: action.payload.formType
+			}
+
+		case RESET_FORMTYPE:
+			return {
+				...state,
+				formType: initialState.formType
 			}
 
 		default:

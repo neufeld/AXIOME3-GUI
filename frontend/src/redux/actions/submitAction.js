@@ -12,6 +12,8 @@ import {
 	UPDATE_INPUT_SESSION_ID,
 	RESET_ANALYSIS,
 	RESET_RETRIEVE,
+	UPDATE_FORMTYPE,
+	RESET_FORMTYPE,
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -20,14 +22,6 @@ export const submitData = (formData, endpoint) => async dispatch => {
 	})
 
 	const uuidV4 = formData.get('uuid');
-
-	// Dispatch uid
-	dispatch({
-		type: UPDATE_UID,
-		payload: {
-			uid: uuidV4
-		}
-	})
 
 	try {
 		// axios config
@@ -50,6 +44,14 @@ export const submitData = (formData, endpoint) => async dispatch => {
 
 		// Receive UUID for each request server generated
 		await axios(config);
+
+		// Dispatch uid
+		dispatch({
+			type: UPDATE_UID,
+			payload: {
+				uid: uuidV4
+			}
+		})
 
 		// Dispatch submitSuccess
 		dispatch({
@@ -155,5 +157,20 @@ export const resetAnalysis = () => dispatch => {
 export const resetRetrieve = () => dispatch => {
 	dispatch({
 		type: RESET_RETRIEVE
+	})
+}
+
+export const updateFormType = (formType) => dispatch => {
+	dispatch({
+		type: UPDATE_FORMTYPE,
+		payload: {
+			formType: formType
+		}
+	})
+}
+
+export const resetFormType = () => dispatch => {
+	dispatch({
+		type: RESET_FORMTYPE,
 	})
 }
