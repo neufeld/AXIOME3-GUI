@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+import {
+  INPUTUPLOAD_ROUTE,
+  DENOISE_ROUTE,
+  ANALYSIS_ROUTE,
+} from '../../RouteConfig';
 
 function a11yProps(index) {
   return {
@@ -52,8 +58,22 @@ export function TabBarItem(props) {
   // React Router specific props
   const { history } = props;
 
+  // Set default value based on pathname
+  // TEMPORARY SOLUTION; the whole component re-renders on route change so couldn't use state...
+  let defaultCurrentTab;
+
+  if(history.location.pathname === INPUTUPLOAD_ROUTE) {
+    defaultCurrentTab = 0;
+  } else if(history.location.pathname === DENOISE_ROUTE) {
+    defaultCurrentTab = 1;
+  } else if(history.location.pathname === ANALYSIS_ROUTE) {
+    defaultCurrentTab = 2;
+  } else{
+    defaultCurrentTab = 3;
+  }
+
   const handleChange = (event, newValue) => {
-    history.push(newValue)
+    //setCurrentTab(newValue)
   };
 
   const tabItems = navBarField.map(navItem => {
@@ -67,14 +87,20 @@ export function TabBarItem(props) {
           wrapper: tabClasses.wrapper
         }}
         label={navItem.label}
-        value={path}
+        value={navItem.id}
+        component={Link}
+        to={path}
         {...a11yProps(navItem.id)}
       />
   	)
   })
 
 	return (
-		<Tabs classes={{root: tabsClasses.root}} value={history.location.pathname} onChange={handleChange} aria-label="simple tabs example">
+		<Tabs
+      classes={{root: tabsClasses.root}}
+      value={defaultCurrentTab}
+      aria-label="simple tabs example"
+    >
 			{tabItems}
     </Tabs>
 	)
