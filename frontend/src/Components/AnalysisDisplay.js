@@ -3,20 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-import MainTemplate from './MainTemplate'
-
-// Import option interface data
-import InputUploadOption from './data/InputUploadOption'
-
-// Upload redux
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
 
-/**
- * Main componenet that concerns with Input Upload module.
- */
-function InputUploadComponent(props) {
+import MainTemplate from './MainTemplate'
+
+import AnalysisOption from './data/AnalysisOption'
+
+function AnalysisDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList } = props
 
@@ -25,19 +20,21 @@ function InputUploadComponent(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"}
-		]		
+			{id: 0, name: "feature-table", file: "", label: "Feature Table (.qza)"},
+			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
+			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
+		]
 		// Get upload elements
 		getUploadField(uploadField)
 
 		// Get option list
-		updateOptionList(InputUploadOption)
+		updateOptionList(AnalysisOption)
 	}, [])
 
 	// Type of the form;
 	// For server side processing
-	const formType = "InputUpload"
-	const description = "This is for Input Upload!"
+	const formType = "Analysis"
+	const description = "This is for Analysis!"
 
 	return (
 		<React.Fragment>
@@ -57,9 +54,9 @@ const mapStateToProps = state => ({
 	options: state.option.options
 })
 
-const mapDispatchToProps = { 
+const mapDispatchToProps = {
 	getUploadField,
 	updateOptionList
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(InputUploadComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(AnalysisDisplay)

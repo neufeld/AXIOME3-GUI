@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
+import MainTemplate from './MainTemplate'
+
+// Import option interface data
+import InputUploadOption from './data/InputUploadOption'
+
+// Upload redux
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
 
-import MainTemplate from './MainTemplate'
-
-import ExtensionOption from './data/ExtensionOption'
-
-function ExtensionComponent(props) {
+/**
+ * Main componenet that concerns with Input Upload module.
+ */
+function InputUploadDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList } = props
 
@@ -20,20 +25,19 @@ function ExtensionComponent(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "pcoaQza", file: "", label: "PCoA QIIME Artifact (.qza)"},
-			{id: 1, name: "metadata", file: "", label: "Metadata (.tsv)"},
-		]
+			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"}
+		]		
 		// Get upload elements
 		getUploadField(uploadField)
 
 		// Get option list
-		updateOptionList(ExtensionOption)
+		updateOptionList(InputUploadOption)
 	}, [])
 
 	// Type of the form;
 	// For server side processing
-	const formType = "pcoa"
-	const description = "This is for Extension!"
+	const formType = "InputUpload"
+	const description = "This is for Input Upload!"
 
 	return (
 		<React.Fragment>
@@ -53,9 +57,9 @@ const mapStateToProps = state => ({
 	options: state.option.options
 })
 
-const mapDispatchToProps = {
+const mapDispatchToProps = { 
 	getUploadField,
 	updateOptionList
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ExtensionComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(InputUploadDisplay)

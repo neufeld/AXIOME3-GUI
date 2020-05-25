@@ -1,40 +1,40 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
 
+// Upload redux
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
 
 import MainTemplate from './MainTemplate'
 
-import AnalysisOption from './data/AnalysisOption'
+// Import option interface data
+import DenoiseOption from './data/DenoiseOption'
 
-function AnalysisComponent(props) {
+function DenoiseDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList } = props
 
 	// Redux states
 	const { selectedFiles, selectedOptions } = props
 
+	// Intentionally using [] as dependency;
+	// Only want these to run once when it first mounts.
 	useEffect(() => {
-		const uploadField = [
-			{id: 0, name: "feature-table", file: "", label: "Feature Table (.qza)"},
-			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
-			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
-		]
 		// Get upload elements
+		const uploadField = [
+			{id: 0, name: "demultiplexed-seqs", file: "", label: "Demultiplexed Sequences (.qza)"}
+		]
+
 		getUploadField(uploadField)
 
 		// Get option list
-		updateOptionList(AnalysisOption)
+		updateOptionList(DenoiseOption)
 	}, [])
 
-	// Type of the form;
-	// For server side processing
-	const formType = "Analysis"
-	const description = "This is for Analysis!"
+	const formType = "Denoise"
+	const description = "This is for Denoise!"
 
 	return (
 		<React.Fragment>
@@ -45,7 +45,12 @@ function AnalysisComponent(props) {
 				description={description}
 			/>
 		</React.Fragment>
-	)
+	)		
+}
+
+DenoiseDisplay.propTypes = {
+  getUploadField: PropTypes.func.isRequired,
+  updateOptionList: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -59,4 +64,4 @@ const mapDispatchToProps = {
 	updateOptionList
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AnalysisComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(DenoiseDisplay)

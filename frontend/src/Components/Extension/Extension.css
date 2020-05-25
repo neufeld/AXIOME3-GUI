@@ -1,0 +1,13 @@
+.vertical-tab-bar-container {
+	position: fixed;
+	right: 5px;
+}
+
+.vertical-tab-item {
+	display: block;
+	border: none;
+	padding: 0;
+	width: 150px;
+	height: 60px;
+	font-size: 16px;
+}
