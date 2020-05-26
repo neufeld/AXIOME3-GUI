@@ -9,14 +9,12 @@ import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
 import SessionIdDisplay from './Status/SessionIdDisplay'
-import VerticalTabMain from './Extension/VerticalTabMain'
-
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
-import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } from '../redux/actions/submitAction'
+import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType } from '../redux/actions/submitAction'
 // Upload redux
 import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
@@ -24,7 +22,11 @@ import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/a
 // RemoteWorker redux
 import { resetInputSessionId } from '../redux/actions/remoteWorkerAction'
 
-function ExtensionTemplate(props) {
+import {
+	REPORT_BASE_ROUTE,
+} from '../RouteConfig';
+
+function MainDisplayTemplate(props) {
 	const subDisplayStyles = {
 		background: "#DCDCDC",
 		margin: "auto",
@@ -35,7 +37,7 @@ function ExtensionTemplate(props) {
 	const { formType, selectedFiles, selectedOptions, description } = props;
 
 	// Submit redux actions
-	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } = props;
+	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType } = props;
 
 	// Upload redux actions
 	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props;
@@ -45,6 +47,9 @@ function ExtensionTemplate(props) {
 
 	// RemoteWorker redux action
 	const { resetInputSessionId } = props;
+
+	// Session ID
+	const { uid } = props;
 
 	useEffect(() => {
 		// Reset selected files
@@ -67,11 +72,17 @@ function ExtensionTemplate(props) {
 
 		// Reset input session id
 		resetInputSessionId()
+
+		// Reset form type
+		resetFormType()
 	}, [])
+
+	const formTypeRoute = 'formType=' + formType;
+	const uidRoute = 'uid=' + uid;
+	const reportRoute = REPORT_BASE_ROUTE + '?' + uidRoute + '&' + formTypeRoute
 
 	return (
 		<div className="main-display">
-			<VerticalTabMain/>
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
 				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
@@ -83,12 +94,15 @@ function ExtensionTemplate(props) {
 				<SessionIdDisplay />
 			</div>
 			<StatusMain/>
+			<Link to={reportRoute}>
+				Hello
+			</Link>
 		</div>
 	)
 }
 
 const mapStateToProps  = state => ({
-	
+	uid: state.submit.uid,
 })
 
 const mapDispatchToProps = {
@@ -103,6 +117,17 @@ const mapDispatchToProps = {
 	resetAnalysis,
 	resetRetrieve,
 	resetInputSessionId,
+	resetFormType,
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ExtensionTemplate))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate))
+
+//<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
+/*
+<span
+				className="clickable"
+				onClick={() => {handleClick(formType, REPORT_ROUTE)}}
+			>
+				Click to view report
+			</span>
+			*/

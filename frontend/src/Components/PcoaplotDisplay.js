@@ -7,7 +7,7 @@ import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
 
-import ExtensionTemplate from './ExtensionTemplate'
+import AXIOME3Template from './AXIOME3Template'
 
 import PcoaOption from './data/PcoaOption'
 
@@ -37,11 +37,12 @@ function PcoaplotDisplay(props) {
 
 	return (
 		<React.Fragment>
-			<ExtensionTemplate
+			<AXIOME3Template
 				formType={formType}
 				selectedFiles={selectedFiles}
 				selectedOptions={selectedOptions}
 				description={description}
+				isExtension={true}
 			/>
 		</React.Fragment>
 	)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-import MainTemplate from './MainTemplate'
+import AXIOME3Template from './AXIOME3Template'
 
 // Import option interface data
 import InputUploadOption from './data/InputUploadOption'
@@ -41,11 +41,12 @@ function InputUploadDisplay(props) {
 
 	return (
 		<React.Fragment>
-			<MainTemplate
+			<AXIOME3Template
 				formType={formType}
 				selectedFiles={selectedFiles}
 				selectedOptions={selectedOptions}
 				description={description}
+				isExtension={false}
 			/>
 		</React.Fragment>
 	)

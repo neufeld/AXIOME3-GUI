@@ -7,7 +7,7 @@ import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
 
-import MainTemplate from './MainTemplate'
+import AXIOME3Template from './AXIOME3Template'
 
 import AnalysisOption from './data/AnalysisOption'
 
@@ -38,11 +38,12 @@ function AnalysisDisplay(props) {
 
 	return (
 		<React.Fragment>
-			<MainTemplate
+			<AXIOME3Template
 				formType={formType}
 				selectedFiles={selectedFiles}
 				selectedOptions={selectedOptions}
 				description={description}
+				isExtension={false}
 			/>
 		</React.Fragment>
 	)

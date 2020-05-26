@@ -1,5 +1,6 @@
 export const MAIN_ROUTE = '/';
-export const REPORT_ROUTE = '/summaryreport';
+export const REPORT_BASE_ROUTE = '/summaryreport';
+export const REPORT_DYNAMIC_ROUTE = '/:summaryreport';
 // Module Routes
 export const INPUTUPLOAD_ROUTE = '/';
 export const DENOISE_ROUTE = '/denoise';
