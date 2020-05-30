@@ -1,0 +1,1 @@
+export const QIIME2_VIEWER_URL = "https://view.qiime2.org/"
