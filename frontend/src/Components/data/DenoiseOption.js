@@ -1,3 +1,11 @@
+import { 
+	TRUNC_LEN_F,
+	TRUNC_LEN_R,
+	TRIM_LEFT_F,
+	TRIM_LEFT_R,
+	CORES,
+} from '../../misc/OptionLabelConfig';
+
 // Since it requires LITTLE TO ZERO updates, use normalized schema
 // No need to worry about having to update states
 const DenoiseOption = {
@@ -20,25 +28,25 @@ const DenoiseOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: "trunc-len-f",
+				label: TRUNC_LEN_F,
 				type: "number",
 				defaultValue: 250
 			},
 			basicOption2: {
 				id: "basicOption2",
-				label: "trunc-len-r",
+				label: TRUNC_LEN_R,
 				type: "number",
 				defaultValue: 250
 			},
 			basicOption3: {
 				id: "basicOption3",
-				label: "trim-left-f",
+				label: TRIM_LEFT_F,
 				type: "number",
 				defaultValue: 0
 			},
 			basicOption4: {
 				id: "basicOption4",
-				label: "trim-left-r",
+				label: TRIM_LEFT_R,
 				type: "number",
 				defaultValue: 0
 			}
@@ -49,7 +57,7 @@ const DenoiseOption = {
 		entities: {
 			advancedOption1: {
 				id: "advancedOption1",
-				label: "cores",
+				label: CORES,
 				type: "number",
 				defaultValue: 1,
 			}

@@ -1,3 +1,8 @@
+import { 
+	SAMPLING_DEPTH,
+	CORES,
+} from '../../misc/OptionLabelConfig';
+
 // Since it requires LITTLE TO ZERO updates, use normalized schema
 // No need to worry about having to update states
 const AnalysisOption = {
@@ -20,7 +25,7 @@ const AnalysisOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: "sampling depth",
+				label: SAMPLING_DEPTH,
 				type: "number",
 				defaultValue: 0
 			},
@@ -31,7 +36,7 @@ const AnalysisOption = {
 		entities: {
 			advancedOption1: {
 				id: "advancedOption1",
-				label: "cores",
+				label: CORES,
 				type: "number",
 				defaultValue: 1
 			}

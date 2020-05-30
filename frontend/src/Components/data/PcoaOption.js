@@ -1,3 +1,11 @@
+import { 
+	PRIMARY_TARGET,
+	SECONDARY_TARGET,
+	ALPHA,
+	STROKE,
+	POINT_SIZE,
+} from '../../misc/OptionLabelConfig';
+
 // Since it requires LITTLE TO ZERO updates, use normalized schema
 // No need to worry about having to update states
 const PcoaOption = {
@@ -20,13 +28,13 @@ const PcoaOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: "Primary target",
+				label: PRIMARY_TARGET,
 				type: "text",
 				defaultValue: ''
 			},
 			basicOption2: {
 				id: "basicOption2",
-				label: "Secondary target",
+				label: SECONDARY_TARGET,
 				type: "text",
 				defaultValue: ''
 			},
@@ -37,19 +45,19 @@ const PcoaOption = {
 		entities: {
 			advancedOption1: {
 				id: "advancedOption1",
-				label: "alpha",
+				label: ALPHA,
 				type: "number",
 				defaultValue: 0.8
 			},
 			advancedOption2: {
 				id: "advancedOption2",
-				label: "stroke",
+				label: STROKE,
 				type: "number",
 				defaultValue: 0.6
 			},
 			advancedOption3: {
 				id: "advancedOption3",
-				label: "point size",
+				label: POINT_SIZE,
 				type: "number",
 				defaultValue: 6
 			}
