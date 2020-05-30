@@ -18,8 +18,11 @@ from AXIOME3_app import filebrowse
 from AXIOME3_app import datahandle
 from AXIOME3_app import socketio_handlers
 from AXIOME3_app import session_retrieve
+from AXIOME3_app.report import input_upload
+from AXIOME3_app.report import denoise
 from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
+from AXIOME3_app.report import combined_asv_table
 from AXIOME3_app.report import alpha_diversity
 
 #socketio = SocketIO(cors_allowed_origins='*')
@@ -68,7 +71,10 @@ def register_blueprints(app):
 	# Upload data handle blueprint
 	app.register_blueprint(datahandle.views.blueprint)
 	# Report related blueprints
+	app.register_blueprint(input_upload.views.blueprint)
+	app.register_blueprint(denoise.views.blueprint)
 	app.register_blueprint(pcoa.views.blueprint)
+	app.register_blueprint(combined_asv_table.views.blueprint)
 	app.register_blueprint(taxonomy.views.blueprint)
 	app.register_blueprint(alpha_diversity.views.blueprint)
 

@@ -10,9 +10,11 @@ def taxa_collapse_tsv():
 	taxa = request.form["taxa"]
 
 	extension = ".tsv"
-	# Absolute path to the metadata column json file
-	collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension) # TEMP
-	#collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
+	if(uid == ''):
+		# sample output
+		collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension)
+	else:
+		collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
 
 	return send_file(collapsed_taxa, mimetype='text/tab-separated-values', as_attachment=True)
 
@@ -22,9 +24,11 @@ def taxa_collapse_qza():
 	taxa = request.form["taxa"]
 
 	extension = ".qza"
-	# Absolute path to the metadata column json file
-	collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension) # TEMP
-	#collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
+	if(uid == ''):
+		# sample output
+		collapsed_taxa = os.path.join('/data/output/taxa_collapse/', taxa + '_collapsed_table' + extension)
+	else:
+		collapsed_taxa = os.path.join('/output', uid, 'taxa_collapse', taxa + '_collapsed_table' + extension)	
 
 	return send_file(collapsed_taxa, mimetype='application/octet-stream', as_attachment=True)
 
@@ -33,9 +37,11 @@ def taxa_asv_tsv():
 	uid = request.form["uid"]
 
 	extension = ".tsv"
-	# Absolute path to the metadata column json file
-	asv_taxa = os.path.join('/data/output/exported/', "taxonomy" + extension) # TEMP
-	#asv_taxa = os.path.join('/output', uid, 'exported', "taxonomy" + extension)	
+	if(uid == ''):
+		# sample output
+		asv_taxa = os.path.join('/data/output/exported/', "taxonomy" + extension)
+	else:
+		asv_taxa = os.path.join('/output', uid, 'exported', "taxonomy" + extension)	
 
 	return send_file(asv_taxa, mimetype='text/tab-separated-values', as_attachment=True)
 
@@ -44,8 +50,10 @@ def taxa_asv_qza():
 	uid = request.form["uid"]
 
 	extension = ".qza"
-	# Absolute path to the metadata column json file
-	asv_taxa = os.path.join('/data/output/taxonomy/', "taxonomy" + extension) # TEMP
-	#asv_taxa = os.path.join('/output', uid, 'taxonomy', "taxonomy" + extension)	
+	if(uid == ''):
+		# sample output
+		asv_taxa = os.path.join('/data/output/taxonomy/', "taxonomy" + extension)
+	else:
+		asv_taxa = os.path.join('/output', uid, 'taxonomy', "taxonomy" + extension)	
 
 	return send_file(asv_taxa, mimetype='application/octet-stream', as_attachment=True)

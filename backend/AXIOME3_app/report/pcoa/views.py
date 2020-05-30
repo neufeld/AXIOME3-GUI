@@ -9,9 +9,11 @@ blueprint = Blueprint("pcoa", __name__, url_prefix="/pcoa")
 def pcoa_columns():
 	uid = request.form["uid"]
 
-	# Absolute path to the metadata column json file
-	json_file = os.path.join('/data/output/post_analysis/pcoa_plots/', 'pcoa_columns.json') # TEMP
-	#json_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+	if(uid == ''):
+		# sample output
+		json_file = os.path.join('/data/output/post_analysis/pcoa_plots/', 'pcoa_columns.json') # TEMP
+	else:
+		json_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
 
 	return send_file(json_file, mimetype='application/json')
 
@@ -21,9 +23,11 @@ def pcoa_jpeg():
 	distance_type = request.form["distance"]
 	file_name = request.form["column"]
 
-	# Absolute path to requested PCoA plot
-	pcoa_plot = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type, file_name)
-	#pcoa_plot = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+	if(uid == ''):
+		# sample output
+		pcoa_plot = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type, file_name)
+	else:
+		pcoa_plot = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', distance_type, file_name)
 
 	with open(pcoa_plot, 'rb') as bytes_obj:
 		return send_file(
@@ -38,8 +42,10 @@ def pcoa_pdf():
 	uid = request.form["uid"]
 	distance_type = request.form["distance"]
 
-	# Absolute path to the metadata column json file
-	pdf_file = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type + '_pcoa_plots.pdf') # TEMP
-	#pdf_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', 'pcoa_columns.json')
+	if(uid == ''):
+		# sample output
+		pdf_file = os.path.join('/data/output/post_analysis/pcoa_plots/', distance_type + '_pcoa_plots.pdf')
+	else:
+		pdf_file = os.path.join('/output', uid, 'post_analysis', 'pcoa_plots', distance_type + '_pcoa_plots.pdf')
 
 	return send_file(pdf_file, mimetype='application/octet-stream', as_attachment=True)
