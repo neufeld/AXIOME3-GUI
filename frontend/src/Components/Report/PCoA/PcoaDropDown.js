@@ -1,4 +1,5 @@
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 
 function PcoaDropDown(props) {
 	// From parent
@@ -9,14 +10,15 @@ function PcoaDropDown(props) {
 
 	return(
 		<div className="pcoa-dropdown-content-container">
-			<select
-				className="pcoa-dropdown"
+			<TextField
 				name={name}
 				onChange={handleChange}
 				value={value}
+				select
+				variant="outlined"
 			>
 				{options}
-			</select>
+			</TextField>
 		</div>
 	)
 }

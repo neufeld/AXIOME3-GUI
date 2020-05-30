@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import PcoaDropDown from './PcoaDropDown';
 import PcoaDropDownLabel from './PcoaDropDownLabel'
@@ -51,12 +52,12 @@ function PcoaPreview(props) {
 
 	const columnOptions = Object.keys(columns).map(column => {
 		return(
-			<option value={column} key={column}>{column}</option>
+			<MenuItem value={column} key={column}>{column}</MenuItem>
 		)
 	})
 	const distanceOptions = Object.keys(distanceTypes).map(distanceType => {
 		return(
-			<option value={distanceType} key={distanceType}>{distanceType}</option>
+			<MenuItem value={distanceType} key={distanceType}>{distanceType}</MenuItem>
 		)
 	})
 
@@ -64,7 +65,7 @@ function PcoaPreview(props) {
 		<div>
 			<div className="pcoa-dropdown-outer-container">
 				<div className="pcoa-dropdown-inner-container">
-					<PcoaDropDownLabel label="Distance metric:"/>
+					<PcoaDropDownLabel label="Diversity metric:"/>
 					<PcoaDropDown
 						className="pcoa-dropdown"
 						name='distanceType'

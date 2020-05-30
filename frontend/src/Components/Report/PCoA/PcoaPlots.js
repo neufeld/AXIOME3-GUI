@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import SectionHeader from '../SectionHeader'
+import CustomPcoaRedirect from './CustomPcoaRedirect';
+import PcoaDownloadSection from './PcoaDownloadSection';
+import SectionHeader from '../SectionHeader';
 import PcoaPreview from './PcoaPreview';
 
 import './PCoAStyles.css'
@@ -12,7 +14,7 @@ function PcoaPlots(props) {
 	const [ columns, setColumns ] = useState({});
 	const [ distanceTypes, setDistanceTypes ] = useState({});
 	const [ columnOptionValue, setColumnOptionValue ] = useState('');
-	const [ distanceOptionValue, setDistanceOptionValue ] = useState('Unweighted Unifrac');
+	const [ distanceOptionValue, setDistanceOptionValue ] = useState('Unweighted UniFrac');
 
 	// Get metadata column names from the server on mount
 	useEffect(() => {
@@ -35,9 +37,9 @@ function PcoaPlots(props) {
 		getMetadataColumns();
 
 		setDistanceTypes({
-			'Unweighted Unifrac': 'unweighted_unifrac',
-			'Weighted Unifrac': 'weighted_unifrac',
-			'Bray-Curtis': 'bray_curtis',
+			'Unweighted UniFrac': 'unweighted_unifrac',
+			'Weighted UniFrac': 'weighted_unifrac',
+			'Bray-Curtis Dissimilarity': 'bray_curtis',
 			'Jaccard': 'jaccard'
 		})
 	},[])
@@ -59,7 +61,6 @@ function PcoaPlots(props) {
 	// Event handler from parent component
 	const { handleClick } = props;
 
-	const downloadPath = '/pcoa/pdf';
 	const inputField = [
 		{name: 'uid', value: uid},
 		{name: 'distance', value: distanceTypes[distanceOptionValue]}
@@ -68,14 +69,20 @@ function PcoaPlots(props) {
 	return (
 		<section className="report-section">
 			<SectionHeader header={"Principal Coordinate Analysis (PCoA) Plots"} />
-			<PcoaPreview
-				columns={columns}
-				distanceTypes={distanceTypes}
-				columnOptionValue={columnOptionValue}
-				distanceOptionValue={distanceOptionValue}
-				handleChange={handleChange}
-			/>
-			<a href='#' onClick={() => {handleClick(downloadPath, inputField)}}>Download file</a>
+			<div className="report-content">
+				<PcoaPreview
+					columns={columns}
+					distanceTypes={distanceTypes}
+					columnOptionValue={columnOptionValue}
+					distanceOptionValue={distanceOptionValue}
+					handleChange={handleChange}
+				/>
+				<PcoaDownloadSection
+					handleClick={handleClick}
+					inputField={inputField}
+				/>
+				<CustomPcoaRedirect />
+			</div>
 		</section>
 	)
 }

@@ -10,6 +10,10 @@ Defines general styling rules for Report component
 	margin-bottom: 30px;
 }
 
+.report-content {
+	padding-left: 10px;
+}
+
 .section-header {
 	font-size: 32px;
 	font-weight: bold;
@@ -19,6 +23,12 @@ Defines general styling rules for Report component
 .section-description {
 	font-size: 18px;
 	margin-left: 5px;
+}
+
+.download-container {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 10px;
 }
 
 .hidden {

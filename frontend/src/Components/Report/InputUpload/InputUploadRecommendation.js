@@ -17,7 +17,7 @@ import reverseRead from './reverse.png';
 
 const recommendationHeaderStyle = {
 	display: 'inline-block',
-	fontStyle: 'italic',
+	fontWeight: 'bold',
 	fontSize: '20px',
 	fontVariant: 'small-caps',
 	marginBottom: '5px',

@@ -1,35 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
+import DenoiseDescription from './DenoiseDescription';
+import DenoiseDownloadSection from './DenoiseDownloadSection';
 import SectionHeader from '../SectionHeader';
-import GeneralHeader from '../GeneralHeader';
-import DownloadButton from '../DownloadButton';
+
+import './DenoiseStyle.css';
 
 function DenoiseMain(props) {
 	// Event handler from parent component
 	const { handleClick } = props;
 
-	// Redux states
-	const { uid } = props;
-
-	const inputField = [
-		{name: 'uid', value: uid}
-	];
-
 	return(
 		<section>
 			<SectionHeader header={"Denoise"} />
-			helo
+			<div className="report-content">
+				<DenoiseDescription />
+				<DenoiseDownloadSection
+					handleClick={handleClick}
+				/>
+			</div>
 		</section>
 	)
 }
 
-const mapStateToProps  = state => ({
-	uid: state.submit.uid
-})
-
-const mapDispatchToProps = {
-	
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DenoiseMain)
+export default DenoiseMain

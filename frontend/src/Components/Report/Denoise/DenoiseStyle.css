@@ -1,0 +1,27 @@
+.report-denoise-description-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.report-denoise-description-parent {
+	display: flex;
+	flex-direction: column;
+	margin-right: 0px;
+	padding-left: 20px;
+	width: 250px;
+	height: 400px;
+	justify-content: space-between;
+}
+
+.report-denoise-description-child {
+	display: flex;
+	align-items: center;
+}
+
+.report-denoise-description-text {
+	margin-right: 10px;
+}
+
+.report-denoise-sample-pic-container {
+	width: 70%;
+}

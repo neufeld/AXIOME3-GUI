@@ -33,6 +33,12 @@
 	min-width: 800px;
 }
 
+.pcoa-dropdown-inner-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
 .pcoa-dropdown-content-container {
 	display: inline-block;
 	width: 80%;
