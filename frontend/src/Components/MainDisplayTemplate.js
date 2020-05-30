@@ -79,7 +79,11 @@ function MainDisplayTemplate(props) {
 
 	const formTypeRoute = 'formType=' + formType;
 	const uidRoute = 'uid=' + uid;
-	const reportRoute = REPORT_BASE_ROUTE + '?' + uidRoute + '&' + formTypeRoute
+	var reportRoute = REPORT_BASE_ROUTE + '?' + uidRoute + '&' + formTypeRoute
+	// Append options to query string
+	Object.keys(selectedOptions).forEach(k => {
+		reportRoute = reportRoute + '&' + k + '=' + selectedOptions[k]
+	});
 
 	return (
 		<div className="main-display">
