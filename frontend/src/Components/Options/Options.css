@@ -21,24 +21,19 @@
 	flex-direction: row;
 	margin-bottom: 20px;
 	width: 100%;
+	align-items: center;
 }
 
 .option-label-help-outer {
 	display: flex;
 	height: 30px;
+	align-items: center;
 }
 
 .option-label-container {
 	margin-left: 10px;
 	margin-right: 10px;
-	display: inline-block;
-	vertical-align: middle;
 	height: 100%;
-}
-
-.option-help-container {
-	margin-right: 10px;
-	display: inline-block;
 }
 
 .option-input-container {
@@ -49,6 +44,7 @@
 
 .option-label-container {
 	width: 100px;
+	padding-top: 8px;
 }
 
 .option-help-container {

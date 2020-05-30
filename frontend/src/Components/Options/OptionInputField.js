@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { selectOptions } from '../../redux/actions/optionAction'
 
@@ -26,35 +28,38 @@ export function OptionInputField(props) {
 	if(type === "dropdown") {
 		const options = dropdownOption.map(option => {
 			return (
-				<option value={option} key={option}>{option}</option>
+				<MenuItem value={option} key={option}>{option}</MenuItem>
 			)
 		})
 
-		inputField = <select
+		inputField = <TextField
+										select
+										variant="outlined"
 										className="styled-dropdown"
 										defaultValue={defaultValue}
 										onChange={e => {selectOptions(label, e.target.value)}}
 									>
 									{options}
-									</select>
+									</TextField>
 	} else if(type === "number") {
 		let value = selectedOptions[label] || 0;
-		inputField = <input
-										className="sytled-input"
+		inputField = <TextField
 										type={type}
 										value={value}
+										variant="outlined"
 										onChange={e => {selectOptions(label, e.target.value)}}
 									>
-									</input>
+									</TextField>
 	} else if(type === "text") {
 		let value = selectedOptions[label] || '';
-		inputField = <input
+		inputField = <TextField
 										className="sytled-input"
 										type={type}
 										value={value}
+										variant="outlined"
 										onChange={e => {selectOptions(label, e.target.value)}}
 									>
-									</input>
+									</TextField>
 	}
 
 	return(
@@ -72,3 +77,19 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { selectOptions }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OptionInputField)
+
+/*
+const options = dropdownOption.map(option => {
+			return (
+				<option value={option} key={option}>{option}</option>
+			)
+		})
+
+inputField = <select
+										className="styled-dropdown"
+										defaultValue={defaultValue}
+										onChange={e => {selectOptions(label, e.target.value)}}
+									>
+									{options}
+									</select>
+									*/

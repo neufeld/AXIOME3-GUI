@@ -24,7 +24,8 @@ function OptionDetailsItem(props) {
 				type={type}
 				dropdownOption={dropdownOption}
 				label={label}
-				defaultValue={defaultValue}/>
+				defaultValue={defaultValue}
+			/>
 		</div>
 	)
 }
