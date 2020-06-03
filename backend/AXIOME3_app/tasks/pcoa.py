@@ -28,9 +28,9 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 	namespace = '/AXIOME3'
 	room = _id
 	output_dir = os.path.join('/output', _id)
-	filename = 'pcoa.pdf'
+	filename = 'plot'
 
-	message = 'Generating PCoA plot!'
+	message = 'Generating PCoA plot...'
 	emit_message(
 		socketio=local_socketio,
 		channel=channel,
@@ -55,7 +55,9 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 		PC_axis2=PC_axis2
 	)
 
-	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir)
+	# Save as pdf and png
+	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='pdf')
+	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='png')
 
 	message = "Done!"
 	emit_message(

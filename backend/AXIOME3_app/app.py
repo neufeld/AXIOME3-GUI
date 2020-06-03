@@ -24,6 +24,7 @@ from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
 from AXIOME3_app.report import combined_asv_table
 from AXIOME3_app.report import alpha_diversity
+from AXIOME3_app.report import custom_pcoa
 
 #socketio = SocketIO(cors_allowed_origins='*')
 
@@ -77,6 +78,7 @@ def register_blueprints(app):
 	app.register_blueprint(combined_asv_table.views.blueprint)
 	app.register_blueprint(taxonomy.views.blueprint)
 	app.register_blueprint(alpha_diversity.views.blueprint)
+	app.register_blueprint(custom_pcoa.views.blueprint)
 
 def init_celery(app=None):
 	"""
