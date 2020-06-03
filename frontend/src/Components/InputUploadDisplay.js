@@ -12,39 +12,39 @@ import InputUploadOption from './data/InputUploadOption'
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
+// Submit redux
+import { updateFormType } from '../redux/actions/submitAction'
+// Form type
+import { INPUT_UPLOAD_FORMTYPE } from '../misc/FormTypeConfig';
 
 /**
  * Main componenet that concerns with Input Upload module.
  */
 function InputUploadDisplay(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList } = props
-
-	// Redux states
-	const { selectedFiles, selectedOptions } = props
+	const { getUploadField, updateOptionList, updateFormType } = props
 
 	useEffect(() => {
 		const uploadField = [
 			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"}
-		]		
+		]
 		// Get upload elements
 		getUploadField(uploadField)
 
 		// Get option list
 		updateOptionList(InputUploadOption)
+
+		// Update form type
+		updateFormType(INPUT_UPLOAD_FORMTYPE)
 	}, [])
 
 	// Type of the form;
 	// For server side processing
-	const formType = "InputUpload"
 	const description = "This is for Input Upload!"
 
 	return (
 		<React.Fragment>
 			<AXIOME3Template
-				formType={formType}
-				selectedFiles={selectedFiles}
-				selectedOptions={selectedOptions}
 				description={description}
 				isExtension={false}
 			/>
@@ -53,14 +53,13 @@ function InputUploadDisplay(props) {
 }
 
 const mapStateToProps = state => ({
-	selectedFiles: state.upload.selectedFiles,
-	selectedOptions: state.option.selectedOptions,
 	options: state.option.options
 })
 
 const mapDispatchToProps = { 
 	getUploadField,
-	updateOptionList
+	updateOptionList,
+	updateFormType,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputUploadDisplay)

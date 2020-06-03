@@ -10,6 +10,7 @@ import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
 import SessionIdDisplay from './Status/SessionIdDisplay'
 import VerticalTabMain from './Extension/VerticalTabMain'
+import ImagePreviewMain from './ImagePreview/ImagePreviewMain'
 
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
@@ -30,9 +31,11 @@ function ExtensionDisplayTemplate(props) {
 		margin: "auto",
 		padding: "5%"
 	}
+	// Redix state
+	const { formType, selectedFiles, selectedOptions } = props;
 
 	// props from parent component
-	const { formType, selectedFiles, selectedOptions, description } = props;
+	const { description } = props;
 
 	// Submit redux actions
 	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } = props;
@@ -83,12 +86,15 @@ function ExtensionDisplayTemplate(props) {
 				<SessionIdDisplay />
 			</div>
 			<StatusMain/>
+			<ImagePreviewMain/>
 		</div>
 	)
 }
 
 const mapStateToProps  = state => ({
-	
+	selectedFiles: state.upload.selectedFiles,
+	selectedOptions: state.option.selectedOptions,
+	formType: state.submit.formType,
 })
 
 const mapDispatchToProps = {

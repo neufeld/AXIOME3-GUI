@@ -6,14 +6,18 @@ import { withRouter } from 'react-router-dom'
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
+// Submit redux
+import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
 
 import AnalysisOption from './data/AnalysisOption'
+// Form type
+import { ANALYSIS_FORMTYPE } from '../misc/FormTypeConfig';
 
 function AnalysisDisplay(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList } = props
+	const { getUploadField, updateOptionList, updateFormType } = props
 
 	// Redux states
 	const { selectedFiles, selectedOptions } = props
@@ -24,24 +28,22 @@ function AnalysisDisplay(props) {
 			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
 			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
 		]
+
 		// Get upload elements
 		getUploadField(uploadField)
 
 		// Get option list
 		updateOptionList(AnalysisOption)
-	}, [])
 
-	// Type of the form;
-	// For server side processing
-	const formType = "Analysis"
+		// Update form type
+		updateFormType(ANALYSIS_FORMTYPE)
+	}, [])
+	
 	const description = "This is for Analysis!"
 
 	return (
 		<React.Fragment>
 			<AXIOME3Template
-				formType={formType}
-				selectedFiles={selectedFiles}
-				selectedOptions={selectedOptions}
 				description={description}
 				isExtension={false}
 			/>
@@ -50,14 +52,13 @@ function AnalysisDisplay(props) {
 }
 
 const mapStateToProps = state => ({
-	selectedFiles: state.upload.selectedFiles,
-	selectedOptions: state.option.selectedOptions,
 	options: state.option.options
 })
 
 const mapDispatchToProps = {
 	getUploadField,
-	updateOptionList
+	updateOptionList,
+	updateFormType,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalysisDisplay)

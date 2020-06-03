@@ -6,15 +6,19 @@ import { connect } from 'react-redux';
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
+// Submit redux
+import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
 
 // Import option interface data
 import DenoiseOption from './data/DenoiseOption'
+// Form type
+import { DENOISE_FORMTYPE } from '../misc/FormTypeConfig';
 
 function DenoiseDisplay(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList } = props
+	const { getUploadField, updateOptionList, updateFormType } = props
 
 	// Redux states
 	const { selectedFiles, selectedOptions } = props
@@ -26,22 +30,20 @@ function DenoiseDisplay(props) {
 		const uploadField = [
 			{id: 0, name: "demultiplexed-seqs", file: "", label: "Demultiplexed Sequences (.qza)"}
 		]
-
 		getUploadField(uploadField)
 
 		// Get option list
 		updateOptionList(DenoiseOption)
+
+		// Update form type
+		updateFormType(DENOISE_FORMTYPE)
 	}, [])
 
-	const formType = "Denoise"
 	const description = "This is for Denoise!"
 
 	return (
 		<React.Fragment>
 			<AXIOME3Template
-				formType={formType}
-				selectedFiles={selectedFiles}
-				selectedOptions={selectedOptions}
 				description={description}
 				isExtension={false}
 			/>
@@ -55,14 +57,13 @@ DenoiseDisplay.propTypes = {
 }
 
 const mapStateToProps = state => ({
-	selectedFiles: state.upload.selectedFiles,
-	selectedOptions: state.option.selectedOptions,
 	options: state.option.options
 })
 
 const mapDispatchToProps = {
 	getUploadField,
-	updateOptionList
+	updateOptionList,
+	updateFormType,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DenoiseDisplay)

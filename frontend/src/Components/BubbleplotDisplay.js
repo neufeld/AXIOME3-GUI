@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
 import { updateOptionList } from '../redux/actions/optionAction'
+// Submit redux
+import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
 
 import PcoaOption from './data/PcoaOption'
+import { BUBBLEPLOT_FORMTYPE } from '../misc/FormTypeConfig';
 
 function BubbleplotDisplay(props) {
 	// Redux actions
-	const { getUploadField, updateOptionList } = props
-
-	// Redux states
-	const { selectedFiles, selectedOptions } = props
+	const { getUploadField, updateOptionList, updateFormType } = props
 
 	useEffect(() => {
 		const uploadField = [
@@ -26,19 +26,18 @@ function BubbleplotDisplay(props) {
 
 		// Get option list
 		updateOptionList(PcoaOption)
+
+		// Update form type
+		updateFormType(BUBBLEPLOT_FORMTYPE)
 	}, [])
 
 	// Type of the form;
 	// For server side processing
-	const formType = "pcoa"
 	const description = "This is for PCoA!"
 
 	return (
 		<React.Fragment>
 			<AXIOME3Template
-				formType={formType}
-				selectedFiles={selectedFiles}
-				selectedOptions={selectedOptions}
 				description={description}
 				isExtension={true}
 			/>
@@ -47,14 +46,13 @@ function BubbleplotDisplay(props) {
 }
 
 const mapStateToProps = state => ({
-	selectedFiles: state.upload.selectedFiles,
-	selectedOptions: state.option.selectedOptions,
 	options: state.option.options
 })
 
 const mapDispatchToProps = {
 	getUploadField,
-	updateOptionList
+	updateOptionList,
+	updateFormType
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BubbleplotDisplay)

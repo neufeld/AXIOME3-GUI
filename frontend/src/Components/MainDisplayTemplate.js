@@ -32,9 +32,11 @@ function MainDisplayTemplate(props) {
 		margin: "auto",
 		padding: "5%"
 	}
+	// Redux state
+	const { formType, selectedFiles, selectedOptions } = props;
 
 	// props from parent component
-	const { formType, selectedFiles, selectedOptions, description } = props;
+	const { description } = props;
 
 	// Submit redux actions
 	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType } = props;
@@ -107,6 +109,9 @@ function MainDisplayTemplate(props) {
 
 const mapStateToProps  = state => ({
 	uid: state.submit.uid,
+	selectedFiles: state.upload.selectedFiles,
+	selectedOptions: state.option.selectedOptions,
+	formType: state.submit.formType,
 })
 
 const mapDispatchToProps = {
