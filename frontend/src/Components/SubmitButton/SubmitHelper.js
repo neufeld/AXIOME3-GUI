@@ -1,4 +1,12 @@
 import uuid from 'uuid';
+
+import {
+	INPUT_UPLOAD_FORMTYPE,
+	DENOISE_FORMTYPE,
+	ANALYSIS_FORMTYPE,
+	PCOA_FORMTYPE,
+	BUBBLEPLOT_FORMTYPE,
+} from '../../misc/FormTypeConfig';
 /**
  * Helper for form submission.
  *
@@ -11,7 +19,7 @@ import uuid from 'uuid';
  	e.preventDefault();
 
  	const uuidV4 = uuid.v4()
- 	const endpoint = '/datahandle/'
+ 	const endpoint = '/datahandle/' + formType.toLowerCase();
  	const formData = new FormData();
 
  	// Form Type
@@ -32,34 +40,44 @@ import uuid from 'uuid';
  		formData.append(k, selectedOptions[k])
  	});
 
- 	if(formType === "InputUpload") {
+ 	if(formType === INPUT_UPLOAD_FORMTYPE) {
  		//TODO
  		// Check there is only one element in selectedFiles?
  		var fileObj = selectedFiles[0];
  		var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
 
  		formData.append("manifest", _file)
- 	} else if(formType === "Denoise") {
+ 	} else if(formType === DENOISE_FORMTYPE) {
  		var fileObj = selectedFiles[0];
  		var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
 
  		formData.append("demultiplexed", _file)
- 	} else if(formType === "Analysis") {
+ 	} else if(formType === ANALYSIS_FORMTYPE) {
  		selectedFiles.forEach(fileObj => {
  			var _id = fileObj.id;
  			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
 
  			if(_id === 0) {
  				formData.append("feature_table", _file)
- 				console.log(fileObj)
  			} else if(_id === 1) {
  				formData.append("rep_seqs", _file)
- 				console.log(fileObj)
  			} else if(_id === 2) {
  				formData.append("metadata", _file)
- 				console.log(fileObj)
  			}
  		})
+ 	} else if(formType === PCOA_FORMTYPE) {
+ 		selectedFiles.forEach(fileObj => {
+ 			var _id = fileObj.id;
+ 			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 			if(_id === 0) {
+ 				formData.append("pcoa_qza", _file)
+ 			} else if(_id === 1) {
+ 				formData.append("metadata", _file)
+ 			}
+ 		})
+ 	} else {
+ 		alert(`${formType} is not valid...`)
  	}
  	submitData(formData, endpoint);
 

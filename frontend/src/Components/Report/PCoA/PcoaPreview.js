@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import PcoaDropDown from './PcoaDropDown';
 import PcoaDropDownLabel from './PcoaDropDownLabel'
+import { convertArrayBufferToBase64 } from '../../../utils/utils';
 
 function PcoaPreview(props) {
 	const [ source, setSource ] = useState('')
@@ -36,11 +37,7 @@ function PcoaPreview(props) {
 			}
 			const res = await axios(configOptions);
 
-			const base64 = btoa(
-				new Uint8Array(res.data).reduce( 
-					(data, byte) => data + String.fromCharCode(byte), '' 
-					)
-				)
+			const base64 = convertArrayBufferToBase64(res.data);
 
 			setSource(base64)
 		};
