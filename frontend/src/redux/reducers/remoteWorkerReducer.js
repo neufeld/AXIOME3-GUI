@@ -9,6 +9,7 @@ import {
 const initialState = {
 	isWorkerRunning: false,
 	inputSessionId: '',
+	isWorkerDone: false,
 }
 
 export default function(state = initialState, action) {
@@ -17,7 +18,8 @@ export default function(state = initialState, action) {
 		case WORKER_DONE:
 			return {
 				...state,
-				isWorkerRunning: false
+				isWorkerRunning: false,
+				isWorkerDone: true
 			}
 
 		case WORKER_IN_PROGRESS:

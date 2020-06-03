@@ -174,3 +174,12 @@ export const resetFormType = () => dispatch => {
 		type: RESET_FORMTYPE,
 	})
 }
+
+export const updateUid = (_id) => dispatch => {
+	dispatch({
+		type: UPDATE_UID,
+		payload: {
+			uid: _id,
+		}
+	})
+}
