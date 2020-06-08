@@ -9,11 +9,12 @@ import {
 	HANDLE_CLIENT_FAILURE,
 	IS_ANALYSIS_SUBMIT,
 	IS_RETRIEVE_SUBMIT,
-	UPDATE_INPUT_SESSION_ID,
+	UPDATE_SESSION_ID,
 	RESET_ANALYSIS,
 	RESET_RETRIEVE,
 	UPDATE_FORMTYPE,
 	RESET_FORMTYPE,
+	RESET_UID,
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -63,7 +64,7 @@ export const submitData = (formData, endpoint) => async dispatch => {
 		})
 
 		dispatch({
-			type: UPDATE_INPUT_SESSION_ID,
+			type: UPDATE_SESSION_ID,
 			payload: {
 				inputSessionId: ''
 			}
@@ -181,5 +182,11 @@ export const updateUid = (_id) => dispatch => {
 		payload: {
 			uid: _id,
 		}
+	})
+}
+
+export const resetUid = () => dispatch => {
+	dispatch({
+		type: RESET_UID,
 	})
 }

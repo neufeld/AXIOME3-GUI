@@ -2,8 +2,11 @@ import {
 	WORKER_DONE,
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,
-	UPDATE_INPUT_SESSION_ID,
+	UPDATE_SESSION_ID,
+	UPDATE_WORKER_MESSAGES,
+	RESET_WORKER_MESSAGES,
 	RESET_SESSION,
+	RESET_REMOTE_WORKER,
 } from '../types/types';
 
 export const trackWorkerStatus = (message) => dispatch => {
@@ -34,15 +37,36 @@ export const trackWorkerStatus = (message) => dispatch => {
 
 export const updateInputSessionId = (inputSessionId) => dispatch => {
 	dispatch({
-		type: UPDATE_INPUT_SESSION_ID,
+		type: UPDATE_SESSION_ID,
 		payload: {
 			inputSessionId: inputSessionId
 		}
 	})
 }
 
-export const resetInputSessionId = () => dispatch => {
+export const updateWorkerMessages = (message) => dispatch => {
+	dispatch({
+		type: UPDATE_WORKER_MESSAGES,
+		payload: {
+			message: message,
+		}
+	})
+}
+
+export const resetWorkerMessages = () => dispatch => {
+	dispatch({
+		type: RESET_WORKER_MESSAGES
+	})
+}
+
+export const resetSessionId = () => dispatch => {
 	dispatch({
 		type: RESET_SESSION
+	})
+}
+
+export const resetRemoteWorker = () => dispatch => {
+	dispatch({
+		type: RESET_REMOTE_WORKER
 	})
 }

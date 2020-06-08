@@ -12,6 +12,7 @@ import {
 	RESET_RETRIEVE,
 	UPDATE_FORMTYPE,
 	RESET_FORMTYPE,
+	RESET_UID,
 } from '../types/types';
 
 const initialState = {
@@ -111,6 +112,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				formType: initialState.formType
+			}
+
+		case RESET_UID:
+			return {
+				...state,
+				uid: initialState.uid,
 			}
 
 		default:
