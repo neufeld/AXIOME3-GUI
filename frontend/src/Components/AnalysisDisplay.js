@@ -23,6 +23,7 @@ function AnalysisDisplay(props) {
 	const { selectedFiles, selectedOptions } = props
 
 	useEffect(() => {
+		console.log(props.uid)
 		const uploadField = [
 			{id: 0, name: "feature-table", file: "", label: "Feature Table (.qza)"},
 			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
@@ -52,7 +53,8 @@ function AnalysisDisplay(props) {
 }
 
 const mapStateToProps = state => ({
-	options: state.option.options
+	options: state.option.options,
+	uid: state.submit.uid
 })
 
 const mapDispatchToProps = {

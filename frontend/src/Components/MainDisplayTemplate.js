@@ -8,19 +8,18 @@ import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
-import SessionIdDisplay from './Status/SessionIdDisplay'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
-import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType } from '../redux/actions/submitAction'
+import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType, resetUid } from '../redux/actions/submitAction'
 // Upload redux
-import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
+import { emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
+import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
-import { resetInputSessionId } from '../redux/actions/remoteWorkerAction'
+import { resetSessionId, resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
 
 import {
 	REPORT_BASE_ROUTE,
@@ -39,16 +38,16 @@ function MainDisplayTemplate(props) {
 	const { description } = props;
 
 	// Submit redux actions
-	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType } = props;
+	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType, resetUid } = props;
 
 	// Upload redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props;
+	const { emptySelectedFiles, emptyFiles } = props;
 
 	// Option redux action
 	const { resetSelectedOptions, resetOptions } = props;
 
 	// RemoteWorker redux action
-	const { resetInputSessionId } = props;
+	const { resetSessionId, resetRemoteWorker } = props;
 
 	// Session ID
 	const { uid } = props;
@@ -73,10 +72,19 @@ function MainDisplayTemplate(props) {
 		resetRetrieve()
 
 		// Reset input session id
-		resetInputSessionId()
+		resetSessionId()
 
 		// Reset form type
 		resetFormType()
+
+		// Clean up
+		return () => {
+			// Reset worker messages
+			resetRemoteWorker()
+
+			// Reset UID
+			resetUid()
+		}
 	}, [])
 
 	const formTypeRoute = 'formType=' + formType;
@@ -97,7 +105,6 @@ function MainDisplayTemplate(props) {
 					<OptionsMain />
 					<SubmitButton />
 				</form>
-				<SessionIdDisplay />
 			</div>
 			<StatusMain/>
 			<Link to={reportRoute}>
@@ -115,8 +122,6 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	getUploadField,
-	updateOptionList,
 	emptySelectedFiles,
 	emptyFiles,
 	resetSelectedOptions,
@@ -125,11 +130,13 @@ const mapDispatchToProps = {
 	resetFileUploadProgress,
 	resetAnalysis,
 	resetRetrieve,
-	resetInputSessionId,
+	resetSessionId,
 	resetFormType,
+	resetRemoteWorker,
+	resetUid,
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate))
+export default connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate)
 
 //<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
 /*

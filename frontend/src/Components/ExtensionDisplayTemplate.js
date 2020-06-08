@@ -17,13 +17,13 @@ import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
-import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } from '../redux/actions/submitAction'
+import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetUid } from '../redux/actions/submitAction'
 // Upload redux
-import { getUploadField, emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
+import { emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
 // Option redux
-import { updateOptionList, resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
+import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
-import { resetInputSessionId } from '../redux/actions/remoteWorkerAction'
+import { resetSessionId, resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
 
 function ExtensionDisplayTemplate(props) {
 	const subDisplayStyles = {
@@ -38,16 +38,16 @@ function ExtensionDisplayTemplate(props) {
 	const { description } = props;
 
 	// Submit redux actions
-	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve } = props;
+	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetUid } = props;
 
 	// Upload redux actions
-	const { getUploadField, updateOptionList, emptySelectedFiles, emptyFiles } = props;
+	const { emptySelectedFiles, emptyFiles } = props;
 
 	// Option redux action
 	const { resetSelectedOptions, resetOptions } = props;
 
 	// RemoteWorker redux action
-	const { resetInputSessionId } = props;
+	const { resetSessionId, resetRemoteWorker } = props;
 
 	useEffect(() => {
 		// Reset selected files
@@ -68,8 +68,14 @@ function ExtensionDisplayTemplate(props) {
 		// Reset session retrieve submit
 		resetRetrieve()
 
+		// Reset worker messages
+		resetRemoteWorker()
+
 		// Reset input session id
-		resetInputSessionId()
+		resetSessionId()
+
+		// Reset UID
+		resetUid()
 	}, [])
 
 	return (
@@ -98,8 +104,6 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	getUploadField,
-	updateOptionList,
 	emptySelectedFiles,
 	emptyFiles,
 	resetSelectedOptions,
@@ -108,7 +112,9 @@ const mapDispatchToProps = {
 	resetFileUploadProgress,
 	resetAnalysis,
 	resetRetrieve,
-	resetInputSessionId,
+	resetSessionId,
+	resetRemoteWorker,
+	resetUid,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ExtensionDisplayTemplate))
