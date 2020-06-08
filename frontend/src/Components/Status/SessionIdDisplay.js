@@ -7,10 +7,10 @@ function SessionIdDisplay(props) {
 	return(
 		<div
 			className="session-id-display-container"
-			style={{display: ((isAnalysisSubmit === true) && (sessionID !== '')) ? 'inline-block' : 'none'}}
+			style={{display: ((isAnalysisSubmit === true) && (sessionID)) ? 'flex' : 'none'}}
 		>
-			<p>Session ID: {sessionID}</p>
-			<p>Save the session ID to retrieve it later</p>
+			<p className="worker-status-header">Session ID:</p>
+			<p className="worker-status">{sessionID}</p>
 		</div>
 	)
 }

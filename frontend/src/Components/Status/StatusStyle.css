@@ -33,11 +33,25 @@
 	margin-top: 20px;
 }
 
+.worker-header-wrapper {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	height: 50px;
+}
+
 .worker-status-header-container {
+	display: flex;
+	align-items: center;
 	text-align: left;
 	margin-top: 0px;
 	margin-bottom: 20px;
-	margin-left: 10px;
+	padding-left: 10px;
+	border: 5px;
+	border-style: double;
+	width: 35%;
+	min-width: 400px;
+	height: 100%;
 }
 
 .worker-status-header {
@@ -51,18 +65,55 @@
 .worker-status {
 	display: inline-block;
 	margin-left: 8px;
+	margin-right: 30px;
 	font-size: 18px;
+}
+
+.session-id-display-container {
+	display: flex;
+	align-items: center;
+	text-align: left;
+	margin-top: 0px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+	padding-left: 10px;
+	border: 5px;
+	border-style: double;
+	width: 65%;
+	min-width: 500px;
+	height: 100%;
 }
 
 .worker-message-container {
 	text-align: left;
-	margin-left: 10px;
+	border: 5px;
+	border-style: double;
 }
 
-.worker-message {
-	margin: 0;
-	font-size: 16px;
+.worker-message-item {
+	display: flex;
+	align-items: center;
+}
+
+.worker-message-current {
+	margin-left: 10px;
+	margin-right: 30px;
+	font-size: 20px;
+	/* breaks line at new line character */
 	white-space: pre-line;
+	word-wrap: break-word;
+	overflow-x: hidden;
+}
+
+.worker-message-prev {
+	margin-left: 10px;
+	margin-right: 30px;
+	font-size: 20px;
+	/* breaks line at new line character */
+	white-space: pre-line;
+	word-wrap: break-word;
+	overflow-x: hidden;
+	color: #989898;
 }
 
 .session-id-content {

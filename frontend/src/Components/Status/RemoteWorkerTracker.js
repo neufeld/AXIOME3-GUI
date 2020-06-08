@@ -1,38 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
 import io from "socket.io-client";
 
+// remoteWorkerAction
+import { trackWorkerStatus, updateWorkerMessages } from '../../redux/actions/remoteWorkerAction';
+
+import SessionIdDisplay from './SessionIdDisplay'
 import RemoteWorkerMessage from './RemoteWorkerMessage';
 import RemoteWorkerStatusHeader from './RemoteWorkerStatusHeader';
-import { trackWorkerStatus } from '../../redux/actions/remoteWorkerAction';
 
 function RemoteWorkerTracker(props) {
 	// Redux actions
-	const { trackWorkerStatus } = props;
+	const { trackWorkerStatus, updateWorkerMessages } = props;
 
 	// Redux states
-	const { isWorkerRunning, uid } = props;
+	const { uid } = props;
 
-	// State to store socket.io messages
-	const [data, setData] = useState("");
 	const namespace = "/AXIOME3"
 	const endpoint = "http://localhost:5000" + namespace;
 
 	useEffect(() => {
-		if(uid !== '') {
+		if(uid) {
+			console.log(`UID is ${uid}`)
 			const socket = io.connect(endpoint);
 
 			socket.emit("join", {room: uid})
 
-			socket.on("message", (message) => {
-				console.log(message)
+			socket.on("message", (msg) => {
+				console.log(msg)
 			})
 
 			socket.on("test", data => {
-				const message = data.data
-				setData(message)
-				trackWorkerStatus(message)
+				const msg = data.data
+				updateWorkerMessages(msg)
+				trackWorkerStatus(msg)
 			})
 
 			socket.on("connect", () => {
@@ -50,32 +51,31 @@ function RemoteWorkerTracker(props) {
 
 			// Clean up
 			return () => {
-				socket.emit("disconnect", {data: "client disconnecting..."})
+				socket.emit("leave", {room: uid})
 				socket.off("FromAPI")
+				socket.disconnect()
 			}
 		}
 	}, [uid])
 
 	return(
 		<div className="worker-wrapper">
-			<RemoteWorkerStatusHeader 
-				isWorkerRunning={isWorkerRunning}
-				message={data}
-			/>
-			<RemoteWorkerMessage
-				message={data}
-			/>
+			<div className="worker-header-wrapper">
+				<RemoteWorkerStatusHeader />
+				<SessionIdDisplay />
+			</div>
+			<RemoteWorkerMessage />
 		</div>
 	)
 }
 
 const mapStateToProps  = state => ({
-	isWorkerRunning: state.remoteWorker.isWorkerRunning,
 	uid: state.submit.uid
 })
 
 const mapDispatchToProps = {
-	trackWorkerStatus
+	trackWorkerStatus,
+	updateWorkerMessages,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoteWorkerTracker)
