@@ -38,3 +38,10 @@ def on_join(data):
 			room=room,
 			logger=True,
 			broadcase=True)
+
+@socketio.on('leave', namespace='/AXIOME3')
+def on_leave(data):
+	room = data['room']
+	print("Client left the room {}".format(room), file=sys.stderr)
+	leave_room(room)
+	send("Client left the room, {}".format(room), room=room)
