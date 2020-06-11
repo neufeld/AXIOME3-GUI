@@ -1,0 +1,7 @@
+	
+	sample-id    absolute-filepath
+	sample_1    /SOME_FOLDER/SAMPLE_1.fastq.gz
+	sample_2    /SOME_FOLDER/SAMPLE_2.fastq.gz
+
+
+
