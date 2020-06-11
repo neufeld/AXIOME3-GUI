@@ -11,6 +11,8 @@ import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
 
+// Denoise description
+import DenoiseDescription from './Description/DenoiseDescription';
 // Import option interface data
 import DenoiseOption from './data/DenoiseOption'
 // Form type
@@ -39,7 +41,7 @@ function DenoiseDisplay(props) {
 		updateFormType(DENOISE_FORMTYPE)
 	}, [])
 
-	const description = "This is for Denoise!"
+	const description = <DenoiseDescription/>
 
 	return (
 		<React.Fragment>

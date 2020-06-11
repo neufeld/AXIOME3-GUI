@@ -10,7 +10,9 @@ import { updateOptionList } from '../redux/actions/optionAction'
 import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
-
+// Analysis description
+import AnalysisDescription from './Description/AnalysisDescription';
+// Analysis options
 import AnalysisOption from './data/AnalysisOption'
 // Form type
 import { ANALYSIS_FORMTYPE } from '../misc/FormTypeConfig';
@@ -40,7 +42,7 @@ function AnalysisDisplay(props) {
 		updateFormType(ANALYSIS_FORMTYPE)
 	}, [])
 	
-	const description = "This is for Analysis!"
+	const description = <AnalysisDescription/>
 
 	return (
 		<React.Fragment>

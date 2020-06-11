@@ -6,7 +6,10 @@ import { withRouter } from 'react-router-dom'
 import AXIOME3Template from './AXIOME3Template'
 
 // Import option interface data
-import InputUploadOption from './data/InputUploadOption'
+import InputUploadOption from './data/InputUploadOption';
+
+// Module description
+import InputUploadDescription from './Description/InputUploadDescription'
 
 // Upload redux
 import { getUploadField } from '../redux/actions/uploadAction'
@@ -40,7 +43,7 @@ function InputUploadDisplay(props) {
 
 	// Type of the form;
 	// For server side processing
-	const description = "This is for Input Upload!"
+	const description = <InputUploadDescription />
 
 	return (
 		<React.Fragment>

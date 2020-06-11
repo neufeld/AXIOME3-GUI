@@ -13,9 +13,9 @@ import { handleSubmit } from './SubmitButton/SubmitHelper'
 
 import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
-import { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType, resetUid } from '../redux/actions/submitAction'
+import { submitData, resetSubmit } from '../redux/actions/submitAction'
 // Upload redux
-import { emptySelectedFiles, emptyFiles } from '../redux/actions/uploadAction'
+import { resetUpload } from '../redux/actions/uploadAction'
 // Option redux
 import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
@@ -38,26 +38,23 @@ function MainDisplayTemplate(props) {
 	const { description } = props;
 
 	// Submit redux actions
-	const { submitData, resetFileUploadProgress, resetAnalysis, resetRetrieve, resetFormType, resetUid } = props;
+	const { submitData, resetSubmit } = props;
 
 	// Upload redux actions
-	const { emptySelectedFiles, emptyFiles } = props;
+	const { resetUpload } = props;
 
 	// Option redux action
 	const { resetSelectedOptions, resetOptions } = props;
 
 	// RemoteWorker redux action
-	const { resetSessionId, resetRemoteWorker } = props;
+	const { resetRemoteWorker } = props;
 
 	// Session ID
 	const { uid } = props;
 
 	useEffect(() => {
-		// Reset selected files
-		emptySelectedFiles()
-
-		// Reset server-browsed files
-		emptyFiles()
+		// Upload related redux
+		resetUpload()
 
 		// Reset options
 		resetOptions()
@@ -65,25 +62,13 @@ function MainDisplayTemplate(props) {
 		// Reset selected options
 		resetSelectedOptions()
 
-		// Reset Analysis submit
-		resetAnalysis()
-
-		// Reset session retrieve submit
-		resetRetrieve()
-
-		// Reset input session id
-		resetSessionId()
-
-		// Reset form type
-		resetFormType()
-
 		// Clean up
 		return () => {
 			// Reset worker messages
 			resetRemoteWorker()
 
-			// Reset UID
-			resetUid()
+			// Reset submit related
+			resetSubmit()
 		}
 	}, [])
 
@@ -99,7 +84,7 @@ function MainDisplayTemplate(props) {
 		<div className="main-display">
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
+				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
@@ -122,18 +107,12 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	emptySelectedFiles,
-	emptyFiles,
+	resetUpload,
 	resetSelectedOptions,
 	resetOptions,
 	submitData,
-	resetFileUploadProgress,
-	resetAnalysis,
-	resetRetrieve,
-	resetSessionId,
-	resetFormType,
 	resetRemoteWorker,
-	resetUid,
+	resetSubmit,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate)
