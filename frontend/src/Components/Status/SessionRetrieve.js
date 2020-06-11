@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import { handleRetrieveSession } from '../SubmitButton/SubmitHelper'
 import { retrieveSession } from '../../redux/actions/submitAction'
-import { updateInputSessionId } from '../../redux/actions/remoteWorkerAction'
+import { updateInputSessionId, resetRemoteWorker } from '../../redux/actions/remoteWorkerAction'
 
 function SessionRetrieve(props) {
 	// Redux states
 	const { isWorkerRunning, isSubmitting, inputSessionId } = props;
 
 	// Redux actions
-	const { retrieveSession, updateInputSessionId } = props;
+	const { retrieveSession, updateInputSessionId, resetRemoteWorker } = props;
 
 	const handleChange = (e) => {
 		const { value } = e.target;
@@ -20,7 +20,7 @@ function SessionRetrieve(props) {
 
 	return(
 		<div className="session-retrieve-container">
-			<form onSubmit={(e) => {handleRetrieveSession(e, inputSessionId, retrieveSession)}}>
+			<form onSubmit={(e) => {resetRemoteWorker(); handleRetrieveSession(e, inputSessionId, retrieveSession)}}>
 				<input
 					className="session-retrieve-input"
 					name="sessionID"
@@ -46,7 +46,8 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps = {
 	retrieveSession,
-	updateInputSessionId
+	updateInputSessionId,
+	resetRemoteWorker,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionRetrieve)

@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 function SessionIdDisplay(props) {
-	const { isAnalysisSubmit, sessionID } = props;
+	const { isAnalysisSubmit, isRetrieveSubmit, sessionID } = props;
 
 	return(
 		<div
 			className="session-id-display-container"
-			style={{display: ((isAnalysisSubmit === true) && (sessionID)) ? 'flex' : 'none'}}
+			style={{display: ((isAnalysisSubmit === true || isRetrieveSubmit === true) && (sessionID)) ? 'flex' : 'none'}}
 		>
 			<p className="worker-status-header">Session ID:</p>
 			<p className="worker-status">{sessionID}</p>
@@ -17,6 +17,7 @@ function SessionIdDisplay(props) {
 
 const mapStateToProps  = state => ({
 	isAnalysisSubmit: state.submit.isAnalysisSubmit,
+	isRetrieveSubmit: state.submit.isRetrieveSubmit,
 	sessionID: state.submit.uid
 })
 
