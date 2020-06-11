@@ -4,7 +4,8 @@ import tabReducer from './tabReducer';
 import optionReducer from './optionReducer';
 import downloadReducer from './downloadReducer';
 import submitReducer from './submitReducer';
-import remoteWorkerReducer from './remoteWorkerReducer'
+import remoteWorkerReducer from './remoteWorkerReducer';
+import modalReducer from './modalReducer';
 
 export default combineReducers({
 	upload: uploadReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
 	option: optionReducer,
 	download: downloadReducer,
 	submit: submitReducer,
-	remoteWorker: remoteWorkerReducer
+	remoteWorker: remoteWorkerReducer,
+	modal: modalReducer,
 })

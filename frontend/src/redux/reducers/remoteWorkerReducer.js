@@ -67,11 +67,7 @@ export default function(state = initialState, action) {
 
 		case RESET_REMOTE_WORKER:
 			return {
-				...state,
-				isWorkerRunning: initialState.isWorkerRunning,
-				isWorkerDone: initialState.isWorkerDone,
-				isWorkerFailed: initialState.isWorkerFailed,
-				workerMessages: initialState.workerMessages,
+				...initialState
 			}
 
 		default:

@@ -2,7 +2,8 @@ import {
 	GET_UPLOAD_FIELD,
 	GET_FILES,
 	SELECT_FILE,
-	RESET_SELECTED_FILES
+	RESET_SELECTED_FILES,
+	RESET_UPLOAD,
 } from '../types/types';
 import axios from 'axios'
 
@@ -71,5 +72,11 @@ export const emptyFiles = () => (dispatch) => {
 		payload: {
 			files: emptyObj
 		}
+	})
+}
+
+export const resetUpload = () => dispatch => {
+	dispatch({
+		type: RESET_UPLOAD,
 	})
 }

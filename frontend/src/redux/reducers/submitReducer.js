@@ -13,6 +13,7 @@ import {
 	UPDATE_FORMTYPE,
 	RESET_FORMTYPE,
 	RESET_UID,
+	RESET_SUBMIT,
 } from '../types/types';
 
 const initialState = {
@@ -118,6 +119,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				uid: initialState.uid,
+			}
+
+		case RESET_SUBMIT:
+			return {
+				...initialState,
 			}
 
 		default:

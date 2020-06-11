@@ -1,4 +1,10 @@
-import { GET_UPLOAD_FIELD, GET_FILES, SELECT_FILE, RESET_SELECTED_FILES } from '../types/types';
+import {
+	GET_UPLOAD_FIELD,
+	GET_FILES,
+	SELECT_FILE, 
+	RESET_SELECTED_FILES,
+	RESET_UPLOAD,
+} from '../types/types';
 
 const initialState = {
 	uploadField: [],
@@ -31,6 +37,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				selectedFiles: initialState.selectedFiles
+			}
+
+		case RESET_UPLOAD:
+			return {
+				...initialState
 			}
 
 		default:

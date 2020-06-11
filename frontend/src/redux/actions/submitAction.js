@@ -15,6 +15,7 @@ import {
 	UPDATE_FORMTYPE,
 	RESET_FORMTYPE,
 	RESET_UID,
+	RESET_SUBMIT,
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -188,5 +189,11 @@ export const updateUid = (_id) => dispatch => {
 export const resetUid = () => dispatch => {
 	dispatch({
 		type: RESET_UID,
+	})
+}
+
+export const resetSubmit = () => dispatch => {
+	dispatch({
+		type: RESET_SUBMIT,
 	})
 }

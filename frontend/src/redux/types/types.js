@@ -3,6 +3,7 @@ export const GET_FILES = 'GET_FILES'
 export const GET_UPLOAD_FIELD = 'GET_UPLOAD_FIELD'
 export const SELECT_FILE = 'SELECT_FILE'
 export const RESET_SELECTED_FILES = 'RESET_SELECTED_FILES'
+export const RESET_UPLOAD = 'RESET_UPLOAD'
 // tabAction related
 export const UPDATE_TAB = 'UPDATE_TAB'
 // optionAction related
@@ -29,6 +30,7 @@ export const RESET_RETRIEVE = 'RESET_RETRIEVE'
 export const UPDATE_FORMTYPE = 'UPDATE_FORMTYPE'
 export const RESET_FORMTYPE = 'RESET_FORMTYPE'
 export const RESET_UID = 'RESET_UID'
+export const RESET_SUBMIT = 'RESET_SUBMIT'
 // remoteWorkerAction related
 export const WORKER_DONE = 'WORKER_DONE'
 export const WORKER_IN_PROGRESS = 'WORKER_IN_PROGRESS'
@@ -38,3 +40,6 @@ export const UPDATE_WORKER_MESSAGES = 'UPDATE_WORKER_MESSAGES'
 export const RESET_SESSION = 'RESET_SESSION'
 export const RESET_WORKER_MESSAGES = 'RESET_WORKER_MESSAGES'
 export const RESET_REMOTE_WORKER = 'RESET_REMOTE_WORKER'
+// modal related
+export const HANDLE_MODAL_OPEN = 'HANDLE_MODAL_OPEN'
+export const HANDLE_MODAL_CLOSE = 'HANDLE_MODAL_CLOSE'
