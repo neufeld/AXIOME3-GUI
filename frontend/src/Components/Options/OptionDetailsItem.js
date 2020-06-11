@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-import OptionLabel from './OptionLabel'
-import OptionHelp from './OptionHelp'
-import OptionInputField from './OptionInputField'
+import OptionLabel from './OptionLabel';
+import OptionHelp from './OptionHelp';
+import OPtionModal from './OptionModal';
+import OptionInputField from './OptionInputField';
 
 
 /**
@@ -26,6 +27,7 @@ function OptionDetailsItem(props) {
 				label={label}
 				defaultValue={defaultValue}
 			/>
+			<OPtionModal label={label}/>
 		</div>
 	)
 }
