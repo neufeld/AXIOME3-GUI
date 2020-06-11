@@ -1,3 +1,20 @@
 .description-container {
 	margin-bottom: 50px;
+	text-align: left;
+}
+
+.description-main-text-container {
+	margin-bottom: 30px;
+}
+
+.description-input-output-container {
+
+}
+
+.description-header {
+	font-weight: bold;
+}
+
+.description-input-output-text {
+	padding-left: 10px;
 }
