@@ -1,6 +1,8 @@
 import { 
 	PRIMARY_TARGET,
 	SECONDARY_TARGET,
+	COLOUR_BREWER,
+	BREWER_TYPE,
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
@@ -38,8 +40,21 @@ const PcoaOption = {
 				type: "text",
 				defaultValue: ''
 			},
+			basicOption3: {
+				id: "basicOption3",
+				label: COLOUR_BREWER,
+				type: "text",
+				defaultValue: ''
+			},
+			basicOption4: {
+				id: "basicOption4",
+				label: BREWER_TYPE,
+				type: "text",
+				defaultValue: 'seq',
+				hidden: true,
+			},
 		},
-		keys: ["basicOption1", "basicOption2"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4"]
 	},
 	advancedOptions: {
 		entities: {

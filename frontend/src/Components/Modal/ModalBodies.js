@@ -1,5 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+
+import ColourBrewMain from '../ColourBrew/ColourBrewMain'
 
 import INPUT_FORMAT_V1 from '../../Resources/inputformat_v1.png'
 import INPUT_FORMAT_V2 from '../../Resources/inputformat_v2.png'
@@ -101,5 +104,11 @@ export const SamplingDepthModalBody = React.forwardRef((props, ref) => (
 		<div className="modal-body-exit-container">
 			<span className="modal-body-exit-text">Press Esc to return</span>
 		</div>
+	</div>
+))
+
+export const ColourBrewerModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<ColourBrewMain />
 	</div>
 ))

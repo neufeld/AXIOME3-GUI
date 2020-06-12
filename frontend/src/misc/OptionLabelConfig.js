@@ -11,6 +11,8 @@ export const SAMPLING_DEPTH = "sampling depth";
 // PCoA option related
 export const PRIMARY_TARGET = "Primary target";
 export const SECONDARY_TARGET = "Secondary target";
+export const COLOUR_BREWER = "Colour set"
+export const BREWER_TYPE = "brewer type" // for internal use
 export const ALPHA = "alpha";
 export const STROKE = "stroke";
 export const POINT_SIZE = "point size";

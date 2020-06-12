@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DenoiseDescription from './DenoiseDescription';
+import SampleSummary from './SampleSummary';
 import DenoiseDownloadSection from './DenoiseDownloadSection';
 import SectionHeader from '../SectionHeader';
 
@@ -15,6 +16,7 @@ function DenoiseMain(props) {
 			<SectionHeader header={"Denoise"} />
 			<div className="report-content">
 				<DenoiseDescription />
+				<SampleSummary />
 				<DenoiseDownloadSection
 					handleClick={handleClick}
 				/>
