@@ -7,7 +7,6 @@ function SessionIdDisplay(props) {
 	return(
 		<div
 			className="session-id-display-container"
-			style={{display: ((isAnalysisSubmit === true || isRetrieveSubmit === true) && (sessionID)) ? 'flex' : 'none'}}
 		>
 			<p className="worker-status-header">Session ID:</p>
 			<p className="worker-status">{sessionID}</p>

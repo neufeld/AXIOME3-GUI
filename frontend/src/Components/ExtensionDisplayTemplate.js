@@ -80,7 +80,6 @@ function ExtensionDisplayTemplate(props) {
 					<OptionsMain />
 					<SubmitButton />
 				</form>
-				<SessionIdDisplay />
 			</div>
 			<StatusMain/>
 			<ImagePreviewMain/>
