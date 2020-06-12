@@ -13,10 +13,10 @@ import OptionInputField from './OptionInputField';
 function OptionDetailsItem(props) {
 	// label: input label
 	// type: input type (e.g. number, text, dropdown)
-	const { label, type, defaultValue, dropdownOption = [] } = props
+	const { label, type, defaultValue, dropdownOption = [], hidden } = props
 
 	return(
-		<div className="option-detail-item-container">
+		<div className="option-detail-item-container" style={{display: (hidden) ? 'none' : 'flex'}}>
 			<div className="option-label-help-outer">
 				<OptionLabel label={label}/>
 				<OptionHelp label={label}/>

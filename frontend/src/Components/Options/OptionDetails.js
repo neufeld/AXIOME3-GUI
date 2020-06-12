@@ -25,6 +25,7 @@ export function OptionDetails(props) {
 					type={options[optionType].entities[k].type}
 					dropdownOption={options[optionType].entities[k].dropdownOption}
 					defaultValue={options[optionType].entities[k].defaultValue}
+					hidden={options[optionType].entities[k].hidden}
 					key={id}
 				/>
 			)

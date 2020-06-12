@@ -9,6 +9,7 @@ import {
 	InputFormatModalBody,
 	DenoiseModalBody,
 	SamplingDepthModalBody,
+	ColourBrewerModalBody,
 } from '../Modal/ModalBodies';
 
 import {
@@ -19,6 +20,7 @@ import {
 	TRIM_LEFT_F,
 	TRIM_LEFT_R,
 	SAMPLING_DEPTH,
+	COLOUR_BREWER,
 } from '../../misc/OptionLabelConfig';
 
 
@@ -38,6 +40,8 @@ export const getModalBody = (label) => {
 			return <DenoiseModalBody/>
 		case SAMPLING_DEPTH:
 			return <SamplingDepthModalBody/>
+		case COLOUR_BREWER:
+			return <ColourBrewerModalBody />
 		default:
 			return <SampleTypeModalBody/>
 	}
