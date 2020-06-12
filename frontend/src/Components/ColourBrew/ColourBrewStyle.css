@@ -1,0 +1,26 @@
+.colour-brewer-preview-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.colour-brewer-sample-container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-right: 10px;
+	flex: 1 0 8%;
+}
+
+.colour-brewer-sample {
+	width: 25px;
+	height: 25px;
+	border: 1px solid black;
+}
+
+.colour-brewer-selected-container {
+	margin-top: 10px
+}
+
+.colour-brewer-selected-header {
+	font-weight: bold;
+}
