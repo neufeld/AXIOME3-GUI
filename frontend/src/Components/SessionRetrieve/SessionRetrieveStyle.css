@@ -1,0 +1,18 @@
+.session-retrieve-container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	height: 80px;
+}
+
+.session-retrieve-container form {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.session-retrieve-input-container {
+	width: 50%;
+}
+.session-retrieve-btn-container {
+	width: 30%;
+}
