@@ -8,6 +8,7 @@ import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
+import SessionRetrieveMain from './SessionRetrieve/SessionRetrieveMain'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
@@ -88,9 +89,12 @@ function MainDisplayTemplate(props) {
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
-					<SubmitButton />
+					<div className="main-submit-container">
+						<SubmitButton />
+					</div>
 				</form>
 			</div>
+			<SessionRetrieveMain />
 			<StatusMain/>
 			<Link to={reportRoute}>
 				Hello

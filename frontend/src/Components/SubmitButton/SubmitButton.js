@@ -10,7 +10,7 @@ function SubmitButton(props) {
 		<div>
 			<input
 				type="submit"
-				value={"Start Analysis!"}
+				value={"Analyze!"}
 				className="submit-button"
 			/>
 		</div>

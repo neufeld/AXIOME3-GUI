@@ -40,6 +40,14 @@
 	margin-top: 10px;
 }
 
+.main-submit-container {
+	display: flex;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	align-items: center;
+	justify-content: space-around;
+}
+
 .clickable {
 	text-decoration: underline;
 }

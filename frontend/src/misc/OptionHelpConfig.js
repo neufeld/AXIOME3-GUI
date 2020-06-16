@@ -16,3 +16,5 @@ export const STROKE_HELP = "Border thickness. 0 means no border."
 export const POINT_SIZE_HELP = "Plot point size."
 // Details
 export const MORE_DETAIL = "Click 'more...' for details."
+// Session retrieve related
+export const SESSION_RETRIEVE_HELP = "Enter session ID to load corresponding session"
