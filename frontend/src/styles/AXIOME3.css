@@ -48,6 +48,12 @@
 	justify-content: space-around;
 }
 
+.main-tab-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .clickable {
 	text-decoration: underline;
 }

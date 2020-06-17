@@ -7,11 +7,11 @@ function SubmitButton(props) {
 	const { selectedFiles, options } = props
 
 	return (
-		<div>
+		<div className="submit-button-container">
 			<input
 				type="submit"
 				value={"Analyze!"}
-				className="submit-button"
+				className="submit-analysis-button"
 			/>
 		</div>
 	)

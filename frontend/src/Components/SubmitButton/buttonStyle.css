@@ -1,4 +1,4 @@
-.submit-button {
+.submit-analysis-button {
 	width: 200px;
 	height: 30px;
 	border-radius: 20px;
@@ -10,7 +10,7 @@
 	color: white;
 }
 
-.submit-button:hover {
+.submit-analysis-button:hover {
 	font-weight: bold;
 	background-color: #E1C699;
 }
