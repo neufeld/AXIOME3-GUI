@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import OptionLabel from './OptionLabel';
 import OptionHelp from './OptionHelp';
-import OPtionModal from './OptionModal';
+import OptionModal from './OptionModal';
 import OptionInputField from './OptionInputField';
 
 
@@ -27,7 +27,7 @@ function OptionDetailsItem(props) {
 				label={label}
 				defaultValue={defaultValue}
 			/>
-			<OPtionModal label={label}/>
+			<OptionModal label={label}/>
 		</div>
 	)
 }
