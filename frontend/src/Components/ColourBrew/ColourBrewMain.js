@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+
 import { brewer } from '../../Resources/ColourBrewer';
-
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-
 import { selectOptions } from '../../redux/actions/optionAction'
+
+import BrewTypes from './BrewTypes';
+import NumClasses from './NumClasses';
+import ColourPreview from './ColourPreview';
 
 import './ColourBrewStyle.css';
 
@@ -18,7 +19,6 @@ function ColourBrewMain(props) {
 	const defaultBrewType = 'sequential';
 	const defaultNumClass = 3;
 
-	const [ colors, setColors ] = useState({});
 	const [ selectedBrewType, setSelectedBrewType ] = useState(defaultBrewType);
 	const [ selectedNumClass, setSelectedNumClass ] = useState(defaultNumClass);
 
@@ -28,10 +28,6 @@ function ColourBrewMain(props) {
 	// Redux state
 	const { selectedOptions } = props;
 
-	useEffect(() => {
-		setColors(brewer)
-	}, [])
-
 	const brewTypes = {
 		sequential: 'seq',
 		diverging: 'div',
@@ -39,18 +35,6 @@ function ColourBrewMain(props) {
 	};
 
 	const numClasses = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-	const brewTypeOptions = Object.keys(brewTypes).map(type => {
-		return (
-			<MenuItem value={type} key={type}>{type}</MenuItem>
-		)
-	})
-
-	const numClassOptions = numClasses.map(n => {
-		return (
-			<MenuItem value={n} key={n}>{n}</MenuItem>
-		)
-	})
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -63,61 +47,34 @@ function ColourBrewMain(props) {
 		}
 	}
 
-	const preview = Object.keys(brewer).map(colour => {
-		if(brewer[colour].type === brewTypes[selectedBrewType]) {
-			if(brewer[colour][selectedNumClass]) {
-				const colourSamples = brewer[colour][selectedNumClass].map(rgb => {
-					return (
-							<div
-								key={rgb}
-								className="colour-brewer-sample"
-								style={{
-									backgroundColor: rgb,
-								}}
-							>
-							</div>
-					)
-				})
-				return(
-					<div
-						className="colour-brewer-sample-container clickable"
-						key={colour}
-						onClick={() => {selectOptions(COLOUR_BREWER, colour)}}
-					>
-						{colourSamples}
-						<span>{colour}</span>
-					</div>
-				)
-			}
-		}
-	})
-
 	return (
 		<div>
-			<TextField
-				select
-				name="brewTypeSelect"
-				variant="outlined"
-				defaultValue={defaultBrewType}
-				onChange={handleChange}
-			>
-			{brewTypeOptions}
-			</TextField>
-			<TextField
-				select
-				name="numClassSelect"
-				variant="outlined"
-				defaultValue={defaultNumClass}
-				onChange={handleChange}
-			>
-			{numClassOptions}
-			</TextField>
+			<div className="colour-brew-textfield-wrapper">
+				<BrewTypes
+					brewTypes={brewTypes}
+					defaultBrewType={defaultBrewType}
+					handleChange={handleChange}
+				/>
+				<NumClasses
+					numClasses={numClasses}
+					defaultNumClass={defaultNumClass}
+					handleChange={handleChange}
+				/>
+			</div>
 			<div className="colour-brewer-preview-container">
-				{preview}
+				<ColourPreview
+					brewer={brewer}
+					brewTypes={brewTypes}
+					selectedBrewType={selectedBrewType}
+					selectedNumClass={selectedNumClass}
+				/>
 			</div>
 			<div className="colour-brewer-selected-container">
-				<span className="colour-brewer-selected-header">Selected colour set: </span>
+				<span className="colour-brewer-selected-header">Selected colour set:</span>
 				<span className="colour-brewer-selected-text">{selectedOptions[COLOUR_BREWER]}</span>
+			</div>
+			<div className="colour-brew-exit-container">
+				<span className="colour-brew-exit-text">Press Esc to return</span>
 			</div>
 		</div>
 	)

@@ -1,3 +1,20 @@
+.colour-brew-textfield-wrapper {
+	display: flex;
+	margin-bottom: 40px;
+}
+
+.colour-brew-textfield-container {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}
+
+.colour-brew-textfield-label {
+	font-size: 18px;
+	font-weight: bold;
+	margin-right: 20px;
+}
+
 .colour-brewer-preview-container {
 	display: flex;
 	flex-direction: row;
@@ -5,8 +22,7 @@
 }
 
 .colour-brewer-sample-container {
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 	margin-right: 10px;
 	flex: 1 0 8%;
 }
@@ -18,9 +34,27 @@
 }
 
 .colour-brewer-selected-container {
-	margin-top: 10px
+	margin-top: 10px;
+	margin-bottom: 50px;
 }
 
 .colour-brewer-selected-header {
 	font-weight: bold;
+	font-size: 18px;
+	margin-right: 10px;
+}
+
+.colour-brewer-selected-text {
+	font-size: 18px;
+}
+
+.colour-brew-exit-container {
+	margin-bottom: 0px;
+	margin-top: 30px;
+}
+
+.colour-brew-exit-text {
+	position: relative;
+	right: 0;	
+	font-style: italic;
 }
