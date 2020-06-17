@@ -73,11 +73,11 @@ function ImagePreviewMain(props) {
 			setSource(base64)
 		};
 
-		if(formType !== '' && isWorkerDone === false) {
+		if(formType !== '' && isWorkerDone === true) {
 			getPcoaImage()
 		}
 
-	}, [formType, isWorkerDone])
+	}, [isWorkerDone])
 
 	// State change should only occur throug handleClick event
 	const handleClick = (downloadPath, inputField) => {
