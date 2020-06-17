@@ -74,7 +74,7 @@ function ExtensionDisplayTemplate(props) {
 			<VerticalTabMain/>
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
+				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />

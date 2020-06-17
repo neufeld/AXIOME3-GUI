@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
 import SessionRetrieveMain from './SessionRetrieve/SessionRetrieveMain'
+import TourMain from './Tour/TourMain'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
@@ -27,11 +28,14 @@ import {
 } from '../RouteConfig';
 
 function MainDisplayTemplate(props) {
+	const [ run, setRun ] = useState(true);
+
 	const subDisplayStyles = {
 		background: "#DCDCDC",
 		margin: "auto",
 		padding: "5%"
 	}
+
 	// Redux state
 	const { formType, selectedFiles, selectedOptions } = props;
 
@@ -83,7 +87,10 @@ function MainDisplayTemplate(props) {
 
 	return (
 		<div className="main-display">
-			<TabBarMain/>
+			<div className="main-tab-container">
+				<TabBarMain/>
+				<TourMain/>
+			</div>
 			<div className="sub-display" style={subDisplayStyles}>
 				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
 					<DescriptionMain description={description}/>
@@ -96,7 +103,7 @@ function MainDisplayTemplate(props) {
 			</div>
 			<SessionRetrieveMain />
 			<StatusMain/>
-			<Link to={reportRoute}>
+			<Link className="report-route-text" to={reportRoute}>
 				Hello
 			</Link>
 		</div>
@@ -120,13 +127,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate)
-
-//<a href='#' onClick={() => {props.history.push('/tmp')}}>Click to view report</a>
-/*
-<span
-				className="clickable"
-				onClick={() => {handleClick(formType, REPORT_ROUTE)}}
-			>
-				Click to view report
-			</span>
-			*/
