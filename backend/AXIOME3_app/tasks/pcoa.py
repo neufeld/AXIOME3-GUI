@@ -19,8 +19,9 @@ from scripts.qiime2_helper.generate_pcoa import (
 
 @celery.task(name="pipeline.run.pcoa")
 def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
-	colouring_variable, shape_variable=None, primary_dtype='category',
-	secondary_dtype='category', alpha=0.8, stroke=0.6, point_size=6,
+	colouring_variable, shape_variable=None, colour_set="Paired",
+	brewer_type="qual", primary_dtype='category', secondary_dtype='category',
+	alpha=0.8, stroke=0.6, point_size=6,
 	PC_axis1='PC1', PC_axis2='PC2'):
 
 	local_socketio = SocketIO(message_queue=URL)
@@ -48,6 +49,8 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 		shape_variable=shape_variable,
 		primary_dtype=primary_dtype,
 		secondary_dtype=secondary_dtype,
+		palette=colour_set,
+		brewer_type=brewer_type,
 		alpha=alpha,
 		stroke=stroke,
 		point_size=point_size,

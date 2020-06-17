@@ -207,6 +207,8 @@ def pcoa():
 			return Response("Please specify primary target!", status=400, mimetype='text/html')
 
 		secondary_target = request.form["Secondary target"] if request.form["Secondary target"] else None
+		colour_set = request.form["Colour set"]
+		brewer_type = request.form["brewer type"]
 		alpha = request.form["alpha"]
 		stroke = request.form["stroke"]
 		point_size = request.form["point size"]
@@ -228,6 +230,8 @@ def pcoa():
 			'metadata': metadata_path, 
 			'colouring_variable': primary_target,
 			'shape_variable': secondary_target,
+			'colour_set': colour_set,
+			'brewer_type': brewer_type,
 			'alpha': float(alpha),
 			'stroke': float(stroke),
 			'point_size': float(point_size)
