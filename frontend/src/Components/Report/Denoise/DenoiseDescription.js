@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import qs from 'query-string';
-import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import GeneralHeader from '../GeneralHeader';
 import DenoiseDescriptionItem from './DenoiseDescriptionItem';
 

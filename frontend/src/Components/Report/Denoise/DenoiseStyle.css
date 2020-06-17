@@ -25,3 +25,12 @@
 .report-denoise-sample-pic-container {
 	width: 70%;
 }
+
+.report-denoise-recommendation-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.report-denoise-recommendation-container {
+	margin-left: 20px;
+}

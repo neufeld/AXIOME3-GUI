@@ -41,7 +41,7 @@ function DenoiseDownloadSection(props) {
 			/>
 			<div className="download-container">
 				<GeneralHeader
-					header={"- Feature Table:"}
+					header="- Feature Table:"
 					style={DownloadHeaderStyle}
 				/>
 				<DownloadButton
@@ -55,7 +55,7 @@ function DenoiseDownloadSection(props) {
 			</div>
 			<div className="download-container">
 				<GeneralHeader
-					header={"- Representative Sequences:"}
+					header="- Representative Sequences:"
 					style={DownloadHeaderStyle}
 				/>
 				<DownloadButton
@@ -64,6 +64,20 @@ function DenoiseDownloadSection(props) {
 					qiimeDownloadPath={"/denoise/representative_sequences"}
 					isQza={true}
 					qiimeText={".qza"}
+					inputField={inputField}
+				/>
+			</div>
+			<div className="download-container">
+				<GeneralHeader
+					header="- Denoise Summary:"
+					style={DownloadHeaderStyle}
+				/>
+				<DownloadButton
+					style={DownloadButtonStyle}
+					handleClick={handleClick}
+					qiimeDownloadPath={"/denoise/summary_qzv"}
+					isQza={true}
+					qiimeText={".qzv"}
 					inputField={inputField}
 				/>
 			</div>

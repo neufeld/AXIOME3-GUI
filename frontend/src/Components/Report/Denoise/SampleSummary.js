@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import TableMain from '../../Table/TableMain';
+import GeneralHeader from '../GeneralHeader';
+
+const sampleSummaryHeader = {
+	fontSize: '20px',
+	fontWeight: 'bold',
+	marginBottom: '20px',
+	fontVariant: 'small-caps',
+}
 
 function SampleSummary(props) {
 	// Redux state
@@ -55,6 +63,10 @@ function SampleSummary(props) {
 
 	return(
 		<div>
+			<GeneralHeader
+				header="Sample Count Summary"
+				style={sampleSummaryHeader}
+			/>
 			<TableMain columns={columns} data={tableData} />
 		</div>
 	)
