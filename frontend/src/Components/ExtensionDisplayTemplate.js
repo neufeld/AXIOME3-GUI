@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
@@ -8,14 +8,12 @@ import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
-import SessionIdDisplay from './Status/SessionIdDisplay'
 import VerticalTabMain from './Extension/VerticalTabMain'
 import ImagePreviewMain from './ImagePreview/ImagePreviewMain'
 
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
-import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
 import { submitData, resetSubmit } from '../redux/actions/submitAction'
 // Upload redux

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import GeneralHeader from '../GeneralHeader';
 import { QIIME2_VIEWER_URL } from '../../../ExternalLinks';
@@ -40,6 +39,7 @@ function InputUploadRecommendation() {
 								href={QIIME2_VIEWER_URL}
 								target="_blank"
 								style={{marginLeft: '8px'}}
+								rel="noopener noreferrer"
 							>
 								QIIME2 Viewer
 							</a>

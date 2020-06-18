@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import SectionHeader from '../SectionHeader';
 
@@ -11,13 +10,6 @@ import InputUploadRecommendation from './InputUploadRecommendation';
 function InputUploadMain(props) {
 	// Event handler from parent component
 	const { handleClick } = props;
-
-	// Redux states
-	const { uid } = props;
-
-	const inputField = [
-		{name: 'uid', value: uid}
-	];
 
 	return(
 		<section>
@@ -31,12 +23,4 @@ function InputUploadMain(props) {
 	)
 }
 
-const mapStateToProps  = state => ({
-	uid: state.submit.uid
-})
-
-const mapDispatchToProps = {
-	
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(InputUploadMain)
+export default InputUploadMain

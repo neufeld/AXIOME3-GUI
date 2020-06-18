@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFiles } from '../../redux/actions/uploadAction'
 
-import UploadedItemDisplay from './UploadedItemDisplay'
-
 export function BrowseMoreButton(props) {
 	// Redux action
 	const { getFiles } = props

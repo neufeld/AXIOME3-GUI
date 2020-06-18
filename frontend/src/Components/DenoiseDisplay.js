@@ -22,9 +22,6 @@ function DenoiseDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, updateFormType } = props
 
-	// Redux states
-	const { selectedFiles, selectedOptions } = props
-
 	// Intentionally using [] as dependency;
 	// Only want these to run once when it first mounts.
 	useEffect(() => {

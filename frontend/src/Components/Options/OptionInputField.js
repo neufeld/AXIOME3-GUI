@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { selectOptions } from '../../redux/actions/optionAction'
 
-import {
-	PC_AXIS_ONE,
-	PC_AXIS_TWO,
-} from '../../misc/OptionLabelConfig';
+//import {
+//	PC_AXIS_ONE,
+//	PC_AXIS_TWO,
+//} from '../../misc/OptionLabelConfig';
 
 export function OptionInputField(props) {
 	// type: input tag type

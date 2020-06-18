@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
@@ -71,10 +71,6 @@ export function TabBarItem(props) {
   } else{
     defaultCurrentTab = 3;
   }
-
-  const handleChange = (event, newValue) => {
-    //setCurrentTab(newValue)
-  };
 
   const tabItems = navBarField.map(navItem => {
     const path = navItem.value

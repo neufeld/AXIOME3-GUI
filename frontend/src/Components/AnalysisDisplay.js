@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
 
 import { getUploadField } from '../redux/actions/uploadAction'
 // Option redux
@@ -20,9 +18,6 @@ import { ANALYSIS_FORMTYPE } from '../misc/FormTypeConfig';
 function AnalysisDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, updateFormType } = props
-
-	// Redux states
-	const { selectedFiles, selectedOptions } = props
 
 	useEffect(() => {
 		console.log(props.uid)

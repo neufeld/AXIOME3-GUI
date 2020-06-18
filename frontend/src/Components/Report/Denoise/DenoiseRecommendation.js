@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import GeneralHeader from '../GeneralHeader';
 import { QIIME2_VIEWER_URL } from '../../../ExternalLinks';
@@ -66,6 +64,19 @@ function DenoiseRecommendation() {
 							>
 								Furthur analyze samples.
 							</span>
+					</p>
+				</div>
+				<div className="report-denoise-recommendation-container">
+					<p className="report-denoise-recommendation-step">
+						4. You may download "Denoise Summary (.qzv)" and examine denoise stats using
+						<a
+							href={QIIME2_VIEWER_URL}
+							target="_blank"
+							style={{marginLeft: '8px'}}
+							rel="noopener noreferrer"
+						>
+							QIIME2 Viewer
+						</a>
 					</p>
 				</div>
 			</div>

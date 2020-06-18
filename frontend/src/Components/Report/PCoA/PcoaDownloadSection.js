@@ -23,8 +23,6 @@ const DownloadMainHeader = {
 
 // Parent component: PcoaPlots.js
 function PcoaDownloadSection(props) {
-	const downloadPath = '/pcoa/pdf';
-
 	// From parent
 	const { handleClick, inputField } = props;
 

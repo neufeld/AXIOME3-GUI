@@ -16,6 +16,8 @@ export function UploadedItemDisplay(props) {
 			return(
 				<p key={key}>Uploaded: {selected.selectedFile.name}</p>
 			)
+		} else {
+			return null
 		}
 	})
 
