@@ -6,7 +6,7 @@ function Footer() {
 			<div className="site-footer">
 				<div className="footer-block">
 					<h3>Contact</h3>
-					<p>Email: GoodbyeWorld@hello.com</p>
+					<p>Email: HelloWorld@goodbye.com</p>
 					<p>Phone: (123)-456-7890</p>
 				</div>
 
