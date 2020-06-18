@@ -1,10 +1,12 @@
 import React from 'react';
 
+import AXIOME3_LOGO_MAIN from '../Resources/Logo1.png';
+
 function Header() {
 	return (
 		<header>
 			<div className="site-header">
-				<h1>AXIOME3: 16S rRNA Analysis Web Platform</h1>
+				<img src={AXIOME3_LOGO_MAIN} width="60%" height="200"/>
 			</div>
 		</header>
 	)
