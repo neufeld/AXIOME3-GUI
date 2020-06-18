@@ -29,11 +29,9 @@ const InputUploadOption = {
 				id: "basicOption2",
 				label: INPUT_FORMAT,
 				type: "dropdown",
-				dropdownOption: ["SingleEndFastqManifestPhred33", "SingleEndFastqManifestPhred33V2",
-												"SingleEndFastqManifestPhred64", "SingleEndFastqManifestPhred64V2",
-												"PairedEndFastqManifestPhred33", "PairedEndFastqManifestPhred33V2",
+				dropdownOption: ["PairedEndFastqManifestPhred33", "PairedEndFastqManifestPhred33V2",
 												"PairedEndFastqManifestPhred64", "PairedEndFastqManifestPhred64V2"],
-				defaultValue: "SingleEndFastqManifestPhred33"								
+				defaultValue: "PairedEndFastqManifestPhred33"								
 			},
 		},
 		keys: ["basicOption1", "basicOption2"]
