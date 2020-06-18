@@ -16,5 +16,7 @@ export const BREWER_TYPE = "brewer type" // for internal use
 export const ALPHA = "alpha";
 export const STROKE = "stroke";
 export const POINT_SIZE = "point size";
+export const PC_AXIS_ONE = "PC axis 1"
+export const PC_AXIS_TWO = "PC axis 2"
 //General
 export const CORES = "cores";

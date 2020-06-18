@@ -18,6 +18,8 @@ import {
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
+	PC_AXIS_ONE,
+	PC_AXIS_TWO,
 	CORES,
 } from '../../misc/OptionLabelConfig';
 
@@ -37,6 +39,8 @@ const initialState = {
 		[ALPHA]: false,
 		[STROKE]: false,
 		[POINT_SIZE]: false,
+		[PC_AXIS_ONE]: false,
+		[PC_AXIS_TWO]: false,
 		[CORES]: false,
 	},
 }

@@ -84,11 +84,9 @@ function OptionHelp(props) {
 	const tooltipText = getTooltipText(label)
 
 	return(
-		<div className="option-help-container">
-			<CustomToolTip title={tooltipText} placement="top-start" arrow>
-				<HelpOutlineOutlinedIcon/>
-			</CustomToolTip>
-		</div>
+		<CustomToolTip title={tooltipText} placement="top-start" arrow>
+			<HelpOutlineOutlinedIcon/>
+		</CustomToolTip>
 	)
 }
 

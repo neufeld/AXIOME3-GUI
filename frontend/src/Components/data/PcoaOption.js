@@ -6,6 +6,8 @@ import {
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
+	PC_AXIS_ONE,
+	PC_AXIS_TWO,
 } from '../../misc/OptionLabelConfig';
 
 // Since it requires LITTLE TO ZERO updates, use normalized schema
@@ -44,13 +46,13 @@ const PcoaOption = {
 				id: "basicOption3",
 				label: COLOUR_BREWER,
 				type: "text",
-				defaultValue: ''
+				defaultValue: 'Paired'
 			},
 			basicOption4: {
 				id: "basicOption4",
 				label: BREWER_TYPE,
 				type: "text",
-				defaultValue: 'seq',
+				defaultValue: 'qual',
 				hidden: true,
 			},
 		},
@@ -75,9 +77,21 @@ const PcoaOption = {
 				label: POINT_SIZE,
 				type: "number",
 				defaultValue: 6
-			}
+			},
+			advancedOption4: {
+				id: "advancedOption4",
+				label: PC_AXIS_ONE,
+				type: "text",
+				defaultValue: "PC1"
+			},
+			advancedOption5: {
+				id: "advancedOption5",
+				label: PC_AXIS_TWO,
+				type: "text",
+				defaultValue: "PC2"
+			},
 		},
-		keys: ["advancedOption1", "advancedOption2", "advancedOption3"]
+		keys: ["advancedOption1", "advancedOption2", "advancedOption3", "advancedOption4", "advancedOption5"]
 	}
 }
 

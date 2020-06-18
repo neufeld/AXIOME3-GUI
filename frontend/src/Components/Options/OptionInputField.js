@@ -6,6 +6,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { selectOptions } from '../../redux/actions/optionAction'
 
+import {
+	PC_AXIS_ONE,
+	PC_AXIS_TWO,
+} from '../../misc/OptionLabelConfig';
+
 export function OptionInputField(props) {
 	// type: input tag type
 	// dropdownOption: options to be used for dropdown menu
@@ -25,6 +30,24 @@ export function OptionInputField(props) {
 		selectOptions(label, defaultValue)
 	}, [options])
 
+	/*
+	useEffect(() => {
+		if(label == PC_AXIS_ONE || label == PC_AXIS_TWO) {
+			const regex = /^PC[1-9]+\d?$/g;
+			const toTest = selectedOptions[label];
+
+			if(toTest) {
+				console.log("a")
+				if(!toTest.match(regex)) {
+					selectedOptions[label] = defaultValue;
+					alert("It should be in the form 'PCx' where x is some number.")
+				}
+			}
+			
+		}
+	}, [selectedOptions[label]])
+	*/
+
 	if(type === "dropdown") {
 		const options = dropdownOption.map(option => {
 			return (
@@ -35,7 +58,6 @@ export function OptionInputField(props) {
 		inputField = <TextField
 										select
 										variant="outlined"
-										className="styled-dropdown"
 										defaultValue={defaultValue}
 										onChange={e => {selectOptions(label, e.target.value)}}
 									>
@@ -53,7 +75,6 @@ export function OptionInputField(props) {
 	} else if(type === "text") {
 		let value = selectedOptions[label] || '';
 		inputField = <TextField
-										className="sytled-input"
 										type={type}
 										value={value}
 										variant="outlined"
@@ -77,19 +98,3 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { selectOptions }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OptionInputField)
-
-/*
-const options = dropdownOption.map(option => {
-			return (
-				<option value={option} key={option}>{option}</option>
-			)
-		})
-
-inputField = <select
-										className="styled-dropdown"
-										defaultValue={defaultValue}
-										onChange={e => {selectOptions(label, e.target.value)}}
-									>
-									{options}
-									</select>
-									*/
