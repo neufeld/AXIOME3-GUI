@@ -157,3 +157,9 @@ export const CoresModalBody = React.forwardRef((props, ref) => (
 		</div>
 	</div>
 ))
+
+export const PlotSizeModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<ColourBrewMain />
+	</div>
+))

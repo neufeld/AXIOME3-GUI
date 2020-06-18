@@ -14,6 +14,8 @@ export const SECONDARY_TARGET_HELP = "Second metadata column to visualize. It wi
 export const ALPHA_HELP = "Transparency. 0 means fully transparent, 1 means fully opaque."
 export const STROKE_HELP = "Border thickness. 0 means no border."
 export const POINT_SIZE_HELP = "Plot point size."
+export const PLOT_WIDTH_HELP = "Plot width in millimetres (mm)."
+export const PLOT_HEIGHT_HELP = "Plot height in millimetres (mm)."
 // Details
 export const MORE_DETAIL = "Click 'more...' for details."
 // Session retrieve related

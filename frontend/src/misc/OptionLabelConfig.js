@@ -18,5 +18,7 @@ export const STROKE = "stroke";
 export const POINT_SIZE = "point size";
 export const PC_AXIS_ONE = "PC axis 1"
 export const PC_AXIS_TWO = "PC axis 2"
+export const PLOT_WIDTH = "Width"
+export const PLOT_HEIGHT = "Height"
 //General
 export const CORES = "cores";

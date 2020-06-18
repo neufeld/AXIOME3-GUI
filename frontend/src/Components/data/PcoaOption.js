@@ -8,6 +8,8 @@ import {
 	POINT_SIZE,
 	PC_AXIS_ONE,
 	PC_AXIS_TWO,
+	PLOT_WIDTH,
+	PLOT_HEIGHT,
 } from '../../misc/OptionLabelConfig';
 
 // Since it requires LITTLE TO ZERO updates, use normalized schema
@@ -90,8 +92,20 @@ const PcoaOption = {
 				type: "text",
 				defaultValue: "PC2"
 			},
+			advancedOption6: {
+				id: "advancedOption5",
+				label: PLOT_WIDTH,
+				type: "number",
+				defaultValue: 100,
+			},
+			advancedOption7: {
+				id: "advancedOption5",
+				label: PLOT_HEIGHT,
+				type: "number",
+				defaultValue: 90,
+			},
 		},
-		keys: ["advancedOption1", "advancedOption2", "advancedOption3", "advancedOption4", "advancedOption5"]
+		keys: ["advancedOption1", "advancedOption2", "advancedOption3", "advancedOption4", "advancedOption5", "advancedOption6", "advancedOption7"]
 	}
 }
 

@@ -19,6 +19,8 @@ import {
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
+	PLOT_WIDTH,
+	PLOT_HEIGHT,
 } from '../../misc/OptionLabelConfig';
 
 import {
@@ -34,6 +36,8 @@ import {
 	ALPHA_HELP,
 	STROKE_HELP,
 	POINT_SIZE_HELP,
+	PLOT_WIDTH_HELP,
+	PLOT_HEIGHT_HELP,
 	MORE_DETAIL,
 } from '../../misc/OptionHelpConfig';
 
@@ -63,6 +67,10 @@ export const getTooltipText = (label) => {
 			return STROKE_HELP
 		case POINT_SIZE:
 			return POINT_SIZE_HELP
+		case PLOT_WIDTH:
+			return PLOT_WIDTH_HELP
+		case PLOT_HEIGHT:
+			return PLOT_HEIGHT_HELP
 		default:
 			return "baz"
 	}

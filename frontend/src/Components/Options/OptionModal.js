@@ -12,6 +12,7 @@ import {
 	ColourBrewerModalBody,
 	PrimaryTargetModalBody,
 	SecondayTargetModalBody,
+	PlotSizeModalBody,
 	CoresModalBody,
 } from '../Modal/ModalBodies';
 
@@ -26,6 +27,8 @@ import {
 	PRIMARY_TARGET,
 	SECONDARY_TARGET,
 	COLOUR_BREWER,
+	PLOT_WIDTH,
+	PLOT_HEIGHT,
 	CORES,
 } from '../../misc/OptionLabelConfig';
 
@@ -52,6 +55,10 @@ export const getModalBody = (label) => {
 			return <SecondayTargetModalBody />
 		case COLOUR_BREWER:
 			return <ColourBrewerModalBody />
+		case PLOT_WIDTH:
+			return <PlotSizeModalBody />
+		case PLOT_HEIGHT:
+			return <PlotSizeModalBody />
 		case CORES:
 			return <CoresModalBody />
 		default:

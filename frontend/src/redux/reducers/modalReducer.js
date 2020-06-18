@@ -20,6 +20,8 @@ import {
 	POINT_SIZE,
 	PC_AXIS_ONE,
 	PC_AXIS_TWO,
+	PLOT_WIDTH,
+	PLOT_HEIGHT,
 	CORES,
 } from '../../misc/OptionLabelConfig';
 
@@ -41,6 +43,8 @@ const initialState = {
 		[POINT_SIZE]: false,
 		[PC_AXIS_ONE]: false,
 		[PC_AXIS_TWO]: false,
+		[PLOT_WIDTH]: false,
+		[PLOT_HEIGHT]: false,
 		[CORES]: false,
 	},
 }
