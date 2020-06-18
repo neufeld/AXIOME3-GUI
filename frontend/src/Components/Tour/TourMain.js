@@ -10,12 +10,12 @@ const steps = [
 		target: '.joyride-start'
 	},
 	{
-		content: <h2>Here, you will be uploading input file.</h2>,
+		content: <h2>Here, you will be uploading input files.</h2>,
 		placement: 'right',
 		target: '.upload-outer'
 	},
 	{
-		content: <h2>You can upload file from your computer.</h2>,
+		content: <h2>You can upload files from your computer.</h2>,
 		placement: 'right',
 		target: '.upload-inner-left'
 	},
@@ -40,7 +40,7 @@ const steps = [
 		target: '.submit-analysis-button'
 	},
 	{
-		content: <h2>Each analysis will have an unique session ID. You may want to save the session ID in case you accidentally lose connection.</h2>,
+		content: <h2>Each analysis will have a unique session ID. You may want to save the session ID in case you accidentally lose connection.</h2>,
 		placement: 'right',
 		target: '.session-id-display-container'
 	},

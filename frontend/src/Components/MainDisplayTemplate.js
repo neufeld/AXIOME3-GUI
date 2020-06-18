@@ -104,7 +104,7 @@ function MainDisplayTemplate(props) {
 			<SessionRetrieveMain />
 			<StatusMain/>
 			<Link className="report-route-text" to={reportRoute}>
-				Hello
+				View Report
 			</Link>
 		</div>
 	)
