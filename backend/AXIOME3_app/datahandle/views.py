@@ -212,6 +212,8 @@ def pcoa():
 		alpha = request.form["alpha"]
 		stroke = request.form["stroke"]
 		point_size = request.form["point size"]
+		PC_axis_1 = request.form["PC axis 1"]
+		PC_axis_2 = request.form["PC axis 2"]
 
 		metadata_path = pcoa_helper.validate_pcoa_input(
 			_id=_id,
@@ -234,7 +236,9 @@ def pcoa():
 			'brewer_type': brewer_type,
 			'alpha': float(alpha),
 			'stroke': float(stroke),
-			'point_size': float(point_size)
+			'point_size': float(point_size),
+			'PC_axis_1': PC_axis_1,
+			'PC_axis_2': PC_axis_2
 		}
 		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
 

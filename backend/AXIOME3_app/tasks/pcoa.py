@@ -22,7 +22,7 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 	colouring_variable, shape_variable=None, colour_set="Paired",
 	brewer_type="qual", primary_dtype='category', secondary_dtype='category',
 	alpha=0.8, stroke=0.6, point_size=6,
-	PC_axis1='PC1', PC_axis2='PC2'):
+	PC_axis_1='PC1', PC_axis_2='PC2'):
 
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
@@ -54,8 +54,8 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 		alpha=alpha,
 		stroke=stroke,
 		point_size=point_size,
-		PC_axis1=PC_axis1,
-		PC_axis2=PC_axis2
+		PC_axis1=PC_axis_1,
+		PC_axis2=PC_axis_2
 	)
 
 	# Save as pdf and png
