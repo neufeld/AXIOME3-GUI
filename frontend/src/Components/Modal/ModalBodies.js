@@ -9,11 +9,14 @@ import INPUT_FORMAT_V2 from '../../Resources/inputformat_v2.png'
 import DENOISE_EXAMPLE from '../../Resources/denoise_example.png'
 
 import {
+	SAMPLE_TYPE_HELP,
 	TRIM_LEFT_F_HELP,
 	TRIM_LEFT_R_HELP,
 	TRUNC_LEN_F_HELP,
 	TRUNC_LEN_R_HELP,
 	SAMPLING_DEPTH_HELP,
+	PRIMARY_TARGET_HELP,
+	SECONDARY_TARGET_HELP,
 } from '../../misc/OptionHelpConfig'
 
 import './ModalBodyStyle.css';
@@ -42,7 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const SampleTypeModalBody = React.forwardRef((props, ref) => (
 	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
-		<h1>SampleTypeModalBody</h1>
+		<div className="modal-body-main-container">
+			<h2>Sample Type</h2>
+			<p>{SAMPLE_TYPE_HELP}</p>
+		</div>
 	</div>
 ))
 
@@ -110,5 +116,44 @@ export const SamplingDepthModalBody = React.forwardRef((props, ref) => (
 export const ColourBrewerModalBody = React.forwardRef((props, ref) => (
 	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
 		<ColourBrewMain />
+	</div>
+))
+
+export const PrimaryTargetModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<div className="modal-body-main-container">
+			<h2>Primary Target</h2>
+			<p>{PRIMARY_TARGET_HELP}</p>
+		</div>
+		<div className="modal-body-additional-container">
+			<p>* Colour will be chosen based on "Colour set" option.</p>
+		</div>
+		<div className="modal-body-exit-container">
+			<span className="modal-body-exit-text">Press Esc to return</span>
+		</div>
+	</div>
+))
+
+export const SecondayTargetModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<div className="modal-body-main-container">
+			<h2>Secondary Target</h2>
+			<p>{SECONDARY_TARGET_HELP}</p>
+		</div>
+		<div className="modal-body-exit-container">
+			<span className="modal-body-exit-text">Press Esc to return</span>
+		</div>
+	</div>
+))
+
+export const CoresModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<div className="modal-body-main-container">
+			<h2>Cores</h2>
+			<p>Number of physical cores to use. Some steps will use more RAM with increased cores.</p>
+		</div>
+		<div className="modal-body-exit-container">
+			<span className="modal-body-exit-text">Press Esc to return</span>
+		</div>
 	</div>
 ))

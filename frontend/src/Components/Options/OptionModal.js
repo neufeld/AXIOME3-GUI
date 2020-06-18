@@ -10,6 +10,9 @@ import {
 	DenoiseModalBody,
 	SamplingDepthModalBody,
 	ColourBrewerModalBody,
+	PrimaryTargetModalBody,
+	SecondayTargetModalBody,
+	CoresModalBody,
 } from '../Modal/ModalBodies';
 
 import {
@@ -20,7 +23,10 @@ import {
 	TRIM_LEFT_F,
 	TRIM_LEFT_R,
 	SAMPLING_DEPTH,
+	PRIMARY_TARGET,
+	SECONDARY_TARGET,
 	COLOUR_BREWER,
+	CORES,
 } from '../../misc/OptionLabelConfig';
 
 
@@ -40,23 +46,19 @@ export const getModalBody = (label) => {
 			return <DenoiseModalBody/>
 		case SAMPLING_DEPTH:
 			return <SamplingDepthModalBody/>
+		case PRIMARY_TARGET:
+			return <PrimaryTargetModalBody />
+		case SECONDARY_TARGET:
+			return <SecondayTargetModalBody />
 		case COLOUR_BREWER:
 			return <ColourBrewerModalBody />
+		case CORES:
+			return <CoresModalBody />
 		default:
 			return <SampleTypeModalBody/>
 	}
 }
-/*
-export const getModalBody = (label) => {
-	if(label === SAMPLE_TYPE) {
-		return <SampleTypeModalBody />
-	} else if(label === INPUT_FORMAT) {
-		return <InputFormatModalBody />
-	} else {
-		return <SampleTypeModalBody />
-	}
-}
-*/
+
 function OptionModal(props) {
 	// Redux Action
 	const { handleModalOpen } = props;
