@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import GeneralHeader from '../Report/GeneralHeader';
-import DownloadButton from '../Report/DownloadButton';
+import DownloadButton from '../Download/DownloadButton';
 
 const DownloadButtonStyle = {
 	display: 'inline-block'
@@ -29,9 +29,6 @@ function ImageDownloadSection(props) {
 	// Redux states
 	const { uid } = props;
 
-	// Redux download action
-	const { updateDownloadPath, updateInputField } = props;
-
 	const inputField = [
 		{name: 'uid', value: uid}
 	];
@@ -49,7 +46,6 @@ function ImageDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={pngEndpoint}
 					isExported={true}
 					exportedText={".png"}
@@ -63,7 +59,6 @@ function ImageDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={pdfEndpoint}
 					isExported={true}
 					exportedText={".pdf"}
@@ -79,7 +74,6 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageDownloadSection)

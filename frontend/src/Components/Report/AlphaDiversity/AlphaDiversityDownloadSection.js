@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 import GeneralHeader from '../GeneralHeader';
 
 import { capitalizeFirstLetter } from '../ReportHelper';
@@ -28,9 +28,6 @@ function AlphaDiversityDownloadSection(props) {
 	// UUID; redux state
 	const { uid } = props;
 
-	// Event handler from parent component
-	const { handleClick } = props;
-
 	const diversities = {
 		alpha_faith_pd: "Faith's phylogenetic diversity",
 		alpha_shannon: "Shannon index",
@@ -56,7 +53,6 @@ function AlphaDiversityDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={qiimeDownloadPath}
 					isQza={true}
 					qiimeText={qiimeText}

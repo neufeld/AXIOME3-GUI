@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import GeneralHeader from '../GeneralHeader';
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 
 const DownloadButtonStyle = {
 	display: 'inline-block'
@@ -24,7 +24,7 @@ const DownloadMainHeader = {
 // Parent component: PcoaPlots.js
 function PcoaDownloadSection(props) {
 	// From parent
-	const { handleClick, inputField } = props;
+	const { inputField } = props;
 
 	return(
 		<div>
@@ -39,7 +39,6 @@ function PcoaDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={"/pcoa/pdf"}
 					isExported={true}
 					exportedText={".pdf"}

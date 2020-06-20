@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { handleDownload } from '../../redux/actions/downloadAction';
 
 function DownloadButton(props) {
 	// download paths and input field
@@ -12,12 +15,15 @@ function DownloadButton(props) {
 	// Style
 	const { style } = props;
 
+	// Redux action
+	const { handleDownload } = props;
+
 	return(
 		<div style={style}>
 			<span
 				className="clickable"
 				style={{display: (isQza === true) ? 'inline' : 'None'}}
-				onClick={() => {handleClick(qiimeDownloadPath, inputField)}}
+				onClick={() => {handleDownload(qiimeDownloadPath, inputField)}}
 			>
 			{qiimeText}
 			</span>
@@ -29,7 +35,7 @@ function DownloadButton(props) {
 			<span
 				className="clickable"
 				style={{display: (isExported === true) ? 'inline' : 'None'}}
-				onClick={() => {handleClick(exportedDownloadPath, inputField)}}
+				onClick={() => {handleDownload(exportedDownloadPath, inputField)}}
 			>
 			{exportedText}
 			</span>
@@ -38,4 +44,11 @@ function DownloadButton(props) {
 	)
 }
 
-export default DownloadButton
+const mapStateToProps  = state => ({
+})
+
+const mapDispatchToProps = {
+	handleDownload,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton)

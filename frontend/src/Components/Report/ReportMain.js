@@ -2,7 +2,7 @@ import React, {  useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import DownloadFile from './DownloadFile';
+import FileDownloadForm from '../Download/FileDownloadForm';
 
 import HeaderMain from './Header/HeaderMain';
 import TableOfContentsMain from './TableOfContents/TableOfContentsMain';
@@ -16,7 +16,6 @@ import CombinedASVTable from './ASVTable/CombinedASVTable';
 import PcoaPlots from './PCoA/PcoaPlots';
 import AlphaDiversityMain from './AlphaDiversity/AlphaDiversityMain'
 
-import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
 // Submit redux
 import { updateFormType, updateUid } from '../../redux/actions/submitAction'
 
@@ -24,9 +23,6 @@ import qs from 'query-string';
 import './ReportStyle.css';
 
 function ReportMain(props) {
-	// Redux download action
-	const { updateDownloadPath, updateInputField } = props;
-
 	// Redux submit action
 	const { updateFormType, updateUid } = props;
 
@@ -43,30 +39,24 @@ function ReportMain(props) {
 		updateUid(uid)
 	}, [])
 
-	// State change should only occur throug handleClick event
-	const handleClick = (downloadPath, inputField) => {
-		updateDownloadPath(downloadPath)
-		updateInputField(inputField)
-	}
-
 	const analysisContent = (
 		<React.Fragment>
-			<TaxonomyMain handleClick={handleClick}/>
-			<CombinedASVTable handleClick={handleClick}/>
-			<PcoaPlots handleClick={handleClick}/>
-			<AlphaDiversityMain handleClick={handleClick}/>
+			<TaxonomyMain />
+			<CombinedASVTable />
+			<PcoaPlots />
+			<AlphaDiversityMain />
 		</React.Fragment>
 	)
 
 	const inputUploadContent = (
 		<React.Fragment>
-			<InputUploadMain handleClick={handleClick}/>
+			<InputUploadMain />
 		</React.Fragment>
 	)
 
 	const denoiseContent = (
 		<React.Fragment>
-			<DenoiseMain handleClick={handleClick}/>
+			<DenoiseMain />
 		</React.Fragment>
 	)
 
@@ -86,7 +76,7 @@ function ReportMain(props) {
 			<HeaderMain />
 			<TableOfContentsMain />
 			{content}
-			<DownloadFile
+			<FileDownloadForm
 				key={props.downloadPath}
 			/>
 		</div>
@@ -99,8 +89,6 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	updateDownloadPath,
-	updateInputField,
 	updateFormType,
 	updateUid,
 }

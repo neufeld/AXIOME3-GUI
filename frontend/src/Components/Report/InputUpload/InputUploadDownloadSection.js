@@ -2,7 +2,7 @@ import React  from 'react';
 import { connect } from 'react-redux';
 
 import GeneralHeader from '../GeneralHeader';
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 
 const DownloadButtonStyle = {
 	display: 'inline-block'
@@ -23,9 +23,6 @@ const DownloadMainHeader = {
 
 // Parent component: InputUploadMain.js
 function InputUploadDownloadSection(props) {
-	// Props from parent
-	const { handleClick } = props;
-
 	// Redux states
 	const { uid } = props;
 
@@ -46,7 +43,6 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={"/input_upload/qza"}
 					isQza={true}
 					qiimeText={".qza"}
@@ -60,7 +56,6 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={"/input_upload/qzv"}
 					isQza={true}
 					qiimeText={".qzv"}

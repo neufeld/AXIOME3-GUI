@@ -25,11 +25,11 @@ const getInputTag = (inputField) => {
 	return inputTags
 };
 
-class DownloadFile extends React.Component {
+class FileDownloadForm extends React.Component {
 	componentDidMount() {
 		//ReactDOM.findDOMNode(this).submit();
 		if(this.props.downloadPath !== '') {
-			console.log("DownloadFile Component mounted!")
+			console.log("FileDownloadForm Component mounted!")
 			ReactDOM.findDOMNode(this).submit();
 		}
 		
@@ -60,4 +60,4 @@ const mapDispatchToProps = {
 	resetDownloadPath
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadFile)
+export default connect(mapStateToProps, mapDispatchToProps)(FileDownloadForm)

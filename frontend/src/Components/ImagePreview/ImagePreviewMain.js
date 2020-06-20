@@ -3,10 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { convertArrayBufferToBase64 } from '../../utils/utils';
-import { updateDownloadPath, updateInputField } from '../../redux/actions/downloadAction';
 
 import ImageDownloadSection from './ImageDownloadSection';
-import DownloadFile from '../Report/DownloadFile';
 
 // API endpoints
 import {
@@ -48,8 +46,6 @@ function ImagePreviewMain(props) {
 	const [ source, setSource ] = useState('')
 	// Redux state
 	const { isWorkerDone, uid, formType } = props;
-	// Redux download action
-	const { updateDownloadPath, updateInputField } = props;
 
 	const pngEndpoint = getPngEndpoint(formType)
 	const pdfEndpoint = getPdfEndpoint(formType)
@@ -79,12 +75,6 @@ function ImagePreviewMain(props) {
 
 	}, [isWorkerDone])
 
-	// State change should only occur throug handleClick event
-	const handleClick = (downloadPath, inputField) => {
-		updateDownloadPath(downloadPath)
-		updateInputField(inputField)
-	}
-
 	return(
 		<div>
 			<img
@@ -92,12 +82,8 @@ function ImagePreviewMain(props) {
 				src={`data:image/jpeg;base64,${source}`}
 			/>
 			<ImageDownloadSection
-				handleClick={handleClick}
 				pngEndpoint={pngEndpoint}
 				pdfEndpoint={pdfEndpoint}
-			/>
-			<DownloadFile
-				key={props.downloadPath}
 			/>
 		</div>
 	)
@@ -111,8 +97,6 @@ const mapStateToProps  = state => ({
 })
 
 const mapDispatchToProps = {
-	updateDownloadPath,
-	updateInputField,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImagePreviewMain)

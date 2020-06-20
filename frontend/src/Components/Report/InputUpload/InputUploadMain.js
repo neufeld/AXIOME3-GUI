@@ -8,15 +8,12 @@ import InputUploadRecommendation from './InputUploadRecommendation';
 
 // Parent component: ReportMain.js
 function InputUploadMain(props) {
-	// Event handler from parent component
-	const { handleClick } = props;
-
 	return(
 		<section>
 			<SectionHeader header={"Input Upload"}/>
 			<div className="report-content">
 				<InputUploadDescription />
-				<InputUploadDownloadSection handleClick={handleClick}/>
+				<InputUploadDownloadSection />
 				<InputUploadRecommendation />
 			</div>
 		</section>

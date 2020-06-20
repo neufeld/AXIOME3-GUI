@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import GeneralHeader from '../GeneralHeader';
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 
 const DownloadButtonStyle = {
 	display: 'inline-block'
@@ -23,9 +23,6 @@ const DownloadMainHeader = {
 
 // Parent component: DenoiseMain.js
 function DenoiseDownloadSection(props) {
-	// Props from parent
-	const { handleClick } = props;
-
 	// Redux states
 	const { uid } = props;
 
@@ -46,7 +43,6 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={"/denoise/feature_table"}
 					isQza={true}
 					qiimeText={".qza"}
@@ -60,7 +56,6 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={"/denoise/representative_sequences"}
 					isQza={true}
 					qiimeText={".qza"}
@@ -74,7 +69,6 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					qiimeDownloadPath={"/denoise/summary_qzv"}
 					isQza={true}
 					qiimeText={".qzv"}

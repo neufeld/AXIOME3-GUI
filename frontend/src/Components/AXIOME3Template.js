@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Header from './Header'
 import Footer from './Footer'
 import MainDisplayTemplate from './MainDisplayTemplate'
 import ExtensionDisplayTemplate from './ExtensionDisplayTemplate'
 import FileBrowseElementsMain from './FileBrowse-Elements/FileBrowseElementsMain'
+
+import FileDownloadForm from './Download/FileDownloadForm';
 
 // Parent Component: *DisplayComponent.js
 function AXIOME3Template(props) {
@@ -47,8 +50,16 @@ function AXIOME3Template(props) {
 				{mainContent}
 			</div>
 			<Footer />
+			<FileDownloadForm key={props.downloadPath}/>
 		</div>
 	)
 }
 
-export default AXIOME3Template
+const mapStateToProps  = state => ({
+	downloadPath: state.download.downloadPath
+})
+
+const mapDispatchToProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AXIOME3Template)

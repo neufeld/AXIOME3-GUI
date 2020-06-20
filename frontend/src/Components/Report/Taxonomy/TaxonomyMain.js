@@ -7,9 +7,6 @@ import SectionHeader from '../SectionHeader';
 import './TaxonomyStyle.css';
 
 function TaxonomyMain(props) {
-	// Event handler from parent component
-	const { handleClick } = props;
-
 	return (
 		<section className="report-section">
 			<SectionHeader
@@ -17,7 +14,7 @@ function TaxonomyMain(props) {
 			/>
 			<div className="report-content">
 				<TaxonomyDescription/>
-				<TaxonomyDownloadSection handleClick={handleClick}/>
+				<TaxonomyDownloadSection />
 			</div>
 		</section>
 	)

@@ -23,3 +23,20 @@ export const updateInputField = (field) => dispatch => {
 		}
 	})
 }
+
+export const handleDownload = (downloadPath, inputField) => dispatch => {
+	dispatch({
+		type: GET_DOWNLOAD_PATH,
+		payload: {
+			downloadPath: downloadPath
+		}
+	})
+
+	dispatch({
+		type: GET_INPUT_FIELD,
+		payload: {
+			inputField: inputField
+		}
+	})
+
+}

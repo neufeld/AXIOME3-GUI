@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 import GeneralHeader from '../GeneralHeader';
 
 import { capitalizeFirstLetter } from '../ReportHelper';
@@ -34,9 +34,6 @@ function TaxonomyDownloadSection(props) {
 	// UUID; redux state
 	const { uid } = props;
 
-	// Event handler from parent component
-	const { handleClick } = props;
-
 	const taxa_list = ['domain', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
 
 	const inputField = [
@@ -64,7 +61,6 @@ function TaxonomyDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={exportedDownloadPath}
 					qiimeDownloadPath={qiimeDownloadPath}
 					isQza={true}
@@ -94,7 +90,6 @@ function TaxonomyDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={"/taxonomy/asv/tsv"}
 					qiimeDownloadPath={"/taxonomy/asv/qza"}
 					isQza={true}

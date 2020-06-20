@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import GeneralHeader from '../GeneralHeader';
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../../Download/DownloadButton';
 
 const DownloadButtonStyle = {
 	display: 'inline-block'
@@ -23,9 +23,6 @@ const DownloadMainHeader = {
 
 // Parent component: CombinedASVTable.js
 function AsvDownloadSection(props) {
-	// Props from parent
-	const { handleClick } = props;
-
 	// Redux states
 	const { uid } = props;
 
@@ -48,7 +45,6 @@ function AsvDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					handleClick={handleClick}
 					exportedDownloadPath={downloadPath}
 					isExported={true}
 					exportedText={".tsv"}

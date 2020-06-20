@@ -58,9 +58,6 @@ function PcoaPlots(props) {
 	// UUID; redux state
 	const { uid } = props;
 
-	// Event handler from parent component
-	const { handleClick } = props;
-
 	const inputField = [
 		{name: 'uid', value: uid},
 		{name: 'distance', value: distanceTypes[distanceOptionValue]}
@@ -78,7 +75,6 @@ function PcoaPlots(props) {
 					handleChange={handleChange}
 				/>
 				<PcoaDownloadSection
-					handleClick={handleClick}
 					inputField={inputField}
 				/>
 				<CustomPcoaRedirect />
