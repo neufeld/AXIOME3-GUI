@@ -214,6 +214,12 @@ def pcoa():
 		point_size = request.form["point size"]
 		PC_axis_1 = request.form["PC axis 1"]
 		PC_axis_2 = request.form["PC axis 2"]
+		width = request.form["Width"]
+		height = request.form["Height"]
+		x_axis_text_size = request.form["x axis label size"]
+		y_axis_text_size = request.form["y axis label size"]
+		legend_title_size = request.form["legend title size"]
+		legend_text_size = request.form["legend text size"]
 
 		metadata_path = pcoa_helper.validate_pcoa_input(
 			_id=_id,
@@ -238,7 +244,13 @@ def pcoa():
 			'stroke': float(stroke),
 			'point_size': float(point_size),
 			'PC_axis_1': PC_axis_1,
-			'PC_axis_2': PC_axis_2
+			'PC_axis_2': PC_axis_2,
+			'width': width,
+			'height': height,
+			'x_axis_text_size': x_axis_text_size,
+			'y_axis_text_size': y_axis_text_size,
+			'legend_title_size': legend_title_size,
+			'legend_text_size': legend_text_size
 		}
 		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
 

@@ -21,7 +21,8 @@ from scripts.qiime2_helper.generate_pcoa import (
 def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 	colouring_variable, shape_variable=None, colour_set="Paired",
 	brewer_type="qual", primary_dtype='category', secondary_dtype='category',
-	alpha=0.8, stroke=0.6, point_size=6,
+	alpha=0.8, stroke=0.6, point_size=6, width=100, height=90,
+	x_axis_text_size=10, y_axis_text_size=10, legend_title_size=10, legend_text_size=10,
 	PC_axis_1='PC1', PC_axis_2='PC2'):
 
 	local_socketio = SocketIO(message_queue=URL)
@@ -54,13 +55,17 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 		alpha=alpha,
 		stroke=stroke,
 		point_size=point_size,
+		x_axis_text_size=x_axis_text_size,
+		y_axis_text_size=y_axis_text_size,
+		legend_title_size=legend_title_size,
+		legend_text_size=legend_text_size,
 		PC_axis1=PC_axis_1,
 		PC_axis2=PC_axis_2
 	)
 
 	# Save as pdf and png
-	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='pdf')
-	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='png')
+	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='pdf', width=float(width), height=float(height))
+	save_plot(pcoa_plot=plot, filename=filename, output_dir=output_dir, file_format='png', width=float(width), height=float(height))
 
 	message = "Done!"
 	emit_message(
