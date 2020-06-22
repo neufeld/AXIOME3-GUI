@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import GeneralHeader from '../GeneralHeader';
 import DownloadButton from '../../Download/DownloadButton';
 
+import {
+	FEATURE_TABLE_ENDPOINT,
+	REP_SEQS_ENDPOINT,
+	SUMMARY_QZV_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 };
@@ -43,7 +49,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={"/denoise/feature_table"}
+					qiimeDownloadPath={FEATURE_TABLE_ENDPOINT}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -56,7 +62,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={"/denoise/representative_sequences"}
+					qiimeDownloadPath={REP_SEQS_ENDPOINT}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -69,7 +75,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={"/denoise/summary_qzv"}
+					qiimeDownloadPath={SUMMARY_QZV_ENDPOINT}
 					isQza={true}
 					qiimeText={".qzv"}
 					inputField={inputField}

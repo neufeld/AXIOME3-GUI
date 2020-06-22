@@ -98,7 +98,7 @@
 .worker-message-current {
 	margin-left: 10px;
 	margin-right: 30px;
-	font-size: 20px;
+	font-size: 18px;
 	/* breaks line at new line character */
 	white-space: pre-line;
 	word-wrap: break-word;
@@ -108,7 +108,7 @@
 .worker-message-prev {
 	margin-left: 10px;
 	margin-right: 30px;
-	font-size: 20px;
+	font-size: 18px;
 	/* breaks line at new line character */
 	white-space: pre-line;
 	word-wrap: break-word;
@@ -118,4 +118,9 @@
 
 .session-id-content {
 	display: inline-block;
+}
+
+.worker-message-report-route {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

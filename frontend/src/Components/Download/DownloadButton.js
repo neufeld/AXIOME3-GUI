@@ -8,8 +8,6 @@ function DownloadButton(props) {
 	const { exportedDownloadPath, qiimeDownloadPath, inputField} = props;
 	// file type
 	const { isQza, isExported } = props;
-	// onClick handler
-	const { handleClick } = props;
 	// inner text
 	const { qiimeText, exportedText } = props;
 	// Style

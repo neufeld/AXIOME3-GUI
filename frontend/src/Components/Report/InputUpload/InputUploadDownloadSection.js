@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import GeneralHeader from '../GeneralHeader';
 import DownloadButton from '../../Download/DownloadButton';
 
+import {
+	SEQUENCE_QZA_ENDPOINT,
+	SEQUENCE_QZV_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 }
@@ -43,7 +48,7 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={"/input_upload/qza"}
+					qiimeDownloadPath={SEQUENCE_QZA_ENDPOINT}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -56,7 +61,7 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={"/input_upload/qzv"}
+					qiimeDownloadPath={SEQUENCE_QZV_ENDPOINT}
 					isQza={true}
 					qiimeText={".qzv"}
 					inputField={inputField}
