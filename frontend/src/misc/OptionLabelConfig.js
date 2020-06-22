@@ -20,5 +20,9 @@ export const PC_AXIS_ONE = "PC axis 1"
 export const PC_AXIS_TWO = "PC axis 2"
 export const PLOT_WIDTH = "Width"
 export const PLOT_HEIGHT = "Height"
+export const X_AXIS_LABEL_SIZE = "x axis label size"
+export const Y_AXIS_LABEL_SIZE = "y axis label size"
+export const LEGEND_TITLE_SIZE = "legend title size"
+export const LEGEND_TEXT_SIZE = "legend text size"
 //General
 export const CORES = "cores";
