@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { convertArrayBufferToBase64 } from '../../utils/utils';
 
 import ImageDownloadSection from './ImageDownloadSection';
+import './ImagePreviewStyle.css';
 
 // API endpoints
 import {
@@ -76,10 +77,11 @@ function ImagePreviewMain(props) {
 	}, [isWorkerDone])
 
 	return(
-		<div>
+		<div className="image-preview-wrapper">
 			<img
 				style={{display: (source === '') ? 'none' : 'block'}}
 				src={`data:image/jpeg;base64,${source}`}
+				className="image-preview-image"
 			/>
 			<ImageDownloadSection
 				pngEndpoint={pngEndpoint}

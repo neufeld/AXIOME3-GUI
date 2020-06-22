@@ -5,13 +5,15 @@ import GeneralHeader from '../Report/GeneralHeader';
 import DownloadButton from '../Download/DownloadButton';
 
 const DownloadButtonStyle = {
-	display: 'inline-block'
+	display: 'inline-block',
+	textAlign: 'left',
 };
 
 const DownloadHeaderStyle = {
 	display: 'inline-block',
 	margin: '0px 10px',
-	fontWeight: 'bold'
+	fontWeight: 'bold',
+	textAlign: 'left',
 };
 
 const DownloadMainHeader = {
@@ -19,6 +21,7 @@ const DownloadMainHeader = {
 	fontWeight: 'bold',
 	fontSize: '20px',
 	fontVariant: 'small-caps',
+	textAlign: 'left',
 }
 
 // Parent component: ImagePreviewMain.js
@@ -27,14 +30,17 @@ function ImageDownloadSection(props) {
 	const { pngEndpoint, pdfEndpoint, handleClick } = props;
 
 	// Redux states
-	const { uid } = props;
+	const { uid, isWorkerDone } = props;
 
 	const inputField = [
 		{name: 'uid', value: uid}
 	];
 
 	return(
-		<div>
+		<div
+			style={{display: (isWorkerDone) ? 'block' : 'none'}}
+			className="image-preview-download-container"
+		>
 			<GeneralHeader
 				header={"File downloads"}
 				style={DownloadMainHeader}
@@ -70,7 +76,8 @@ function ImageDownloadSection(props) {
 }
 
 const mapStateToProps  = state => ({
-	uid: state.submit.uid
+	uid: state.submit.uid,
+	isWorkerDone: state.remoteWorker.isWorkerDone,
 })
 
 const mapDispatchToProps = {

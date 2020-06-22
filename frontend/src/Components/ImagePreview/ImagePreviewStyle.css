@@ -1,0 +1,9 @@
+.image-preview-wrapper {
+	display: flex;
+	width: 100%;
+}
+
+.image-preview-image {
+	max-width: 60%;
+	max-height: 500px;
+}
