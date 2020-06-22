@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
 
 import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
@@ -22,10 +21,6 @@ import { resetUpload } from '../redux/actions/uploadAction'
 import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
 import { resetSessionId, resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
-
-import {
-	REPORT_BASE_ROUTE,
-} from '../RouteConfig';
 
 function MainDisplayTemplate(props) {
 	const [ run, setRun ] = useState(true);
@@ -77,14 +72,6 @@ function MainDisplayTemplate(props) {
 		}
 	}, [])
 
-	const formTypeRoute = 'formType=' + formType;
-	const uidRoute = 'uid=' + uid;
-	var reportRoute = REPORT_BASE_ROUTE + '?' + uidRoute + '&' + formTypeRoute
-	// Append options to query string
-	Object.keys(selectedOptions).forEach(k => {
-		reportRoute = reportRoute + '&' + k + '=' + selectedOptions[k]
-	});
-
 	return (
 		<div className="main-display">
 			<div className="main-tab-container">
@@ -103,9 +90,6 @@ function MainDisplayTemplate(props) {
 			</div>
 			<SessionRetrieveMain />
 			<StatusMain/>
-			<Link className="report-route-text" to={reportRoute}>
-				View Report
-			</Link>
 		</div>
 	)
 }
