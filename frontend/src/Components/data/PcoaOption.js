@@ -10,6 +10,10 @@ import {
 	PC_AXIS_TWO,
 	PLOT_WIDTH,
 	PLOT_HEIGHT,
+	X_AXIS_LABEL_SIZE,
+	Y_AXIS_LABEL_SIZE,
+	LEGEND_TITLE_SIZE,
+	LEGEND_TEXT_SIZE,
 } from '../../misc/OptionLabelConfig';
 
 // Since it requires LITTLE TO ZERO updates, use normalized schema
@@ -22,13 +26,18 @@ const PcoaOption = {
 				summaryText: "Basic Options",
 				defaultExpanded: true
 			},
-			advancedOptions: {
-				id: "advancedOptions",
-				summaryText: "Advanced Options",
+			points: {
+				id: "points",
+				summaryText: "Points Config",
+				defaultExpanded: false
+			},
+			plotLayout: {
+				id: "plotLayout",
+				summaryText: "Plot Layout Config",
 				defaultExpanded: false
 			},
 		},
-		keys: ["basicOptions", "advancedOptions"]
+		keys: ["basicOptions", "points", "plotLayout"]
 	},
 	basicOptions: {
 		entities: {
@@ -60,53 +69,82 @@ const PcoaOption = {
 		},
 		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4"]
 	},
-	advancedOptions: {
+	points: {
 		entities: {
-			advancedOption1: {
-				id: "advancedOption1",
+			pointsConfig1: {
+				id: "pointsConfig1",
 				label: ALPHA,
 				type: "number",
-				defaultValue: 0.8
+				defaultValue: 0.8,
 			},
-			advancedOption2: {
-				id: "advancedOption2",
+			pointsConfig2: {
+				id: "pointsConfig2",
 				label: STROKE,
 				type: "number",
-				defaultValue: 0.6
+				defaultValue: 0.6,
 			},
-			advancedOption3: {
-				id: "advancedOption3",
+			pointsConfig3: {
+				id: "pointsConfig3",
 				label: POINT_SIZE,
 				type: "number",
-				defaultValue: 6
-			},
-			advancedOption4: {
-				id: "advancedOption4",
+				defaultValue: 6,
+			}
+		},
+		keys: ["pointsConfig1", "pointsConfig2", "pointsConfig3"]
+	},
+	plotLayout: {
+		entities: {
+			layoutConfig1: {
+				id: "layoutConfig1",
 				label: PC_AXIS_ONE,
 				type: "text",
 				defaultValue: "PC1"
 			},
-			advancedOption5: {
-				id: "advancedOption5",
+			layoutConfig2: {
+				id: "layoutConfig2",
 				label: PC_AXIS_TWO,
 				type: "text",
 				defaultValue: "PC2"
 			},
-			advancedOption6: {
-				id: "advancedOption5",
+			layoutConfig3: {
+				id: "layoutConfig3",
 				label: PLOT_WIDTH,
 				type: "number",
 				defaultValue: 100,
 			},
-			advancedOption7: {
-				id: "advancedOption5",
+			layoutConfig4: {
+				id: "layoutConfig4",
 				label: PLOT_HEIGHT,
 				type: "number",
 				defaultValue: 90,
 			},
+			layoutConfig5: {
+				id: "layoutConfig5",
+				label: X_AXIS_LABEL_SIZE,
+				type: "number",
+				defaultValue: 10,
+			},
+			layoutConfig6: {
+				id: "layoutConfig6",
+				label: Y_AXIS_LABEL_SIZE,
+				type: "number",
+				defaultValue: 10,
+			},
+			layoutConfig7: {
+				id: "layoutConfig7",
+				label: LEGEND_TITLE_SIZE,
+				type: "number",
+				defaultValue: 10,
+			},
+			layoutConfig8: {
+				id: "layoutConfig8",
+				label: LEGEND_TEXT_SIZE,
+				type: "number",
+				defaultValue: 10,
+			},
 		},
-		keys: ["advancedOption1", "advancedOption2", "advancedOption3", "advancedOption4", "advancedOption5", "advancedOption6", "advancedOption7"]
-	}
+		keys: ["layoutConfig1", "layoutConfig2", "layoutConfig3", "layoutConfig4", "layoutConfig5", "layoutConfig6", "layoutConfig7", "layoutConfig8"]
+	},
 }
 
 export default PcoaOption
