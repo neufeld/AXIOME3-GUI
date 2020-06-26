@@ -32,6 +32,7 @@ export const RESET_FORMTYPE = 'RESET_FORMTYPE'
 export const RESET_UID = 'RESET_UID'
 export const RESET_SUBMIT = 'RESET_SUBMIT'
 // remoteWorkerAction related
+export const UPDATE_WORKER_QUEUE_STATUS = 'UPDATE_WORKER_QUEUE_STATUS'
 export const WORKER_DONE = 'WORKER_DONE'
 export const WORKER_IN_PROGRESS = 'WORKER_IN_PROGRESS'
 export const WORKER_FAIL = 'WORKER_FAIL'

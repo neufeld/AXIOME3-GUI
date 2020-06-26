@@ -16,6 +16,7 @@ import {
 	RESET_FORMTYPE,
 	RESET_UID,
 	RESET_SUBMIT,
+	UPDATE_WORKER_QUEUE_STATUS, // RemoteWorker redux
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -52,6 +53,13 @@ export const submitData = (formData, endpoint) => async dispatch => {
 			type: UPDATE_UID,
 			payload: {
 				uid: uuidV4
+			}
+		})
+
+		dispatch({
+			type: UPDATE_WORKER_QUEUE_STATUS,
+			payload: {
+				isWorkerQueued: true,
 			}
 		})
 

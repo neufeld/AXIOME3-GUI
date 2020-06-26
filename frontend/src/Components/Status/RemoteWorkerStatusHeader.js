@@ -14,14 +14,17 @@ const useStyles = makeStyles({
 	}
 })
 
-export const getHeaderStatus = (isWorkerRunning, isWorkerDone, isWorkerFailed) => {
+export const getHeaderStatus = (isWorkerQueued, isWorkerRunning, isWorkerDone, isWorkerFailed) => {
 	let headerStatus;
+
 	if(isWorkerDone === true) {
 		headerStatus = "Task done running!";
 	} else if(isWorkerFailed === true) {
 		headerStatus = "Task failed..."
 	} else if(isWorkerRunning === true) {
 		headerStatus = "Task running..."
+	} else if(isWorkerQueued === true){
+		headerStatus = "Task queued..."
 	} else {
 		headerStatus = "Task not queued..."
 	}
@@ -31,9 +34,9 @@ export const getHeaderStatus = (isWorkerRunning, isWorkerDone, isWorkerFailed) =
 
 function RemoteWorkerStatusHeader(props) {
 	// Redux states
-	const { isWorkerRunning, isWorkerDone, isWorkerFailed } = props;
+	const { isWorkerQueued, isWorkerRunning, isWorkerDone, isWorkerFailed } = props;
 
-	const headerStatus = getHeaderStatus(isWorkerRunning, isWorkerDone, isWorkerFailed);
+	const headerStatus = getHeaderStatus(isWorkerQueued, isWorkerRunning, isWorkerDone, isWorkerFailed);
 
 	const classes = useStyles();
 
@@ -53,6 +56,7 @@ function RemoteWorkerStatusHeader(props) {
 }
 
 const mapStateToProps  = state => ({
+	isWorkerQueued: state.remoteWorker.isWorkerQueued,
 	isWorkerRunning: state.remoteWorker.isWorkerRunning,
 	isWorkerDone: state.remoteWorker.isWorkerDone,
 	isWorkerFailed: state.remoteWorker.isWorkerFailed,

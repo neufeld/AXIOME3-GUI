@@ -1,4 +1,4 @@
-import { 
+import {
 	WORKER_DONE,
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,

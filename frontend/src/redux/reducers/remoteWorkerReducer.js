@@ -1,4 +1,5 @@
 import {
+	UPDATE_WORKER_QUEUE_STATUS,
 	WORKER_DONE,
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,
@@ -11,6 +12,7 @@ import {
 
 const initialState = {
 	inputSessionId: '',
+	isWorkerQueued: false,
 	isWorkerRunning: false,
 	isWorkerDone: false,
 	isWorkerFailed: false,
@@ -19,6 +21,11 @@ const initialState = {
 
 export default function(state = initialState, action) {
 	switch(action.type) {
+		case UPDATE_WORKER_QUEUE_STATUS:
+			return {
+				...state,
+				isWorkerQueued: action.payload.isWorkerQueued
+			}
 
 		case WORKER_DONE:
 			return {
