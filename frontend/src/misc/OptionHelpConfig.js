@@ -11,12 +11,21 @@ export const SAMPLING_DEPTH_HELP = "Samples with read count lower than this valu
 // PCoA related
 export const PRIMARY_TARGET_HELP = "First metadata column to visualize. It will be represented as different colours."
 export const SECONDARY_TARGET_HELP = "Second metadata column to visualize. It will be represented as different shapes. (optional)"
+export const COLOUR_BREWER_HELP = "Colour set to be used for the 'Primary target` visualization."
 export const ALPHA_HELP = "Transparency. 0 means fully transparent, 1 means fully opaque."
 export const STROKE_HELP = "Border thickness. 0 means no border."
 export const POINT_SIZE_HELP = "Plot point size."
 export const PLOT_WIDTH_HELP = "Plot width in millimetres (mm)."
 export const PLOT_HEIGHT_HELP = "Plot height in millimetres (mm)."
+export const PC_AXIS_ONE_HELP = "First PC axis to plot."
+export const PC_AXIS_TWO_HELP = "Second PC axis to plot."
+export const X_AXIS_LABEL_SIZE_HELP = "X axis label font size."
+export const Y_AXIS_LABEL_SIZE_HELP = "Y axis label font size."
+export const LEGEND_TITLE_SIZE_HELP = "Legend title size."
+export const LEGEND_TEXT_SIZE_HELP = "Legend content size."
 // Details
 export const MORE_DETAIL = "Click 'more...' for details."
 // Session retrieve related
-export const SESSION_RETRIEVE_HELP = "Enter session ID to load corresponding session"
+export const SESSION_RETRIEVE_HELP = "Enter session ID to load corresponding session."
+// Misc.
+export const CORES_HELP = "Number of cores to use to parallelize task execution. Task can be executed faster with more cores, but it may use more RAM as well."

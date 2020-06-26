@@ -22,6 +22,10 @@ import {
 	PC_AXIS_TWO,
 	PLOT_WIDTH,
 	PLOT_HEIGHT,
+	X_AXIS_LABEL_SIZE,
+	Y_AXIS_LABEL_SIZE,
+	LEGEND_TITLE_SIZE,
+	LEGEND_TEXT_SIZE,
 	CORES,
 } from '../../misc/OptionLabelConfig';
 
@@ -45,6 +49,10 @@ const initialState = {
 		[PC_AXIS_TWO]: false,
 		[PLOT_WIDTH]: false,
 		[PLOT_HEIGHT]: false,
+		[X_AXIS_LABEL_SIZE]: false,
+		[Y_AXIS_LABEL_SIZE]: false,
+		[LEGEND_TITLE_SIZE]: false,
+		[LEGEND_TEXT_SIZE]: false,
 		[CORES]: false,
 	},
 }

@@ -11,3 +11,5 @@ export const CUSTOM_PCOA_PDF_ENDPOINT = '/custompcoa/pdf';
 // Bubbleplot endpoints
 export const BUBBLEPLOT_PNG_ENDPOINT = '/bubbleplot/png';
 export const BUBBLEPLOT_PDF_ENDPOINT = '/bubbleplot/pdf';
+// Misc.
+export const BATCH_DOWNLOAD_ENDPOINT = '/batch/zip';
