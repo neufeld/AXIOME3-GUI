@@ -8,6 +8,7 @@ import {
 	FEATURE_TABLE_ENDPOINT,
 	REP_SEQS_ENDPOINT,
 	SUMMARY_QZV_ENDPOINT,
+	BATCH_DOWNLOAD_ENDPOINT,
 } from '../../../misc/EndpointConfig';
 
 const DownloadButtonStyle = {
@@ -78,6 +79,19 @@ function DenoiseDownloadSection(props) {
 					qiimeDownloadPath={SUMMARY_QZV_ENDPOINT}
 					isQza={true}
 					qiimeText={".qzv"}
+					inputField={inputField}
+				/>
+			</div>
+			<div className="download-container">
+				<GeneralHeader
+					header="- Download All:"
+					style={DownloadHeaderStyle}
+				/>
+				<DownloadButton
+					style={DownloadButtonStyle}
+					qiimeDownloadPath={BATCH_DOWNLOAD_ENDPOINT}
+					isQza={true}
+					qiimeText={".zip"}
 					inputField={inputField}
 				/>
 			</div>
