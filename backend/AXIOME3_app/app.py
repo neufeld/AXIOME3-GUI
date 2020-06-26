@@ -25,8 +25,7 @@ from AXIOME3_app.report import taxonomy
 from AXIOME3_app.report import combined_asv_table
 from AXIOME3_app.report import alpha_diversity
 from AXIOME3_app.report import custom_pcoa
-
-#socketio = SocketIO(cors_allowed_origins='*')
+from AXIOME3_app.report import batch
 
 def create_app(testing=False, debug=False, development=False):
 	"""
@@ -58,9 +57,6 @@ def create_app(testing=False, debug=False, development=False):
 	# Initialize Socket.IO
 	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], engineio_logger=True)
 
-	# CORS
-	#CORS(app)
-
 	return app
 
 def register_blueprints(app):
@@ -79,6 +75,7 @@ def register_blueprints(app):
 	app.register_blueprint(taxonomy.views.blueprint)
 	app.register_blueprint(alpha_diversity.views.blueprint)
 	app.register_blueprint(custom_pcoa.views.blueprint)
+	app.register_blueprint(batch.views.blueprint)
 
 def init_celery(app=None):
 	"""

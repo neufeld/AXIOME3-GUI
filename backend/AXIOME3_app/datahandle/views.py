@@ -1,3 +1,6 @@
+# Import socketio prior to importing App to avoid circulr importing error
+from AXIOME3_app.app import socketio
+
 from flask import Blueprint, request, Response, current_app
 import uuid
 import os
@@ -25,6 +28,21 @@ from AXIOME3_app.tasks.pipeline import check_output_task
 from AXIOME3_app.exceptions.exception import CustomError
 
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
+
+def emit_message(message, _id):
+	channel = 'test'
+	namespace = '/AXIOME3'
+	room = _id
+
+	socketio.emit(
+		channel,
+		{'data': message},
+		namespace=namespace,
+		engineio_logger=True,
+		room=room,
+		logger=True,
+		broadcast=True
+	)
 
 @blueprint.route("/inputupload", methods=['POST'])
 def inputupload():
