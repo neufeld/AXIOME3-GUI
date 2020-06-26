@@ -21,7 +21,6 @@ function RemoteWorkerTracker(props) {
 
 	useEffect(() => {
 		if(uid) {
-			console.log(`UID is ${uid}`)
 			const socket = io.connect(endpoint);
 
 			socket.emit("join", {room: uid})
@@ -32,6 +31,7 @@ function RemoteWorkerTracker(props) {
 
 			socket.on("test", data => {
 				const msg = data.data
+				console.log(msg)
 				updateWorkerMessages(msg)
 				trackWorkerStatus(msg)
 			})
@@ -70,7 +70,7 @@ function RemoteWorkerTracker(props) {
 }
 
 const mapStateToProps  = state => ({
-	uid: state.submit.uid
+	uid: state.submit.uid,
 })
 
 const mapDispatchToProps = {

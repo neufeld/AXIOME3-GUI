@@ -10,6 +10,7 @@ import DownloadButton from '../Download/DownloadButton';
 import {
 	INPUT_UPLOAD_FORMTYPE,
 	DENOISE_FORMTYPE,
+	ANALYSIS_FORMTYPE,
 } from '../../misc/FormTypeConfig';
 
 import {
@@ -18,6 +19,7 @@ import {
 	FEATURE_TABLE_ENDPOINT,
 	REP_SEQS_ENDPOINT,
 	SUMMARY_QZV_ENDPOINT,
+	BATCH_DOWNLOAD_ENDPOINT,
 } from '../../misc/EndpointConfig';
 
 import {
@@ -53,7 +55,12 @@ const getDownloadItems = (formType) => {
 				header: "- Sequences Visualization:",
 				downloadPath: SEQUENCE_QZV_ENDPOINT,
 				extension: 'qzv',
-			}
+			},
+			{
+				header: "- Download All:",
+				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				extension: 'zip',
+			},
 		]
 
 		return items;
@@ -73,6 +80,21 @@ const getDownloadItems = (formType) => {
 				header: "- Denoise Summary:",
 				downloadPath: SUMMARY_QZV_ENDPOINT,
 				extension: 'qzv',
+			},
+			{
+				header: "- Download All:",
+				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				extension: 'zip',
+			},
+		]
+
+		return items;
+	} else if(formType === ANALYSIS_FORMTYPE) {
+		const items = [
+			{
+				header: "- Download All:",
+				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				extension: 'zip',
 			},
 		]
 
@@ -151,7 +173,7 @@ function RemoteWorkerMessage(props) {
 		reportRoute = reportRoute + '&' + k + '=' + selectedOptions[k]
 	});
 
-	const shouldDisplayExtra = (formType === INPUT_UPLOAD_FORMTYPE || formType === DENOISE_FORMTYPE) ? true : false
+	const shouldDisplayExtra = (formType === INPUT_UPLOAD_FORMTYPE || formType === DENOISE_FORMTYPE || formType === ANALYSIS_FORMTYPE) ? true : false
 
 	return (
 		<div
@@ -168,6 +190,11 @@ function RemoteWorkerMessage(props) {
 					style={DownloadMainHeader}
 				/>
 				{downloadSection}
+			</div>
+			<div
+				className="worker-message-current"
+				style={{display: (isWorkerDone && shouldDisplayExtra) ? 'block' : 'none'}}
+			>
 				<div className="worker-message-report-route">
 					<Link to={reportRoute}>
 						View Report
