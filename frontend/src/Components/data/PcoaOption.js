@@ -75,7 +75,7 @@ const PcoaOption = {
 				id: "pointsConfig1",
 				label: ALPHA,
 				type: "number",
-				defaultValue: 0.8,
+				defaultValue: 1,
 			},
 			pointsConfig2: {
 				id: "pointsConfig2",
@@ -116,7 +116,7 @@ const PcoaOption = {
 				id: "layoutConfig4",
 				label: PLOT_HEIGHT,
 				type: "number",
-				defaultValue: 90,
+				defaultValue: 100,
 			},
 			layoutConfig5: {
 				id: "layoutConfig5",
