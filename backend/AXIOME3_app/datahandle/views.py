@@ -18,6 +18,7 @@ from AXIOME3_app.datahandle import (
 	pcoa_helper
 )
 # Celery task
+from AXIOME3_app.tasks.pipeline_config_generator import config_task
 from AXIOME3_app.tasks.input_upload import import_data_task
 from AXIOME3_app.tasks.denoise import denoise_task
 from AXIOME3_app.tasks.analysis import analysis_task
@@ -74,15 +75,17 @@ def inputupload():
 
 		# Prepare necessary files for input upload
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
-		luigi_prep_helper.luigi_config_generator(
-			_id=_id,
-			log_config_path=log_config_path,
-			manifest_path=manifest_path,
-			sample_type=sample_type,
-			input_format=input_format
-		)
 
-		import_data_task.apply_async(args=[_id, URL, task_progress_file])
+		config_task_kwargs = {
+			'_id': _id,
+			'logging_config': log_config_path,
+			'manifest_path': manifest_path,
+			'sample_type': sample_type,
+			'input_format': input_format
+		}
+
+		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file))
+
 	except CustomError as err:
 		return err.response
 
@@ -119,20 +122,22 @@ def denoise():
 
 		# Prepare necessary files for denoise
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
-		luigi_prep_helper.luigi_config_generator(
-			_id=_id,
-			log_config_path=log_config_path,
-			trim_left_f=trim_left_f,
-			trunc_len_f=trunc_len_f,
-			trim_left_r=trim_left_r,
-			trunc_len_r=trunc_len_r,
-			n_cores=n_cores
-		)
-
+		
 		# Copy input file to premade output dir
 		denoise_helper.denoise_setup(denoise_input_path, _id)
 
-		denoise_task.apply_async(args=[_id, URL, task_progress_file])
+		config_task_kwargs = {
+			'_id': _id,
+			'logging_config': log_config_path,
+			'trim_left_f': trim_left_f,
+			'trunc_len_f': trunc_len_f,
+			'trim_left_r': trim_left_r,
+			'trunc_len_r': trunc_len_r,
+			'n_cores': n_cores
+		}
+
+		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file))
+
 	except CustomError as err:
 		return err.response
 
@@ -178,18 +183,19 @@ def analysis():
 
 		# Prepare necessary files for anlysis
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
-		luigi_prep_helper.luigi_config_generator(
-			_id=_id,
-			log_config_path=log_config_path,
-			sampling_depth=sampling_depth,
-			metadata_path=metadata_path,
-			n_cores=n_cores
-		)
-
+		
 		# Copy input file to premade output dir
 		analysis_helper.analysis_setup(_id, feature_table_path, rep_seqs_path)
 
-		analysis_task.apply_async(args=[_id, URL, task_progress_file])
+		config_task_kwargs = {
+			'_id': _id,
+			'logging_config': log_config_path,
+			'sampling_depth': sampling_depth,
+			'metadata_path': metadata_path,
+			'n_cores': n_cores
+		}
+
+		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file))
 
 	except CustomError as err:
 		return err.response
