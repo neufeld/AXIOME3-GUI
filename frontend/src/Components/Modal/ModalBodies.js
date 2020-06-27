@@ -41,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
 	},
+	popup: {
+		position: 'absolute',
+		width: 400,
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+	},
 }));
 
 export const SampleTypeModalBody = React.forwardRef((props, ref) => (
@@ -161,5 +169,14 @@ export const CoresModalBody = React.forwardRef((props, ref) => (
 export const PlotSizeModalBody = React.forwardRef((props, ref) => (
 	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
 		<ColourBrewMain />
+	</div>
+))
+
+export const SessionIdCopyModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().popup} {...props} ref={ref}>
+		<p className="modal-popup-text">Session ID copied to clipboard!</p>
+		<div className="modal-body-exit-container">
+			<span className="modal-body-exit-text">Press Esc to return</span>
+		</div>
 	</div>
 ))
