@@ -4,4 +4,5 @@ celery[redis]
 flask
 flask-cors
 flask-socketio
+Flask-Mail
 eventlet
