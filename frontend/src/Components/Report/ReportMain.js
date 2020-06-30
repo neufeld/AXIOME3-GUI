@@ -15,6 +15,7 @@ import TaxonomyMain from './Taxonomy/TaxonomyMain';
 import CombinedASVTable from './ASVTable/CombinedASVTable';
 import PcoaPlots from './PCoA/PcoaPlots';
 import AlphaDiversityMain from './AlphaDiversity/AlphaDiversityMain'
+import BetaDiversityMain from './BetaDiversity/BetaDiversityMain'
 
 // Submit redux
 import { updateFormType, updateUid } from '../../redux/actions/submitAction'
@@ -43,8 +44,9 @@ function ReportMain(props) {
 		<React.Fragment>
 			<TaxonomyMain />
 			<CombinedASVTable />
-			<PcoaPlots />
 			<AlphaDiversityMain />
+			<BetaDiversityMain />
+			<PcoaPlots />
 		</React.Fragment>
 	)
 
