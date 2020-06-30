@@ -2,8 +2,6 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { handleHelpClick } from '../../redux/actions/optionAction'
-import { handleHelpHover } from '../../redux/actions/optionAction'
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import {
