@@ -17,8 +17,11 @@ function DenoiseDescription(props) {
 			</div>
 			<div className="description-input-output-container">
 				<p className="description-header">Output(s)</p>
-				<p className="description-input-output-text">1. Feature table (.qza)</p>
-				<p className="description-input-output-text">2. Representative sequences (.qza)</p>
+				<p className="description-input-output-text">1. Phylogeny tree (.qza)</p>
+				<p className="description-input-output-text">2. Taxonomic classification (.qza, .tsv)</p>
+				<p className="description-input-output-text">3. Alpha diversity metrics (.qza)</p>
+				<p className="description-input-output-text">4. Beta diversity metrics (.qza)</p>
+				<p className="description-input-output-text">5. PCoA plots (.pdf)</p>
 			</div>
 		</div>
 	)
