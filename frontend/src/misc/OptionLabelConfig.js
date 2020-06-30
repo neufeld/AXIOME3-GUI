@@ -24,5 +24,7 @@ export const X_AXIS_LABEL_SIZE = "x axis label size"
 export const Y_AXIS_LABEL_SIZE = "y axis label size"
 export const LEGEND_TITLE_SIZE = "legend title size"
 export const LEGEND_TEXT_SIZE = "legend text size"
-//General
+// General
 export const CORES = "cores";
+// Email
+export const EMAIL = "email";

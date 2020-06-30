@@ -4,13 +4,13 @@ export const INPUT_FORMAT_HELP = "FASTQ formats (EMP, Casava, manifest). Current
 // Denoise related
 export const TRIM_LEFT_F_HELP = "Position at which forward sequence should be trimmed starting at the 5` end."
 export const TRIM_LEFT_R_HELP = "Position at which reverse sequence should be trimmed starting at the 5` end."
-export const TRUNC_LEN_F_HELP = "Position at which forward sequence should be truncated starting from the 3` end. There should still be minimum 20 nucleotide overlap after truncation."
-export const TRUNC_LEN_R_HELP = "Position at which reverse sequence should be truncated starting from the 3` end. There should still be minimum 20 nucleotide overlap after truncation."
+export const TRUNC_LEN_F_HELP = "Position at which forward sequence should be truncated starting from the 3` end. There should still be a minimum 20 nucleotide overlap after truncation."
+export const TRUNC_LEN_R_HELP = "Position at which reverse sequence should be truncated starting from the 3` end. There should still be a minimum 20 nucleotide overlap after truncation."
 // Analysis related
 export const SAMPLING_DEPTH_HELP = "Samples with read count lower than this value will be discarded, and samples with read count higher than this value will be subsampled to this value. 0 means 'auto'."
 // PCoA related
 export const PRIMARY_TARGET_HELP = "First metadata column to visualize. It will be represented as different colours."
-export const SECONDARY_TARGET_HELP = "Second metadata column to visualize. It will be represented as different shapes. (optional)"
+export const SECONDARY_TARGET_HELP = "Second metadata column to visualize. It will be represented as different shapes. (Optional)"
 export const COLOUR_BREWER_HELP = "Colour set to be used for the 'Primary target` visualization."
 export const ALPHA_HELP = "Transparency. 0 means fully transparent, 1 means fully opaque."
 export const STROKE_HELP = "Border thickness. 0 means no border."
@@ -29,3 +29,5 @@ export const MORE_DETAIL = "Click 'more...' for details."
 export const SESSION_RETRIEVE_HELP = "Enter session ID to load corresponding session."
 // Misc.
 export const CORES_HELP = "Number of cores to use to parallelize task execution. Task can be executed faster with more cores, but it may use more RAM as well."
+// Email
+export const EMAIL_HELP = "Enter email address to receive notification when the task is done running. (Optional)"
