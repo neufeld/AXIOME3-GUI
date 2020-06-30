@@ -1,4 +1,5 @@
 from AXIOME3_app.extensions import celery
+from AXIOME3_app.extensions import mail
 import subprocess
 
 from flask_socketio import SocketIO
@@ -7,17 +8,19 @@ from AXIOME3_app.tasks.utils import (
 	log_status,
 	emit_message,
 	run_command,
-	cleanup_error_message
+	cleanup_error_message,
+	construct_email,
+	generate_html
 )
 
 @celery.task(name="pipeline.run.denoise")
-def denoise_task(_id, URL, task_progress_file):
+def denoise_task(_id, URL, task_progress_file, recipient):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
 	namespace = '/AXIOME3'
 	room = _id
 
-	isTaskDone = denoise(
+	isTaskDone, message = denoise(
 		socketio=local_socketio,
 		room=room,
 		channel=channel,
@@ -26,6 +29,12 @@ def denoise_task(_id, URL, task_progress_file):
 	)
 
 	if(isTaskDone == False):
+		if(recipient is not None):
+			email_message = construct_email(
+				recipient=recipient,
+				html=generate_html(_id, message)
+			)
+			mail.send(email_message)
 		return
 
 	message = "Done!"
@@ -37,6 +46,13 @@ def denoise_task(_id, URL, task_progress_file):
 		room=room
 	)
 	log_status(task_progress_file, message)
+
+	if(recipient is not None):
+		email_message = construct_email(
+			recipient=recipient,
+			html=generate_html(_id, message)
+		)
+		mail.send(email_message)
 
 def denoise(socketio, room, channel, namespace, task_progress_file):
 	message = 'Running denoise!'
@@ -72,6 +88,6 @@ def denoise(socketio, room, channel, namespace, task_progress_file):
 		)
 		log_status(task_progress_file, message_cleanup)
 
-		return False
+		return False, message_cleanup
 
-	return True
+	return True, ""

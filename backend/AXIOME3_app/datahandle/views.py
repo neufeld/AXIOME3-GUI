@@ -1,7 +1,6 @@
-# Import socketio prior to importing App to avoid circulr importing error
-from AXIOME3_app.app import socketio
-
 from flask import Blueprint, request, Response, current_app
+from flask_mail import Message
+from AXIOME3_app.app import mail
 import uuid
 import os
 #from werkzeug import secure_filename
@@ -30,23 +29,14 @@ from AXIOME3_app.exceptions.exception import CustomError
 
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
 
-def emit_message(message, _id):
-	channel = 'test'
-	namespace = '/AXIOME3'
-	room = _id
-
-	socketio.emit(
-		channel,
-		{'data': message},
-		namespace=namespace,
-		engineio_logger=True,
-		room=room,
-		logger=True,
-		broadcast=True
-	)
-
 @blueprint.route("/inputupload", methods=['POST'])
 def inputupload():
+	# Email ricipient
+	if("email" in request.form):
+		recipient = request.form["email"]
+	else:
+		recipient = None
+
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
@@ -84,7 +74,7 @@ def inputupload():
 			'input_format': input_format
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file))
+		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, recipient))
 
 	except CustomError as err:
 		return err.response
@@ -93,6 +83,12 @@ def inputupload():
 
 @blueprint.route("/denoise", methods=['POST'])
 def denoise():
+	# Email ricipient
+	if("email" in request.form):
+		recipient = request.form["email"]
+	else:
+		recipient = None
+
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
@@ -136,7 +132,7 @@ def denoise():
 			'n_cores': n_cores
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file))
+		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
 
 	except CustomError as err:
 		return err.response
@@ -145,6 +141,12 @@ def denoise():
 
 @blueprint.route("/analysis", methods=['POST'])
 def analysis():
+	# Email ricipient
+	if("email" in request.form):
+		recipient = request.form["email"]
+	else:
+		recipient = None
+
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
@@ -195,7 +197,7 @@ def analysis():
 			'n_cores': n_cores
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file))
+		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
 
 	except CustomError as err:
 		return err.response

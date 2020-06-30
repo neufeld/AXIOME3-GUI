@@ -9,6 +9,9 @@ from flask_cors import CORS
 from werkzeug.debug import DebuggedApplication
 # Import extension packages
 from AXIOME3_app.extensions import celery
+from flask_mail import Mail
+mail = Mail()
+#from AXIOME3_app.extensions import mail
 
 # Initialize socketio instance here to avoid circulr import
 socketio = SocketIO(cors_allowed_origins='*')
@@ -24,6 +27,7 @@ from AXIOME3_app.report import pcoa
 from AXIOME3_app.report import taxonomy
 from AXIOME3_app.report import combined_asv_table
 from AXIOME3_app.report import alpha_diversity
+from AXIOME3_app.report import beta_diversity
 from AXIOME3_app.report import custom_pcoa
 from AXIOME3_app.report import batch
 
@@ -54,6 +58,10 @@ def create_app(testing=False, debug=False, development=False):
 	fh.setFormatter(formatter)
 	app.logger.addHandler(fh)
 
+	# Set up Flask-Mail
+	# potentially use .env file and integrate with docker?
+	mail.init_app(app)
+
 	# Initialize Socket.IO
 	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], engineio_logger=True)
 
@@ -74,6 +82,7 @@ def register_blueprints(app):
 	app.register_blueprint(combined_asv_table.views.blueprint)
 	app.register_blueprint(taxonomy.views.blueprint)
 	app.register_blueprint(alpha_diversity.views.blueprint)
+	app.register_blueprint(beta_diversity.views.blueprint)
 	app.register_blueprint(custom_pcoa.views.blueprint)
 	app.register_blueprint(batch.views.blueprint)
 
@@ -93,7 +102,14 @@ def init_celery(app=None):
 	#celery.conf.result_backend = os.environ["CELERY_RESULT_BACKEND"]
 
 	# Task routes
-	celery.conf.task_routes = {'pipeline.run.*': {'queue': 'pipeline'}}
+	celery.conf.task_routes = {
+		'pipeline.run.*': {
+			'queue': 'pipeline'
+		},
+		'pcoa.*': {
+			'queue': 'pcoa'
+		}
+	}
 	#celery.conf.update(app.config)
 
 	class ContextTask(celery.Task):
