@@ -38,7 +38,7 @@ services:
     links:
       - rabbit
 
-  celery:
+  pipeline_worker:
     build:
       context: ./backend
       dockerfile: dev.Dockerfile
@@ -57,6 +57,27 @@ services:
       #- CELERY_RESULT_BACKEND=rpc://
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+    links:
+      - rabbit
+
+  pcoa_worker:
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+      args:
+        - QIIME2_RELEASE=2019.10
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pcoa"
+    volumes:
+      - /:/hostfs:ro # Assumes host root is '/'
+      - ./backend:/backend
+      - ./output:/output # Stores all the output to this directory
+      - ./log:/log # For logging
+      - input:/input # Named volume
+      - ./pipeline:/pipeline # TEMPORARY
+    environment:
+      #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
+      #- CELERY_RESULT_BACKEND=rpc://
+      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
     links:
       - rabbit
 
