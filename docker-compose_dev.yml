@@ -60,13 +60,13 @@ services:
     links:
       - rabbit
 
-  pcoa_worker:
+  extension_worker:
     build:
       context: ./backend
       dockerfile: dev.Dockerfile
       args:
         - QIIME2_RELEASE=2019.10
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pcoa"
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q extension"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend

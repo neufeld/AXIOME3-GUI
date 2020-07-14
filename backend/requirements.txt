@@ -1,5 +1,6 @@
 luigi==2.8.11
 plotnine==0.6.0
+rpy2==3.3.5
 celery[redis]
 flask
 flask-cors
