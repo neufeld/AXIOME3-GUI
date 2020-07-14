@@ -14,7 +14,7 @@ from AXIOME3_app.datahandle import (
 	input_upload_helper,
 	denoise_helper,
 	analysis_helper,
-	pcoa_helper
+	extension_helper
 )
 # Celery task
 from AXIOME3_app.tasks.pipeline_config_generator import config_task
@@ -22,6 +22,7 @@ from AXIOME3_app.tasks.input_upload import import_data_task
 from AXIOME3_app.tasks.denoise import denoise_task
 from AXIOME3_app.tasks.analysis import analysis_task
 from AXIOME3_app.tasks.pcoa import pcoa_task
+from AXIOME3_app.tasks.bubbleplot import bubbleplot_task
 from AXIOME3_app.tasks.pipeline import check_output_task
 
 # Custom Exceptions
@@ -247,14 +248,14 @@ def pcoa():
 		legend_title_size = request.form["legend title size"]
 		legend_text_size = request.form["legend text size"]
 
-		metadata_path = pcoa_helper.validate_pcoa_input(
+		metadata_path = extension_helper.validate_pcoa_input(
 			_id=_id,
 			metadata=metadata,
 			target_primary=primary_target,
 			target_secondary=secondary_target
 		)
 
-		pcoa_path = pcoa_helper.pcoa_setup(
+		pcoa_path = extension_helper.pcoa_setup(
 			_id=_id,
 			pcoa=pcoa_qza
 		)
@@ -279,6 +280,55 @@ def pcoa():
 			'legend_text_size': legend_text_size
 		}
 		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
+
+	except CustomError as err:
+		return err.response
+
+	return Response("Success!", status=200, mimetype='text/html')
+
+@blueprint.route("/bubbleplot", methods=['POST'])
+def bubbleplot():
+	# Use UUID4 for unique identifier
+	_id = str(request.form['uuid'])
+	URL = current_app.config["CELERY_BROKER_URL"]
+
+	# path to file to record task progress
+	# It will be used to retrieve working progress
+	# Maybe replace it with database later
+	task_progress_file = os.path.join('/output', _id, 'task_progress.txt')
+
+	try:
+		# Check if the upload is made from the client or server
+		if("feature_table_qza" in request.files):
+			feature_table_qza = request.files["feature_table_qza"]
+		else:
+			feature_table_qza = request.form["feature_table_qza"]
+
+		if("taxonomy_qza" in request.files):
+			taxonomy_qza = request.files["taxonomy_qza"]
+		else:
+			taxonomy_qza = request.form["taxonomy_qza"]
+
+		taxa_level = request.form["Taxa level"]
+		sort_level = request.form["Sort level"]
+		keyword_filter = request.form["Keyword filter"] if request.form["Keyword filter"] else None
+
+		feature_table_path, taxonomy_path = extension_helper.validate_bubbleplot_input(
+			_id=_id,
+			feature_table_artifact_path=feature_table_qza,
+			taxonomy_artifact_path=taxonomy_qza
+		)
+
+		extension_helper.bubbleplot_setup(_id)
+
+		bubbleplot_kwargs = {
+			'feature_table_artifact_path': feature_table_path,
+			'taxonomy_artifact_path': taxonomy_path,
+			'level': taxa_level,
+			'groupby_taxa': sort_level,
+			'keyword': keyword_filter
+		}
+		bubbleplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=bubbleplot_kwargs)
 
 	except CustomError as err:
 		return err.response

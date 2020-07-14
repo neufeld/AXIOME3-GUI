@@ -29,6 +29,7 @@ from AXIOME3_app.report import combined_asv_table
 from AXIOME3_app.report import alpha_diversity
 from AXIOME3_app.report import beta_diversity
 from AXIOME3_app.report import custom_pcoa
+from AXIOME3_app.report import bubbleplot
 from AXIOME3_app.report import batch
 
 def create_app(testing=False, debug=False, development=False):
@@ -84,6 +85,7 @@ def register_blueprints(app):
 	app.register_blueprint(alpha_diversity.views.blueprint)
 	app.register_blueprint(beta_diversity.views.blueprint)
 	app.register_blueprint(custom_pcoa.views.blueprint)
+	app.register_blueprint(bubbleplot.views.blueprint)
 	app.register_blueprint(batch.views.blueprint)
 
 def init_celery(app=None):
@@ -106,8 +108,8 @@ def init_celery(app=None):
 		'pipeline.run.*': {
 			'queue': 'pipeline'
 		},
-		'pcoa.*': {
-			'queue': 'pcoa'
+		'extension.*': {
+			'queue': 'extension'
 		}
 	}
 	#celery.conf.update(app.config)
