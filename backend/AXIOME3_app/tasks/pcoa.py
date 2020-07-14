@@ -17,7 +17,7 @@ from scripts.qiime2_helper.generate_pcoa import (
 	save_plot
 )
 
-@celery.task(name="pcoa.generate")
+@celery.task(name="extension.pcoa")
 def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 	colouring_variable, shape_variable=None, colour_set="Paired",
 	brewer_type="qual", primary_dtype='category', secondary_dtype='category',
