@@ -9,7 +9,7 @@ import { updateFormType } from '../redux/actions/submitAction'
 
 import AXIOME3Template from './AXIOME3Template'
 
-import PcoaOption from './data/PcoaOption'
+import BubbleplotOption from './data/BubbleplotOption'
 import { BUBBLEPLOT_FORMTYPE } from '../misc/FormTypeConfig';
 
 function BubbleplotDisplay(props) {
@@ -18,13 +18,14 @@ function BubbleplotDisplay(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "ASV table", file: "", label: "ASV table (.tsv)"}
+			{id: 0, name: "Feature table", file: "", label: "Feature table QIIME2 artifact (.qza)"},
+			{id: 1, name: "Taxonomy", file: "", label: "Taxonomy QIIME2 artifact (.qza)"},
 		]
 		// Get upload elements
 		getUploadField(uploadField)
 
 		// Get option list
-		updateOptionList(PcoaOption)
+		updateOptionList(BubbleplotOption)
 
 		// Update form type
 		updateFormType(BUBBLEPLOT_FORMTYPE)
@@ -32,7 +33,7 @@ function BubbleplotDisplay(props) {
 
 	// Type of the form;
 	// For server side processing
-	const description = "This is for PCoA!"
+	const description = "This is for bubble plot!"
 
 	return (
 		<React.Fragment>

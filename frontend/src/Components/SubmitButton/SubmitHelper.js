@@ -76,6 +76,17 @@ import {
  				formData.append("metadata", _file)
  			}
  		})
+ 	} else if(formType === BUBBLEPLOT_FORMTYPE) {
+ 		selectedFiles.forEach(fileObj => {
+ 			var _id = fileObj.id;
+ 			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 			if(_id === 0) {
+ 				formData.append("feature_table_qza", _file)
+ 			} else if(_id === 1) {
+ 				formData.append("taxonomy_qza", _file)
+ 			}
+ 		})
  	} else {
  		alert(`${formType} is not valid...`)
  	}
