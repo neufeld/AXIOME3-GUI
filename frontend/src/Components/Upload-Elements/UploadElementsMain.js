@@ -18,6 +18,7 @@ export function UploadElementsMain(props) {
 					<DropZone
 						label={item.label}
 						id={item.id}
+						acceptedExtensions={item.acceptedExtensions}
 					/>
       	</div>
 

@@ -28,7 +28,7 @@ const baseStyle = {
 // styled components as of 2019.
 export function DropZone(props) {
   // Props passsed from parent component (UploadElementMain.js)
-  const { id  = -1, label = "" } = props
+  const { id  = -1, label = "", acceptedExtensions=".txt,.tsv,.csv" } = props
 
   // Redux action
   const { selectFile } = props
@@ -41,7 +41,7 @@ export function DropZone(props) {
     getRootProps,
     getInputProps,
   } = useDropzone({
-    accept: '.txt,.tsv,.csv',
+    accept: acceptedExtensions,
     onDrop
   });
 
