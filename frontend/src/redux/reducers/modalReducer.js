@@ -3,6 +3,7 @@ import {
 	HANDLE_MODAL_CLOSE,
 } from '../types/types';
 
+/*
 import {
 	SAMPLE_TYPE,
 	INPUT_FORMAT,
@@ -28,7 +29,23 @@ import {
 	LEGEND_TEXT_SIZE,
 	CORES,
 } from '../../misc/OptionLabelConfig';
+*/
 
+import * as OPTION_LABELS from '../../misc/OptionLabelConfig';
+
+const getModalInitialState = () => {
+	var modalOpen = {}
+	Object.keys(OPTION_LABELS).forEach(k => {
+		modalOpen[OPTION_LABELS[k]] = false
+	})
+
+	var initialState = {
+		modalOpen: modalOpen
+	}
+
+	return initialState
+}
+/*
 const initialState = {
 	modalOpen: {
 		[SAMPLE_TYPE]: false,
@@ -56,6 +73,8 @@ const initialState = {
 		[CORES]: false,
 	},
 }
+*/
+const initialState = getModalInitialState()
 
 export default function(state = initialState, action) {
 	switch(action.type) {
