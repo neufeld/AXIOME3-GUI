@@ -1,7 +1,7 @@
 luigi==2.8.11
-plotnine==0.6.0
+plotnine==0.7.0
 rpy2==3.3.5
-celery[redis]
+celery==4.4.6
 flask
 flask-cors
 flask-socketio

@@ -3,9 +3,6 @@ FROM continuumio/miniconda3
 ARG QIIME2_RELEASE
 
 RUN apt-get install wget
-# Install Pandoc
-RUN wget https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-1-amd64.deb
-RUN dpkg -i /pandoc-2.9.2.1-1-amd64.deb
 
 # Install QIIME2
 ENV PATH /opt/conda/envs/qiime2-${QIIME2_RELEASE}/bin:$PATH
@@ -33,9 +30,19 @@ WORKDIR /pipeline
 # clone AXIOME3 Pipeline repository
 RUN git clone --single-branch --branch web-app https://github.com/neufeld/AXIOME3.git
 
+#WORKDIR /pipeline/AXIOME3
+# Train QIIME2 classifier (138 version)
+# Get ref-seqs
+#RUN wget https://data.qiime2.org/2020.6/common/silva-138-99-seqs.qza
+# Get taxonomy
+#RUN wget https://data.qiime2.org/2020.6/common/silva-138-99-tax.qza
+# Extract V4V5 region
+#RUN qiime feature-classifier extract-reads --i-sequences silva-138-99-seqs.qza --p-f-primer GTGYCAGCMGCCGCGGTAA --p-r-primer CCGYCAATTYMTTTRAGTTT --o-reads ref_seqs_silva138_NR99_V4V5.qza
+# Train classifier
+#RUN qiime feature-classifier fit-classifier-naive-bayes --i-reference-reads ref_seqs_silva138_NR99_V4V5.qza --i-reference-taxonomy silva-138-99-tax.qza --o-classifier classifier_silva138_NR99_V4V5.qza
+
 # Make /backend working directory; flask code lives here
 WORKDIR /backend
-
 # Install biopython
 #RUN conda install -c conda-forge biopython
 

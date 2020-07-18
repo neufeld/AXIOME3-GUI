@@ -18,7 +18,7 @@ services:
       context: ./backend
       dockerfile: dev.Dockerfile
       args:
-        - QIIME2_RELEASE=2019.10
+        - QIIME2_RELEASE=2020.6
     command: ["python", "server.py", '--py-autoreload', '1'] #["flask", "run", "--host", "0.0.0.0"]
     volumes:
       - ./backend:/backend
@@ -43,7 +43,7 @@ services:
       context: ./backend
       dockerfile: dev.Dockerfile
       args:
-        - QIIME2_RELEASE=2019.10
+        - QIIME2_RELEASE=2020.6
     command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
@@ -65,7 +65,7 @@ services:
       context: ./backend
       dockerfile: dev.Dockerfile
       args:
-        - QIIME2_RELEASE=2019.10
+        - QIIME2_RELEASE=2020.6
     command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q extension"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
