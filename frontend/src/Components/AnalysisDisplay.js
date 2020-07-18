@@ -14,6 +14,8 @@ import AnalysisDescription from './Description/AnalysisDescription';
 import AnalysisOption from './data/AnalysisOption'
 // Form type
 import { ANALYSIS_FORMTYPE } from '../misc/FormTypeConfig';
+// Upload field names
+import { QIIME2_FEATURE_TABLE, QIIME2_REP_SEQS, METADATA_FILE } from '../misc/InputUploadNameConfig';
 
 function AnalysisDisplay(props) {
 	// Redux actions
@@ -22,9 +24,9 @@ function AnalysisDisplay(props) {
 	useEffect(() => {
 		console.log(props.uid)
 		const uploadField = [
-			{id: 0, name: "feature-table", file: "", label: "Feature Table (.qza)"},
-			{id: 1, name: "rep-seqs", file: "", label: "Representative sequences (.qza)"},
-			{id: 2, name: "metadata", file: "", label: "Metadata (.tsv)"}
+			{id: 0, name: QIIME2_FEATURE_TABLE, file: "", label: "Feature Table (.qza)", acceptedExtensions: ".qza"},
+			{id: 1, name: QIIME2_REP_SEQS, file: "", label: "Representative sequences (.qza)", acceptedExtensions: ".qza"},
+			{id: 2, name: METADATA_FILE, file: "", label: "Metadata (.txt, .tsv)", acceptedExtensions: ".txt,.tsv"}
 		]
 
 		// Get upload elements

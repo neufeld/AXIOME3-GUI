@@ -6,6 +6,7 @@ import {
 	ANALYSIS_FORMTYPE,
 	PCOA_FORMTYPE,
 	BUBBLEPLOT_FORMTYPE,
+	TRIPLOT_FORMTYPE,
 } from '../../misc/FormTypeConfig';
 /**
  * Helper for form submission.
@@ -15,7 +16,7 @@ import {
  *	- formType: which form is being submitted? (e.g. InputUpload, Denoise, Analysis)
  */
 
- const handleSubmit = async (e, formType, selectedFiles, selectedOptions, submitData) => {
+ const handleSubmit = async (e, formType, selectedFiles, selectedOptions, uploadField, submitData) => {
  	e.preventDefault();
 
  	const uuidV4 = uuid.v4()
@@ -40,6 +41,17 @@ import {
  		formData.append(k, selectedOptions[k])
  	});
 
+ 	selectedFiles.forEach(fileObj => {
+ 		var _id = fileObj.id;
+ 		var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 		uploadField.forEach(uploadObj => {
+ 			if(_id === uploadObj.id) {
+ 				formData.append(uploadObj.name, _file);
+ 			}
+ 		})
+ 	})
+ 	/*
  	if(formType === INPUT_UPLOAD_FORMTYPE) {
  		//TODO
  		// Check there is only one element in selectedFiles?
@@ -70,11 +82,11 @@ import {
  			var _id = fileObj.id;
  			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
 
- 			if(_id === 0) {
- 				formData.append("pcoa_qza", _file)
- 			} else if(_id === 1) {
- 				formData.append("metadata", _file)
- 			}
+ 			uploadField.forEach(uploadObj => {
+ 				if(_id === uploadObj.id) {
+ 					formData.append(uploadObj.name, _file);
+ 				}
+ 			})
  		})
  	} else if(formType === BUBBLEPLOT_FORMTYPE) {
  		selectedFiles.forEach(fileObj => {
@@ -87,9 +99,25 @@ import {
  				formData.append("taxonomy_qza", _file)
  			}
  		})
+ 	} else if(formType === TRIPLOT_FORMTYPE) {
+ 		selectedFiles.forEach(fileObj => {
+ 			var _id = fileObj.id;
+ 			var _file = fileObj.selectedFile.misc ? fileObj.selectedFile.path : fileObj.selectedFile;
+
+ 			if(_id === 0) {
+ 				formData.append("feature_table_qza", _file)
+ 			} else if(_id === 1) {
+ 				formData.append("taxonomy_qza", _file)
+ 			} else if(_id === 2) {
+ 				formData.append("metadata", _file)	
+ 			} else if(_id === 3) {
+ 				formData.append("environmental_metadata", _file)
+ 			}
+ 		})
  	} else {
  		alert(`${formType} is not valid...`)
  	}
+ 	*/
  	submitData(formData, endpoint);
 
  }

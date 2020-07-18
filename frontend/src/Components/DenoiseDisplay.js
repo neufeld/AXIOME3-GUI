@@ -17,6 +17,8 @@ import DenoiseDescription from './Description/DenoiseDescription';
 import DenoiseOption from './data/DenoiseOption'
 // Form type
 import { DENOISE_FORMTYPE } from '../misc/FormTypeConfig';
+// Upload field names
+import { QIIME2_INPUT_SEQS } from '../misc/InputUploadNameConfig';
 
 function DenoiseDisplay(props) {
 	// Redux actions
@@ -27,7 +29,7 @@ function DenoiseDisplay(props) {
 	useEffect(() => {
 		// Get upload elements
 		const uploadField = [
-			{id: 0, name: "demultiplexed-seqs", file: "", label: "Demultiplexed Sequences (.qza)"}
+			{id: 0, name: QIIME2_INPUT_SEQS, file: "", label: "Demultiplexed Sequences (.qza)", acceptedExtensions: ".qza"}
 		]
 		getUploadField(uploadField)
 

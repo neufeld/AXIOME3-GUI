@@ -11,6 +11,8 @@ import AXIOME3Template from './AXIOME3Template'
 
 import BubbleplotOption from './data/BubbleplotOption'
 import { BUBBLEPLOT_FORMTYPE } from '../misc/FormTypeConfig';
+// Upload field names
+import { QIIME2_FEATURE_TABLE, QIIME2_TAXONOMY } from '../misc/InputUploadNameConfig';
 
 function BubbleplotDisplay(props) {
 	// Redux actions
@@ -18,8 +20,8 @@ function BubbleplotDisplay(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "Feature table", file: "", label: "Feature table QIIME2 artifact (.qza)"},
-			{id: 1, name: "Taxonomy", file: "", label: "Taxonomy QIIME2 artifact (.qza)"},
+			{id: 0, name: QIIME2_FEATURE_TABLE, file: "", label: "Feature table QIIME2 artifact (.qza)", acceptedExtensions: ".qza"},
+			{id: 1, name: QIIME2_TAXONOMY, file: "", label: "Taxonomy QIIME2 artifact (.qza)", acceptedExtensions: ".qza"},
 		]
 		// Get upload elements
 		getUploadField(uploadField)

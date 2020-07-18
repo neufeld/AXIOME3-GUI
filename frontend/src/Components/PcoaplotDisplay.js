@@ -13,6 +13,8 @@ import AXIOME3Template from './AXIOME3Template'
 
 import PcoaOption from './data/PcoaOption'
 import { PCOA_FORMTYPE } from '../misc/FormTypeConfig';
+// Upload field names
+import { QIIME2_PCOA, METADATA_FILE } from '../misc/InputUploadNameConfig';
 
 function PcoaplotDisplay(props) {
 	// Redux actions
@@ -20,8 +22,8 @@ function PcoaplotDisplay(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "pcoaQza", file: "", label: "PCoA QIIME Artifact (.qza)"},
-			{id: 1, name: "metadata", file: "", label: "Metadata (.tsv)"},
+			{id: 0, name: QIIME2_PCOA, file: "", label: "PCoA QIIME Artifact (.qza)", acceptedExtensions: ".qza"},
+			{id: 1, name: METADATA_FILE, file: "", label: "Metadata (.tsv, .txt)", acceptedExtensions: ".txt,.tsv"},
 		]
 
 		// Get upload elements

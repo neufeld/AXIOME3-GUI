@@ -29,8 +29,8 @@ function ExtensionDisplayTemplate(props) {
 		margin: "auto",
 		padding: "5%"
 	}
-	// Redix state
-	const { formType, selectedFiles, selectedOptions } = props;
+	// Redux state
+	const { formType, selectedFiles, selectedOptions, uploadField } = props;
 
 	// props from parent component
 	const { description } = props;
@@ -72,7 +72,7 @@ function ExtensionDisplayTemplate(props) {
 			<VerticalTabMain/>
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
-				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, submitData)}}>
+				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
@@ -89,6 +89,7 @@ const mapStateToProps  = state => ({
 	selectedFiles: state.upload.selectedFiles,
 	selectedOptions: state.option.selectedOptions,
 	formType: state.submit.formType,
+	uploadField: state.upload.uploadField,
 })
 
 const mapDispatchToProps = {

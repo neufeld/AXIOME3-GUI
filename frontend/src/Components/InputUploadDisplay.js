@@ -17,6 +17,8 @@ import { updateOptionList } from '../redux/actions/optionAction'
 import { updateFormType } from '../redux/actions/submitAction'
 // Form type
 import { INPUT_UPLOAD_FORMTYPE } from '../misc/FormTypeConfig';
+// Upload field names
+import { MANIFEST_FILE } from '../misc/InputUploadNameConfig';
 
 /**
  * Main componenet that concerns with Input Upload module.
@@ -27,7 +29,7 @@ function InputUploadDisplay(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: "manifest-file", label: "Manifest File (.txt, .tsv, .csv)"}
+			{id: 0, name: MANIFEST_FILE, label: "Manifest File (.txt, .tsv, .csv)", acceptedExtensions: ".txt,.tsv,.csv"}
 		]
 		// Get upload elements
 		getUploadField(uploadField)
