@@ -13,7 +13,7 @@ import OptionInputField from './OptionInputField';
 function OptionDetailsItem(props) {
 	// label: input label
 	// type: input type (e.g. number, text, dropdown)
-	const { label, type, defaultValue, dropdownOption = [], hidden } = props
+	const { label, type, defaultValue, dropdownOption = [], hidden, min, max, step} = props
 
 	return(
 		<div className="option-detail-item-container" style={{display: (hidden) ? 'none' : 'flex'}}>
@@ -26,6 +26,9 @@ function OptionDetailsItem(props) {
 				dropdownOption={dropdownOption}
 				label={label}
 				defaultValue={defaultValue}
+				min={min}
+				max={max}
+				step={step}
 			/>
 			<OptionModal label={label}/>
 		</div>

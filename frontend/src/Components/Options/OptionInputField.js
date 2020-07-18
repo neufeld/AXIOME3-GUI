@@ -14,7 +14,7 @@ export function OptionInputField(props) {
 	// type: input tag type
 	// dropdownOption: options to be used for dropdown menu
 	// name: name of the option (to update redux state)
-	const { type, dropdownOption = [], label, defaultValue } = props;
+	const { type, dropdownOption = [], label, defaultValue, min, max, step } = props;
 
 	// Redux state
 	const { options, selectedOptions } = props;
@@ -56,6 +56,7 @@ export function OptionInputField(props) {
 
 		inputField = <TextField
 										select
+										fullWidth={true}
 										variant="outlined"
 										defaultValue={defaultValue}
 										onChange={e => {selectOptions(label, e.target.value)}}
@@ -63,18 +64,27 @@ export function OptionInputField(props) {
 									{options}
 									</TextField>
 	} else if(type === "number") {
+		// To enable min, max, step in input tag
+		const inputProps = {
+			min: min,
+			max: max,
+			step: step,
+		};
 		let value = selectedOptions[label] || 0;
 		inputField = <TextField
 										type={type}
+										fullWidth={true}
 										value={value}
 										variant="outlined"
 										onChange={e => {selectOptions(label, e.target.value)}}
+										inputProps={inputProps}
 									>
 									</TextField>
 	} else if(type === "text") {
 		let value = selectedOptions[label] || '';
 		inputField = <TextField
 										type={type}
+										fullWidth={true}
 										value={value}
 										variant="outlined"
 										onChange={e => {selectOptions(label, e.target.value)}}

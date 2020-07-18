@@ -1,5 +1,5 @@
 import { 
-	TAXA_LEVEL,
+	TAXA_COLLAPSE_LEVEL,
 	SORT_LEVEL,
 	KEYWORD_FILTER,
 } from '../../misc/OptionLabelConfig';
@@ -21,7 +21,7 @@ const BubbleplotOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: TAXA_LEVEL,
+				label: TAXA_COLLAPSE_LEVEL,
 				type: "dropdown",
 				dropdownOption: ["Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species", "ASV"],
 				defaultValue: "ASV",
