@@ -60,6 +60,7 @@ function VerticalTabMain(props) {
 	const extensionBarField = [
 		{id: 0, label: "PCoA Plot", value: PCOA_ROUTE},
 		{id: 1, label: "Bubble Plot", value: BUBBLEPLOT_ROUTE},
+		{id: 2, label: "Triplot", value: TRIPLOT_ROUTE},
 	]
 
 	const tabItems = extensionBarField.map(extenionItem => {

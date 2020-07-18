@@ -25,9 +25,14 @@ export const Y_AXIS_LABEL_SIZE = "y axis label size"
 export const LEGEND_TITLE_SIZE = "legend title size"
 export const LEGEND_TEXT_SIZE = "legend text size"
 // Bubbleplot option related
-export const TAXA_LEVEL = "Taxa level"
+export const TAXA_COLLAPSE_LEVEL = "Taxa collapse level"
 export const SORT_LEVEL = "Sort level"
 export const KEYWORD_FILTER = "Keyword filter"
+// Triplot option related
+export const ABUNDANCE_THRESHOLD = "Abundance threshold"
+export const R2_THRESHOLD = "R squared threshold"
+export const WA_THRESHOLD = "Taxa weighted average threshold"
+export const FILL_VARIABLE = "Fill variable"
 // General
 export const CORES = "cores";
 // Email

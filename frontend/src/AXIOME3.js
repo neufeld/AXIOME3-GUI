@@ -16,6 +16,7 @@ import {
 	ANALYSIS_ROUTE,
 	PCOA_ROUTE,
 	BUBBLEPLOT_ROUTE,
+	TRIPLOT_ROUTE,
 } from './RouteConfig';
 
 import InputUploadDisplay from './Components/InputUploadDisplay'
@@ -23,6 +24,8 @@ import DenoiseDisplay from './Components/DenoiseDisplay'
 import AnalysisDisplay from './Components/AnalysisDisplay'
 import PcoaplotDisplay from './Components/PcoaplotDisplay'
 import BubbleplotDisplay from './Components/BubbleplotDisplay'
+import TriplotDisplay from './Components/TriplotDisplay'
+
 import Report from './Report';
 
 function AXIOME3() {
@@ -35,6 +38,7 @@ function AXIOME3() {
 					<Route path={ANALYSIS_ROUTE} component={AnalysisDisplay} />
 					<Route path={PCOA_ROUTE} component={PcoaplotDisplay} />
 					<Route path={BUBBLEPLOT_ROUTE} component={BubbleplotDisplay} />
+					<Route path={TRIPLOT_ROUTE} component={TriplotDisplay} />
 					<Route path={REPORT_DYNAMIC_ROUTE} component={Report} />
 				</Switch>
 			</Router>

@@ -13,12 +13,15 @@ import {
 	CUSTOM_PCOA_PDF_ENDPOINT,
 	BUBBLEPLOT_PNG_ENDPOINT,
 	BUBBLEPLOT_PDF_ENDPOINT,
+	TRIPLOT_PNG_ENDPOINT,
+	TRIPLOT_PDF_ENDPOINT,
 } from '../../misc/EndpointConfig';
 
 // Form types
 import {
 	PCOA_FORMTYPE,
 	BUBBLEPLOT_FORMTYPE,
+	TRIPLOT_FORMTYPE,
 } from '../../misc/FormTypeConfig';
 
 const getPngEndpoint = (formType) => {
@@ -27,6 +30,8 @@ const getPngEndpoint = (formType) => {
 			return CUSTOM_PCOA_PNG_ENDPOINT
 		case BUBBLEPLOT_FORMTYPE:
 			return BUBBLEPLOT_PNG_ENDPOINT
+		case TRIPLOT_FORMTYPE:
+			return TRIPLOT_PNG_ENDPOINT
 		default:
 			return "none"
 	}
@@ -38,6 +43,8 @@ const getPdfEndpoint = (formType) => {
 			return CUSTOM_PCOA_PDF_ENDPOINT
 		case BUBBLEPLOT_FORMTYPE:
 			return BUBBLEPLOT_PDF_ENDPOINT
+		case TRIPLOT_FORMTYPE:
+			return TRIPLOT_PDF_ENDPOINT
 		default:
 			return "none"
 	}
