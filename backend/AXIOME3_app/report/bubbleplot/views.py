@@ -17,7 +17,7 @@ def bubbleplot_png():
 		return send_file(
 			io.BytesIO(bytes_obj.read()),
 			as_attachment=True,
-			attachment_filename='pcoa.png',
+			attachment_filename='bubbleplot.png',
 			mimetype='image/png'
 		)
 
