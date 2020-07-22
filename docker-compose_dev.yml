@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   #redis:
   #  image: redis:latest
@@ -6,12 +6,13 @@ services:
   #    - '6379:6379'
   #  #command: ["redis-server"]
   rabbit:
-    image: rabbitmq:management
+    image: rabbitmq:3.8.5-management
     ports:
       - '15673:15672' # in case user has rabbitMQ installed on host
     environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=mypass
+      - RABBITMQ_DEFAULT_USER=axiome3
+      - RABBITMQ_DEFAULT_PASS=neufeld
+      - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
   backend:
     build:
@@ -66,7 +67,7 @@ services:
       dockerfile: dev.Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q extension"
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker2@%h -Q extension"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -78,8 +79,8 @@ services:
       #- CELERY_BROKER_URL=pyamqp://admin:mypass@rabbit
       #- CELERY_RESULT_BACKEND=rpc://
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
-    links:
-      - rabbit
+    #links:
+    #  - rabbit
 
   frontend:
     build:

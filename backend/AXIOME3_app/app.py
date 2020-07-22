@@ -66,6 +66,7 @@ def create_app(testing=False, debug=False, development=False):
 
 	# Initialize Socket.IO
 	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], engineio_logger=True)
+	#socketio.init_app(app, engineio_logger=True)
 
 	return app
 

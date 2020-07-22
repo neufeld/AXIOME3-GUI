@@ -2,7 +2,10 @@
 #CELERY_BROKER_URL='redis://redis:6379/0'
 #CELERY_RESULT_BACKEND='redis://redis:6379/0'
 # RabbitMQ
-CELERY_BROKER_URL='pyamqp://admin:mypass@rabbit//'
+#CELERY_BROKER_URL='pyamqp://admin:mypass@rabbit//'
+#CELERY_RESULT_BACKEND='rpc://'
+
+CELERY_BROKER_URL='pyamqp://axiome3:neufeld@rabbit/axiome3_host'
 CELERY_RESULT_BACKEND='rpc://'
 
 # Flask Mail
