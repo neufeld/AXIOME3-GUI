@@ -62,7 +62,7 @@ def validate_pcoa_input(_id, pcoa_artifact_path, metadata_path, target_primary, 
 	responseIfError(validate_metadata, metadata_path=metadata_uploaded_path, target_primary=target_primary, target_secondary=target_secondary)
 	responseIfError(validate_artifact, pcoa_artifact_path=pcoa_uploaded_path)
 
-	return pcoa_path, metadata_path
+	return pcoa_uploaded_path, metadata_uploaded_path
 
 def validate_bubbleplot_input(_id, feature_table_artifact_path, taxonomy_artifact_path):
 	"""
