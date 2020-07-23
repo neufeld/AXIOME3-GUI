@@ -30,7 +30,7 @@ export function CheckBox(props) {
 	}
 
 	return(
-		<div className="checkbox">
+		<div className="filebrowse-checkbox">
 			{radioButton}
 		</div>
 	)

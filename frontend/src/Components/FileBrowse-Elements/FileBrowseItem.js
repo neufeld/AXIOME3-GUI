@@ -1,10 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import FolderTwoToneIcon from '@material-ui/icons/FolderTwoTone';
 import DescriptionTwoToneIcon from '@material-ui/icons/DescriptionTwoTone';
 
 import { getFiles, selectFile } from '../../redux/actions/uploadAction'
+
+
+export const FileBrowseTextToolTip = withStyles((theme) => ({
+	tooltip: {
+		backgroundColor: '#FFFFFF',
+		color: 'rgba(0, 0, 0, 1)',
+		maxWidth: 400,
+		fontSize: '14px',
+		border: '1px solid #dadde9',
+	},
+}))(Tooltip)
 
 /**
  * ADD DOCSTRING
@@ -27,9 +41,9 @@ export function FileBrowseItem(props) {
 
 	const icon = (file.type === "dir") 
 								? 
-								<FolderTwoToneIcon className="icon" />
+								<FolderTwoToneIcon className="filebrowse-icon" />
 								:
-								<DescriptionTwoToneIcon className="icon" />
+								<DescriptionTwoToneIcon className="filebrowse-icon" />
 
 	// This MUST be inline-styling;
 	// One of the test cases requires it to be inline (as of Jan. 2020)
@@ -43,13 +57,15 @@ export function FileBrowseItem(props) {
 
 	return(
 		<div
-			className="clickable display-container"
+			className="clickable filebrowse-display-container"
 			test-attr="clickForEvent"
 			onClick={onClickHandler}
 			style={containerStyle}
 		>
 			{icon}
-			<p className="text">{displayText}</p>
+			<FileBrowseTextToolTip title={displayText} placement="top-start" arrow>
+				<p className="filebrowse-text">{displayText}</p>
+			</FileBrowseTextToolTip>
 		</div>
 	)
 }

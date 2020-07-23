@@ -9,12 +9,12 @@ export function HeaderBar(props) {
 	const headerText = files.map(file => {
 		if(file.isRoot === true) {
 			const id = file.name + "_header"
-			return <p className="header" key={id}>{file.path}</p>
+			return <p className="filebrowse-header" key={id}>{file.path}</p>
 		}
 	})
 
 	return(
-		<div className="header-container">
+		<div className="filebrowse-header-container">
 			{headerText}
 		</div>
 	)
