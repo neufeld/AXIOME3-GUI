@@ -10,7 +10,6 @@
 }
 
 .option-detail-container {
-	padding: 20px;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -25,7 +24,7 @@
 .option-label-help-outer {
 	display: flex;
 	align-items: center;
-	min-width: 250px;
+	min-width: 15%;
 }
 
 .option-label {
