@@ -15,12 +15,12 @@ const baseStyle = {
   borderColor: '#BEBEBE',
   borderStyle: 'dashed',
   backgroundColor: '#fafafa',
-  color: '#bdbdbd',
+  color: '#000000',
   outline: 'none',
   transition: 'border .24s ease-in-out'
 };
 
-// Tricky to use border styles because acceptStyle/rejectStyle
+// Tricky to use dynamic border styles because acceptStyle/rejectStyle
 // can only be used with valid MIME types (i.e. specifying extension doesn't work)
 // Some formats (e.g. csv) have platform dependent MIME types (Windows and MacOS have different MIME for csv)
 
@@ -51,7 +51,7 @@ export function DropZone(props) {
 
   return (
     <div {...getRootProps({style})}>
-      <div className="flex-container icon">
+      <div className="flex-container dropzone-icon">
         <CloudUploadOutlinedIcon className="dropzone-sub-icon"/>
       </div>
       <input {...getInputProps({onChange: e => {selectFile(id, e.target.files[0])}})}/>
