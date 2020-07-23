@@ -6,6 +6,7 @@ import Footer from './Footer'
 import MainDisplayTemplate from './MainDisplayTemplate'
 import ExtensionDisplayTemplate from './ExtensionDisplayTemplate'
 import FileBrowseElementsMain from './FileBrowse-Elements/FileBrowseElementsMain'
+import VerticalTabMain from './Extension/VerticalTabMain'
 
 import FileDownloadForm from './Download/FileDownloadForm';
 
@@ -15,6 +16,7 @@ function AXIOME3Template(props) {
 	const { formType, selectedFiles, selectedOptions, description, isExtension } = props;
 
 	let mainContent;
+	let extensionSideBar;
 	if(isExtension === true) {
 		mainContent = (
 			<React.Fragment>
@@ -26,6 +28,9 @@ function AXIOME3Template(props) {
 					isExtension={true}
 				/>
 			</React.Fragment>
+		)
+		extensionSideBar = (
+			<VerticalTabMain/>
 		)
 	} else {
 		mainContent = (
@@ -41,13 +46,20 @@ function AXIOME3Template(props) {
 	}
 
 	return(
-		<div className="main-container">
+		<div className="site-wrapper">
 			<Header />
-			<div className="sidebar">
-				<FileBrowseElementsMain/>
-			</div>
-			<div className="main-content">
-				{mainContent}
+			<div className="axiome3-main-wrapper">
+				<div className="axiome3-main-container">
+					<div className="sidebar-left">
+						<FileBrowseElementsMain/>
+					</div>
+					<div className="main-content">
+						{mainContent}
+					</div>
+				</div>
+				<div className="sidebar-right">
+					{extensionSideBar}
+				</div>
 			</div>
 			<Footer />
 			<FileDownloadForm key={props.downloadPath}/>

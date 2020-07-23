@@ -8,7 +8,6 @@ import OptionsMain from './Options/OptionsMain'
 import TabBarMain from './TabBar/TabBarMain'
 import StatusMain from './Status/StatusMain'
 import SubmitButton from './SubmitButton/SubmitButton'
-import VerticalTabMain from './Extension/VerticalTabMain'
 import ImagePreviewMain from './ImagePreview/ImagePreviewMain'
 
 // Custom helper functions
@@ -69,7 +68,6 @@ function ExtensionDisplayTemplate(props) {
 
 	return (
 		<div className="main-display">
-			<VerticalTabMain/>
 			<TabBarMain/>
 			<div className="sub-display" style={subDisplayStyles}>
 				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData)}}>
