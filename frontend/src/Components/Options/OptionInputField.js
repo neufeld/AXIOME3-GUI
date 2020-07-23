@@ -25,7 +25,6 @@ export function OptionInputField(props) {
 	let inputField;
 	// Initially update redux state with the default value 
 	useEffect(() => {
-		//console.log(options)
 		selectOptions(label, defaultValue)
 	}, [options])
 
