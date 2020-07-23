@@ -54,6 +54,10 @@
 	justify-content: space-between;
 }
 
+.main-display {
+	min-width: 800px;
+}
+
 .clickable {
 	text-decoration: underline;
 }
