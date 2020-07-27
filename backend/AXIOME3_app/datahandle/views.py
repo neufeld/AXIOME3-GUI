@@ -27,7 +27,7 @@ from AXIOME3_app.tasks.triplot import triplot_task
 from AXIOME3_app.tasks.pipeline import check_output_task
 
 # Custom Exceptions
-from AXIOME3_app.exceptions.exception import CustomError
+from AXIOME3_app.exceptions.exception import AXIOME3Error
 
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
 
@@ -78,7 +78,7 @@ def inputupload():
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, recipient))
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')
@@ -136,7 +136,7 @@ def denoise():
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')
@@ -201,7 +201,7 @@ def analysis():
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')
@@ -269,8 +269,8 @@ def pcoa():
 			'alpha': float(alpha),
 			'stroke': float(stroke),
 			'point_size': float(point_size),
-			'PC_axis_1': PC_axis_1,
-			'PC_axis_2': PC_axis_2,
+			'PC_axis_1': int(PC_axis_1),
+			'PC_axis_2': int(PC_axis_2),
 			'width': width,
 			'height': height,
 			'x_axis_text_size': x_axis_text_size,
@@ -280,7 +280,7 @@ def pcoa():
 		}
 		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')
@@ -329,7 +329,7 @@ def bubbleplot():
 		}
 		bubbleplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=bubbleplot_kwargs)
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')
@@ -410,12 +410,21 @@ def triplot():
 			'R2_threshold': float(R2_threshold),
 			'wa_threshold': float(wa_threshold),
 			'fill_variable': fill_variable,
+			'alpha': float(alpha),
+			'stroke': float(stroke),
+			'point_size': float(point_size),
+			'PC_axis_one': int(PC_axis_1),
+			'PC_axis_two': int(PC_axis_2),
 			'width': float(width),
-			'height': float(height)
+			'height': float(height),
+			'x_axis_text_size': x_axis_text_size,
+			'y_axis_text_size': y_axis_text_size,
+			'legend_title_size': legend_title_size,
+			'legend_text_size': legend_text_size
 		}
 		triplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=triplot_kwargs)
 
-	except CustomError as err:
+	except AXIOME3Error as err:
 		return err.response
 
 	return Response("Success!", status=200, mimetype='text/html')

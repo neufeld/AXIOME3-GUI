@@ -5,7 +5,7 @@ For example, error handling.
 from flask import Response
 from flask import current_app
 
-from AXIOME3_app.exceptions.exception import CustomError
+from AXIOME3_app.exceptions.exception import AXIOME3Error
 
 # Messages
 from AXIOME3_app.messages.message import (
@@ -34,6 +34,6 @@ def responseIfError(func, **kwargs):
 			result = result.replace("/hostfs", "")
 			response = Response(result, status=code, mimetype='text/html')
 
-		raise CustomError(result, response)
+		raise AXIOME3Error(result, response)
 
 	return result

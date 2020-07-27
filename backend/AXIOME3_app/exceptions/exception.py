@@ -2,7 +2,8 @@
 Custom exceptions are defined here
 """
 # Custom exception
-class CustomError(RuntimeError):
-	def __init__(self, message, response):
+class AXIOME3Error(RuntimeError):
+	def __init__(self, message, response=None):
 		super().__init__(message)
-		self.response = response
+		if(response is not None):
+			self.response = response
