@@ -120,14 +120,20 @@ const TriplotOption = {
 			layoutConfig1: {
 				id: "layoutConfig1",
 				label: PC_AXIS_ONE,
-				type: "text",
-				defaultValue: "PC1"
+				type: "number",
+				defaultValue: 1,
+				min: 1,
+				max: 10,
+				step: 1,
 			},
 			layoutConfig2: {
 				id: "layoutConfig2",
 				label: PC_AXIS_TWO,
-				type: "text",
-				defaultValue: "PC2"
+				type: "number",
+				defaultValue: 2,
+				min: 1,
+				max: 10,
+				step: 1,
 			},
 			layoutConfig3: {
 				id: "layoutConfig3",
