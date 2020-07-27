@@ -79,6 +79,8 @@ function ImagePreviewMain(props) {
 
 		if(formType !== '' && isWorkerDone === true) {
 			getPcoaImage()
+		} else {
+			setSource('')
 		}
 
 	}, [isWorkerDone])

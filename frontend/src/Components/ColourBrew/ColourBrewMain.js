@@ -16,7 +16,8 @@ import {
 } from '../../misc/OptionLabelConfig';
 
 function ColourBrewMain(props) {
-	const defaultBrewType = 'sequential';
+	// default brew type should be same as the one in ./data/PcoaOptions.js
+	const defaultBrewType = 'qualitative';
 	const defaultNumClass = 3;
 
 	const [ selectedBrewType, setSelectedBrewType ] = useState(defaultBrewType);
