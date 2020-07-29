@@ -45,7 +45,7 @@ services:
       dockerfile: dev.Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline"
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -67,7 +67,7 @@ services:
       dockerfile: dev.Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker2@%h -Q extension"
+    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
