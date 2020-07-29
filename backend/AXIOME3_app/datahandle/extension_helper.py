@@ -18,10 +18,10 @@ from scripts.qiime2_helper.metadata_helper import (
 	load_metadata,
 	check_column_exists
 )
-
 from scripts.qiime2_helper.artifact_helper import (
 	check_artifact_type
 )
+from exceptions.exception import AXIOME3Error as AXIOME3PipelineError
 
 def validate_pcoa_input(_id, pcoa_artifact_path, metadata_path, target_primary, target_secondary=None):
 	metadata_uploaded_path = save_uploaded_file(_id, metadata_path)
@@ -42,7 +42,7 @@ def validate_pcoa_input(_id, pcoa_artifact_path, metadata_path, target_primary, 
 		try:
 			check_column_exists(metadata_df, target_primary, target_secondary)
 
-		except ValueError as err:
+		except AXIOME3PipelineError as err:
 			message = str(err)
 
 			return 400, message
@@ -52,7 +52,7 @@ def validate_pcoa_input(_id, pcoa_artifact_path, metadata_path, target_primary, 
 	def validate_artifact(pcoa_artifact_path):
 		try:
 			check_artifact_type(pcoa_artifact_path, "pcoa")
-		except ValueError as err:
+		except AXIOME3PipelineError as err:
 			message = str(err)
 
 			return 400, message
@@ -64,7 +64,7 @@ def validate_pcoa_input(_id, pcoa_artifact_path, metadata_path, target_primary, 
 
 	return pcoa_uploaded_path, metadata_uploaded_path
 
-def validate_bubbleplot_input(_id, feature_table_artifact_path, taxonomy_artifact_path):
+def validate_bubbleplot_input(_id, feature_table_artifact_path, taxonomy_artifact_path, metadata_path=None, fill_variable=None):
 	"""
 	Do prechecks as to decrease the chance of job failing.
 
@@ -75,6 +75,10 @@ def validate_bubbleplot_input(_id, feature_table_artifact_path, taxonomy_artifac
 	# Save uploaded file in the docker container
 	feature_table_uploaded_path = save_uploaded_file(_id, feature_table_artifact_path)
 	taxonomy_uploaded_path = save_uploaded_file(_id, taxonomy_artifact_path)
+	if(metadata_path is not None):
+		metadata_uploaded_path = save_uploaded_file(_id, metadata_path)
+	else:
+		metadata_uploaded_path = None
 
 	def validate_artifact(feature_table_uploaded_path, taxonomy_uploaded_path):
 		# Check Artifact type
@@ -82,16 +86,40 @@ def validate_bubbleplot_input(_id, feature_table_artifact_path, taxonomy_artifac
 			check_artifact_type(feature_table_uploaded_path, "feature_table")
 			check_artifact_type(taxonomy_uploaded_path, "taxonomy")
 
-		except ValueError as err:
+		except AXIOME3PipelineError as err:
 			message = str(err)
 
 			return 400, message
 
 		return 200, "Imported data good!"
 
-	responseIfError(validate_artifact, feature_table_uploaded_path=feature_table_uploaded_path, taxonomy_uploaded_path=taxonomy_uploaded_path)
+	def validate_metadata(metadata_uploaded_path, fill_variable):
+		# Load metadata via QIIME2 metadata API
+		# It will verify metadata vadlity as well
+		try:
+			metadata_df = load_metadata(metadata_uploaded_path)
+		except MetadataFileError as err:
+			message = str(err)
 
-	return feature_table_uploaded_path, taxonomy_uploaded_path
+			return 400, message
+
+		# Check user-specified columns actually exist in the metadata file
+		if(fill_variable is not None):
+			try:
+				check_column_exists(metadata_df, fill_variable)
+
+			except AXIOME3PipelineError as err:
+				message = str(err)
+
+				return 400, message
+
+		return 200, "Ok"
+
+	responseIfError(validate_artifact, feature_table_uploaded_path=feature_table_uploaded_path, taxonomy_uploaded_path=taxonomy_uploaded_path)
+	if(metadata_uploaded_path is not None):
+		responseIfError(validate_metadata, metadata_uploaded_path=metadata_uploaded_path, fill_variable=fill_variable)
+
+	return feature_table_uploaded_path, taxonomy_uploaded_path, metadata_uploaded_path
 
 def validate_triplot_input(_id, feature_table_artifact_path, taxonomy_artifact_path, metadata_path, environmental_metadata_path, fill_variable):
 	# Save uploaded file in the docker container
@@ -121,7 +149,7 @@ def validate_triplot_input(_id, feature_table_artifact_path, taxonomy_artifact_p
 		try:
 			check_column_exists(metadata_df, fill_variable)
 		
-		except ValueError as err:
+		except AXIOME3PipelineError as err:
 			message = str(err)
 		
 			return 400, message
@@ -134,7 +162,7 @@ def validate_triplot_input(_id, feature_table_artifact_path, taxonomy_artifact_p
 			check_artifact_type(feature_table_uploaded_path, "feature_table")
 			check_artifact_type(taxonomy_uploaded_path, "taxonomy")
 
-		except ValueError as err:
+		except AXIOME3PipelineError as err:
 			message = str(err)
 
 			return 400, message

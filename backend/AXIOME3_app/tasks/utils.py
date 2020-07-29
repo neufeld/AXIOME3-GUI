@@ -1,6 +1,33 @@
 from flask_mail import Message
 import subprocess
 import re
+import logging
+
+def configure_celery_logger(logger):
+	"""
+	Celery app related logs
+	"""
+	# define logger
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	fh = logging.FileHandler('/log/celery_app.log', mode='a')
+	fh.setLevel(level=logging.INFO)
+	fh.setFormatter(formatter)
+	
+	logger.addHandler(fh)
+	logger.propagate = True
+
+def configure_celery_task_logger(logger):
+	"""
+	Celery task specfic logs
+	"""
+	# define logger
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	fh = logging.FileHandler('/log/celery_task.log', mode='a')
+	fh.setLevel(level=logging.INFO)
+	fh.setFormatter(formatter)
+	
+	logger.addHandler(fh)
+	logger.propagate = False
 
 def log_status(logfile, message):
 	with open(logfile, 'w') as fh:

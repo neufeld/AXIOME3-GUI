@@ -229,12 +229,12 @@ def pcoa():
 		else:
 			metadata = request.form["metadata"]
 
-		primary_target = request.form["Primary target"]
+		fill_variable = request.form["Fill variable"]
 		# Primary target must exist
-		if not(primary_target):
-			return Response("Please specify primary target!", status=400, mimetype='text/html')
+		if not(fill_variable):
+			return Response("Please specify `Fill variable`!", status=400, mimetype='text/html')
 
-		secondary_target = request.form["Secondary target"] if request.form["Secondary target"] else None
+		shape_variable = request.form["Shape variable"] if request.form["Shape variable"] else None
 		colour_set = request.form["Colour set"]
 		brewer_type = request.form["brewer type"]
 		alpha = request.form["alpha"]
@@ -253,8 +253,8 @@ def pcoa():
 			_id=_id,
 			pcoa_artifact_path=pcoa_qza,
 			metadata_path=metadata,
-			target_primary=primary_target,
-			target_secondary=secondary_target
+			target_primary=fill_variable,
+			target_secondary=shape_variable
 		)
 
 		extension_helper.pcoa_setup(_id)
@@ -262,8 +262,8 @@ def pcoa():
 		pcoa_kwargs = {
 			'pcoa': pcoa_path,
 			'metadata': metadata_path, 
-			'colouring_variable': primary_target,
-			'shape_variable': secondary_target,
+			'fill_variable': fill_variable,
+			'shape_variable': shape_variable,
 			'colour_set': colour_set,
 			'brewer_type': brewer_type,
 			'alpha': float(alpha),
@@ -298,24 +298,41 @@ def bubbleplot():
 
 	try:
 		# Check if the upload is made from the client or server
-		if("feature_table_qza" in request.files):
-			feature_table_qza = request.files["feature_table_qza"]
+		if("feature_table" in request.files):
+			feature_table_qza = request.files["feature_table"]
 		else:
-			feature_table_qza = request.form["feature_table_qza"]
+			feature_table_qza = request.form["feature_table"]
 
 		if("taxonomy_qza" in request.files):
 			taxonomy_qza = request.files["taxonomy_qza"]
 		else:
 			taxonomy_qza = request.form["taxonomy_qza"]
 
+		# Optional metadata
+		if("metadata" in request.files):
+			metadata = request.files["metadata"]
+		elif("metadata" in request.form):
+			metadata = request.form["metadata"]
+		else:
+			metadata = None
+
 		taxa_level = request.form["Taxa collapse level"]
 		sort_level = request.form["Sort level"]
 		keyword_filter = request.form["Keyword filter"] if request.form["Keyword filter"] else None
+		fill_variable = request.form["Fill variable"] if (request.form["Fill variable"] and metadata is not None) else None
+		alpha = request.form["alpha"]
+		stroke = request.form["stroke"]
+		palette = request.form["Colour set"]
+		brewer_type = request.form["brewer type"]
+		width = request.form["Width"]
+		height = request.form["Height"]
 
-		feature_table_path, taxonomy_path = extension_helper.validate_bubbleplot_input(
+		feature_table_path, taxonomy_path, metadata_path = extension_helper.validate_bubbleplot_input(
 			_id=_id,
 			feature_table_artifact_path=feature_table_qza,
-			taxonomy_artifact_path=taxonomy_qza
+			taxonomy_artifact_path=taxonomy_qza,
+			metadata_path=metadata,
+			fill_variable=fill_variable
 		)
 
 		extension_helper.bubbleplot_setup(_id)
@@ -323,9 +340,17 @@ def bubbleplot():
 		bubbleplot_kwargs = {
 			'feature_table_artifact_path': feature_table_path,
 			'taxonomy_artifact_path': taxonomy_path,
+			'metadata_path': metadata_path,
 			'level': taxa_level,
 			'groupby_taxa': sort_level,
-			'keyword': keyword_filter
+			'keyword': keyword_filter,
+			'fill_variable': fill_variable,
+			'brewer_type': brewer_type,
+			'palette': palette,
+			'alpha': float(alpha),
+			'stroke': float(stroke),
+			'width': float(width),
+			'height': float(height)
 		}
 		bubbleplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=bubbleplot_kwargs)
 
@@ -368,6 +393,7 @@ def triplot():
 			environmental_metadata = request.form["environmental_metadata"]		
 
 		taxa_collapse_level = request.form["Taxa collapse level"]
+		dissmilarity_index = request.form["Dissmilarity index"]
 		abundance_threshold = request.form["Abundance threshold"]
 		R2_threshold = request.form["R squared threshold"]
 		wa_threshold = request.form["Taxa weighted average threshold"]
@@ -406,6 +432,7 @@ def triplot():
 			'metadata_path': metadata_path,
 			'environmental_metadata_path': environmental_metadata_path,
 			'taxa_collapse_level': taxa_collapse_level,
+			'dissmilarity_index': dissmilarity_index,
 			'abundance_threshold': float(abundance_threshold),
 			'R2_threshold': float(R2_threshold),
 			'wa_threshold': float(wa_threshold),

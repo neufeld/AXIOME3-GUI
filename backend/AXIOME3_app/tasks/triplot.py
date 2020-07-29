@@ -1,8 +1,13 @@
 import os
 from flask_socketio import SocketIO
 
+from celery.utils.log import get_task_logger
+from celery.signals import after_setup_task_logger, after_setup_logger
+
 from AXIOME3_app.extensions import celery
 from AXIOME3_app.tasks.utils import (
+	configure_celery_logger,
+	configure_celery_task_logger,
 	log_status,
 	emit_message,
 	run_command,
@@ -18,13 +23,26 @@ from scripts.qiime2_helper.triplot import (
 	save_plot
 )
 
+logger = get_task_logger(__name__)
+	
+@after_setup_task_logger.connect
+def after_setup_celery_task_logger(logger, **kwargs):
+	""" This function sets the 'celery.task' logger handler and formatter """
+	configure_celery_task_logger(logger)
+
+@after_setup_logger.connect
+def after_setup_celery_logger(logger, **kwargs):
+	""" This function sets the 'celery' logger handler and formatter """
+	configure_celery_logger(logger)
+
 @celery.task(name="extension.triplot")
 def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path, environmental_metadata_path,
-	taxa_collapse_level, abundance_threshold, R2_threshold, wa_threshold,
-	fill_variable, point_size, alpha, stroke, PC_axis_one, PC_axis_two,
-	width, height, x_axis_text_size, y_axis_text_size, legend_title_size,
-	legend_text_size):
+	taxa_collapse_level, dissmilarity_index, abundance_threshold, R2_threshold,
+	wa_threshold, fill_variable, point_size, alpha, stroke, PC_axis_one,
+	PC_axis_two, width, height, x_axis_text_size, y_axis_text_size,
+	legend_title_size, legend_text_size):
+	logger.info("Triplot task started for 'session, {_id},'".format(_id=_id))
 
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
@@ -50,6 +68,7 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			feature_table_artifact_path=feature_table_artifact_path,
 			taxonomy_artifact_path=taxonomy_artifact_path,
 			collapse_level=taxa_collapse_level,
+			dissmilarity_index=dissmilarity_index,
 			abundance_threshold=abundance_threshold,
 			R2_threshold=R2_threshold,
 			wa_threshold=wa_threshold,
@@ -59,7 +78,6 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	# Replace with AXIOME3_Error in the future?
 	except AXIOME3PipelineError as err:
 		message = "Error: " + str(err)
-
 		emit_message(
 			socketio=local_socketio,
 			channel=channel,
@@ -68,7 +86,18 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			room=room
 		)
 		log_status(task_progress_file, message)
-
+		return
+	except Exception as err:
+		logger.error(err, exc_info=True)
+		message = "Error: Internal Server Error..."
+		emit_message(
+			socketio=local_socketio,
+			channel=channel,
+			message=message,
+			namespace=namespace,
+			room=room
+		)
+		log_status(task_progress_file, message)
 		return
 
 	try:
@@ -91,7 +120,6 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 
 	except AXIOME3PipelineError as err: 
 		message = "Error: " + str(err)
-
 		emit_message(
 			socketio=local_socketio,
 			channel=channel,
@@ -100,7 +128,18 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			room=room
 		)
 		log_status(task_progress_file, message)
-
+		return
+	except Exception as err:
+		logger.error(err, exc_info=True)
+		message = "Error: Internal Server Error..."
+		emit_message(
+			socketio=local_socketio,
+			channel=channel,
+			message=message,
+			namespace=namespace,
+			room=room
+		)
+		log_status(task_progress_file, message)
 		return
 
 	try:
@@ -110,7 +149,6 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 
 	except AXIOME3PipelineError as err:
 		message = "Error: " + str(err)
-
 		emit_message(
 			socketio=local_socketio,
 			channel=channel,
@@ -119,8 +157,19 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			room=room
 		)
 		log_status(task_progress_file, message)
-
-		return	
+		return
+	except Exception as err:
+		logger.error(err, exc_info=True)
+		message = "Error: Internal Server Error..."
+		emit_message(
+			socketio=local_socketio,
+			channel=channel,
+			message=message,
+			namespace=namespace,
+			room=room
+		)
+		log_status(task_progress_file, message)
+		return
 
 	message = "Done!"
 	emit_message(
