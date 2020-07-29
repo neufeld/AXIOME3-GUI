@@ -9,8 +9,8 @@ export const TRIM_LEFT_R = "trim-left-r";
 // Analysis option related
 export const SAMPLING_DEPTH = "sampling depth";
 // PCoA option related
-export const PRIMARY_TARGET = "Primary target";
-export const SECONDARY_TARGET = "Secondary target";
+export const FILL_VARIABLE = "Fill variable"
+export const SHAPE_VARIABLE = "Shape variable";
 export const COLOUR_BREWER = "Colour set"
 export const BREWER_TYPE = "brewer type" // for internal use
 export const ALPHA = "alpha";
@@ -29,10 +29,10 @@ export const TAXA_COLLAPSE_LEVEL = "Taxa collapse level"
 export const SORT_LEVEL = "Sort level"
 export const KEYWORD_FILTER = "Keyword filter"
 // Triplot option related
+export const DISSMILARITY_INDEX = "Dissmilarity index"
 export const ABUNDANCE_THRESHOLD = "Abundance threshold"
 export const R2_THRESHOLD = "R squared threshold"
 export const WA_THRESHOLD = "Taxa weighted average threshold"
-export const FILL_VARIABLE = "Fill variable"
 // General
 export const CORES = "cores";
 // Email

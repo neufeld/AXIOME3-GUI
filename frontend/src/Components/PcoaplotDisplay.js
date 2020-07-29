@@ -22,8 +22,8 @@ function PcoaplotDisplay(props) {
 
 	useEffect(() => {
 		const uploadField = [
-			{id: 0, name: QIIME2_PCOA, file: "", label: "PCoA QIIME Artifact (.qza)", acceptedExtensions: ".qza"},
-			{id: 1, name: METADATA_FILE, file: "", label: "Metadata (.tsv, .txt)", acceptedExtensions: ".txt,.tsv"},
+			{id: 0, name: QIIME2_PCOA, file: "", label: "PCoA QIIME Artifact (.qza)", acceptedExtensions: ".qza", required: true},
+			{id: 1, name: METADATA_FILE, file: "", label: "Metadata (.tsv, .txt)", acceptedExtensions: ".txt,.tsv", required: true},
 		]
 
 		// Get upload elements

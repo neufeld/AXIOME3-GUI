@@ -24,8 +24,8 @@ import {
 	TRIM_LEFT_F,
 	TRIM_LEFT_R,
 	SAMPLING_DEPTH,
-	PRIMARY_TARGET,
-	SECONDARY_TARGET,
+	FILL_VARIABLE,
+	SHAPE_VARIABLE,
 	COLOUR_BREWER,
 	PLOT_WIDTH,
 	PLOT_HEIGHT,
@@ -49,9 +49,9 @@ export const getModalBody = (label) => {
 			return <DenoiseModalBody/>
 		case SAMPLING_DEPTH:
 			return <SamplingDepthModalBody/>
-		case PRIMARY_TARGET:
+		case FILL_VARIABLE:
 			return <PrimaryTargetModalBody />
-		case SECONDARY_TARGET:
+		case SHAPE_VARIABLE:
 			return <SecondayTargetModalBody />
 		case COLOUR_BREWER:
 			return <ColourBrewerModalBody />

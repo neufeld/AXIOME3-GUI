@@ -34,6 +34,7 @@ import {
  		alert("Please upload the input file.")
  		return
  	}
+ 	console.log(selectedFiles)
 
  	// Add options
  	// Key is same as the option label

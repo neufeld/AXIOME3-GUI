@@ -1,6 +1,6 @@
 import { 
-	PRIMARY_TARGET,
-	SECONDARY_TARGET,
+	FILL_VARIABLE,
+	SHAPE_VARIABLE,
 	COLOUR_BREWER,
 	BREWER_TYPE,
 	ALPHA,
@@ -43,13 +43,13 @@ const PcoaOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: PRIMARY_TARGET,
+				label: FILL_VARIABLE,
 				type: "text",
 				defaultValue: ''
 			},
 			basicOption2: {
 				id: "basicOption2",
-				label: SECONDARY_TARGET,
+				label: SHAPE_VARIABLE,
 				type: "text",
 				defaultValue: ''
 			},

@@ -1,5 +1,6 @@
 import {
 	TAXA_COLLAPSE_LEVEL,
+	DISSMILARITY_INDEX,
 	ABUNDANCE_THRESHOLD,
 	R2_THRESHOLD,
 	WA_THRESHOLD,
@@ -50,40 +51,47 @@ const TriplotOption = {
 				defaultValue: "ASV",
 			},
 			basicOption2: {
-				id: "basicOption2",
+				id: "basicOption3",
+				label: DISSMILARITY_INDEX,
+				type: "dropdown",
+				dropdownOption: ["Bray-Curtis", "Jaccard", "Kulczynski", "Horn-Morisita", "Binomial", "Cao", "Chao"],
+				defaultValue: "Bray-Curtis",
+			},
+			basicOption3: {
+				id: "basicOption3",
 				label: ABUNDANCE_THRESHOLD,
 				type: "number",
 				defaultValue: 0.1,
 				min: 0,
 				max: 1,
-				step: 0.1,
+				step: 0.01,
 			},
-			basicOption3: {
-				id: "basicOption3",
+			basicOption4: {
+				id: "basicOption4",
 				label: R2_THRESHOLD,
 				type: "number",
 				defaultValue: 0.3,
 				min: 0,
 				max: 1,
-				step: 0.1,
+				step: 0.01,
 			},
-			basicOption4: {
-				id: "basicOption4",
+			basicOption5: {
+				id: "basicOption5",
 				label: WA_THRESHOLD,
 				type: "number",
 				defaultValue: 0.1,
 				min: 0,
 				max: 1,
-				step: 0.1,
+				step: 0.01,
 			},
-			basicOption5: {
-				id: "basicOption5",
+			basicOption6: {
+				id: "basicOption6",
 				label: FILL_VARIABLE,
 				type: "text",
 				defaultValue: ""
 			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6"]
 	},
 	points: {
 		entities: {
