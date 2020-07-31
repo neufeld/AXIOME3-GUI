@@ -1,6 +1,7 @@
 import { 
 	SAMPLE_TYPE,
 	INPUT_FORMAT,
+	MULTIPLE_RUN,
 } from '../../misc/OptionLabelConfig';
 
 // Since it requires LITTLE TO ZERO updates, use normalized schema
@@ -31,10 +32,17 @@ const InputUploadOption = {
 				type: "dropdown",
 				dropdownOption: ["PairedEndFastqManifestPhred33", "PairedEndFastqManifestPhred33V2",
 												"PairedEndFastqManifestPhred64", "PairedEndFastqManifestPhred64V2"],
-				defaultValue: "PairedEndFastqManifestPhred33"								
+				defaultValue: "PairedEndFastqManifestPhred33"
+			},
+			basicOption3: {
+				id: "basicOption3",
+				label: MULTIPLE_RUN,
+				type: "dropdown",
+				dropdownOption: ["Yes", "No"],
+				defaultValue: "No",
 			},
 		},
-		keys: ["basicOption1", "basicOption2"]
+		keys: ["basicOption1", "basicOption2", "basicOption3"]
 	},
 }
 
