@@ -6,6 +6,7 @@ export const TRUNC_LEN_F = "trunc-len-f";
 export const TRUNC_LEN_R = "trunc-len-r";
 export const TRIM_LEFT_F = "trim-left-f";
 export const TRIM_LEFT_R = "trim-left-r";
+export const MULTIPLE_RUN = "multiple run";
 // Analysis option related
 export const SAMPLING_DEPTH = "sampling depth";
 // PCoA option related
@@ -29,6 +30,8 @@ export const TAXA_COLLAPSE_LEVEL = "Taxa collapse level"
 export const SORT_LEVEL = "Sort level"
 export const KEYWORD_FILTER = "Keyword filter"
 // Triplot option related
+export const ORDINATION_COLLAPSE_LEVEL = "Ordination collapse level"
+export const WEIGHTED_AVERAGE_COLLAPSE_LEVEL = "Taxa weights collapse level"
 export const DISSMILARITY_INDEX = "Dissmilarity index"
 export const ABUNDANCE_THRESHOLD = "Abundance threshold"
 export const R2_THRESHOLD = "R squared threshold"

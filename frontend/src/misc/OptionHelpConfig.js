@@ -23,6 +23,13 @@ export const X_AXIS_LABEL_SIZE_HELP = "X axis label font size."
 export const Y_AXIS_LABEL_SIZE_HELP = "Y axis label font size."
 export const LEGEND_TITLE_SIZE_HELP = "Legend title size."
 export const LEGEND_TEXT_SIZE_HELP = "Legend content size."
+// Triplot related
+export const ORDINATION_COLLAPSE_LEVEL_HELP = "Taxonomic level at which to collapse feature table when projecting onto ordination space"
+export const WEIGHTED_AVERAGE_COLLAPSE_LEVEL_HELP = "Taxonomic level at which to collapse feature table when projecting as different bubbles"
+export const DISSMILARITY_INDEX_HELP = "Dissimilarity index metric"
+export const ABUNDANCE_THRESHOLD_HELP = "Keep ASV/taxa if at least one of the samples have % abundance greather than this value"
+export const R2_THRESHOLD_HELP = "Environmental vector arrows with R2 value greater than the threshold will be displayed"
+export const WA_THRESHOLD_HELP = "Taxa bubbles with normalized abundance greather than this value will be displayed"
 // Details
 export const MORE_DETAIL = "Click 'more...' for details."
 // Session retrieve related

@@ -1,5 +1,6 @@
 import {
-	TAXA_COLLAPSE_LEVEL,
+	ORDINATION_COLLAPSE_LEVEL,
+	WEIGHTED_AVERAGE_COLLAPSE_LEVEL,
 	DISSMILARITY_INDEX,
 	ABUNDANCE_THRESHOLD,
 	R2_THRESHOLD,
@@ -45,20 +46,27 @@ const TriplotOption = {
 		entities: {
 			basicOption1: {
 				id: "basicOption1",
-				label: TAXA_COLLAPSE_LEVEL,
+				label: ORDINATION_COLLAPSE_LEVEL,
 				type: "dropdown",
 				dropdownOption: ["Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species", "ASV"],
 				defaultValue: "ASV",
 			},
 			basicOption2: {
+				id: "basicOption2",
+				label: WEIGHTED_AVERAGE_COLLAPSE_LEVEL,
+				type: "dropdown",
+				dropdownOption: ["Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"],
+				defaultValue: "Phylum",
+			},
+			basicOption3: {
 				id: "basicOption3",
 				label: DISSMILARITY_INDEX,
 				type: "dropdown",
 				dropdownOption: ["Bray-Curtis", "Jaccard", "Kulczynski", "Horn-Morisita", "Binomial", "Cao", "Chao"],
 				defaultValue: "Bray-Curtis",
 			},
-			basicOption3: {
-				id: "basicOption3",
+			basicOption4: {
+				id: "basicOption4",
 				label: ABUNDANCE_THRESHOLD,
 				type: "number",
 				defaultValue: 0.1,
@@ -66,8 +74,8 @@ const TriplotOption = {
 				max: 1,
 				step: 0.01,
 			},
-			basicOption4: {
-				id: "basicOption4",
+			basicOption5: {
+				id: "basicOption5",
 				label: R2_THRESHOLD,
 				type: "number",
 				defaultValue: 0.3,
@@ -75,8 +83,8 @@ const TriplotOption = {
 				max: 1,
 				step: 0.01,
 			},
-			basicOption5: {
-				id: "basicOption5",
+			basicOption6: {
+				id: "basicOption6",
 				label: WA_THRESHOLD,
 				type: "number",
 				defaultValue: 0.1,
@@ -84,14 +92,14 @@ const TriplotOption = {
 				max: 1,
 				step: 0.01,
 			},
-			basicOption6: {
-				id: "basicOption6",
+			basicOption7: {
+				id: "basicOption7",
 				label: FILL_VARIABLE,
 				type: "text",
 				defaultValue: ""
 			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7"]
 	},
 	points: {
 		entities: {
