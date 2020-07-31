@@ -3,7 +3,7 @@ from AXIOME3_app.datahandle.config_generator import make_luigi_config
 
 @celery.task(name="pipeline.run.config")
 def config_task(_id, logging_config, manifest_path=None, sample_type=None, input_format=None,
-	trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None,
+	trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None, is_multiple=None,
 	classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 	# do something
 
@@ -13,6 +13,7 @@ def config_task(_id, logging_config, manifest_path=None, sample_type=None, input
 		manifest_path=manifest_path,
 		sample_type=sample_type,
 		input_format=input_format,
+		is_multiple=is_multiple,
 		trim_left_f=trim_left_f,
 		trunc_len_f=trunc_len_f,
 		trim_left_r=trim_left_r,

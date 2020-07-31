@@ -2,7 +2,7 @@ import os
 import sys
 
 def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None, input_format=None,
-				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None,
+				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None, is_multiple=None,
 				classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 	"""
 	Make configuration file for luigi from the template file
@@ -29,6 +29,9 @@ def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None,
 
 	if(sample_type is not None):
 		config_data = config_data.replace("<SAMPLE_TYPE>", sample_type)
+
+	if(is_multiple is not None):
+		config_data = config_data.replace("<IS_MULTIPLE>", is_multiple)
 
 	if(input_format is not None):
 		config_data = config_data.replace("<INPUT_FORMAT>", input_format)
