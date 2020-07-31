@@ -6,6 +6,7 @@ import os
 #from werkzeug import secure_filename
 # For console debugging
 import sys
+from flask_mail import Message
 
 # Custom modules
 from AXIOME3_app.datahandle import config_generator
@@ -28,6 +29,23 @@ from AXIOME3_app.tasks.pipeline import check_output_task
 
 # Custom Exceptions
 from AXIOME3_app.exceptions.exception import AXIOME3Error
+
+def send_queue_email(_id, recipient):
+	if(recipient is not None):
+		msg = Message(
+			subject="AXIOME3 task queued",
+			recipients=[recipient],
+			html="""
+				<div>
+					<h2>Session ID</h2>
+					<p>{_id}</p>
+					<h2>Message</h2>
+					<p>Task queued</p>
+				</div>
+			""".format(_id=_id)
+		)
+
+		mail.send(msg)
 
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
 
@@ -57,12 +75,14 @@ def inputupload():
 			
 		input_format = request.form["Input Format"]
 		sample_type = request.form["Sample Type"]
+		is_multiple = request.form["multiple run"]
 
 		# Do preliminary checks on manifest file
 		manifest_path = input_upload_helper.input_upload_precheck(
 			_id=_id,
 			uploaded_manifest=manifest_file,
-			input_format=input_format
+			input_format=input_format,
+			is_multiple=is_multiple
 		)
 
 		# Prepare necessary files for input upload
@@ -73,10 +93,13 @@ def inputupload():
 			'logging_config': log_config_path,
 			'manifest_path': manifest_path,
 			'sample_type': sample_type,
-			'input_format': input_format
+			'input_format': input_format,
+			'is_multiple': is_multiple
 		}
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, recipient))
+
+		send_queue_email(_id, recipient)
 
 	except AXIOME3Error as err:
 		return err.response
@@ -102,39 +125,54 @@ def denoise():
 
 	try:
 		# Check if the upload is made from the client or server
-		if("demultiplexed" in request.files):
-			imported_qza = request.files["demultiplexed"]
+		if("manifest" in request.files):
+			manifest_file = request.files["manifest"]
 		else:
-			imported_qza = request.form["demultiplexed"]
+			manifest_file = request.form["manifest"]
 
+		input_format = request.form["Input Format"]
+		sample_type = request.form["Sample Type"]
+		is_multiple = request.form["multiple run"]
 		trunc_len_f = request.form["trunc-len-f"]
 		trunc_len_r = request.form["trunc-len-r"]
 		trim_left_f = request.form["trim-left-f"]
 		trim_left_r = request.form["trim-left-r"]
 		n_cores = request.form["cores"]
 
-		denoise_input_path = denoise_helper.denoise_precheck(
+		#denoise_input_path = denoise_helper.denoise_precheck(
+		#	_id=_id,
+		#	sequence_data=imported_qza
+		#)
+		manifest_path = input_upload_helper.input_upload_precheck(
 			_id=_id,
-			sequence_data=imported_qza
+			uploaded_manifest=manifest_file,
+			input_format=input_format,
+			is_multiple=is_multiple
 		)
 
 		# Prepare necessary files for denoise
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
 		
 		# Copy input file to premade output dir
-		denoise_helper.denoise_setup(denoise_input_path, _id)
+		#denoise_helper.denoise_setup(denoise_input_path, _id)
 
 		config_task_kwargs = {
 			'_id': _id,
 			'logging_config': log_config_path,
+			'manifest_path': manifest_path,
+			'sample_type': sample_type,
+			'input_format': input_format,
 			'trim_left_f': trim_left_f,
 			'trunc_len_f': trunc_len_f,
 			'trim_left_r': trim_left_r,
 			'trunc_len_r': trunc_len_r,
+			'is_multiple': is_multiple,
 			'n_cores': n_cores
 		}
-
+		
 		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
+
+		send_queue_email(_id, recipient)
 
 	except AXIOME3Error as err:
 		return err.response
@@ -200,6 +238,8 @@ def analysis():
 		}
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
+
+		send_queue_email(_id, recipient)
 
 	except AXIOME3Error as err:
 		return err.response
@@ -392,7 +432,8 @@ def triplot():
 		else:
 			environmental_metadata = request.form["environmental_metadata"]		
 
-		taxa_collapse_level = request.form["Taxa collapse level"]
+		ordination_collapse_level = request.form["Ordination collapse level"]
+		weighted_average_collapse_level = request.form["Taxa weights collapse level"]
 		dissmilarity_index = request.form["Dissmilarity index"]
 		abundance_threshold = request.form["Abundance threshold"]
 		R2_threshold = request.form["R squared threshold"]
@@ -431,7 +472,8 @@ def triplot():
 			'taxonomy_artifact_path': taxonomy_path,
 			'metadata_path': metadata_path,
 			'environmental_metadata_path': environmental_metadata_path,
-			'taxa_collapse_level': taxa_collapse_level,
+			'ordination_collapse_level': ordination_collapse_level,
+			'wascores_collapse_level': weighted_average_collapse_level,
 			'dissmilarity_index': dissmilarity_index,
 			'abundance_threshold': float(abundance_threshold),
 			'R2_threshold': float(R2_threshold),

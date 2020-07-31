@@ -38,10 +38,10 @@ def after_setup_celery_logger(logger, **kwargs):
 @celery.task(name="extension.triplot")
 def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path, environmental_metadata_path,
-	taxa_collapse_level, dissmilarity_index, abundance_threshold, R2_threshold,
-	wa_threshold, fill_variable, point_size, alpha, stroke, PC_axis_one,
-	PC_axis_two, width, height, x_axis_text_size, y_axis_text_size,
-	legend_title_size, legend_text_size):
+	ordination_collapse_level, wascores_collapse_level, dissmilarity_index,
+	abundance_threshold, R2_threshold, wa_threshold, fill_variable, point_size,
+	alpha, stroke, PC_axis_one, PC_axis_two, width, height, x_axis_text_size,
+	y_axis_text_size, legend_title_size, legend_text_size):
 	logger.info("Triplot task started for 'session, {_id},'".format(_id=_id))
 
 	local_socketio = SocketIO(message_queue=URL)
@@ -67,7 +67,8 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			env_metadata_path=environmental_metadata_path,
 			feature_table_artifact_path=feature_table_artifact_path,
 			taxonomy_artifact_path=taxonomy_artifact_path,
-			collapse_level=taxa_collapse_level,
+			ordination_collapse_level=ordination_collapse_level,
+			wascores_collapse_level=wascores_collapse_level,
 			dissmilarity_index=dissmilarity_index,
 			abundance_threshold=abundance_threshold,
 			R2_threshold=R2_threshold,

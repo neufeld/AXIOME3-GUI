@@ -85,7 +85,7 @@ def generate_html(_id, message):
 		<div>
 			<h2>Session ID</h2>
 			<p>{_id}</p>
-			<h2>Result</h2>
+			<h2>Message</h2>
 			<p>{message}</p>
 		</div>
 	""".format(_id=_id, message=message)
