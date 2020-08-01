@@ -47,21 +47,23 @@ export function OptionInputField(props) {
 	*/
 
 	if(type === "dropdown") {
-		const options = dropdownOption.map(option => {
+		const dropdownItems = dropdownOption.map(option => {
 			return (
 				<MenuItem value={option} key={option}>{option}</MenuItem>
 			)
 		})
-
-		inputField = <TextField
+		inputField = 	
+									(<TextField
 										select
 										fullWidth={true}
 										variant="outlined"
 										defaultValue={defaultValue}
 										onChange={e => {selectOptions(label, e.target.value)}}
 									>
-									{options}
-									</TextField>
+									{dropdownItems}
+									</TextField>)
+
+
 	} else if(type === "number") {
 		// To enable min, max, step in input tag
 		const inputProps = {

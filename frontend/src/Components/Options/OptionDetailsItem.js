@@ -29,6 +29,7 @@ function OptionDetailsItem(props) {
 				min={min}
 				max={max}
 				step={step}
+				key={label}
 			/>
 			<OptionModal label={label}/>
 		</div>

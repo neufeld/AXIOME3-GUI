@@ -22,7 +22,6 @@ function AnalysisDisplay(props) {
 	const { getUploadField, updateOptionList, updateFormType } = props
 
 	useEffect(() => {
-		console.log(props.uid)
 		const uploadField = [
 			{id: 0, name: QIIME2_FEATURE_TABLE, file: "", label: "Feature Table (.qza)", acceptedExtensions: ".qza"},
 			{id: 1, name: QIIME2_REP_SEQS, file: "", label: "Representative sequences (.qza)", acceptedExtensions: ".qza"},
