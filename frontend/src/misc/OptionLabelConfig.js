@@ -25,6 +25,7 @@ export const X_AXIS_LABEL_SIZE = "x axis label size"
 export const Y_AXIS_LABEL_SIZE = "y axis label size"
 export const LEGEND_TITLE_SIZE = "legend title size"
 export const LEGEND_TEXT_SIZE = "legend text size"
+export const FILL_VARIABLE_DTYPE = "Fill variable data type"
 // Bubbleplot option related
 export const TAXA_COLLAPSE_LEVEL = "Taxa collapse level"
 export const SORT_LEVEL = "Sort level"
@@ -36,6 +37,7 @@ export const DISSMILARITY_INDEX = "Dissmilarity index"
 export const ABUNDANCE_THRESHOLD = "Abundance threshold"
 export const R2_THRESHOLD = "R squared threshold"
 export const WA_THRESHOLD = "Taxa weighted average threshold"
+export const RAREFACTION_DEPTH = "Rarefaction depth"
 // General
 export const CORES = "cores";
 // Email

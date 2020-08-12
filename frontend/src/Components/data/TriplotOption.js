@@ -2,10 +2,11 @@ import {
 	ORDINATION_COLLAPSE_LEVEL,
 	WEIGHTED_AVERAGE_COLLAPSE_LEVEL,
 	DISSMILARITY_INDEX,
-	ABUNDANCE_THRESHOLD,
 	R2_THRESHOLD,
 	WA_THRESHOLD,
+	RAREFACTION_DEPTH,
 	FILL_VARIABLE,
+	FILL_VARIABLE_DTYPE,
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
@@ -60,19 +61,18 @@ const TriplotOption = {
 			},
 			basicOption3: {
 				id: "basicOption3",
+				label: RAREFACTION_DEPTH,
+				type: "number",
+				defaultValue: 0,
+				min: 0,
+				step: 1,
+			},
+			basicOption4: {
+				id: "basicOption4",
 				label: DISSMILARITY_INDEX,
 				type: "dropdown",
 				dropdownOption: ["Bray-Curtis", "Jaccard", "Kulczynski", "Horn-Morisita", "Binomial", "Cao", "Chao"],
 				defaultValue: "Bray-Curtis",
-			},
-			basicOption4: {
-				id: "basicOption4",
-				label: ABUNDANCE_THRESHOLD,
-				type: "number",
-				defaultValue: 0.1,
-				min: 0,
-				max: 1,
-				step: 0.01,
 			},
 			basicOption5: {
 				id: "basicOption5",
@@ -98,8 +98,15 @@ const TriplotOption = {
 				type: "text",
 				defaultValue: ""
 			},
+			basicOption8: {
+				id: "basicOption8",
+				label: FILL_VARIABLE_DTYPE,
+				type: "dropdown",
+				dropdownOption: ["category", "numeric"],
+				defaultValue: "category"
+			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7", "basicOption8"]
 	},
 	points: {
 		entities: {

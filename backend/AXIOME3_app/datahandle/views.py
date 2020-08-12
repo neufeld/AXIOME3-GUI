@@ -435,7 +435,6 @@ def triplot():
 		ordination_collapse_level = request.form["Ordination collapse level"]
 		weighted_average_collapse_level = request.form["Taxa weights collapse level"]
 		dissmilarity_index = request.form["Dissmilarity index"]
-		abundance_threshold = request.form["Abundance threshold"]
 		R2_threshold = request.form["R squared threshold"]
 		wa_threshold = request.form["Taxa weighted average threshold"]
 		
@@ -443,7 +442,9 @@ def triplot():
 		# Fill variable must exist
 		if not(fill_variable):
 			return Response("Please specify fill variable!", status=400, mimetype='text/html')
+		fill_variable_dtype = request.form["Fill variable data type"]
 
+		sampling_depth = request.form["Rarefaction depth"]
 		alpha = request.form["alpha"]
 		stroke = request.form["stroke"]
 		point_size = request.form["point size"]
@@ -473,12 +474,13 @@ def triplot():
 			'metadata_path': metadata_path,
 			'environmental_metadata_path': environmental_metadata_path,
 			'ordination_collapse_level': ordination_collapse_level,
+			'sampling_depth': int(sampling_depth),
 			'wascores_collapse_level': weighted_average_collapse_level,
 			'dissmilarity_index': dissmilarity_index,
-			'abundance_threshold': float(abundance_threshold),
 			'R2_threshold': float(R2_threshold),
 			'wa_threshold': float(wa_threshold),
 			'fill_variable': fill_variable,
+			'fill_variable_dtype': fill_variable_dtype,
 			'alpha': float(alpha),
 			'stroke': float(stroke),
 			'point_size': float(point_size),

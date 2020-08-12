@@ -37,11 +37,11 @@ def after_setup_celery_logger(logger, **kwargs):
 
 @celery.task(name="extension.triplot")
 def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
-	taxonomy_artifact_path, metadata_path, environmental_metadata_path,
-	ordination_collapse_level, wascores_collapse_level, dissmilarity_index,
-	abundance_threshold, R2_threshold, wa_threshold, fill_variable, point_size,
-	alpha, stroke, PC_axis_one, PC_axis_two, width, height, x_axis_text_size,
-	y_axis_text_size, legend_title_size, legend_text_size):
+	taxonomy_artifact_path, metadata_path, environmental_metadata_path, 
+	sampling_depth, ordination_collapse_level, wascores_collapse_level,
+	dissmilarity_index, R2_threshold, wa_threshold, fill_variable, 
+	fill_variable_dtype, point_size, alpha, stroke, PC_axis_one, PC_axis_two,
+	width, height, x_axis_text_size, y_axis_text_size, legend_title_size, legend_text_size):
 	logger.info("Triplot task started for 'session, {_id},'".format(_id=_id))
 
 	local_socketio = SocketIO(message_queue=URL)
@@ -62,20 +62,24 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	log_status(task_progress_file, message)
 
 	try:
-		merged_df, vector_arrow_df, wascores_df, proportion_explained = prep_triplot_input(
+		merged_df, vector_arrow_df, wascores_df, proportion_explained, projection_df = prep_triplot_input(
 			sample_metadata_path=metadata_path,
 			env_metadata_path=environmental_metadata_path,
 			feature_table_artifact_path=feature_table_artifact_path,
 			taxonomy_artifact_path=taxonomy_artifact_path,
+			sampling_depth=sampling_depth,
 			ordination_collapse_level=ordination_collapse_level,
 			wascores_collapse_level=wascores_collapse_level,
 			dissmilarity_index=dissmilarity_index,
-			abundance_threshold=abundance_threshold,
 			R2_threshold=R2_threshold,
 			wa_threshold=wa_threshold,
 			PC_axis_one=PC_axis_one,
 			PC_axis_two=PC_axis_two
 		)
+
+		# Save vector arrow df
+		projection_df_fname = os.path.join(output_dir, "vector_arrow_summary.csv")
+		projection_df.to_csv(projection_df_fname)
 	# Replace with AXIOME3_Error in the future?
 	except AXIOME3PipelineError as err:
 		message = "Error: " + str(err)
@@ -101,6 +105,8 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 		log_status(task_progress_file, message)
 		return
 
+	if(fill_variable_dtype == 'numeric'):
+		fill_variable_dtype = 'float64'
 	try:
 		triplot = make_triplot(
 			merged_df=merged_df,
@@ -108,6 +114,7 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			wascores_df=wascores_df,
 			proportion_explained=proportion_explained,
 			fill_variable=fill_variable,
+			fill_variable_dtype=fill_variable_dtype,
 			PC_axis_one=PC_axis_one,
 			PC_axis_two=PC_axis_two,
 			alpha=alpha,
