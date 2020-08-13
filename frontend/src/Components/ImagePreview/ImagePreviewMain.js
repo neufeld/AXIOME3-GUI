@@ -149,7 +149,7 @@ function ImagePreviewMain(props) {
 
 	return(
 		<div
-			style={{display: (isWorkerDone == true) ? 'block' : 'none'}}
+			style={{display: (isWorkerDone == true) ? 'flex' : 'none'}}
 			className="image-preview-wrapper"
 		>
 			<img
