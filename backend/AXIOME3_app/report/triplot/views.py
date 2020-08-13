@@ -31,3 +31,25 @@ def triplot_pdf():
 		triplot = os.path.join('/output', uid, 'plot.pdf')
 
 	return send_file(triplot, mimetype='application/octet-stream', as_attachment=True)
+
+@blueprint.route("/env_summary", methods=['POST'])
+def triplot_env_summary():
+	uid = request.form["uid"]
+
+	if(uid == ''):
+		return
+	else:
+		summary_file = os.path.join('/output', uid, 'vector_arrow_summary.csv')
+
+	return send_file(summary_file, mimetype='text/csv', as_attachment=True)
+
+@blueprint.route("/sample_summary", methods=['POST'])
+def triplot_sample_summary():
+	uid = request.form["uid"]
+
+	if(uid == ''):
+		return
+	else:
+		summary_file = os.path.join('/output', uid, 'sample_summary.csv')
+
+	return send_file(summary_file, mimetype='text/csv', as_attachment=True)

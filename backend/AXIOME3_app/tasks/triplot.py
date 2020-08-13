@@ -40,8 +40,9 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path, environmental_metadata_path, 
 	sampling_depth, ordination_collapse_level, wascores_collapse_level,
 	dissmilarity_index, R2_threshold, wa_threshold, fill_variable, 
-	fill_variable_dtype, point_size, alpha, stroke, PC_axis_one, PC_axis_two,
-	width, height, x_axis_text_size, y_axis_text_size, legend_title_size, legend_text_size):
+	fill_variable_dtype, colour_set, brewer_type, point_size, alpha, stroke,
+	PC_axis_one, PC_axis_two, width, height, x_axis_text_size, y_axis_text_size,
+	legend_title_size, legend_text_size):
 	logger.info("Triplot task started for 'session, {_id},'".format(_id=_id))
 
 	local_socketio = SocketIO(message_queue=URL)
@@ -62,7 +63,7 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	log_status(task_progress_file, message)
 
 	try:
-		merged_df, vector_arrow_df, wascores_df, proportion_explained, projection_df = prep_triplot_input(
+		merged_df, vector_arrow_df, wascores_df, proportion_explained, projection_df, sample_summary = prep_triplot_input(
 			sample_metadata_path=metadata_path,
 			env_metadata_path=environmental_metadata_path,
 			feature_table_artifact_path=feature_table_artifact_path,
@@ -80,6 +81,11 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 		# Save vector arrow df
 		projection_df_fname = os.path.join(output_dir, "vector_arrow_summary.csv")
 		projection_df.to_csv(projection_df_fname)
+
+		# Save sample summary
+		sample_summary_fname = os.path.join(output_dir, "sample_summary.csv")
+		with open(sample_summary_fname, 'w') as fh:
+			fh.write(sample_summary)
 	# Replace with AXIOME3_Error in the future?
 	except AXIOME3PipelineError as err:
 		message = "Error: " + str(err)
@@ -115,6 +121,8 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			proportion_explained=proportion_explained,
 			fill_variable=fill_variable,
 			fill_variable_dtype=fill_variable_dtype,
+			palette=colour_set,
+			brewer_type=brewer_type,
 			PC_axis_one=PC_axis_one,
 			PC_axis_two=PC_axis_two,
 			alpha=alpha,

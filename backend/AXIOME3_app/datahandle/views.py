@@ -443,6 +443,8 @@ def triplot():
 		if not(fill_variable):
 			return Response("Please specify fill variable!", status=400, mimetype='text/html')
 		fill_variable_dtype = request.form["Fill variable data type"]
+		colour_set = request.form["Colour set"]
+		brewer_type = request.form["brewer type"]
 
 		sampling_depth = request.form["Rarefaction depth"]
 		alpha = request.form["alpha"]
@@ -481,6 +483,8 @@ def triplot():
 			'wa_threshold': float(wa_threshold),
 			'fill_variable': fill_variable,
 			'fill_variable_dtype': fill_variable_dtype,
+			'colour_set': colour_set,
+			'brewer_type': brewer_type,
 			'alpha': float(alpha),
 			'stroke': float(stroke),
 			'point_size': float(point_size),
