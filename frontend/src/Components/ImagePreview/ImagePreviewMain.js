@@ -15,6 +15,8 @@ import {
 	BUBBLEPLOT_PDF_ENDPOINT,
 	TRIPLOT_PNG_ENDPOINT,
 	TRIPLOT_PDF_ENDPOINT,
+	TRIPLOT_ENV_SUMMARY_ENDPOINT,
+	TRIPLOT_SAMPLE_SUMMARY_ENDPOINT,
 } from '../../misc/EndpointConfig';
 
 // Form types
@@ -47,6 +49,64 @@ const getPdfEndpoint = (formType) => {
 			return TRIPLOT_PDF_ENDPOINT
 		default:
 			return "none"
+	}
+}
+
+// For some reason, I can't get it to pass UID and re-render the child component properly
+// i.e. Child component always takes empty UID even when it changes here
+const getDownloadList = (formType) => {
+	if(formType === PCOA_FORMTYPE) {
+		const downloadList = [
+			{
+				header: '- PCoA plot (.png):',
+				downloadPath: CUSTOM_PCOA_PNG_ENDPOINT,
+				displayText: '.png',
+			},
+			{
+				header: '- PCoA plot (.pdf):',
+				downloadPath: CUSTOM_PCOA_PDF_ENDPOINT,
+				displayText: '.pdf',
+			},
+		]
+		return downloadList
+	} else if(formType === BUBBLEPLOT_FORMTYPE) {
+		const downloadList = [
+			{
+				header: '- Bubble plot (.png):',
+				downloadPath: BUBBLEPLOT_PNG_ENDPOINT,
+				displayText: '.png',
+			},
+			{
+				header: '- Bubble plot (.pdf):',
+				downloadPath: BUBBLEPLOT_PDF_ENDPOINT,
+				displayText: '.pdf',
+			},
+		]
+		return downloadList
+	} else if(formType === TRIPLOT_FORMTYPE) {
+		const downloadList = [
+			{
+				header: '- Triplot (.png):',
+				downloadPath: TRIPLOT_PNG_ENDPOINT,
+				displayText: '.png',
+			},
+			{
+				header: '- Triplot (.pdf):',
+				downloadPath: TRIPLOT_PDF_ENDPOINT,
+				displayText: '.pdf',
+			},
+			{
+				header: '- Sample summary (.csv):',
+				downloadPath: TRIPLOT_SAMPLE_SUMMARY_ENDPOINT,
+				displayText: '.csv',
+			},
+			{
+				header: '- Environmental data summary (.csv):',
+				downloadPath: TRIPLOT_ENV_SUMMARY_ENDPOINT,
+				displayText: '.csv',
+			},
+		]
+		return downloadList
 	}
 }
 
@@ -85,16 +145,20 @@ function ImagePreviewMain(props) {
 
 	}, [isWorkerDone])
 
+	const downloadList = getDownloadList(formType)
+
 	return(
-		<div className="image-preview-wrapper">
+		<div
+			style={{display: (isWorkerDone == true) ? 'block' : 'none'}}
+			className="image-preview-wrapper"
+		>
 			<img
 				style={{display: (source === '') ? 'none' : 'block'}}
 				src={`data:image/jpeg;base64,${source}`}
 				className="image-preview-image"
 			/>
 			<ImageDownloadSection
-				pngEndpoint={pngEndpoint}
-				pdfEndpoint={pdfEndpoint}
+				downloadList={downloadList}
 			/>
 		</div>
 	)

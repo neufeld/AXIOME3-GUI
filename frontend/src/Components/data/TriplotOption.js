@@ -7,6 +7,8 @@ import {
 	RAREFACTION_DEPTH,
 	FILL_VARIABLE,
 	FILL_VARIABLE_DTYPE,
+	COLOUR_BREWER,
+	BREWER_TYPE,
 	ALPHA,
 	STROKE,
 	POINT_SIZE,
@@ -105,8 +107,21 @@ const TriplotOption = {
 				dropdownOption: ["category", "numeric"],
 				defaultValue: "category"
 			},
+			basicOption9: {
+				id: "basicOption9",
+				label: COLOUR_BREWER,
+				type: "text",
+				defaultValue: 'Paired'
+			},
+			basicOption10: {
+				id: "basicOption10",
+				label: BREWER_TYPE,
+				type: "text",
+				defaultValue: 'qual',
+				hidden: true,
+			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7", "basicOption8"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7", "basicOption8", "basicOption9", "basicOption10"]
 	},
 	points: {
 		entities: {

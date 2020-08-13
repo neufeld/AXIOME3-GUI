@@ -1,4 +1,5 @@
 import {
+	UPDATE_WORKER_QUEUE_STATUS,
 	WORKER_DONE,
 	WORKER_IN_PROGRESS,
 	WORKER_FAIL,
@@ -32,6 +33,13 @@ export const trackWorkerStatus = (message) => dispatch => {
 			type: WORKER_IN_PROGRESS
 		})
 	}
+	// When this action is called, queued task should've been consumed by the backend service...
+	dispatch({
+		type: UPDATE_WORKER_QUEUE_STATUS,
+		payload: {
+			isWorkerQueued: false,
+		}
+	})
 	
 }
 

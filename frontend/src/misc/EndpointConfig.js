@@ -17,5 +17,7 @@ export const BUBBLEPLOT_PDF_ENDPOINT = '/bubbleplot/pdf';
 // Triplot endpoints
 export const TRIPLOT_PNG_ENDPOINT = '/triplot/png';
 export const TRIPLOT_PDF_ENDPOINT = '/triplot/pdf';
+export const TRIPLOT_ENV_SUMMARY_ENDPOINT = '/triplot/env_summary'
+export const TRIPLOT_SAMPLE_SUMMARY_ENDPOINT = '/triplot/sample_summary'
 // Misc.
 export const BATCH_DOWNLOAD_ENDPOINT = '/batch/zip';

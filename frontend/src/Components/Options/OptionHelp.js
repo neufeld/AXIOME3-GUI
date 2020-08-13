@@ -34,6 +34,8 @@ import {
 	ABUNDANCE_THRESHOLD,
 	R2_THRESHOLD,
 	WA_THRESHOLD,
+	FILL_VARIABLE_DTYPE,
+	RAREFACTION_DEPTH,
 } from '../../misc/OptionLabelConfig';
 
 import {
@@ -66,6 +68,8 @@ import {
 	ABUNDANCE_THRESHOLD_HELP,
 	R2_THRESHOLD_HELP,
 	WA_THRESHOLD_HELP,
+	FILL_VARIABLE_DTYPE_HELP,
+	RAREFACTION_DEPTH_HELP,
 } from '../../misc/OptionHelpConfig';
 
 export const getTooltipText = (label) => {
@@ -126,6 +130,10 @@ export const getTooltipText = (label) => {
 			return R2_THRESHOLD_HELP
 		case WA_THRESHOLD:
 			return WA_THRESHOLD_HELP
+		case FILL_VARIABLE_DTYPE:
+			return FILL_VARIABLE_DTYPE_HELP
+		case RAREFACTION_DEPTH:
+			return RAREFACTION_DEPTH_HELP
 		default:
 			return "baz"
 	}

@@ -31,7 +31,6 @@ function RemoteWorkerTracker(props) {
 
 			socket.on("test", data => {
 				const msg = data.data
-				console.log(msg)
 				updateWorkerMessages(msg)
 				trackWorkerStatus(msg)
 			})

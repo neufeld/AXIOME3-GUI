@@ -30,6 +30,8 @@ export const DISSMILARITY_INDEX_HELP = "Dissimilarity index metric"
 export const ABUNDANCE_THRESHOLD_HELP = "Keep samples if at least one of the ASV/taxa in the sample has % abundance greather than this value"
 export const R2_THRESHOLD_HELP = "Environmental vector arrows with R2 value greater than the threshold will be displayed"
 export const WA_THRESHOLD_HELP = "Taxa bubbles with normalized abundance greather than this value will be displayed"
+export const FILL_VARIABLE_DTYPE_HELP = "Fill variable data type: categorical or numeric"
+export const RAREFACTION_DEPTH_HELP = "Samples with read count lower than this value will be discarded, and samples with read count higher than this value will be subsampled to this value. 0 means no rarefaction."
 // Details
 export const MORE_DETAIL = "Click 'more...' for details."
 // Session retrieve related

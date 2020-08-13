@@ -13,7 +13,6 @@ const DownloadHeaderStyle = {
 	display: 'inline-block',
 	margin: '0px 10px',
 	fontWeight: 'bold',
-	textAlign: 'left',
 };
 
 const DownloadMainHeader = {
@@ -27,57 +26,48 @@ const DownloadMainHeader = {
 // Parent component: ImagePreviewMain.js
 function ImageDownloadSection(props) {
 	// Props from parent component
-	const { pngEndpoint, pdfEndpoint, handleClick } = props;
+	const { downloadList=[] } = props;
 
 	// Redux states
-	const { uid, isWorkerDone } = props;
+	const { uid } = props;
 
 	const inputField = [
 		{name: 'uid', value: uid}
 	];
 
+	const downloadSection = downloadList.map((downloadObj, i) => {
+		return(
+			<div className="preview-download-container" key={i}>
+				<GeneralHeader
+					header={downloadObj.header}
+					style={DownloadHeaderStyle}
+				/>
+				<DownloadButton
+					style={DownloadButtonStyle}
+					exportedDownloadPath={downloadObj.downloadPath}
+					isExported={true}
+					exportedText={downloadObj.displayText}
+					inputField={inputField}
+				/>
+			</div>
+		)
+	})
+
 	return(
 		<div
-			style={{display: (isWorkerDone) ? 'block' : 'none'}}
 			className="image-preview-download-container"
 		>
 			<GeneralHeader
 				header={"File downloads"}
 				style={DownloadMainHeader}
 			/>
-			<div className="download-container">
-				<GeneralHeader
-					header={"- PCoA plot (.png):"}
-					style={DownloadHeaderStyle}
-				/>
-				<DownloadButton
-					style={DownloadButtonStyle}
-					exportedDownloadPath={pngEndpoint}
-					isExported={true}
-					exportedText={".png"}
-					inputField={inputField}
-				/>
-			</div>
-			<div className="download-container">
-				<GeneralHeader
-					header={"- PCoA plot (.pdf):"}
-					style={DownloadHeaderStyle}
-				/>
-				<DownloadButton
-					style={DownloadButtonStyle}
-					exportedDownloadPath={pdfEndpoint}
-					isExported={true}
-					exportedText={".pdf"}
-					inputField={inputField}
-				/>
-			</div>
+			{downloadSection}
 		</div>
 	)
 }
 
 const mapStateToProps  = state => ({
 	uid: state.submit.uid,
-	isWorkerDone: state.remoteWorker.isWorkerDone,
 })
 
 const mapDispatchToProps = {

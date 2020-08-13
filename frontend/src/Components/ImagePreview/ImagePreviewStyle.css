@@ -7,3 +7,12 @@
 	max-width: 60%;
 	max-height: 500px;
 }
+
+.image-preview-download-container {
+	text-align: left;
+}
+
+.preview-download-container {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
