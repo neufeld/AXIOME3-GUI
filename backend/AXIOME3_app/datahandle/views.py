@@ -437,6 +437,7 @@ def triplot():
 		dissmilarity_index = request.form["Dissmilarity index"]
 		R2_threshold = request.form["R squared threshold"]
 		wa_threshold = request.form["Taxa weighted average threshold"]
+		pval_threshold = request.form["p-value threshold"]
 		
 		fill_variable = request.form["Fill variable"]
 		# Fill variable must exist
@@ -456,6 +457,8 @@ def triplot():
 		height = request.form["Height"]
 		x_axis_text_size = request.form["x axis label size"]
 		y_axis_text_size = request.form["y axis label size"]
+		taxa_text_size = request.form["taxa bubble text size"]
+		vector_arrow_text_size = request.form["vector arrow text size"]
 		legend_title_size = request.form["legend title size"]
 		legend_text_size = request.form["legend text size"]
 
@@ -481,6 +484,7 @@ def triplot():
 			'dissmilarity_index': dissmilarity_index,
 			'R2_threshold': float(R2_threshold),
 			'wa_threshold': float(wa_threshold),
+			'pval_threshold': float(pval_threshold),
 			'fill_variable': fill_variable,
 			'fill_variable_dtype': fill_variable_dtype,
 			'colour_set': colour_set,
@@ -495,7 +499,9 @@ def triplot():
 			'x_axis_text_size': x_axis_text_size,
 			'y_axis_text_size': y_axis_text_size,
 			'legend_title_size': legend_title_size,
-			'legend_text_size': legend_text_size
+			'legend_text_size': legend_text_size,
+			'taxa_text_size': taxa_text_size,
+			'vector_arrow_text_size': vector_arrow_text_size
 		}
 		triplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=triplot_kwargs)
 
