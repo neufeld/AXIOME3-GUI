@@ -1,5 +1,5 @@
 import uploadReducer from '../../src/redux/reducers/uploadReducer';
-import { GET_FILES, GET_UPLOAD_FIELD, SELECT_FILE } from '../../src/redux/actions/types'
+import { GET_FILES, GET_UPLOAD_FIELD, SELECT_FILE } from '../../src/redux/types/types'
 
 describe('Upload Reducer', () => {
 	describe('Checking default state', () => {

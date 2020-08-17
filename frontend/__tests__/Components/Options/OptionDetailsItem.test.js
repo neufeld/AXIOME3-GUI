@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import OptionDetailsItem from '../../../src/Components/Options/OptionDetailsItem'
+import { OptionDetailsItem } from '../../../src/Components/Options/OptionDetailsItem'
 
 describe('<OptionDetailsItem /> render', () => {
 	it('Should render two div and one of each container', () => {
