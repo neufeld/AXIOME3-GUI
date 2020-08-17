@@ -36,8 +36,11 @@ export const WEIGHTED_AVERAGE_COLLAPSE_LEVEL = "Taxa weights collapse level"
 export const DISSMILARITY_INDEX = "Dissmilarity index"
 export const ABUNDANCE_THRESHOLD = "Abundance threshold"
 export const R2_THRESHOLD = "R squared threshold"
+export const PVAL_THRESHOLD = "p-value threshold"
 export const WA_THRESHOLD = "Taxa weighted average threshold"
 export const RAREFACTION_DEPTH = "Rarefaction depth"
+export const TAXA_BUBBLE_TEXT_SIZE = "taxa bubble text size"
+export const VECTOR_ARROW_TEXT_SIZE = "vector arrow text size"
 // General
 export const CORES = "cores";
 // Email

@@ -36,6 +36,9 @@ import {
 	WA_THRESHOLD,
 	FILL_VARIABLE_DTYPE,
 	RAREFACTION_DEPTH,
+	PVAL_THRESHOLD,
+	TAXA_BUBBLE_TEXT_SIZE,
+	VECTOR_ARROW_TEXT_SIZE,
 } from '../../misc/OptionLabelConfig';
 
 import {
@@ -70,6 +73,9 @@ import {
 	WA_THRESHOLD_HELP,
 	FILL_VARIABLE_DTYPE_HELP,
 	RAREFACTION_DEPTH_HELP,
+	PVAL_THRESHOLD_HELP,
+	TAXA_BUBBLE_TEXT_SIZE_HELP,
+	VECTOR_ARROW_TEXT_SIZE_HELP,
 } from '../../misc/OptionHelpConfig';
 
 export const getTooltipText = (label) => {
@@ -134,8 +140,14 @@ export const getTooltipText = (label) => {
 			return FILL_VARIABLE_DTYPE_HELP
 		case RAREFACTION_DEPTH:
 			return RAREFACTION_DEPTH_HELP
+		case PVAL_THRESHOLD:
+			return PVAL_THRESHOLD_HELP
+		case TAXA_BUBBLE_TEXT_SIZE:
+			return TAXA_BUBBLE_TEXT_SIZE_HELP
+		case VECTOR_ARROW_TEXT_SIZE:
+			return VECTOR_ARROW_TEXT_SIZE_HELP
 		default:
-			return "baz"
+			return ""
 	}
 }
 

@@ -96,10 +96,7 @@ export const submitData = (formData, endpoint) => async dispatch => {
 			}
 		}	else {
 			alert("Server unexpectedly failed...")
-			console.log(err.response)
 		}
-
-		console.log(err.response)
 	}
 }
 

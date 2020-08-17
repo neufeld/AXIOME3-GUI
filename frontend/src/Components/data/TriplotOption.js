@@ -20,6 +20,9 @@ import {
 	Y_AXIS_LABEL_SIZE,
 	LEGEND_TITLE_SIZE,
 	LEGEND_TEXT_SIZE,
+	PVAL_THRESHOLD,
+	TAXA_BUBBLE_TEXT_SIZE,
+	VECTOR_ARROW_TEXT_SIZE,
 } from '../../misc/OptionLabelConfig';
 
 // Since it requires LITTLE TO ZERO updates, use normalized schema
@@ -87,6 +90,15 @@ const TriplotOption = {
 			},
 			basicOption6: {
 				id: "basicOption6",
+				label: PVAL_THRESHOLD,
+				type: "number",
+				defaultValue: 0.05,
+				min: 0,
+				max: 1,
+				step: 0.01,
+			},
+			basicOption7: {
+				id: "basicOption7",
 				label: WA_THRESHOLD,
 				type: "number",
 				defaultValue: 0.1,
@@ -94,34 +106,36 @@ const TriplotOption = {
 				max: 1,
 				step: 0.01,
 			},
-			basicOption7: {
-				id: "basicOption7",
+			basicOption8: {
+				id: "basicOption8",
 				label: FILL_VARIABLE,
 				type: "text",
 				defaultValue: ""
 			},
-			basicOption8: {
-				id: "basicOption8",
+			basicOption9: {
+				id: "basicOption9",
 				label: FILL_VARIABLE_DTYPE,
 				type: "dropdown",
 				dropdownOption: ["category", "numeric"],
 				defaultValue: "category"
 			},
-			basicOption9: {
-				id: "basicOption9",
+			basicOption10: {
+				id: "basicOption10",
 				label: COLOUR_BREWER,
 				type: "text",
 				defaultValue: 'Paired'
 			},
-			basicOption10: {
-				id: "basicOption10",
+			basicOption11: {
+				id: "basicOption11",
 				label: BREWER_TYPE,
 				type: "text",
 				defaultValue: 'qual',
 				hidden: true,
 			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7", "basicOption8", "basicOption9", "basicOption10"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", 
+			"basicOption6", "basicOption7", "basicOption8", "basicOption9", "basicOption10",
+			"basicOption11"]
 	},
 	points: {
 		entities: {
@@ -149,9 +163,23 @@ const TriplotOption = {
 				type: "number",
 				defaultValue: 6,
 				min: 1,
+			},
+			pointsConfig4: {
+				id: "pointsConfig4",
+				label: TAXA_BUBBLE_TEXT_SIZE,
+				type: "number",
+				defaultValue: 6,
+				min: 1,
+			},
+			pointsConfig5: {
+				id: "pointsConfig5",
+				label: VECTOR_ARROW_TEXT_SIZE,
+				type: "number",
+				defaultValue: 6,
+				min: 1,
 			}
 		},
-		keys: ["pointsConfig1", "pointsConfig2", "pointsConfig3"]
+		keys: ["pointsConfig1", "pointsConfig2", "pointsConfig3", "pointsConfig4", "pointsConfig5"]
 	},
 	plotLayout: {
 		entities: {

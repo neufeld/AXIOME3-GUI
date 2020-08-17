@@ -10,7 +10,7 @@ import OptionInputField from './OptionInputField';
 /**
  * Container for each detail.
  */
-function OptionDetailsItem(props) {
+export function OptionDetailsItem(props) {
 	// label: input label
 	// type: input type (e.g. number, text, dropdown)
 	const { label, type, defaultValue, dropdownOption = [], hidden, min, max, step} = props
