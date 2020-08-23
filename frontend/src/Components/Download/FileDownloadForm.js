@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { resetDownloadPath } from '../../redux/actions/downloadAction';
 
-const getInputTag = (inputField) => {
+export const getInputTag = (inputField) => {
 	if(inputField.length === 0) {
 		return
 	}
@@ -25,7 +25,10 @@ const getInputTag = (inputField) => {
 	return inputTags
 };
 
-class FileDownloadForm extends React.Component {
+export class FileDownloadForm extends React.Component {
+	// Whenver this componenet mounts, it will trigger file download via POST request to the backend server
+	// It will remount whenever the state changes (e.g. file download path)
+	// Note it remounts instead of simply re-rendering because I specified 'key' in the parent component (AXIOME3Template.js)
 	componentDidMount() {
 		//ReactDOM.findDOMNode(this).submit();
 		if(this.props.downloadPath !== '') {

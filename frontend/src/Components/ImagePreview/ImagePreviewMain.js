@@ -110,7 +110,8 @@ const getDownloadList = (formType) => {
 	}
 }
 
-function ImagePreviewMain(props) {
+// handle failed POST request?
+export function ImagePreviewMain(props) {
 	const [ source, setSource ] = useState('')
 	// Redux state
 	const { isWorkerDone, uid, formType } = props;

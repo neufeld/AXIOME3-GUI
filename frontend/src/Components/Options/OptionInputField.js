@@ -28,24 +28,6 @@ export function OptionInputField(props) {
 		selectOptions(label, defaultValue)
 	}, [options])
 
-	/*
-	useEffect(() => {
-		if(label == PC_AXIS_ONE || label == PC_AXIS_TWO) {
-			const regex = /^PC[1-9]+\d?$/g;
-			const toTest = selectedOptions[label];
-
-			if(toTest) {
-				console.log("a")
-				if(!toTest.match(regex)) {
-					selectedOptions[label] = defaultValue;
-					alert("It should be in the form 'PCx' where x is some number.")
-				}
-			}
-			
-		}
-	}, [selectedOptions[label]])
-	*/
-
 	if(type === "dropdown") {
 		const dropdownItems = dropdownOption.map(option => {
 			return (

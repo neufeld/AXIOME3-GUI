@@ -55,25 +55,33 @@ const DenoiseOption = {
 				id: "basicOption4",
 				label: TRUNC_LEN_F,
 				type: "number",
-				defaultValue: 250
+				defaultValue: 250,
+				min: 1,
+				step: 1,
 			},
 			basicOption5: {
 				id: "basicOption5",
 				label: TRUNC_LEN_R,
 				type: "number",
-				defaultValue: 250
+				defaultValue: 250,
+				min: 1,
+				step: 1,
 			},
 			basicOption6: {
 				id: "basicOption6",
 				label: TRIM_LEFT_F,
 				type: "number",
-				defaultValue: 0
+				defaultValue: 0,
+				min: 1,
+				step: 1,
 			},
 			basicOption7: {
 				id: "basicOption7",
 				label: TRIM_LEFT_R,
 				type: "number",
-				defaultValue: 0
+				defaultValue: 0,
+				min: 1,
+				step: 1,
 			},
 			basicOption8: {
 				id: "basicOption8",
