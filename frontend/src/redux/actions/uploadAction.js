@@ -20,11 +20,11 @@ export const getUploadField = (data) => dispatch => {
 	})
 }
 
-export const getFiles = (id, path='/hostfs') => async dispatch => {
+export const getFiles = (id, endpoint, path='/hostfs') => async dispatch => {
 	
 	const data = JSON.stringify({path: path})
 	try {
-		const res = await axios.post('/filebrowse/', data, {
+		const res = await axios.post(endpoint, data, {
 			headers: {
 				'Content-Type': 'application/json'
 			}

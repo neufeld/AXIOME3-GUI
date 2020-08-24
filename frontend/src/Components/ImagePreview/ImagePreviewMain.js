@@ -26,6 +26,8 @@ import {
 	TRIPLOT_FORMTYPE,
 } from '../../misc/FormTypeConfig';
 
+import { ENDPOINT_ROOT } from '../../misc/apiConfig';
+
 const getPngEndpoint = (formType) => {
 	switch(formType) {
 		case PCOA_FORMTYPE:
@@ -34,19 +36,6 @@ const getPngEndpoint = (formType) => {
 			return BUBBLEPLOT_PNG_ENDPOINT
 		case TRIPLOT_FORMTYPE:
 			return TRIPLOT_PNG_ENDPOINT
-		default:
-			return "none"
-	}
-}
-
-const getPdfEndpoint = (formType) => {
-	switch(formType) {
-		case PCOA_FORMTYPE:
-			return CUSTOM_PCOA_PDF_ENDPOINT
-		case BUBBLEPLOT_FORMTYPE:
-			return BUBBLEPLOT_PDF_ENDPOINT
-		case TRIPLOT_FORMTYPE:
-			return TRIPLOT_PDF_ENDPOINT
 		default:
 			return "none"
 	}
@@ -116,8 +105,8 @@ export function ImagePreviewMain(props) {
 	// Redux state
 	const { isWorkerDone, uid, formType } = props;
 
-	const pngEndpoint = getPngEndpoint(formType)
-	const pdfEndpoint = getPdfEndpoint(formType)
+	const partialEndpoint = getPngEndpoint(formType)
+	const endpoint = ENDPOINT_ROOT + partialEndpoint
 
 	useEffect(() => {
 		const getPcoaImage = async () => {
@@ -126,7 +115,7 @@ export function ImagePreviewMain(props) {
 			formData.append('uid', uid);
 
 			const configOptions = {
-				url: pngEndpoint,
+				url: endpoint,
 				method: 'post',
 				data: formData,
 				responseType: 'arraybuffer'

@@ -61,7 +61,6 @@
       "\\.(png|jpg|gif|ttf|eot|svg)$": "<rootDir>/__tests__/__mocks__/fileMock.js"
     }
   },
-  "proxy": "http://backend:5000/",
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "concurrently": "^5.0.0",

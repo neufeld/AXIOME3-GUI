@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import GeneralHeader from '../GeneralHeader';
 import DownloadButton from '../../Download/DownloadButton';
 
+import { 
+	REPORT_PCOA_PDF_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 };
@@ -25,6 +31,7 @@ const DownloadMainHeader = {
 function PcoaDownloadSection(props) {
 	// From parent
 	const { inputField } = props;
+	const pdfEndpoint = ENDPOINT_ROOT + REPORT_PCOA_PDF_ENDPOINT
 
 	return(
 		<div>
@@ -39,7 +46,7 @@ function PcoaDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					exportedDownloadPath={"/pcoa/pdf"}
+					exportedDownloadPath={pdfEndpoint}
 					isExported={true}
 					exportedText={".pdf"}
 					inputField={inputField}

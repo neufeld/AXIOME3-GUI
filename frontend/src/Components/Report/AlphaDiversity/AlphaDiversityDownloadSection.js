@@ -6,6 +6,10 @@ import GeneralHeader from '../GeneralHeader';
 
 import { capitalizeFirstLetter } from '../ReportHelper';
 
+import { ALPHA_DIVERSITY_QZA_ENDPOINT } from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadHeaderStyle = {
 	display: 'inline-block',
 	margin: '0px 10px',
@@ -42,7 +46,7 @@ function AlphaDiversityDownloadSection(props) {
 		];
 
 		const header = "- " + diversities[diversity] + ": ";
-		const qiimeDownloadPath = "/alpha_diversity/qza";
+		const endpoint = ENDPOINT_ROOT + ALPHA_DIVERSITY_QZA_ENDPOINT
 		const qiimeText = ".qza";
 
 		return(
@@ -53,7 +57,7 @@ function AlphaDiversityDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={qiimeDownloadPath}
+					qiimeDownloadPath={endpoint}
 					isQza={true}
 					qiimeText={qiimeText}
 					inputField={inputField}

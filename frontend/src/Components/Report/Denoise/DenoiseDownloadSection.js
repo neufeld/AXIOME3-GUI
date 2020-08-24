@@ -11,6 +11,8 @@ import {
 	BATCH_DOWNLOAD_ENDPOINT,
 } from '../../../misc/EndpointConfig';
 
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 };
@@ -37,6 +39,11 @@ function DenoiseDownloadSection(props) {
 		{name: 'uid', value: uid}
 	];
 
+	const featureTableEndpoint = ENDPOINT_ROOT + FEATURE_TABLE_ENDPOINT
+	const reqseqsEndpoint = ENDPOINT_ROOT + REP_SEQS_ENDPOINT
+	const summaryQzvEndpoint = ENDPOINT_ROOT + SUMMARY_QZV_ENDPOINT
+	const batchDownloadEndpoint = ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT
+
 	return(
 		<div>
 			<GeneralHeader
@@ -50,7 +57,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={FEATURE_TABLE_ENDPOINT}
+					qiimeDownloadPath={featureTableEndpoint}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -63,7 +70,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={REP_SEQS_ENDPOINT}
+					qiimeDownloadPath={reqseqsEndpoint}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -76,7 +83,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={SUMMARY_QZV_ENDPOINT}
+					qiimeDownloadPath={summaryQzvEndpoint}
 					isQza={true}
 					qiimeText={".qzv"}
 					inputField={inputField}
@@ -89,7 +96,7 @@ function DenoiseDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={BATCH_DOWNLOAD_ENDPOINT}
+					qiimeDownloadPath={batchDownloadEndpoint}
 					isQza={true}
 					qiimeText={".zip"}
 					inputField={inputField}

@@ -6,7 +6,9 @@ import GeneralHeader from '../GeneralHeader';
 
 import {
 	BETA_DIVERSITY_ENDPOINT,
-} from '../../../misc/EndpointConfig'
+} from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
 
 const DownloadHeaderStyle = {
 	display: 'inline-block',
@@ -49,6 +51,7 @@ function BetaDiversityDownloadSection(props) {
 
 		const header = "- " + diversities[diversity] + ": ";
 		const qiimeText = ".qza";
+		const endpoint = ENDPOINT_ROOT + BETA_DIVERSITY_ENDPOINT
 
 		return(
 			<div className="download-container" key={diversity}>
@@ -58,7 +61,7 @@ function BetaDiversityDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={BETA_DIVERSITY_ENDPOINT}
+					qiimeDownloadPath={endpoint}
 					isQza={true}
 					qiimeText={qiimeText}
 					inputField={inputField}

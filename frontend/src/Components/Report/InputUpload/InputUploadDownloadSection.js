@@ -10,6 +10,8 @@ import {
 	BATCH_DOWNLOAD_ENDPOINT,
 } from '../../../misc/EndpointConfig';
 
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 }
@@ -36,6 +38,10 @@ function InputUploadDownloadSection(props) {
 		{name: 'uid', value: uid}
 	];
 
+	const sequenceQzaEndpoint = ENDPOINT_ROOT + SEQUENCE_QZA_ENDPOINT
+	const sequenceQzvEndpoint = ENDPOINT_ROOT + SEQUENCE_QZV_ENDPOINT
+	const batchDownloadEndpoint = ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT
+
 	return(
 		<div>
 			<GeneralHeader
@@ -49,7 +55,7 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={SEQUENCE_QZA_ENDPOINT}
+					qiimeDownloadPath={sequenceQzaEndpoint}
 					isQza={true}
 					qiimeText={".qza"}
 					inputField={inputField}
@@ -62,7 +68,7 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={SEQUENCE_QZV_ENDPOINT}
+					qiimeDownloadPath={sequenceQzvEndpoint}
 					isQza={true}
 					qiimeText={".qzv"}
 					inputField={inputField}
@@ -75,7 +81,7 @@ function InputUploadDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					qiimeDownloadPath={BATCH_DOWNLOAD_ENDPOINT}
+					qiimeDownloadPath={batchDownloadEndpoint}
 					isQza={true}
 					qiimeText={".zip"}
 					inputField={inputField}

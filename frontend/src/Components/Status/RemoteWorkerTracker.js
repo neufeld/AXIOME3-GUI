@@ -17,7 +17,7 @@ function RemoteWorkerTracker(props) {
 	const { uid } = props;
 
 	const namespace = "/AXIOME3"
-	const endpoint = "http://localhost:5000" + namespace;
+	const endpoint = namespace;
 
 	useEffect(() => {
 		if(uid) {

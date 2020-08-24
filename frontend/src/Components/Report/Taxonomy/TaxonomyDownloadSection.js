@@ -6,6 +6,15 @@ import GeneralHeader from '../GeneralHeader';
 
 import { capitalizeFirstLetter } from '../ReportHelper';
 
+import { 
+	REPORT_TAXA_COLLAPSE_TSV_ENDPOINT,
+	REPORT_TAXA_COLLAPSE_QZA_ENDPOINT,
+	REPORT_TAXA_ASV_TSV_ENDPOINT,
+	REPORT_TAXA_ASV_QZA_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadHeaderStyle = {
 	display: 'inline-block',
 	margin: '0px 10px',
@@ -47,8 +56,8 @@ function TaxonomyDownloadSection(props) {
 			{name: 'taxa', value: taxa}
 		];
 
-		const exportedDownloadPath = "/taxonomy/collapse/tsv";
-		const qiimeDownloadPath = "/taxonomy/collapse/qza";
+		const exportedDownloadPath = ENDPOINT_ROOT + REPORT_TAXA_COLLAPSE_TSV_ENDPOINT;
+		const qiimeDownloadPath = ENDPOINT_ROOT + REPORT_TAXA_COLLAPSE_QZA_ENDPOINT;
 
 		const exportedText = ".tsv";
 		const qiimeText = ".qza"
@@ -73,6 +82,9 @@ function TaxonomyDownloadSection(props) {
 		)
 	});
 
+	const asvTsvEndpoint = ENDPOINT_ROOT + REPORT_TAXA_ASV_TSV_ENDPOINT
+	const asvQzaEndpoint = ENDPOINT_ROOT + REPORT_TAXA_ASV_QZA_ENDPOINT
+
 	return(
 		<div>
 			<GeneralHeader
@@ -90,8 +102,8 @@ function TaxonomyDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					exportedDownloadPath={"/taxonomy/asv/tsv"}
-					qiimeDownloadPath={"/taxonomy/asv/qza"}
+					exportedDownloadPath={asvTsvEndpoint}
+					qiimeDownloadPath={asvQzaEndpoint}
 					isQza={true}
 					isExported={true}
 					qiimeText={".qza"}

@@ -7,6 +7,12 @@ import PcoaDropDown from './PcoaDropDown';
 import PcoaDropDownLabel from './PcoaDropDownLabel'
 import { convertArrayBufferToBase64 } from '../../../utils/utils';
 
+import { 
+	REPORT_PCOA_JPEG_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 function PcoaPreview(props) {
 	const [ source, setSource ] = useState('')
 
@@ -21,7 +27,7 @@ function PcoaPreview(props) {
 
 	// Whenever dropdown value changes, make API request
 	useEffect(() => {
-		const pcoaImageEndpoint = '/pcoa/jpeg'
+		const pcoaImageEndpoint = ENDPOINT_ROOT + REPORT_PCOA_JPEG_ENDPOINT
 		const getPcoaImage = async () => {
 			const formData = new FormData();
 

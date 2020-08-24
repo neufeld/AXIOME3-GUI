@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import GeneralHeader from '../GeneralHeader';
 import DownloadButton from '../../Download/DownloadButton';
 
+import { COMBINED_ASV_TABLE_ENDPOINT } from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 }
@@ -30,7 +34,7 @@ function AsvDownloadSection(props) {
 		{name: 'uid', value: uid}
 	];
 
-	const downloadPath = '/combined_asv_table/tsv';
+	const endpoint = ENDPOINT_ROOT + COMBINED_ASV_TABLE_ENDPOINT
 
 	return(
 		<div>
@@ -45,7 +49,7 @@ function AsvDownloadSection(props) {
 				/>
 				<DownloadButton
 					style={DownloadButtonStyle}
-					exportedDownloadPath={downloadPath}
+					exportedDownloadPath={endpoint}
 					isExported={true}
 					exportedText={".tsv"}
 					inputField={inputField}
