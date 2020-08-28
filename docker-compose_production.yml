@@ -1,21 +1,5 @@
 version: "3.5"
 services:
-  #redis:
-  #  image: redis:latest
-  #  ports:
-  #    - '6379:6379'
-  #  #command: ["redis-server"]
-  nginx:
-    image: nginx:1.19.1-alpine
-    ports:
-      - '8080:80'
-    volumes:
-      - ./nginx/dev/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - frontend
-      - backend
-    restart: on-failure
-
   rabbit:
     image: rabbitmq:3.8.5-management
     ports:
@@ -32,14 +16,14 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: ["python", "server.py", '--py-autoreload', '1'] #["flask", "run", "--host", "0.0.0.0"]
+    command: ["python", "server.py", '--py-autoreload', '1']
     volumes:
       - ./backend:/backend
       - /:/hostfs:ro # Assumes host root is '/'
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
+      - pipeline_volume:/pipeline/AXIOME3
     ports:
       - '5000'
     environment:
@@ -62,7 +46,7 @@ services:
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
+      - pipeline_volume:/pipeline/AXIOME3
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
@@ -81,29 +65,25 @@ services:
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
+      - pipeline_volume:/pipeline/AXIOME3
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
 
-  frontend:
+  app:
     build:
-      context: ./frontend
-      dockerfile: dev.Dockerfile
-    command: ["npm", "start"]
+      context: .
+      dockerfile: production.Dockerfile
     volumes:
-      - ./frontend:/frontend
-      - node_module:/frontend/node_modules
+      - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - '3000'
-    environment:
-      - NODE_ENV=development
-      - HOST=0.0.0.0
-      - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_QIIME2_RELEASE=2020.6
-      - REACT_APP_SILVA_VERSION=138
-    links:
+      - '8080:80'
+    depends_on:
       - backend
-    tty: true
+    environment:
+      - PORT=8080
+    command: nginx -g "daemon off";
+
 volumes:
   input:
   node_module:
+  pipeline_volume:

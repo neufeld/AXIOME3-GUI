@@ -1,6 +1,7 @@
 FROM continuumio/miniconda3
 
 ARG QIIME2_RELEASE
+ARG CLASSIFIER_GDRIVE_ID
 
 RUN apt-get install wget
 
@@ -28,27 +29,21 @@ RUN echo "source tab-qiime" >> $HOME/.bashrc
 # Make directory to store pipeline
 WORKDIR /pipeline
 # clone AXIOME3 Pipeline repository
-RUN git clone --single-branch --branch web-app https://github.com/neufeld/AXIOME3.git
-
-#WORKDIR /pipeline/AXIOME3
-# Train QIIME2 classifier (138 version)
-# Get ref-seqs
-#RUN wget https://data.qiime2.org/2020.6/common/silva-138-99-seqs.qza
-# Get taxonomy
-#RUN wget https://data.qiime2.org/2020.6/common/silva-138-99-tax.qza
-# Extract V4V5 region
-#RUN qiime feature-classifier extract-reads --i-sequences silva-138-99-seqs.qza --p-f-primer GTGYCAGCMGCCGCGGTAA --p-r-primer CCGYCAATTYMTTTRAGTTT --o-reads ref_seqs_silva138_NR99_V4V5.qza
-# Train classifier
-#RUN qiime feature-classifier fit-classifier-naive-bayes --i-reference-reads ref_seqs_silva138_NR99_V4V5.qza --i-reference-taxonomy silva-138-99-tax.qza --o-classifier classifier_silva138_NR99_V4V5.qza
+RUN git clone --single-branch --branch dev https://github.com/neufeld/AXIOME3.git
 
 # Make /backend working directory; flask code lives here
 WORKDIR /backend
-# Install biopython
-#RUN conda install -c conda-forge biopython
 
 # Install from requirements.txt using pip
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
+
+# wget classifier
+WORKDIR /pipeline/AXIOME3
+RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}
+
+# Change workdir back to /backend (so the flask app can be run)
+WORKDIR /backend
 
 #CMD ["flask", "run", "--host", "0.0.0.0"]
