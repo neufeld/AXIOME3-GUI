@@ -6,7 +6,7 @@ function DenoiseDescription(props) {
 		<div>
 			<div className="description-main-text-container">
 				<p>
-					In this module, ASV feature table and representative sequences are generated.
+					In this module, phylogeny tree, taxonomic classification, and diversity metrics are generated.
 				</p>
 			</div>
 			<div className="description-input-output-container">
