@@ -40,7 +40,7 @@ def after_setup_celery_logger(logger, **kwargs):
 @celery.task(name="extension.pcoa")
 def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 	fill_variable, shape_variable=None, colour_set="Paired",
-	brewer_type="qual", primary_dtype='category', secondary_dtype='category',
+	brewer_type="qual", fill_variable_dtype='category', secondary_dtype='category',
 	alpha=0.8, stroke=0.6, point_size=6, width=100, height=90,
 	x_axis_text_size=10, y_axis_text_size=10, legend_title_size=10, legend_text_size=10,
 	PC_axis_1=1, PC_axis_2=2):
@@ -93,13 +93,16 @@ def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
 		log_status(task_progress_file, message)
 		return
 
+	if(fill_variable_dtype == 'numeric'):
+		fill_variable_dtype = 'float64'
+
 	try:
 		plot = generate_pcoa_plot(
 			pcoa=pcoa_artifact,
 			metadata=metadata,
 			colouring_variable=fill_variable,
 			shape_variable=shape_variable,
-			primary_dtype=primary_dtype,
+			primary_dtype=fill_variable_dtype,
 			secondary_dtype=secondary_dtype,
 			palette=colour_set,
 			brewer_type=brewer_type,

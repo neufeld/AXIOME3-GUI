@@ -70,8 +70,10 @@ def inputupload():
 		# Check if the upload is made from the client or server
 		if("manifest" in request.files):
 			manifest_file = request.files["manifest"]
-		else:
+		elif("manifest" in request.form):
 			manifest_file = request.form["manifest"]
+		else:
+			raise FileNotFoundError("Manifest file must be uploaded!")
 			
 		input_format = request.form["Input Format"]
 		sample_type = request.form["Sample Type"]
@@ -104,6 +106,9 @@ def inputupload():
 	except AXIOME3Error as err:
 		return err.response
 
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
+
 	return Response("Success!", status=200, mimetype='text/html')
 
 @blueprint.route("/denoise", methods=['POST'])
@@ -127,8 +132,10 @@ def denoise():
 		# Check if the upload is made from the client or server
 		if("manifest" in request.files):
 			manifest_file = request.files["manifest"]
-		else:
+		elif("manifest" in request.form):
 			manifest_file = request.form["manifest"]
+		else:
+			raise FileNotFoundError("Manifest file must be uploaded!")
 
 		input_format = request.form["Input Format"]
 		sample_type = request.form["Sample Type"]
@@ -177,6 +184,9 @@ def denoise():
 	except AXIOME3Error as err:
 		return err.response
 
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
+
 	return Response("Success!", status=200, mimetype='text/html')
 
 @blueprint.route("/analysis", methods=['POST'])
@@ -200,27 +210,44 @@ def analysis():
 		# Check if the upload is made from the client or server
 		if("feature_table" in request.files):
 			feature_table = request.files["feature_table"]
-		else:
+		elif("feature_table" in request.form):
 			feature_table = request.form["feature_table"]
+		else:
+			raise FileNotFoundError("Feature table must be uploaded!")
 
 		if("rep_seqs" in request.files):
 			rep_seqs = request.files["rep_seqs"]
-		else:
+		elif("rep_seqs" in request.form):
 			rep_seqs = request.form["rep_seqs"]
+		else:
+			raise FileNotFoundError("Representative sequences must be uploaded!")
 
 		if("metadata" in request.files):
 			metadata = request.files["metadata"]
-		else:
+		elif("metadata" in request.form):
 			metadata = request.form["metadata"]
+		else:
+			raise FileNotFoundError("Metadata must be uploaded!")
+
+		if("classifier" in request.files):
+			classifier = request.files["classifier"]
+		elif("classifier" in request.form):
+			classifier = request.form["classifier"]
+		else:
+			# use default classifier it not specified by users
+			# read the value from env file?
+			#classifier = "/pipeline/AXIOME3/2020_06_classifier_silva138_NR99_V4V5.qza"
+			classifier = None
 
 		sampling_depth = request.form["sampling depth"]
 		n_cores = request.form["cores"]
 
-		feature_table_path, rep_seqs_path, metadata_path = analysis_helper.analysis_precheck(
+		feature_table_path, rep_seqs_path, metadata_path, classifier_path = analysis_helper.analysis_precheck(
 			_id=_id,
 			feature_table=feature_table,
 			rep_seqs=rep_seqs,
-			metadata=metadata
+			metadata=metadata,
+			classifier=classifier
 		)
 
 		# Prepare necessary files for anlysis
@@ -234,6 +261,7 @@ def analysis():
 			'logging_config': log_config_path,
 			'sampling_depth': sampling_depth,
 			'metadata_path': metadata_path,
+			'classifier_path': classifier_path,
 			'n_cores': n_cores
 		}
 
@@ -243,6 +271,9 @@ def analysis():
 
 	except AXIOME3Error as err:
 		return err.response
+
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -261,18 +292,23 @@ def pcoa():
 		# Check if the upload is made from the client or server
 		if("pcoa_qza" in request.files):
 			pcoa_qza = request.files["pcoa_qza"]
-		else:
+		elif("pcoa_qza" in request.form):
 			pcoa_qza = request.form["pcoa_qza"]
+		else:
+			raise FileNotFoundError("PCoA artifact must be uploaded!")
 
 		if("metadata" in request.files):
 			metadata = request.files["metadata"]
-		else:
+		elif("metadata" in request.form):
 			metadata = request.form["metadata"]
+		else:
+			raise FileNotFoundError("Sample metadata must be uploaded!")
 
 		fill_variable = request.form["Fill variable"]
 		# Primary target must exist
 		if not(fill_variable):
 			return Response("Please specify `Fill variable`!", status=400, mimetype='text/html')
+		fill_variable_dtype = request.form["Fill variable data type"]
 
 		shape_variable = request.form["Shape variable"] if request.form["Shape variable"] else None
 		colour_set = request.form["Colour set"]
@@ -303,6 +339,7 @@ def pcoa():
 			'pcoa': pcoa_path,
 			'metadata': metadata_path, 
 			'fill_variable': fill_variable,
+			'fill_variable_dtype': fill_variable_dtype,
 			'shape_variable': shape_variable,
 			'colour_set': colour_set,
 			'brewer_type': brewer_type,
@@ -323,6 +360,9 @@ def pcoa():
 	except AXIOME3Error as err:
 		return err.response
 
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
+
 	return Response("Success!", status=200, mimetype='text/html')
 
 @blueprint.route("/bubbleplot", methods=['POST'])
@@ -340,13 +380,17 @@ def bubbleplot():
 		# Check if the upload is made from the client or server
 		if("feature_table" in request.files):
 			feature_table_qza = request.files["feature_table"]
-		else:
+		elif("feature_table" in request.form):
 			feature_table_qza = request.form["feature_table"]
+		else:
+			raise FileNotFoundError("Feature table must be uploaded!")
 
 		if("taxonomy_qza" in request.files):
 			taxonomy_qza = request.files["taxonomy_qza"]
-		else:
+		elif("taxonomy_qza" in request.form):
 			taxonomy_qza = request.form["taxonomy_qza"]
+		else:
+			raise FileNotFoundError("Taxonomy artifact must be uploaded!")
 
 		# Optional metadata
 		if("metadata" in request.files):
@@ -397,6 +441,9 @@ def bubbleplot():
 	except AXIOME3Error as err:
 		return err.response
 
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
+
 	return Response("Success!", status=200, mimetype='text/html')
 
 @blueprint.route("/triplot", methods=['POST'])
@@ -414,23 +461,31 @@ def triplot():
 		# Check if the upload is made from the client or server
 		if("feature_table" in request.files):
 			feature_table_qza = request.files["feature_table"]
-		else:
+		elif("feature_table" in request.form):
 			feature_table_qza = request.form["feature_table"]
+		else:
+			raise FileNotFoundError("Feature table must be uploaded!")
 
 		if("taxonomy_qza" in request.files):
 			taxonomy_qza = request.files["taxonomy_qza"]
-		else:
+		elif("taxonomy_qza" in request.form):
 			taxonomy_qza = request.form["taxonomy_qza"]
+		else:
+			raise FileNotFoundError("Taxonomy artifact must be uploaded!")
 
 		if("metadata" in request.files):
 			metadata = request.files["metadata"]
-		else:
+		elif("metadata" in request.form):
 			metadata = request.form["metadata"]
+		else:
+			raise FileNotFoundError("Sample metadata must be uploaded!")
 
 		if("environmental_metadata" in request.files):
 			environmental_metadata = request.files["environmental_metadata"]
+		elif("environmental_metadata" in request.form):
+			environmental_metadata = request.form["environmental_metadata"]
 		else:
-			environmental_metadata = request.form["environmental_metadata"]		
+			raise FileNotFoundError("Environmental metadata must be uploaded!")
 
 		ordination_collapse_level = request.form["Ordination collapse level"]
 		weighted_average_collapse_level = request.form["Taxa weights collapse level"]
@@ -507,5 +562,8 @@ def triplot():
 
 	except AXIOME3Error as err:
 		return err.response
+
+	except FileNotFoundError as err:
+		return Response(str(err), status=400, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')

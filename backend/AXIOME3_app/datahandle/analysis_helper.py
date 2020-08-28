@@ -1,4 +1,5 @@
 import os
+from flask import current_app
 from qiime2 import Artifact
 from AXIOME3_app.utils import responseIfError
 from AXIOME3_app.datahandle.luigi_prep_helper import (
@@ -7,7 +8,7 @@ from AXIOME3_app.datahandle.luigi_prep_helper import (
 	save_uploaded_file
 )
 
-def analysis_precheck(_id, feature_table, rep_seqs, metadata):
+def analysis_precheck(_id, feature_table, rep_seqs, metadata, classifier=None):
 	"""
 	Do prechecks as to decrease the chance of job failing.
 
@@ -18,6 +19,9 @@ def analysis_precheck(_id, feature_table, rep_seqs, metadata):
 	feature_table_path = save_uploaded_file(_id, feature_table)
 	rep_seqs_path = save_uploaded_file(_id, rep_seqs)
 	metadata_path = save_uploaded_file(_id, metadata)
+	# default classifier path
+	default_classifier_path = current_app.config["DEFAULT_CLASSIFIER_PATH"]
+	classifier_path = save_uploaded_file(_id, classifier) if classifier is not None else default_classifier_path
 
 	def validate_analysis_input(feature_table, rep_seqs):
 		"""
@@ -49,7 +53,7 @@ def analysis_precheck(_id, feature_table, rep_seqs, metadata):
 	
 	responseIfError(validate_analysis_input, feature_table=feature_table_path, rep_seqs=rep_seqs_path)
 
-	return feature_table_path, rep_seqs_path, metadata_path
+	return feature_table_path, rep_seqs_path, metadata_path, classifier_path
 
 def analysis_setup(_id, feature_table, rep_seqs):
 	destination_dir = os.path.join('/output', _id, 'dada2', 'merged')
