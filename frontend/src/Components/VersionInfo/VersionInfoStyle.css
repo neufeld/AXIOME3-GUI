@@ -1,0 +1,14 @@
+.version-info-item {
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.version-info-header {
+	font-weight: bold;
+	margin-right: 8px;
+}
+
+.version-info-text {
+	margin-right: 8px;
+}
