@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,  
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import OptionDetails from './OptionDetails'
@@ -23,18 +25,18 @@ export function OptionItems(props) {
 		items = options.optionList.keys.map(k => {
 			const optionEntity = options.optionList.entities[k]
 			return(
-				<ExpansionPanel key={k} defaultExpanded={optionEntity.defaultExpanded}>
-					<ExpansionPanelSummary
+				<Accordion key={k} defaultExpanded={optionEntity.defaultExpanded}>
+					<AccordionSummary
 	  	      expandIcon={<ExpandMoreIcon />}
 	  	      aria-controls="panel1a-content"
 	  	      id="panel1a-header"
 	  	     >
 	  	     	<p className="summary text" test-attr={k}>{optionEntity.summaryText}</p>
-	  	    </ExpansionPanelSummary>
-	  	    <ExpansionPanelDetails >
+	  	    </AccordionSummary>
+	  	    <AccordionDetails >
 	  	      <OptionDetails optionType={k}/>
-	  	    </ExpansionPanelDetails>
-    	  </ExpansionPanel>
+	  	    </AccordionDetails>
+    	  </Accordion>
 			)
 		})
 	} else {

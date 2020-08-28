@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FolderTwoToneIcon from '@material-ui/icons/FolderTwoTone';
-import DescriptionTwoToneIcon from '@material-ui/icons/DescriptionTwoTone';
 
 import'./FileBrowse.css'
 import { selectFileById, getSelectedFileName, getFileDisplayName } from './FileBrowseHelper'

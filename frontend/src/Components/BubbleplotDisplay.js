@@ -14,6 +14,8 @@ import { BUBBLEPLOT_FORMTYPE } from '../misc/FormTypeConfig';
 // Upload field names
 import { QIIME2_FEATURE_TABLE, QIIME2_TAXONOMY, METADATA_FILE } from '../misc/InputUploadNameConfig';
 
+import BubbleplotDescription from './Description/BubbleplotDescription'
+
 function BubbleplotDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, updateFormType } = props
@@ -36,7 +38,7 @@ function BubbleplotDisplay(props) {
 
 	// Type of the form;
 	// For server side processing
-	const description = "This is for bubble plot!"
+	const description = <BubbleplotDescription/>
 
 	return (
 		<React.Fragment>

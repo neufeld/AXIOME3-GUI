@@ -6,16 +6,12 @@ import Modal from '@material-ui/core/Modal';
 import { SessionIdCopyModalBody } from '../Modal/ModalBodies';
 
 function SessionIdDisplay(props) {
-	const { isAnalysisSubmit, isRetrieveSubmit, sessionID } = props;
+	const { sessionID } = props;
 
 	const sessionIdRef = useRef(null);
 
 	// Modal related
 	const [modalOpen, setModalOpen] = useState(false);
-
-	const handleModalOpen = () => {
-		setModalOpen(true)
-	}
 
 	const handleModalClose = () => {
 		setModalOpen(false)
@@ -55,8 +51,6 @@ function SessionIdDisplay(props) {
 }
 
 const mapStateToProps  = state => ({
-	isAnalysisSubmit: state.submit.isAnalysisSubmit,
-	isRetrieveSubmit: state.submit.isRetrieveSubmit,
 	sessionID: state.submit.uid
 })
 

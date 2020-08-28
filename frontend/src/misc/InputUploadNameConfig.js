@@ -6,6 +6,7 @@ export const QIIME2_INPUT_SEQS = "demultiplexed"
 export const QIIME2_FEATURE_TABLE = "feature_table"
 export const QIIME2_REP_SEQS = "rep_seqs"
 export const METADATA_FILE = "metadata"
+export const CLASSIFIER = "classifier"
 // PCoA related
 export const QIIME2_PCOA = "pcoa_qza"
 // Bubbleplot related

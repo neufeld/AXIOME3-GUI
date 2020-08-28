@@ -16,6 +16,8 @@ import { PCOA_FORMTYPE } from '../misc/FormTypeConfig';
 // Upload field names
 import { QIIME2_PCOA, METADATA_FILE } from '../misc/InputUploadNameConfig';
 
+import PcoaDescription from './Description/PcoaDescription';
+
 function PcoaplotDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, updateFormType } = props
@@ -36,7 +38,7 @@ function PcoaplotDisplay(props) {
 		updateFormType(PCOA_FORMTYPE)
 	}, [])
 
-	const description = "This is for PCoA!"
+	const description = <PcoaDescription/>
 	const pngEndpoint = '/custompcoa/png'
 
 	return (

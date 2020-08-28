@@ -1,15 +1,6 @@
 import uuid from 'uuid';
 
 import {
-	INPUT_UPLOAD_FORMTYPE,
-	DENOISE_FORMTYPE,
-	ANALYSIS_FORMTYPE,
-	PCOA_FORMTYPE,
-	BUBBLEPLOT_FORMTYPE,
-	TRIPLOT_FORMTYPE,
-} from '../../misc/FormTypeConfig';
-
-import {
 	MAIN_FORM_SUBMISSION_ENDPOINT,
 	SESSION_RETRIEVE_FORM_SUBMISSION_ENDPOINT,
 } from '../../misc/EndpointConfig';

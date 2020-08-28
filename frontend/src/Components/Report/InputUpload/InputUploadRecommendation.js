@@ -31,7 +31,7 @@ function InputUploadRecommendation() {
 			/>
 			<div>
 				<ol>
-					<li><p>Download "QIIME2 Visualization (.qzv)" file</p></li>
+					<li><p>Download "QIIME2 Visualization (.qzv)" file (output of "Input Upload" module)</p></li>
 					<li>
 						<p>
 							Open QIIME2 Viewer:
@@ -70,6 +70,7 @@ function InputUploadRecommendation() {
 							</span>
 						</p>
 					</li>
+					<li><p>With the example above, you may set "trunc-len-f" as 250, and "trunc-len-r" as 240. Doing so will keep all the forward reads and discard reverse reads starting at base 240.</p></li>
 				</ol>
 			</div>
 		</div>

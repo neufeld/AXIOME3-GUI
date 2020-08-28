@@ -14,7 +14,6 @@ function ModalMain(props) {
 	// Props passed from parents
 	const { body, optionLabel } = props;
 
-
 	return(
 		<div>
 			<Modal

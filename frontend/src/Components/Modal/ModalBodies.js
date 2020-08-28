@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import ColourBrewMain from '../ColourBrew/ColourBrewMain'
+import InputUploadRecommendation from '../Report/InputUpload/InputUploadRecommendation'
 
 import INPUT_FORMAT_V1 from '../../Resources/inputformat_v1.png'
 import INPUT_FORMAT_V2 from '../../Resources/inputformat_v2.png'
@@ -36,10 +37,12 @@ const useStyles = makeStyles((theme) => ({
 	paper: {
 		position: 'absolute',
 		width: 800,
+		maxHeight: 800,
 		backgroundColor: theme.palette.background.paper,
 		border: '2px solid #000',
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
+		overflow: 'scroll',
 	},
 	popup: {
 		position: 'absolute',
@@ -81,6 +84,12 @@ export const InputFormatModalBody = React.forwardRef((props, ref) => (
 		<div className="modal-body-exit-container">
 			<span className="modal-body-exit-text">Press Esc to return</span>
 		</div>
+	</div>
+))
+
+export const InputUploadRecommendationModalBody = React.forwardRef((props, ref) => (
+	<div style={getModalStyle()} className={useStyles().paper} {...props} ref={ref}>
+		<InputUploadRecommendation />
 	</div>
 ))
 

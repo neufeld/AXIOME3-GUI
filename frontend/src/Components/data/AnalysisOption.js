@@ -13,13 +13,8 @@ const AnalysisOption = {
 				summaryText: "Basic Options",
 				defaultExpanded: true
 			},
-			advancedOptions: {
-				id: "advancedOptions",
-				summaryText: "Advanced Options",
-				defaultExpanded: false
-			},
 		},
-		keys: ["basicOptions", "advancedOptions"]
+		keys: ["basicOptions"]
 	},
 	basicOptions: {
 		entities: {
@@ -27,22 +22,19 @@ const AnalysisOption = {
 				id: "basicOption1",
 				label: SAMPLING_DEPTH,
 				type: "number",
-				defaultValue: 0
+				defaultValue: 0,
+				min: 0,
 			},
-		},
-		keys: ["basicOption1"]
-	},
-	advancedOptions: {
-		entities: {
-			advancedOption1: {
-				id: "advancedOption1",
+			basicOption2: {
+				id: "basicOption2",
 				label: CORES,
 				type: "number",
-				defaultValue: 1
-			}
+				defaultValue: 1,
+				min: 1,
+			},
 		},
-		keys: ["advancedOption1"]
-	}
+		keys: ["basicOption1", "basicOption2"]
+	},
 }
 
 export default AnalysisOption

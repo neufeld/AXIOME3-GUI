@@ -1,5 +1,6 @@
 import { 
 	FILL_VARIABLE,
+	FILL_VARIABLE_DTYPE,
 	SHAPE_VARIABLE,
 	COLOUR_BREWER,
 	BREWER_TYPE,
@@ -49,25 +50,32 @@ const PcoaOption = {
 			},
 			basicOption2: {
 				id: "basicOption2",
+				label: FILL_VARIABLE_DTYPE,
+				type: "dropdown",
+				dropdownOption: ["category", "numeric"],
+				defaultValue: "category"
+			},
+			basicOption3: {
+				id: "basicOption3",
 				label: SHAPE_VARIABLE,
 				type: "text",
 				defaultValue: ''
 			},
-			basicOption3: {
-				id: "basicOption3",
+			basicOption4: {
+				id: "basicOption4",
 				label: COLOUR_BREWER,
 				type: "text",
 				defaultValue: 'Paired'
 			},
-			basicOption4: {
-				id: "basicOption4",
+			basicOption5: {
+				id: "basicOption5",
 				label: BREWER_TYPE,
 				type: "text",
 				defaultValue: 'qual',
 				hidden: true,
 			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5"]
 	},
 	points: {
 		entities: {

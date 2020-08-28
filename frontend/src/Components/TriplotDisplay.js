@@ -14,6 +14,8 @@ import { TRIPLOT_FORMTYPE } from '../misc/FormTypeConfig';
 // Upload field names
 import { QIIME2_FEATURE_TABLE, QIIME2_TAXONOMY, METADATA_FILE, ENVIRONMENTAL_METADATA_FILE } from '../misc/InputUploadNameConfig';
 
+import TriplotDescription from './Description/TriplotDescription'
+
 function TriplotDisplay(props) {
 	// Redux actions
 	const { getUploadField, updateOptionList, updateFormType } = props
@@ -37,7 +39,7 @@ function TriplotDisplay(props) {
 
 	// Type of the form;
 	// For server side processing
-	const description = "This is for triplot!"
+	const description = <TriplotDescription/>
 
 	return (
 		<React.Fragment>

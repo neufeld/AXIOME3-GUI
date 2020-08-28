@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 
+import VersionInfoMain from './VersionInfo/VersionInfoMain'
 import UploadElementsMain from './Upload-Elements/UploadElementsMain'
 import DescriptionMain from './Description/DescriptionMain'
 import OptionsMain from './Options/OptionsMain'
@@ -13,7 +14,6 @@ import EmailMain from './Email/EmailMain'
 // Custom helper functions
 import { handleSubmit } from './SubmitButton/SubmitHelper'
 
-import { getUid } from '../redux/actions/downloadAction'
 // Submit redux
 import { submitData, resetSubmit } from '../redux/actions/submitAction'
 // Upload redux
@@ -21,11 +21,9 @@ import { resetUpload } from '../redux/actions/uploadAction'
 // Option redux
 import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
-import { resetSessionId, resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
+import { resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
 
 function MainDisplayTemplate(props) {
-	const [ run, setRun ] = useState(true);
-
 	const subDisplayStyles = {
 		background: "#DCDCDC",
 		margin: "auto",
@@ -50,9 +48,6 @@ function MainDisplayTemplate(props) {
 	// RemoteWorker redux action
 	const { resetRemoteWorker } = props;
 
-	// Session ID
-	const { uid } = props;
-
 	useEffect(() => {
 		// Upload related redux
 		resetUpload()
@@ -75,6 +70,7 @@ function MainDisplayTemplate(props) {
 
 	return (
 		<div className="main-display">
+			<VersionInfoMain />
 			<div className="main-tab-container">
 				<TabBarMain/>
 				<TourMain/>
@@ -95,7 +91,6 @@ function MainDisplayTemplate(props) {
 }
 
 const mapStateToProps  = state => ({
-	uid: state.submit.uid,
 	selectedFiles: state.upload.selectedFiles,
 	selectedOptions: state.option.selectedOptions,
 	formType: state.submit.formType,
