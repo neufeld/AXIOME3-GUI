@@ -16,7 +16,7 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: ["python", "server.py", '--py-autoreload', '1']
+    command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
       - ./backend:/backend
       - /:/hostfs:ro # Assumes host root is '/'
@@ -31,6 +31,7 @@ services:
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+    restart: on-failure
 
   pipeline_worker:
     build:
@@ -50,6 +51,7 @@ services:
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+    restart: on-failure
 
   extension_worker:
     build:
@@ -68,6 +70,7 @@ services:
       - pipeline_volume:/pipeline/AXIOME3
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+    restart: on-failure
 
   app:
     build:
@@ -81,6 +84,8 @@ services:
       - backend
     environment:
       - PORT=8080
+      - REACT_APP_QIIME2_RELEASE=2020.6
+      - REACT_APP_SILVA_VERSION=138
     command: nginx -g "daemon off";
 
 volumes:

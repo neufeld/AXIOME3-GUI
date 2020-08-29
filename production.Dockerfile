@@ -1,5 +1,8 @@
 # Install frontend
 FROM node:12.16.0-alpine AS frontend
+ENV REACT_APP_QIIME2_RELEASE 2020.6
+ENV REACT_APP_SILVA_VERSION 138
+
 WORKDIR /frontend
 ENV PATH /app/node_modules/.bin:$PATH
 # Install node modules
