@@ -26,6 +26,8 @@ import {
 	REPORT_BASE_ROUTE,
 } from '../../RouteConfig';
 
+import { ENDPOINT_ROOT } from '../../misc/apiConfig';
+
 const DownloadButtonStyle = {
 	display: 'inline-block'
 }
@@ -48,17 +50,17 @@ const getDownloadItems = (formType) => {
 		const items = [
 			{
 				header: "- Sequences:",
-				downloadPath: SEQUENCE_QZA_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + SEQUENCE_QZA_ENDPOINT,
 				extension: 'qza'
 			},
 			{
 				header: "- Sequences Visualization:",
-				downloadPath: SEQUENCE_QZV_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + SEQUENCE_QZV_ENDPOINT,
 				extension: 'qzv',
 			},
 			{
 				header: "- Download All:",
-				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
 			},
 		]
@@ -68,22 +70,22 @@ const getDownloadItems = (formType) => {
 		const items = [
 			{
 				header: "- Feature Table:",
-				downloadPath: FEATURE_TABLE_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + FEATURE_TABLE_ENDPOINT,
 				extension: 'qza'
 			},
 			{
 				header: "- Representative Sequences:",
-				downloadPath: REP_SEQS_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + REP_SEQS_ENDPOINT,
 				extension: 'qza',
 			},
 			{
 				header: "- Denoise Summary:",
-				downloadPath: SUMMARY_QZV_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + SUMMARY_QZV_ENDPOINT,
 				extension: 'qzv',
 			},
 			{
 				header: "- Download All:",
-				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
 			},
 		]
@@ -93,7 +95,7 @@ const getDownloadItems = (formType) => {
 		const items = [
 			{
 				header: "- Download All:",
-				downloadPath: BATCH_DOWNLOAD_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
 			},
 		]

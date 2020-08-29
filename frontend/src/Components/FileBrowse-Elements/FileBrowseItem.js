@@ -9,6 +9,8 @@ import DescriptionTwoToneIcon from '@material-ui/icons/DescriptionTwoTone';
 
 import { getFiles, selectFile } from '../../redux/actions/uploadAction'
 
+import { FILEBROWSE_ENDPOINT } from '../../misc/EndpointConfig';
+import { ENDPOINT_ROOT } from '../../misc/apiConfig';
 
 export const FileBrowseTextToolTip = withStyles((theme) => ({
 	tooltip: {
@@ -33,9 +35,12 @@ export function FileBrowseItem(props) {
 	// Redux state
 	const { id } = props
 
+	// Endpoint
+	const fileBrowseEndpoint = ENDPOINT_ROOT + FILEBROWSE_ENDPOINT
+
 	const onClickHandler = (file.type === "dir") 
 													? 
-													(() => { getFiles(id, file.path) })
+													(() => { getFiles(id, fileBrowseEndpoint, file.path) })
 													:
 													(() => { selectFile(id, file) })
 
