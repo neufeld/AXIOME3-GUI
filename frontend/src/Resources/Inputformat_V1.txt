@@ -1,9 +1,11 @@
 	
-	sample-id    absolute-filepath    direction
-	sample_1    /SOME_FOLDER/SAMPLE_1_R1.fastq.gz    forward
-	sample_1    /SOME_FOLDER/SAMPLE_1_R2.fastq.gz    reverse
-	sample_2    /SOME_FOLDER/SAMPLE_2_R1.fastq.gz    forward
-	sample_2    /SOME_FOLDER/SAMPLE_2_R2.fastq.gz    reverse
+	sample-id    	absolute-filepath    		direction	run_ID
+	sample_1    /SOME_FOLDER/SAMPLE_1_R1.fastq.gz    forward	myRun1
+	sample_1    /SOME_FOLDER/SAMPLE_1_R2.fastq.gz    reverse	myRun1
+	sample_2    /SOME_FOLDER/SAMPLE_2_R1.fastq.gz    forward	myRun2
+	sample_2    /SOME_FOLDER/SAMPLE_2_R2.fastq.gz    reverse	myRun2
+
+
 
 
 

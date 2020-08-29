@@ -6,6 +6,7 @@ export const TRIM_LEFT_F_HELP = "Position at which forward sequence should be tr
 export const TRIM_LEFT_R_HELP = "Position at which reverse sequence should be trimmed starting at the 5` end."
 export const TRUNC_LEN_F_HELP = "Position at which forward sequence should be truncated starting from the 3` end. There should still be a minimum 20 nucleotide overlap after truncation."
 export const TRUNC_LEN_R_HELP = "Position at which reverse sequence should be truncated starting from the 3` end. There should still be a minimum 20 nucleotide overlap after truncation."
+export const MULTIPLE_RUN_HELP = "Process samples from different sequencing runs. Must specify 'run_ID' column in the manifest file if yes."
 // Analysis related
 export const SAMPLING_DEPTH_HELP = "Samples with read count lower than this value will be discarded, and samples with read count higher than this value will be subsampled to this value. 0 means 'auto'."
 // PCoA related

@@ -1,0 +1,27 @@
+
+
+
+		SampleID	BarcodeSequence		Location	Year
+		sample_1	TCCTCA+GCTCAA		DW001		2018
+		sample_2	GGTTGT+GCTCAA		GW001		2018
+		sample_3	TGAGGT+GCTCAA		DW013Blank	2018
+		sample_4	TACCGT+GCTCAA		DW006		2018
+		sample_5	CCAACT+GCTCAA		GW001Blank	2018
+
+
+
+
+		SampleID	Vacuum	TempC	RelativeHumidity
+		sample_1	66.41	11.4	76
+		sample_2	70.22	19	62
+		sample_3	55.3	18	54
+		sample_4	60.14	18	74
+		sample_5	60.14	24.4	66
+
+
+
+
+
+
+
+

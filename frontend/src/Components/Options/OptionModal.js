@@ -24,6 +24,7 @@ import {
 	TRIM_LEFT_F,
 	TRIM_LEFT_R,
 	SAMPLING_DEPTH,
+	MULTIPLE_RUN,
 	FILL_VARIABLE,
 	SHAPE_VARIABLE,
 	COLOUR_BREWER,
@@ -47,6 +48,8 @@ export const getModalBody = (label) => {
 			return <DenoiseModalBody/>
 		case TRIM_LEFT_R:
 			return <DenoiseModalBody/>
+		case MULTIPLE_RUN:
+			return <InputFormatModalBody/>
 		case SAMPLING_DEPTH:
 			return <SamplingDepthModalBody/>
 		case FILL_VARIABLE:

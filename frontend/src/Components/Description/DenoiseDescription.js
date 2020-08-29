@@ -10,7 +10,6 @@ function DenoiseDescription(props) {
 	const handleOpen = (type) => {
 		setOpen(true)
 		setModalType(type)
-		//console.log(modalType)
 	}
 
 	const handleClose = () => {
