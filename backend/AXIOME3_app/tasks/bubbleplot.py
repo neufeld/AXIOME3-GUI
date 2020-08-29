@@ -6,7 +6,6 @@ from celery.signals import after_setup_task_logger, after_setup_logger
 
 from AXIOME3_app.extensions import celery
 from AXIOME3_app.tasks.utils import (
-	configure_celery_logger,
 	configure_celery_task_logger,
 	log_status,
 	emit_message,
@@ -29,11 +28,6 @@ logger = get_task_logger(__name__)
 def after_setup_celery_task_logger(logger, **kwargs):
 	""" This function sets the 'celery.task' logger handler and formatter """
 	configure_celery_task_logger(logger)
-
-@after_setup_logger.connect
-def after_setup_celery_logger(logger, **kwargs):
-	""" This function sets the 'celery' logger handler and formatter """
-	configure_celery_logger(logger)
 
 @celery.task(name="extension.bubbleplot")
 def bubbleplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
