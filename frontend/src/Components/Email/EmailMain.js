@@ -35,7 +35,7 @@ function EmailMain(props) {
 	const { selectedOptions } = props;
 
 	return(
-		<div className="email-wrapper">
+		<div className="email-wrapper hidden">
 			<div className="email-input-container">
 				<TextField
 					type="text"
