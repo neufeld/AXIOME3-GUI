@@ -202,6 +202,9 @@ function RemoteWorkerMessage(props) {
 						View Report
 					</Link>
 				</div>
+				<div>
+					<p>Currently, large files (size > 300MB) downloads are disabled due to a bug...</p>
+				</div>
 			</div>
 		</div>
 	)

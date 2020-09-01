@@ -1,4 +1,4 @@
-from flask import Blueprint, request, send_file
+from flask import Blueprint, request, send_file, Response
 import os
 import zipfile
 import io
@@ -8,12 +8,17 @@ blueprint = Blueprint("input_upload", __name__, url_prefix="/input_upload")
 @blueprint.route("/qza", methods=['POST'])
 def input_upload_qza():
 	uid = request.form["uid"]
+	mb = 1000 * 1000
+	limit = 300 * mb
 
 	if(uid == ''):
 		# return sample output if uid not specified
 		qza_file = os.path.join('/data/output/', 'paired_end_demux.qza')
 	else:
 		qza_file = os.path.join('/output', uid, 'paired_end_demux.qza')
+
+	if(os.stat(qza_file).st_size >= limit):
+		return Response("File is too big", status=500, mimetype='text/html')
 
 	return send_file(qza_file, mimetype='application/octet-stream', as_attachment=True)
 
