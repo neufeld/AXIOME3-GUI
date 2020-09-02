@@ -68,6 +68,8 @@ services:
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
+      - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
 
   extension_worker:
     build:
