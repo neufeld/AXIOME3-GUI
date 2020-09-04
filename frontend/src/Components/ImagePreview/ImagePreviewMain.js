@@ -48,12 +48,12 @@ const getDownloadList = (formType) => {
 		const downloadList = [
 			{
 				header: '- PCoA plot (.png):',
-				downloadPath: CUSTOM_PCOA_PNG_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + CUSTOM_PCOA_PNG_ENDPOINT,
 				displayText: '.png',
 			},
 			{
 				header: '- PCoA plot (.pdf):',
-				downloadPath: CUSTOM_PCOA_PDF_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + CUSTOM_PCOA_PDF_ENDPOINT,
 				displayText: '.pdf',
 			},
 		]
@@ -62,12 +62,12 @@ const getDownloadList = (formType) => {
 		const downloadList = [
 			{
 				header: '- Bubble plot (.png):',
-				downloadPath: BUBBLEPLOT_PNG_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + BUBBLEPLOT_PNG_ENDPOINT,
 				displayText: '.png',
 			},
 			{
 				header: '- Bubble plot (.pdf):',
-				downloadPath: BUBBLEPLOT_PDF_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + BUBBLEPLOT_PDF_ENDPOINT,
 				displayText: '.pdf',
 			},
 		]
@@ -76,22 +76,22 @@ const getDownloadList = (formType) => {
 		const downloadList = [
 			{
 				header: '- Triplot (.png):',
-				downloadPath: TRIPLOT_PNG_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + TRIPLOT_PNG_ENDPOINT,
 				displayText: '.png',
 			},
 			{
 				header: '- Triplot (.pdf):',
-				downloadPath: TRIPLOT_PDF_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + TRIPLOT_PDF_ENDPOINT,
 				displayText: '.pdf',
 			},
 			{
 				header: '- Sample summary (.csv):',
-				downloadPath: TRIPLOT_SAMPLE_SUMMARY_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + TRIPLOT_SAMPLE_SUMMARY_ENDPOINT,
 				displayText: '.csv',
 			},
 			{
 				header: '- Environmental data summary (.csv):',
-				downloadPath: TRIPLOT_ENV_SUMMARY_ENDPOINT,
+				downloadPath: ENDPOINT_ROOT + TRIPLOT_ENV_SUMMARY_ENDPOINT,
 				displayText: '.csv',
 			},
 		]

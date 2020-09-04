@@ -70,7 +70,8 @@ def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			pval_threshold=pval_threshold,
 			wa_threshold=wa_threshold,
 			PC_axis_one=PC_axis_one,
-			PC_axis_two=PC_axis_two
+			PC_axis_two=PC_axis_two,
+			output_dir=output_dir
 		)
 
 		# Save vector arrow df
