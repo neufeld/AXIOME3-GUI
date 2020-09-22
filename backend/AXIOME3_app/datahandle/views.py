@@ -113,7 +113,7 @@ def inputupload():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -124,6 +124,7 @@ def denoise():
 		recipient = request.form["email"]
 	else:
 		recipient = None
+	sender = current_app.config["GMAIL_SENDER"]
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -184,7 +185,7 @@ def denoise():
 		}
 		
 		send_queue_email(_id, sender, recipient, "Denoise")
-		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
+		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, sender, recipient))
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -196,7 +197,7 @@ def denoise():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -207,6 +208,7 @@ def analysis():
 		recipient = request.form["email"]
 	else:
 		recipient = None
+	sender = current_app.config["GMAIL_SENDER"]
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -277,7 +279,7 @@ def analysis():
 		}
 
 		send_queue_email(_id, sender, recipient, "Analysis")
-		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
+		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, sender, recipient))
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -289,7 +291,7 @@ def analysis():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -383,7 +385,7 @@ def pcoa():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -470,7 +472,7 @@ def bubbleplot():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -598,6 +600,6 @@ def triplot():
 
 	except Exception as err:
 		current_app.logger.error(str(err))
-		return "Internal Server Error"
+		return Response("Internal Server Error", status=500, mimetype='text/html')
 
 	return Response("Success!", status=200, mimetype='text/html')

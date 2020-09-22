@@ -24,7 +24,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="pipeline.run.analysis")
-def analysis_task(_id, URL, task_progress_file, recipient):
+def analysis_task(_id, URL, task_progress_file, sender, recipient):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
 	namespace = '/AXIOME3'
