@@ -8,3 +8,4 @@ Data
 deprecated.py
 *.bak
 .env
+gmail-python-email-send.json

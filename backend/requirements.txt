@@ -6,7 +6,6 @@ celery==4.4.6
 flask==1.1.2
 flask-cors
 flask-socketio==4.3.1
-Flask-Mail
 dnspython==1.16.0
 eventlet==0.25.0
 gdown==3.12.2 # to wget from Google drive

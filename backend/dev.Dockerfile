@@ -39,6 +39,9 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
+# Install Gmail API O-Auth
+RUN pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
+
 # wget classifier
 WORKDIR /pipeline/AXIOME3
 RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}

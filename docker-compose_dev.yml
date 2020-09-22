@@ -47,8 +47,7 @@ services:
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
-      - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
-      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - GMAIL_SENDER=axiome333@gmail.com
 
   pipeline_worker:
     build:
@@ -68,8 +67,7 @@ services:
     environment:
       - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
-      - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
-      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - GMAIL_SENDER=axiome333@gmail.com
 
   extension_worker:
     build:
