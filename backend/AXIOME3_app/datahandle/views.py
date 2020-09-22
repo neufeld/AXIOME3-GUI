@@ -100,9 +100,8 @@ def inputupload():
 			'is_multiple': is_multiple
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, sender, recipient))
-
 		send_queue_email(_id, sender, recipient, "Input Upload")
+		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, sender, recipient))
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -184,9 +183,8 @@ def denoise():
 			'n_cores': n_cores
 		}
 		
-		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
-
 		send_queue_email(_id, sender, recipient, "Denoise")
+		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -278,9 +276,8 @@ def analysis():
 			'n_cores': n_cores
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
-
 		send_queue_email(_id, sender, recipient, "Analysis")
+		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
