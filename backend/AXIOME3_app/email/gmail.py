@@ -42,7 +42,10 @@ def SendMessage(sender, to, subject, msgHtml=None, msgPlain=None):
 	credentials = get_credentials()
 
 	http = credentials.authorize(httplib2.Http())
-	service = discovery.build('gmail', 'v1', http=http)
+	# disable cache? thie may be detrimental to performance...
+	# Keeps getting warning if enable cache
+	service = discovery.build('gmail', 'v1', http=http, cache_discovery=False)
+	#service = discovery.build('gmail', 'v1', http=http)
 
 	message1 = CreateMessageHtml(sender, to, subject, msgHtml, msgPlain)
 	result = SendMessageInternal(service, "me", message1)
