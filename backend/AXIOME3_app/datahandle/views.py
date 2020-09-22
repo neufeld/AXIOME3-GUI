@@ -1,12 +1,9 @@
 from flask import Blueprint, request, Response, current_app
-from flask_mail import Message
-from AXIOME3_app.app import mail
 import uuid
 import os
 #from werkzeug import secure_filename
 # For console debugging
 import sys
-from flask_mail import Message
 
 # Custom modules
 from AXIOME3_app.datahandle import config_generator
@@ -30,22 +27,25 @@ from AXIOME3_app.tasks.pipeline import check_output_task
 # Custom Exceptions
 from AXIOME3_app.exceptions.exception import AXIOME3Error
 
-def send_queue_email(_id, recipient):
+from AXIOME3_app.email.gmail import SendMessage
+
+def send_queue_email(_id, sender, recipient, taskName):
 	if(recipient is not None):
-		msg = Message(
-			subject="AXIOME3 task queued",
-			recipients=[recipient],
-			html="""
+		subject = "AXIOME3 task queued"
+		msgHtml = """
 				<div>
 					<h2>Session ID</h2>
 					<p>{_id}</p>
 					<h2>Message</h2>
-					<p>Task queued</p>
+					<p>{taskName} task queued</p>
 				</div>
-			""".format(_id=_id)
+			""".format(_id=_id, taskName=taskName)
+		SendMessage(
+			sender=sender,
+			to=recipient,
+			subject=subject,
+			msgHtml=msgHtml
 		)
-
-		mail.send(msg)
 
 blueprint = Blueprint("datahandle", __name__, url_prefix="/datahandle")
 
@@ -60,6 +60,7 @@ def inputupload():
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
+	sender = current_app.config["GMAIL_SENDER"]
 
 	# path to file to record task progress
 	# It will be used to retrieve working progress
@@ -99,15 +100,21 @@ def inputupload():
 			'is_multiple': is_multiple
 		}
 
-		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, recipient))
+		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, sender, recipient))
 
-		send_queue_email(_id, recipient)
+		send_queue_email(_id, sender, recipient, "Input Upload")
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -179,13 +186,19 @@ def denoise():
 		
 		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, recipient))
 
-		send_queue_email(_id, recipient)
+		send_queue_email(_id, sender, recipient, "Denoise")
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -267,13 +280,19 @@ def analysis():
 
 		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, recipient))
 
-		send_queue_email(_id, recipient)
+		send_queue_email(_id, sender, recipient, "Analysis")
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -358,10 +377,16 @@ def pcoa():
 		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -439,10 +464,16 @@ def bubbleplot():
 		bubbleplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=bubbleplot_kwargs)
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')
 
@@ -561,9 +592,15 @@ def triplot():
 		triplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=triplot_kwargs)
 
 	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
 		return err.response
 
 	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
 		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return "Internal Server Error"
 
 	return Response("Success!", status=200, mimetype='text/html')

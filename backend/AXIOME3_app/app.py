@@ -9,9 +9,6 @@ from flask_cors import CORS
 from werkzeug.debug import DebuggedApplication
 # Import extension packages
 from AXIOME3_app.extensions import celery
-from flask_mail import Mail
-mail = Mail()
-#from AXIOME3_app.extensions import mail
 
 # Initialize socketio instance here to avoid circulr import
 socketio = SocketIO(cors_allowed_origins='*')
@@ -59,10 +56,6 @@ def create_app(testing=False, debug=False, development=False):
 	fh.setLevel(level=logging.WARNING)
 	fh.setFormatter(formatter)
 	app.logger.addHandler(fh)
-
-	# Set up Flask-Mail
-	# potentially use .env file and integrate with docker?
-	mail.init_app(app)
 
 	# Initialize Socket.IO
 	socketio.init_app(app, message_queue=app.config["CELERY_BROKER_URL"], engineio_logger=True)

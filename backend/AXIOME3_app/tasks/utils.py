@@ -1,4 +1,3 @@
-from flask_mail import Message
 import subprocess
 import re
 import logging
@@ -71,23 +70,14 @@ def cleanup_error_message(msg):
 
 	return msg.replace(to_remove, '').strip()
 
-def construct_email(recipient, html):
-	msg = Message(
-		subject="AXIOME3 task result",
-		recipients=[recipient],
-		html=html
-	)
-
-	return msg
-
-def generate_html(_id, message):
+def generate_html(_id, message, taskName):
 	html = """
 		<div>
 			<h2>Session ID</h2>
 			<p>{_id}</p>
-			<h2>Message</h2>
+			<h2>{taskName} Task Status</h2>
 			<p>{message}</p>
 		</div>
-	""".format(_id=_id, message=message)
+	""".format(_id=_id, taskName=taskName, message=message)
 
 	return html

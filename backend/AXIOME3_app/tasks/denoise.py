@@ -1,17 +1,27 @@
 from AXIOME3_app.extensions import celery
-from AXIOME3_app.extensions import mail
-import subprocess
+from AXIOME3_app.email.gmail import SendMessage
+from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
+from celery.utils.log import get_task_logger
+from celery.signals import after_setup_task_logger, after_setup_logger
 
 from flask_socketio import SocketIO
+import subprocess
 
 from AXIOME3_app.tasks.utils import (
 	log_status,
 	emit_message,
 	run_command,
 	cleanup_error_message,
-	construct_email,
-	generate_html
+	generate_html,
+	configure_celery_task_logger
 )
+
+logger = get_task_logger(__name__)
+
+@after_setup_task_logger.connect
+def after_setup_celery_task_logger(logger, **kwargs):
+	""" This function sets the 'celery.task' logger handler and formatter """
+	configure_celery_task_logger(logger)
 
 @celery.task(name="pipeline.run.denoise")
 def denoise_task(_id, URL, task_progress_file, recipient):
@@ -19,6 +29,7 @@ def denoise_task(_id, URL, task_progress_file, recipient):
 	channel = 'test'
 	namespace = '/AXIOME3'
 	room = _id
+	email_subject = "AXIOME3 task result"
 
 	isTaskDone, message = denoise(
 		socketio=local_socketio,
@@ -30,11 +41,39 @@ def denoise_task(_id, URL, task_progress_file, recipient):
 
 	if(isTaskDone == False):
 		if(recipient is not None):
-			email_message = construct_email(
-				recipient=recipient,
-				html=generate_html(_id, message)
-			)
-			mail.send(email_message)
+			try:
+				SendMessage(
+					sender=sender,
+					to=recipient,
+					subject=email_subject,
+					msgHtml=generate_html(_id, message, "Input Upload")
+				)
+			except AXIOME3WebAppError as err:
+				message = "Error: " + str(err.message)
+				logger.error(message)
+				log_status(task_progress_file, message)
+
+				emit_message(
+					socketio=local_socketio,
+					channel=channel,
+					message=message,
+					namespace=namespace,
+					room=room
+				)
+				return
+			except Exception as err:
+				message = "Error: Internal Server Error..."
+				logger.error(str(err))
+				log_status(task_progress_file, message)
+
+				emit_message(
+					socketio=local_socketio,
+					channel=channel,
+					message=message,
+					namespace=namespace,
+					room=room
+				)
+				return
 		return
 
 	message = "Done!"
@@ -48,11 +87,39 @@ def denoise_task(_id, URL, task_progress_file, recipient):
 	log_status(task_progress_file, message)
 
 	if(recipient is not None):
-		email_message = construct_email(
-			recipient=recipient,
-			html=generate_html(_id, message)
-		)
-		mail.send(email_message)
+		try:
+			SendMessage(
+				sender=sender,
+				to=recipient,
+				subject=email_subject,
+				msgHtml=generate_html(_id, message, "Input Upload")
+			)
+		except AXIOME3WebAppError as err:
+			message = "Error: " + str(err.message)
+			logger.error(message)
+			log_status(task_progress_file, message)
+
+			emit_message(
+				socketio=local_socketio,
+				channel=channel,
+				message=message,
+				namespace=namespace,
+				room=room
+			)
+			return
+		except Exception as err:
+			message = "Error: Internal Server Error..."
+			logger.error(str(err))
+			log_status(task_progress_file, message)
+
+			emit_message(
+				socketio=local_socketio,
+				channel=channel,
+				message=message,
+				namespace=namespace,
+				room=room
+			)
+			return
 
 def denoise(socketio, room, channel, namespace, task_progress_file):
 	message = 'Running denoise!'
