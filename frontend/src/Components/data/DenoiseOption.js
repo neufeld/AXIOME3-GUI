@@ -72,7 +72,7 @@ const DenoiseOption = {
 				label: TRIM_LEFT_F,
 				type: "number",
 				defaultValue: 0,
-				min: 1,
+				min: 0,
 				step: 1,
 			},
 			basicOption7: {
@@ -80,7 +80,7 @@ const DenoiseOption = {
 				label: TRIM_LEFT_R,
 				type: "number",
 				defaultValue: 0,
-				min: 1,
+				min: 0,
 				step: 1,
 			},
 			basicOption8: {
