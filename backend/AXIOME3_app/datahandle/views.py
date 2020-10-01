@@ -42,7 +42,7 @@ def send_queue_email(_id, sender, recipient, taskName):
 			""".format(_id=_id, taskName=taskName)
 		SendMessage(
 			sender=sender,
-			to=recipient,
+			recipient=recipient,
 			subject=subject,
 			msgHtml=msgHtml
 		)
