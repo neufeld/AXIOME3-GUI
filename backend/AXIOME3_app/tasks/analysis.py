@@ -105,7 +105,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 		log_status(task_progress_file, doneMessage)
 		SendMessage(
 			sender=sender,
-			to=recipient,
+			recipient=recipient,
 			subject=email_subject,
 			msgHtml=generate_html(_id, doneMessage, "Denoise")
 		)

@@ -77,7 +77,7 @@ def denoise_task(_id, logging_config, manifest_path, sample_type, input_format,
 		log_status(task_progress_file, doneMessage)
 		SendMessage(
 			sender=sender,
-			to=recipient,
+			recipient=recipient,
 			subject=email_subject,
 			msgHtml=generate_html(_id, doneMessage, "Denoise")
 		)
