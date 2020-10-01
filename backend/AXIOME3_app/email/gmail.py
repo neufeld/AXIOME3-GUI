@@ -38,18 +38,19 @@ def get_credentials():
 
 	return credentials
 
-def SendMessage(sender, to, subject, msgHtml=None, msgPlain=None):
-	credentials = get_credentials()
+def SendMessage(sender, recipient, subject, msgHtml=None, msgPlain=None):
+	if(recipient is not None):
+		credentials = get_credentials()
 
-	http = credentials.authorize(httplib2.Http())
-	# disable cache? thie may be detrimental to performance...
-	# Keeps getting warning if enable cache
-	service = discovery.build('gmail', 'v1', http=http, cache_discovery=False)
-	#service = discovery.build('gmail', 'v1', http=http)
+		http = credentials.authorize(httplib2.Http())
+		# disable cache? thie may be detrimental to performance...
+		# Keeps getting warning if enable cache
+		service = discovery.build('gmail', 'v1', http=http, cache_discovery=False)
+		#service = discovery.build('gmail', 'v1', http=http)
 
-	message1 = CreateMessageHtml(sender, to, subject, msgHtml, msgPlain)
-	result = SendMessageInternal(service, "me", message1)
-	return result
+		message1 = CreateMessageHtml(sender, recipient, subject, msgHtml, msgPlain)
+		result = SendMessageInternal(service, "me", message1)
+		return result
 
 def SendMessageInternal(service, user_id, message):
 	message = (service.users().messages().send(userId=user_id, body=message).execute())
@@ -70,11 +71,3 @@ def CreateMessageHtml(sender, to, subject, msgHtml=None, msgPlain=None):
 	if(msgHtml):
 		msg.attach(MIMEText(msgHtml, 'html'))
 	return {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
-
-def main():
-	to = "danielm710@gmail.com"
-	sender = "axiome333@gmail.com"
-	subject = "Test Gmail"
-	msgHtml = "Hi<br/>Html Email"
-	msgPlain = "Hi\nPlain Email"
-	SendMessage(sender, to, subject, msgHtml, msgPlain)
