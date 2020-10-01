@@ -91,17 +91,21 @@ def inputupload():
 		# Prepare necessary files for input upload
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
 
-		config_task_kwargs = {
+		task_kwargs = {
 			'_id': _id,
 			'logging_config': log_config_path,
 			'manifest_path': manifest_path,
 			'sample_type': sample_type,
 			'input_format': input_format,
-			'is_multiple': is_multiple
+			'is_multiple': is_multiple,
+			'URL': URL,
+			'task_progress_file': task_progress_file,
+			'sender': sender,
+			'recipient': recipient
 		}
 
 		send_queue_email(_id, sender, recipient, "Input Upload")
-		config_task.apply_async(kwargs=config_task_kwargs, link=import_data_task.s(URL, task_progress_file, sender, recipient))
+		import_data_task.apply_async(kwargs=task_kwargs)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -170,7 +174,7 @@ def denoise():
 		# Copy input file to premade output dir
 		#denoise_helper.denoise_setup(denoise_input_path, _id)
 
-		config_task_kwargs = {
+		task_kwargs = {
 			'_id': _id,
 			'logging_config': log_config_path,
 			'manifest_path': manifest_path,
@@ -181,11 +185,15 @@ def denoise():
 			'trim_left_r': trim_left_r,
 			'trunc_len_r': trunc_len_r,
 			'is_multiple': is_multiple,
-			'n_cores': n_cores
+			'n_cores': n_cores,
+			'URL': URL,
+			'task_progress_file': task_progress_file,
+			'sender': sender,
+			'recipient': recipient
 		}
 		
 		send_queue_email(_id, sender, recipient, "Denoise")
-		config_task.apply_async(kwargs=config_task_kwargs, link=denoise_task.s(URL, task_progress_file, sender, recipient))
+		denoise_task.apply_async(kwargs=task_kwargs)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -269,17 +277,21 @@ def analysis():
 		# Copy input file to premade output dir
 		analysis_helper.analysis_setup(_id, feature_table_path, rep_seqs_path)
 
-		config_task_kwargs = {
+		task_kwargs = {
 			'_id': _id,
 			'logging_config': log_config_path,
 			'sampling_depth': sampling_depth,
 			'metadata_path': metadata_path,
 			'classifier_path': classifier_path,
-			'n_cores': n_cores
+			'n_cores': n_cores,
+			'URL': URL,
+			'task_progress_file': task_progress_file,
+			'sender': sender,
+			'recipient': recipient
 		}
 
 		send_queue_email(_id, sender, recipient, "Analysis")
-		config_task.apply_async(kwargs=config_task_kwargs, link=analysis_task.s(URL, task_progress_file, sender, recipient))
+		analysis_task.apply_async(kwargs=task_kwargs)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
