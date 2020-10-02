@@ -107,7 +107,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, doneMessage, "Denoise")
+			msgHtml=generate_html(_id, doneMessage, "Analysis")
 		)
 	except AXIOME3WebAppError as err:
 		message = "Error: " + str(err)
@@ -155,7 +155,7 @@ def taxonomic_classification(_id, sender, recipient, email_subject, task_progres
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Denoise")
+			msgHtml=generate_html(_id, message_cleanup, "Analysis")
 		)
 
 		raise AXIOME3WebAppError(message_cleanup)
@@ -185,7 +185,7 @@ def generate_asv_table(_id, sender, recipient, email_subject, task_progress_file
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Denoise")
+			msgHtml=generate_html(_id, message_cleanup, "Analysis")
 		)
 
 		raise AXIOME3WebAppError(message_cleanup)
@@ -209,7 +209,7 @@ def pcoa_plots(_id, sender, recipient, email_subject, task_progress_file):
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Denoise")
+			msgHtml=generate_html(_id, message_cleanup, "Analysis")
 		)
 
 		raise AXIOME3WebAppError(message_cleanup)
@@ -232,7 +232,7 @@ def pcoa_plots(_id, sender, recipient, email_subject, task_progress_file):
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Denoise")
+			msgHtml=generate_html(_id, message_cleanup, "Analysis")
 		)
 
 		raise AXIOME3WebAppError(message_cleanup)
