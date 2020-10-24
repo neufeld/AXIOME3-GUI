@@ -38,6 +38,7 @@ export const REPORT_TAXA_ASV_QZA_ENDPOINT = '/taxonomy/asv/qza'
 // PCoA
 export const REPORT_PCOA_JPEG_ENDPOINT = '/pcoa/jpeg'
 export const REPORT_PCOA_PDF_ENDPOINT = '/pcoa/pdf'
+export const REPORT_PCOA_COLUMNS = '/pcoa/columns'
 // Combined ASV table
 export const COMBINED_ASV_TABLE_ENDPOINT = '/combined_asv_table/tsv';
 // Alpha diversity

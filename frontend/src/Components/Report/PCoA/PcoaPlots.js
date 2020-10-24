@@ -7,7 +7,13 @@ import PcoaDownloadSection from './PcoaDownloadSection';
 import SectionHeader from '../SectionHeader';
 import PcoaPreview from './PcoaPreview';
 
-import './PCoAStyles.css'
+import './PCoAStyles.css';
+
+import { 
+	REPORT_PCOA_COLUMNS,
+} from '../../../misc/EndpointConfig';
+
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
 
 function PcoaPlots(props) {
 	// States
@@ -18,7 +24,7 @@ function PcoaPlots(props) {
 
 	// Get metadata column names from the server on mount
 	useEffect(() => {
-		const pcoaEndpoint = '/pcoa/columns';
+		const pcoaEndpoint = ENDPOINT_ROOT + REPORT_PCOA_COLUMNS;
 
 		const getMetadataColumns = async () => {
 			const formData = new FormData();

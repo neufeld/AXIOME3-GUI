@@ -34,9 +34,9 @@ function BetaDiversityDownloadSection(props) {
 
 	const diversities = {
 		unweighted_unifrac_distance: "Unweighted UniFrac distance",
-		unweighted_pcoa: "Unweighted UniFrac PCoA ordination",
+		unweighted_unifrac_pcoa: "Unweighted UniFrac PCoA ordination",
 		weighted_unifrac_distance: "Weighted UniFrac distance",
-		weighted_pcoa: "Weighted UniFrac PCoA ordination",
+		weighted_unifrac_pcoa: "Weighted UniFrac PCoA ordination",
 		bray_curtis_distance: "Bray-Curtis distance",
 		bray_curtis_pcoa: "Bray-Curtis PCoA ordination",
 		jaccard_distance: "Jaccard distance",
