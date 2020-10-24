@@ -5,6 +5,12 @@ import axios from 'axios';
 import TableMain from '../../Table/TableMain';
 import GeneralHeader from '../GeneralHeader';
 
+import { ENDPOINT_ROOT } from '../../../misc/apiConfig';
+
+import {
+	SUMMARY_JSON_ENDPOINT,
+} from '../../../misc/EndpointConfig';
+
 const sampleSummaryHeader = {
 	fontSize: '20px',
 	fontWeight: 'bold',
@@ -20,7 +26,7 @@ function SampleSummary(props) {
 	const [ tableData, setTableData ] = useState([]);
 
 	useEffect(() => {
-		const denoiseSampleSummaryEndpoint = '/denoise/sample_summary/json';
+		const denoiseSampleSummaryEndpoint = ENDPOINT_ROOT + SUMMARY_JSON_ENDPOINT;
 
 		const sampleSummaryApiRequest = async () => {
 			const formData = new FormData();

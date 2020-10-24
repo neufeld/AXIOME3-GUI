@@ -27,6 +27,7 @@ export const SEQUENCE_QZV_ENDPOINT = '/input_upload/qzv';
 export const FEATURE_TABLE_ENDPOINT = '/denoise/feature_table';
 export const REP_SEQS_ENDPOINT = '/denoise/representative_sequences';
 export const SUMMARY_QZV_ENDPOINT = '/denoise/summary_qzv';
+export const SUMMARY_JSON_ENDPOINT = '/denoise/sample_summary/json';
 // Beta Diversity
 export const BETA_DIVERSITY_ENDPOINT = '/beta_diversity/qza'; 
 // Taxonomy
