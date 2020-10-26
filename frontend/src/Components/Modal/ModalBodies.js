@@ -90,7 +90,7 @@ export const InputFormatModalBody = React.forwardRef((props, ref) => (
 			<img src={INPUT_FORMAT_V2_MULTIPLE}/>
 		</div>
 		<div className="modal-body-additional-container">
-			<p className="modal-body-additional-text">* Delimiter can be either comma (,) or tab (\t)</p>
+			<p className="modal-body-additional-text">* Delimiter MUST be comma (,)</p>
 			<p className="modal-body-additional-text">* Column headers MUST be identical to the corresponding examples</p>
 			<p className="modal-body-additional-text">* Multiple run option is useful if you wish to denoise samples belonging to the same run_ID, 
 				and later combine the individual ASV tables into one merged table.</p>

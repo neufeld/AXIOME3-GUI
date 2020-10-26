@@ -1,0 +1,7 @@
+	
+	sample-id,forward-absolute-filepath,reverse-absolute-filepath,run_ID
+	sample_1,/SOME_FOLDER/SAMPLE_1_R1.fastq.gz,/SOME_FOLDER/SAMPLE_1_R2.fastq.gz,myRun1
+	sample_2,/SOME_FOLDER/SAMPLE_2_R1.fastq.gz,/SOME_FOLDER/SAMPLE_2_R2.fastq.gz,myRun2
+
+
+
