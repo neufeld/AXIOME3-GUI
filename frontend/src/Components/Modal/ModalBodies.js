@@ -92,6 +92,9 @@ export const InputFormatModalBody = React.forwardRef((props, ref) => (
 		<div className="modal-body-additional-container">
 			<p className="modal-body-additional-text">* Delimiter MUST be comma (,)</p>
 			<p className="modal-body-additional-text">* Column headers MUST be identical to the corresponding examples</p>
+			<p className="modal-body-additional-text">* 'PairedEndFastqManifestPhred33' if FASTQ file is Phred+33</p>
+			<p className="modal-body-additional-text">* 'PairedEndFastqManifestPhred64' if FASTQ file is Phred+64</p>
+			<p className="modal-body-additional-text">* Most modern sequence FASTQ files should be Phred+33</p>
 			<p className="modal-body-additional-text">* Multiple run option is useful if you wish to denoise samples belonging to the same run_ID, 
 				and later combine the individual ASV tables into one merged table.</p>
 		</div>
