@@ -440,6 +440,7 @@ def bubbleplot():
 		sort_level = request.form["Sort level"]
 		keyword_filter = request.form["Keyword filter"] if request.form["Keyword filter"] else None
 		fill_variable = request.form["Fill variable"] if (request.form["Fill variable"] and metadata is not None) else None
+		abundance_threshold = request.form["Abundance threshold"]
 		alpha = request.form["alpha"]
 		stroke = request.form["stroke"]
 		palette = request.form["Colour set"]
@@ -463,6 +464,7 @@ def bubbleplot():
 			'metadata_path': metadata_path,
 			'level': taxa_level,
 			'groupby_taxa': sort_level,
+			'abundance_threshold': float(abundance_threshold),
 			'keyword': keyword_filter,
 			'fill_variable': fill_variable,
 			'brewer_type': brewer_type,

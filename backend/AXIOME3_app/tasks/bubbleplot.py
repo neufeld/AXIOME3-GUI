@@ -32,8 +32,8 @@ def after_setup_celery_task_logger(logger, **kwargs):
 @celery.task(name="extension.bubbleplot")
 def bubbleplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path=None, level="asv", groupby_taxa="phylum", 
-	keyword=None, fill_variable=None, brewer_type="qual", palette="Paired",
-	alpha=0.9, stroke=0.6, width=300, height=300):
+	abundance_threshold=0.1, keyword=None, fill_variable=None, brewer_type="qual",
+	palette="Paired", alpha=0.9, stroke=0.6, width=300, height=300):
 	
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
@@ -58,6 +58,7 @@ def bubbleplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
 			taxonomy_artifact_path=taxonomy_artifact_path,
 			metadata_path=metadata_path,
 			level=level,
+			abundance_threshold=abundance_threshold,
 			groupby_taxa=groupby_taxa,
 			keyword=keyword
 		)
