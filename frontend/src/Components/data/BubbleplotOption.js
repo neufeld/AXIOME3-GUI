@@ -1,6 +1,7 @@
 import { 
 	TAXA_COLLAPSE_LEVEL,
 	SORT_LEVEL,
+	ABUNDANCE_THRESHOLD,
 	KEYWORD_FILTER,
 	FILL_VARIABLE,
 	COLOUR_BREWER,
@@ -52,31 +53,40 @@ const BubbleplotOption = {
 			},
 			basicOption3: {
 				id: "basicOption3",
-				label: KEYWORD_FILTER,
-				type: "text",
-				defaultValue: ''
+				label: ABUNDANCE_THRESHOLD,
+				type: "number",
+				defaultValue: 0.1,
+				min: 0,
+				max: 1,
+				step: 0.01,
 			},
 			basicOption4: {
 				id: "basicOption4",
-				label: FILL_VARIABLE,
+				label: KEYWORD_FILTER,
 				type: "text",
 				defaultValue: ''
 			},
 			basicOption5: {
 				id: "basicOption5",
+				label: FILL_VARIABLE,
+				type: "text",
+				defaultValue: ''
+			},
+			basicOption6: {
+				id: "basicOption6",
 				label: COLOUR_BREWER,
 				type: "text",
 				defaultValue: 'Paired'
 			},
-			basicOption6: {
-				id: "basicOption6",
+			basicOption7: {
+				id: "basicOption7",
 				label: BREWER_TYPE,
 				type: "text",
 				defaultValue: 'qual',
 				hidden: true,
 			},
 		},
-		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6"]
+		keys: ["basicOption1", "basicOption2", "basicOption3", "basicOption4", "basicOption5", "basicOption6", "basicOption7"]
 	},
 	points: {
 		entities: {
