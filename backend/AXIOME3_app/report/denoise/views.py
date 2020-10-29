@@ -39,14 +39,26 @@ def denoise_sample_summary():
 
 	return send_file(sample_summary, mimetype='application/json', as_attachment=True)
 
+@blueprint.route("/dada2/summary/json", methods=['POST'])
+def dada2_summary():
+	uid = request.form["uid"]
+
+	if(uid == ''):
+		# return sample output if uid not specified
+		dada2_summary = os.path.join('/data/output/dada2/merged', 'merged_stats_dada2.json')
+	else:
+		dada2_summary = os.path.join('/output', uid, 'dada2', 'merged', 'merged_stats_dada2.json')
+
+	return send_file(dada2_summary, mimetype='application/json', as_attachment=True)
+
 @blueprint.route("/summary_qzv", methods=['POST'])
 def denoise_summary_qzv():
 	uid = request.form["uid"]
 
 	if(uid == ''):
 		# return sample output if uid not specified
-		feature_table = os.path.join('/data/output/dada2/merged', 'merged_table.qza')
+		stats_qzv = os.path.join('/data/output/dada2/merged', 'merged_stats_dada2.qzv')
 	else:
-		feature_table = os.path.join('/output', uid, 'dada2', 'merged', 'merged_table.qza')
+		stats_qzv = os.path.join('/output', uid, 'dada2', 'merged', 'merged_stats_dada2.qzv')
 
-	return send_file(feature_table, mimetype='application/octet-stream', as_attachment=True)
+	return send_file(stats_qzv, mimetype='application/octet-stream', as_attachment=True)
