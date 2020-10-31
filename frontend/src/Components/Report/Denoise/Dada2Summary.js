@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -63,47 +63,50 @@ function Dada2Summary(props) {
 		sampleSummaryApiRequest();
 	}, [])
 
-	const columns = [
-		{
-			Header: 'Sample ID',
-			accessor: 'sampleId',
-		},
-		{
-			Header: 'Input',
-			accessor: 'input',
-		},
-		{
-			Header: 'Filtered',
-			accessor: 'filtered',
-		},
-		{
-			Header: 'Percentage of input passed filter',
-			accessor: 'filtered_percent',
-		},
-		{
-			Header: 'Denoised',
-			accessor: 'denoised',
-		},
-		{
-			Header: 'Merged',
-			accessor: 'merged',
-		},
-		{
-			Header: 'Percentage of input merged',
-			accessor: 'merged_percent',
-		},
-		{
-			Header: 'Non-chimeric',
-			accessor: 'non_chimeric',
-		},
-		{
-			Header: 'Percentage of input non-chimeric',
-			accessor: 'non_chimeric_percent',
-		},
-	]
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Sample ID',
+				accessor: 'sampleId',
+			},
+			{
+				Header: 'Input',
+				accessor: 'input',
+			},
+			{
+				Header: 'Filtered',
+				accessor: 'filtered',
+			},
+			{
+				Header: 'Percentage of input passed filter',
+				accessor: 'filtered_percent',
+			},
+			{
+				Header: 'Denoised',
+				accessor: 'denoised',
+			},
+			{
+				Header: 'Merged',
+				accessor: 'merged',
+			},
+			{
+				Header: 'Percentage of input merged',
+				accessor: 'merged_percent',
+			},
+			{
+				Header: 'Non-chimeric',
+				accessor: 'non_chimeric',
+			},
+			{
+				Header: 'Percentage of input non-chimeric',
+				accessor: 'non_chimeric_percent',
+			},
+		],
+		[]
+	)
 
 	return(
-		<div>
+		<div className="report-denoise-dada2-summary-wrapper">
 			<GeneralHeader
 				header="DADA2 Denoise Summary"
 				style={sampleSummaryHeader}

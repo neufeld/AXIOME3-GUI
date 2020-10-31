@@ -34,3 +34,11 @@
 .report-denoise-recommendation-container {
 	margin-left: 20px;
 }
+
+.report-denoise-sample-depth-wrapper {
+	max-width: 30%;
+}
+
+.report-denoise-dada2-summary-wrapper {
+	max-width: 80%;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -56,19 +56,21 @@ function SampleSummary(props) {
 		sampleSummaryApiRequest();
 	}, [])
 
-	const columns = [
-		{
-			Header: 'Sample ID',
-			accessor: 'sampleId',
-		},
-		{
-			Header: 'Sample Count',
-			accessor: 'sampleCount',
-		},
-	]
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Sample ID',
+				accessor: 'sampleId',
+			},
+			{
+				Header: 'Sample Count',
+				accessor: 'sampleCount',
+			},
+		], []
+	)
 
 	return(
-		<div>
+		<div className="report-denoise-sample-depth-wrapper">
 			<GeneralHeader
 				header="Sample Count Summary"
 				style={sampleSummaryHeader}
