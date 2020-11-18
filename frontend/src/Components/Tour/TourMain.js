@@ -35,6 +35,11 @@ const steps = [
 		target: '.option-modal-container'
 	},
 	{
+		content: <h2>You may enter email address to receive email notification upon task queue and completion.</h2>,
+		placement: 'right',
+		target: '.email-input-container'
+	},
+	{
 		content: <h2>After uploading inputs and configuring options, start analysis!</h2>,
 		placement: 'right',
 		target: '.submit-analysis-button'
