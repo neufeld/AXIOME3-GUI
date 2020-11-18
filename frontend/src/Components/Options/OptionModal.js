@@ -65,7 +65,7 @@ export const getModalBody = (label) => {
 		case CORES:
 			return <CoresModalBody />
 		default:
-			return <SampleTypeModalBody/>
+			return undefined
 	}
 }
 
@@ -75,12 +75,21 @@ function OptionModal(props) {
 
 	// From parent
 	const { label } = props;
-	const body = getModalBody(label)
+	const modalBody = getModalBody(label)
+
+	const body = modalBody 
+		? (
+			<React.Fragment>
+				<span className="clickable" onClick={() => {handleModalOpen(label)}}>More...</span>
+				<ModalMain body={modalBody} optionLabel={label}/>
+			</React.Fragment>
+			) 
+		: 
+		undefined
 
 	return(
 		<div className="option-modal-container">
-			<span className="clickable" onClick={() => {handleModalOpen(label)}}>More...</span>
-			<ModalMain body={body} optionLabel={label}/>
+			{body}
 		</div>
 	)
 }
