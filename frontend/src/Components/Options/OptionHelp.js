@@ -40,6 +40,8 @@ import {
 	PVAL_THRESHOLD,
 	TAXA_BUBBLE_TEXT_SIZE,
 	VECTOR_ARROW_TEXT_SIZE,
+	SORT_LEVEL,
+	KEYWORD_FILTER,
 } from '../../misc/OptionLabelConfig';
 
 import {
@@ -78,6 +80,8 @@ import {
 	PVAL_THRESHOLD_HELP,
 	TAXA_BUBBLE_TEXT_SIZE_HELP,
 	VECTOR_ARROW_TEXT_SIZE_HELP,
+	SORT_LEVEL_HELP,
+	KEYWORD_FILTER_HELP,
 } from '../../misc/OptionHelpConfig';
 
 export const getTooltipText = (label) => {
@@ -128,6 +132,10 @@ export const getTooltipText = (label) => {
 			return LEGEND_TEXT_SIZE_HELP
 		case CORES:
 			return CORES_HELP
+		case SORT_LEVEL:
+			return SORT_LEVEL_HELP
+		case KEYWORD_FILTER:
+			return KEYWORD_FILTER_HELP
 		case ORDINATION_COLLAPSE_LEVEL:
 			return ORDINATION_COLLAPSE_LEVEL_HELP
 		case WEIGHTED_AVERAGE_COLLAPSE_LEVEL:

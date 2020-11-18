@@ -24,6 +24,9 @@ export const X_AXIS_LABEL_SIZE_HELP = "X axis label font size."
 export const Y_AXIS_LABEL_SIZE_HELP = "Y axis label font size."
 export const LEGEND_TITLE_SIZE_HELP = "Legend title size."
 export const LEGEND_TEXT_SIZE_HELP = "Legend content size."
+// Bubble plot related
+export const SORT_LEVEL_HELP = "Group y-axis labels (taxonomic names) by this taxonomic level"
+export const KEYWORD_FILTER_HELP = "Only taxa that have at least partial match with the keyword will be displayed"
 // Triplot related
 export const ORDINATION_COLLAPSE_LEVEL_HELP = "Taxonomic level at which to collapse feature table when projecting onto ordination space"
 export const WEIGHTED_AVERAGE_COLLAPSE_LEVEL_HELP = "Taxonomic level at which to collapse feature table when projecting as different bubbles"
