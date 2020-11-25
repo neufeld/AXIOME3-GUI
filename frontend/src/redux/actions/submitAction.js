@@ -17,6 +17,8 @@ import {
 	RESET_UID,
 	RESET_SUBMIT,
 	UPDATE_WORKER_QUEUE_STATUS, // RemoteWorker redux
+	WORKER_FAIL, // RemoteWorker redux
+	UPDATE_WORKER_MESSAGES, // RemoteWorker redux
 } from '../types/types';
 
 export const submitData = (formData, endpoint) => async dispatch => {
@@ -83,6 +85,10 @@ export const submitData = (formData, endpoint) => async dispatch => {
 		dispatch({
 			type: SUBMIT_FAIL
 		})
+
+		dispatch({
+			type: WORKER_FAIL
+		})
 		
 		if(err.response) {
 			// Catching custom error codes
@@ -90,7 +96,21 @@ export const submitData = (formData, endpoint) => async dispatch => {
 			const server_error = /\b[5][0-9]{2}\b/g;
 
 			if(err.response.status.toString().match(client_error)) {
-				alert(err.response.data)
+				// This currently has no functional purpose... Maybe useful down the road?
+				dispatch({
+					type: HANDLE_CLIENT_FAILURE,
+					payload: {
+						failureMessage: err.response.data
+					}
+				})
+
+				// need to update worker message to display it in the UI
+				dispatch({
+					type: UPDATE_WORKER_MESSAGES,
+					payload: {
+						message: err.response.data,
+					}
+				})
 			} else if(err.response.status.toString().match(server_error)) {
 				alert("Internal server error...")
 			}
@@ -123,18 +143,34 @@ export const retrieveSession = (formData, endpoint) => async dispatch => {
 			type: IS_RETRIEVE_SUBMIT
 		})
 
-	} catch (err) {		
+	} catch (err) {
+		dispatch({
+			type: SUBMIT_FAIL
+		})
+
+		dispatch({
+			type: WORKER_FAIL
+		})
+
 		if(err.response) {
 			// Catching custom error codes
 			const client_error = /\b[4][0-9]{2}\b/g;
 			const server_error = /\b[5][0-9]{2}\b/g;
 
 			if(err.response.status.toString().match(client_error)) {
-				alert(err.response.data)
+				// This currently has no functional purpose... Maybe useful down the road?
 				dispatch({
 					type: HANDLE_CLIENT_FAILURE,
 					payload: {
 						failureMessage: err.response.data
+					}
+				})
+
+				// need to update worker message to display it in the UI
+				dispatch({
+					type: UPDATE_WORKER_MESSAGES,
+					payload: {
+						message: err.response.data,
 					}
 				})
 			} else if(err.response.status.toString().match(server_error)) {
