@@ -28,7 +28,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
@@ -52,7 +52,7 @@ services:
   pipeline_worker:
     build:
       context: ./backend
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
@@ -72,7 +72,7 @@ services:
   extension_worker:
     build:
       context: ./backend
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo

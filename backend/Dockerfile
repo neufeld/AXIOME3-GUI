@@ -46,6 +46,18 @@ RUN pip install --upgrade google-api-python-client google-auth-httplib2 google-a
 WORKDIR /pipeline/AXIOME3
 RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}
 
+# Install ms-core-fonts to use Arial font
+# Add contrib repo
+RUN sed -i'.bak' 's/$/ contrib non-free/' /etc/apt/sources.list
+# Accept EULA
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+# Remove matplotlib cache dir
+RUN rm ~/.cache/matplotlib -fr
+# Install ms-core-font
+RUN apt-get update
+RUN apt-get install -y ttf-mscorefonts-installer fontconfig
+RUN fc-cache -f -v
+
 # Change workdir back to /backend (so the flask app can be run)
 WORKDIR /backend
 
