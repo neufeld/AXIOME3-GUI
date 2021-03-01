@@ -104,12 +104,18 @@ def reformat_manifest_with_run_id(_id, _file, input_format, is_multiple):
 
 	df = pd.read_csv(_file)
 
+	# Windows and MacOS docker mount volumes under host_mnt...
+	if(os.path.exists("/hostfs/host_mnt")):
+		prefix = os.path.join("/hostfs", "host_mnt")
+	else:
+		prefix = "/hostfs"
+
 	# Seems header names are fixed for QIIME2 manifest file
 	if("forward-absolute-filepath" in df.columns and "reverse-absolute-filepath" in df.columns):
-		df["forward-absolute-filepath"] = "/hostfs" + df["forward-absolute-filepath"]
-		df["reverse-absolute-filepath"] = "/hostfs" + df["reverse-absolute-filepath"]
+		df["forward-absolute-filepath"] = prefix + df["forward-absolute-filepath"]
+		df["reverse-absolute-filepath"] = prefix + df["reverse-absolute-filepath"]
 	elif("absolute-filepath" in df.columns):
-		df["absolute-filepath"] = "/hostfs" + df["absolute-filepath"]
+		df["absolute-filepath"] = prefix + df["absolute-filepath"]
 	else:
 		return 400, "Manifest file headers are not compatible with QIIME2 manifest format!"
 
