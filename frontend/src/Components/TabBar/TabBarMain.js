@@ -8,6 +8,7 @@ import {
 	INPUTUPLOAD_ROUTE,
 	DENOISE_ROUTE,
 	ANALYSIS_ROUTE,
+	TAXONOMIC_CLASSIFICATION_ROUTE,
 	PCOA_ROUTE,
 } from '../../RouteConfig';
 
@@ -15,8 +16,9 @@ function TabBarMain(props) {
 	const navBarField = [
 		{id: 0, label: "Input Upload", value: INPUTUPLOAD_ROUTE},
 		{id: 1, label: "Denoise", value: DENOISE_ROUTE},
-		{id: 2, label: "Analysis", value: ANALYSIS_ROUTE},
-		{id: 3, label: "Extension", value: PCOA_ROUTE}
+		{id: 2, label: "Taxonomic Classification", value: TAXONOMIC_CLASSIFICATION_ROUTE},
+		{id: 3, label: "Analysis", value: ANALYSIS_ROUTE},
+		{id: 4, label: "Extension", value: PCOA_ROUTE},
 	]
 
 	return (

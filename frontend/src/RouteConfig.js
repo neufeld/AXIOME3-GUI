@@ -4,6 +4,7 @@ export const REPORT_DYNAMIC_ROUTE = '/:summaryreport';
 // Module Routes
 export const INPUTUPLOAD_ROUTE = '/';
 export const DENOISE_ROUTE = '/denoise';
+export const TAXONOMIC_CLASSIFICATION_ROUTE = '/taxonomic_classification'
 export const ANALYSIS_ROUTE = '/analysis';
 // Extension Routes
 export const PCOA_ROUTE = '/pcoa';

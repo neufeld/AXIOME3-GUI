@@ -23,6 +23,13 @@ import { updateFormType, updateUid } from '../../redux/actions/submitAction'
 import qs from 'query-string';
 import './ReportStyle.css';
 
+import {
+	INPUT_UPLOAD_FORMTYPE,
+	DENOISE_FORMTYPE,
+	ANALYSIS_FORMTYPE,
+	TAXONOMIC_CLASSIFICATION_FORMTYPE,
+} from '../../misc/FormTypeConfig';
+
 function ReportMain(props) {
 	// Redux submit action
 	const { updateFormType, updateUid } = props;
@@ -42,7 +49,6 @@ function ReportMain(props) {
 
 	const analysisContent = (
 		<React.Fragment>
-			<TaxonomyMain />
 			<CombinedASVTable />
 			<AlphaDiversityMain />
 			<BetaDiversityMain />
@@ -62,14 +68,22 @@ function ReportMain(props) {
 		</React.Fragment>
 	)
 
+	const taxonomicClassificationContent = (
+		<React.Fragment>
+			<TaxonomyMain />
+		</React.Fragment>
+	)
+
 	let content;
 	if(formType) {
-		if(formType.toLowerCase() === "inputupload") {
-			content = inputUploadContent;
-		} else if(formType.toLowerCase() === "denoise") {
-			content = denoiseContent;
-		} else {
-			content = analysisContent;
+		if(formType === INPUT_UPLOAD_FORMTYPE) {
+			content = inputUploadContent
+		} else if(formType === DENOISE_FORMTYPE) {
+			content = denoiseContent
+		} else if(formType === TAXONOMIC_CLASSIFICATION_FORMTYPE) {
+			content = taxonomicClassificationContent
+		} else if(formType === ANALYSIS_FORMTYPE){
+			content = analysisContent
 		}
 	}
 

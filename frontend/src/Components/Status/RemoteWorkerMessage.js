@@ -7,10 +7,13 @@ import CircularFeedback from './CircularFeedback';
 import GeneralHeader from '../Report/GeneralHeader';
 import DownloadButton from '../Download/DownloadButton';
 
+import { capitalizeFirstLetter } from '../Report/ReportHelper';
+
 import {
 	INPUT_UPLOAD_FORMTYPE,
 	DENOISE_FORMTYPE,
 	ANALYSIS_FORMTYPE,
+	TAXONOMIC_CLASSIFICATION_FORMTYPE,
 } from '../../misc/FormTypeConfig';
 
 import {
@@ -19,7 +22,11 @@ import {
 	FEATURE_TABLE_ENDPOINT,
 	REP_SEQS_ENDPOINT,
 	SUMMARY_QZV_ENDPOINT,
+	REPORT_TAXA_ASV_QZA_ENDPOINT,
+	REPORT_TAXA_COLLAPSE_TSV_ENDPOINT,
 	BATCH_DOWNLOAD_ENDPOINT,
+	BETA_DIVERSITY_ENDPOINT,
+	ALPHA_DIVERSITY_QZA_ENDPOINT,
 } from '../../misc/EndpointConfig';
 
 import {
@@ -45,60 +52,144 @@ const DownloadMainHeader = {
 	fontVariant: 'small-caps',
 }
 
-const getDownloadItems = (formType) => {
+const getDownloadItems = (formType, uid) => {
 	if(formType === INPUT_UPLOAD_FORMTYPE) {
+		const inputField = [
+			{name: 'uid', value: uid}
+		];
+
 		const items = [
 			{
 				header: "- Sequences:",
 				downloadPath: ENDPOINT_ROOT + SEQUENCE_QZA_ENDPOINT,
-				extension: 'qza'
+				extension: 'qza',
+				inputField: inputField,
 			},
 			{
 				header: "- Sequences Visualization:",
 				downloadPath: ENDPOINT_ROOT + SEQUENCE_QZV_ENDPOINT,
 				extension: 'qzv',
+				inputField: inputField,
 			},
 			{
 				header: "- Download All:",
 				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
+				inputField: inputField,
 			},
 		]
 
 		return items;
 	} else if(formType === DENOISE_FORMTYPE) {
+		const inputField = [
+			{name: 'uid', value: uid}
+		];
+
 		const items = [
 			{
 				header: "- Feature Table:",
 				downloadPath: ENDPOINT_ROOT + FEATURE_TABLE_ENDPOINT,
-				extension: 'qza'
+				extension: 'qza',
+				inputField: inputField,
 			},
 			{
 				header: "- Representative Sequences:",
 				downloadPath: ENDPOINT_ROOT + REP_SEQS_ENDPOINT,
 				extension: 'qza',
+				inputField: inputField,
 			},
 			{
 				header: "- Denoise Summary:",
 				downloadPath: ENDPOINT_ROOT + SUMMARY_QZV_ENDPOINT,
 				extension: 'qzv',
+				inputField: inputField,
 			},
 			{
 				header: "- Download All:",
 				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
+				inputField: inputField,
 			},
 		]
 
 		return items;
+	} else if(formType === TAXONOMIC_CLASSIFICATION_FORMTYPE) {
+		const inputField = [
+			{name: 'uid', value: uid}
+		];
+
+		const taxa_list = ['domain', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
+
+		const taxaCollapseDownloads = taxa_list.map(taxa => {
+			const header = '- ' + capitalizeFirstLetter(taxa) + ':'
+			const inputField = [
+				{name: 'uid', value: uid},
+				{name: 'taxa', value: taxa}
+			];
+
+			return {
+				header: header,
+				downloadPath: ENDPOINT_ROOT + REPORT_TAXA_COLLAPSE_TSV_ENDPOINT,
+				extension: 'tsv',
+				inputField: inputField,
+			}
+			
+		});
+
+		var taxaDownloads = [
+			{
+				header: "- Taxonomy (.qza):",
+				downloadPath: ENDPOINT_ROOT + REPORT_TAXA_ASV_QZA_ENDPOINT,
+				extension: 'qza',
+				inputField: inputField,
+			},
+		]
+
+		const items = [...taxaDownloads, ...taxaCollapseDownloads]
+
+		return items;
 	} else if(formType === ANALYSIS_FORMTYPE) {
-		const items = [
+		const inputField = [
+			{name: 'uid', value: uid}
+		];
+
+		const betaDiversities = {
+			unweighted_unifrac_distance: "Unweighted UniFrac distance",
+			unweighted_unifrac_pcoa: "Unweighted UniFrac PCoA ordination",
+			weighted_unifrac_distance: "Weighted UniFrac distance",
+			weighted_unifrac_pcoa: "Weighted UniFrac PCoA ordination",
+			bray_curtis_distance: "Bray-Curtis distance",
+			bray_curtis_pcoa: "Bray-Curtis PCoA ordination",
+			jaccard_distance: "Jaccard distance",
+			jaccard_pcoa: "Jaccard PCoA ordination",	
+		};
+
+		const betaDiversityDownloads = Object.keys(betaDiversities).map(diversity => {
+			const inputField = [
+				{name: 'uid', value: uid},
+				{name: 'beta_diversity', value: diversity}
+			];
+
+			const header = "- " + betaDiversities[diversity] + ": ";
+
+			return {
+				header: header,
+				downloadPath: ENDPOINT_ROOT + BETA_DIVERSITY_ENDPOINT,
+				extension: 'qza',
+				inputField: inputField,
+			}
+		});
+
+		const all = [
 			{
 				header: "- Download All:",
 				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
 				extension: 'zip',
+				inputField: inputField,
 			},
 		]
+
+		const items = [...betaDiversityDownloads, ...all, ]
 
 		return items;
 	} else {
@@ -115,10 +206,6 @@ function RemoteWorkerMessage(props) {
 
 	// Redux option states
 	const { selectedOptions } = props;
-
-	const inputField = [
-		{name: 'uid', value: uid}
-	];
 
 	const messageList = workerMessages.map((msg, idx) => {
 		if(msg) {
@@ -147,7 +234,7 @@ function RemoteWorkerMessage(props) {
 		}
 	})
 
-	const downloadItems = getDownloadItems(formType)
+	const downloadItems = getDownloadItems(formType, uid)
 
 	const downloadSection = downloadItems.map(item => {
 		return(
@@ -161,7 +248,7 @@ function RemoteWorkerMessage(props) {
 					qiimeDownloadPath={item.downloadPath}
 					isQza={true}
 					qiimeText={item.extension}
-					inputField={inputField}
+					inputField={item.inputField}
 				/>
 			</div>
 		)
@@ -175,7 +262,7 @@ function RemoteWorkerMessage(props) {
 		reportRoute = reportRoute + '&' + k + '=' + selectedOptions[k]
 	});
 
-	const shouldDisplayExtra = (formType === INPUT_UPLOAD_FORMTYPE || formType === DENOISE_FORMTYPE || formType === ANALYSIS_FORMTYPE) ? true : false
+	const shouldDisplayExtra = (formType === INPUT_UPLOAD_FORMTYPE || formType === DENOISE_FORMTYPE || formType === ANALYSIS_FORMTYPE || formType === TAXONOMIC_CLASSIFICATION_FORMTYPE) ? true : false
 
 	return (
 		<div

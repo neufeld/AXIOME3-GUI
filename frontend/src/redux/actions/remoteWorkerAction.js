@@ -20,11 +20,11 @@ export const trackWorkerStatus = (message) => dispatch => {
 	}
 
 	// Backend server will send 'Done!' if job is successfully complete
-	if(message === "Done!") {
+	if(message.trim() === "Done!") {
 		dispatch({
 			type: WORKER_DONE
 		});
-	} else if(message.toLowerCase().includes("error")) {
+	} else if(message.trim().toLowerCase().includes("error")) {
 		dispatch({
 			type: WORKER_FAIL
 		})

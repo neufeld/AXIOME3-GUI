@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import {
   INPUTUPLOAD_ROUTE,
   DENOISE_ROUTE,
+  TAXONOMIC_CLASSIFICATION_ROUTE,
   ANALYSIS_ROUTE,
 } from '../../RouteConfig';
 
@@ -66,10 +67,12 @@ export function TabBarItem(props) {
     defaultCurrentTab = 0;
   } else if(history.location.pathname === DENOISE_ROUTE) {
     defaultCurrentTab = 1;
-  } else if(history.location.pathname === ANALYSIS_ROUTE) {
+  } else if(history.location.pathname === TAXONOMIC_CLASSIFICATION_ROUTE) {
     defaultCurrentTab = 2;
-  } else{
+  } else if(history.location.pathname === ANALYSIS_ROUTE) {
     defaultCurrentTab = 3;
+  } else{
+    defaultCurrentTab = 4;
   }
 
   const tabItems = navBarField.map(navItem => {

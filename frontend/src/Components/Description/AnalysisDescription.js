@@ -3,7 +3,7 @@ import Modal from '@material-ui/core/Modal';
 
 import { MetadataModalBody } from '../Modal/ModalBodies';
 
-function DenoiseDescription(props) {
+function AnalysisDescription(props) {
 	const [open, setOpen] = useState(false);
 
 	const handleOpen = (type) => {
@@ -27,7 +27,8 @@ function DenoiseDescription(props) {
 				<p className="description-header">Input(s)</p>
 				<p className="description-input-output-text">1. QIIME2 archived feature table (.qza) (output from "Denoise" module)</p>
 				<p className="description-input-output-text">2. QIIME2 archived representative sequences (.qza) (output from "Denoise" module)</p>
-				<p className="description-input-output-text">3. Metadata file <span className="clickable" onClick={handleOpen}>(what is a metadata file?)</span></p>
+				<p className="description-input-output-text">3. QIIME2 archived taxonomy (.qza) (output from "Taxonomic classification" module)</p>
+				<p className="description-input-output-text">4. Metadata file <span className="clickable" onClick={handleOpen}>(what is a metadata file?)</span></p>
 			</div>
 			<div className="description-input-output-container">
 				<p className="description-header">Output(s)</p>
@@ -47,4 +48,4 @@ function DenoiseDescription(props) {
 	)
 }
 
-export default DenoiseDescription
+export default AnalysisDescription

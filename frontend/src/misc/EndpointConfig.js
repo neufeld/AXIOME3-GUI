@@ -44,3 +44,6 @@ export const REPORT_PCOA_COLUMNS = '/pcoa/columns'
 export const COMBINED_ASV_TABLE_ENDPOINT = '/combined_asv_table/tsv';
 // Alpha diversity
 export const ALPHA_DIVERSITY_QZA_ENDPOINT = "/alpha_diversity/qza";
+
+// version info
+export const VERSION_INFO_ENDPOINT = "/version_info/"
