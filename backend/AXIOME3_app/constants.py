@@ -1,0 +1,7 @@
+INPUT_UPLOAD_DIR = "input_upload"
+DENOISE_DIR = "denoise"
+TAXONOMIC_CLASSIFICATION_DIR = "taxonomic_classification"
+ANALYSIS_DIR = "analysis"
+PHYLOGENY_DIR = "analysis/phylogeny"
+METRICS_DIR = "analysis/metrics"
+PCOA_DIR = "analysis/pcoa_plots"
