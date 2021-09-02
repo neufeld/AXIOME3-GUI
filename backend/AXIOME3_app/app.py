@@ -29,6 +29,7 @@ from AXIOME3_app.report import custom_pcoa
 from AXIOME3_app.report import bubbleplot
 from AXIOME3_app.report import triplot
 from AXIOME3_app.report import batch
+from AXIOME3_app.report import version_info
 
 def create_app(testing=False, debug=False, development=False):
 	"""
@@ -83,6 +84,7 @@ def register_blueprints(app):
 	app.register_blueprint(bubbleplot.views.blueprint)
 	app.register_blueprint(triplot.views.blueprint)
 	app.register_blueprint(batch.views.blueprint)
+	app.register_blueprint(version_info.views.blueprint)
 
 def init_celery(app=None):
 	"""

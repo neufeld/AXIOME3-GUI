@@ -1,0 +1,1 @@
+from AXIOME3_app.report.version_info import views

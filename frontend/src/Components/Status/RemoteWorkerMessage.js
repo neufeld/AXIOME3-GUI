@@ -27,6 +27,7 @@ import {
 	BATCH_DOWNLOAD_ENDPOINT,
 	BETA_DIVERSITY_ENDPOINT,
 	ALPHA_DIVERSITY_QZA_ENDPOINT,
+	VERSION_INFO_ENDPOINT,
 } from '../../misc/EndpointConfig';
 
 import {
@@ -57,6 +58,8 @@ const getDownloadItems = (formType, uid) => {
 		const inputField = [
 			{name: 'uid', value: uid}
 		];
+		console.log(ENDPOINT_ROOT + SEQUENCE_QZA_ENDPOINT)
+		console.log(ENDPOINT_ROOT + VERSION_INFO_ENDPOINT)
 
 		const items = [
 			{
@@ -69,6 +72,12 @@ const getDownloadItems = (formType, uid) => {
 				header: "- Sequences Visualization:",
 				downloadPath: ENDPOINT_ROOT + SEQUENCE_QZV_ENDPOINT,
 				extension: 'qzv',
+				inputField: inputField,
+			},
+			{
+				header: "- Version Information:",
+				downloadPath: ENDPOINT_ROOT + VERSION_INFO_ENDPOINT,
+				extension: 'txt',
 				inputField: inputField,
 			},
 			{
@@ -102,6 +111,12 @@ const getDownloadItems = (formType, uid) => {
 				header: "- Denoise Summary:",
 				downloadPath: ENDPOINT_ROOT + SUMMARY_QZV_ENDPOINT,
 				extension: 'qzv',
+				inputField: inputField,
+			},
+			{
+				header: "- Version Information:",
+				downloadPath: ENDPOINT_ROOT + VERSION_INFO_ENDPOINT,
+				extension: 'txt',
 				inputField: inputField,
 			},
 			{
@@ -143,6 +158,12 @@ const getDownloadItems = (formType, uid) => {
 				extension: 'qza',
 				inputField: inputField,
 			},
+			{
+				header: "- Version Information:",
+				downloadPath: ENDPOINT_ROOT + VERSION_INFO_ENDPOINT,
+				extension: 'txt',
+				inputField: inputField,
+			},
 		]
 
 		const items = [...taxaDownloads, ...taxaCollapseDownloads]
@@ -181,6 +202,12 @@ const getDownloadItems = (formType, uid) => {
 		});
 
 		const all = [
+			{
+				header: "- Version Information:",
+				downloadPath: ENDPOINT_ROOT + VERSION_INFO_ENDPOINT,
+				extension: 'txt',
+				inputField: inputField,
+			},
 			{
 				header: "- Download All:",
 				downloadPath: ENDPOINT_ROOT + BATCH_DOWNLOAD_ENDPOINT,
