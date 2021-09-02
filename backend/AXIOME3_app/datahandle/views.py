@@ -11,6 +11,7 @@ from AXIOME3_app.datahandle import (
 	luigi_prep_helper,
 	input_upload_helper,
 	denoise_helper,
+	taxonomic_classification_helper,
 	analysis_helper,
 	extension_helper
 )
@@ -18,6 +19,7 @@ from AXIOME3_app.datahandle import (
 from AXIOME3_app.tasks.pipeline_config_generator import config_task
 from AXIOME3_app.tasks.input_upload import import_data_task
 from AXIOME3_app.tasks.denoise import denoise_task
+from AXIOME3_app.tasks.taxonomic_classification import taxonomic_classification_task
 from AXIOME3_app.tasks.analysis import analysis_task
 from AXIOME3_app.tasks.pcoa import pcoa_task
 from AXIOME3_app.tasks.bubbleplot import bubbleplot_task
@@ -209,6 +211,93 @@ def denoise():
 
 	return Response("Success!", status=200, mimetype='text/html')
 
+@blueprint.route("/taxonomic_classification", methods=['POST'])
+def taxonomic_classification():
+	# Email ricipient
+	if("email" in request.form):
+		recipient = request.form["email"]
+	else:
+		recipient = None
+	sender = current_app.config["GMAIL_SENDER"]
+
+	# Use UUID4 for unique identifier
+	_id = str(request.form['uuid'])
+	URL = current_app.config["CELERY_BROKER_URL"]
+
+	# path to file to record task progress
+	# It will be used to retrieve working progress
+	# Maybe replace it with database later
+	task_progress_file = os.path.join('/output', _id, 'task_progress.txt')
+
+	try:
+		# Check if the upload is made from the client or server
+		if("feature_table" in request.files):
+			feature_table = request.files["feature_table"]
+		elif("feature_table" in request.form):
+			feature_table = request.form["feature_table"]
+		else:
+			raise FileNotFoundError("Feature table must be uploaded!")
+
+		if("rep_seqs" in request.files):
+			rep_seqs = request.files["rep_seqs"]
+		elif("rep_seqs" in request.form):
+			rep_seqs = request.form["rep_seqs"]
+		else:
+			raise FileNotFoundError("Representative sequences must be uploaded!")
+
+		if("classifier" in request.files):
+			classifier = request.files["classifier"]
+		elif("classifier" in request.form):
+			classifier = request.form["classifier"]
+		else:
+			# use default classifier it not specified by users
+			# read the value from env file?
+			#classifier = "/pipeline/AXIOME3/2020_06_classifier_silva138_NR99_V4V5.qza"
+			classifier = None
+
+		n_cores = request.form["cores"]
+
+		feature_table_path, rep_seqs_path, classifier_path = taxonomic_classification_helper.taxonomic_classification_precheck(
+			_id=_id,
+			feature_table=feature_table,
+			rep_seqs=rep_seqs,
+			classifier=classifier
+		)
+
+		# Prepare necessary files for anlysis
+		log_config_path = luigi_prep_helper.pipeline_setup(_id)
+		
+		# Copy input file to premade output dir
+		taxonomic_classification_helper.taxonomic_classification_setup(_id, feature_table_path, rep_seqs_path)
+
+		task_kwargs = {
+			'_id': _id,
+			'logging_config': log_config_path,
+			'classifier_path': classifier_path,
+			'n_cores': n_cores,
+			'URL': URL,
+			'task_progress_file': task_progress_file,
+			'sender': sender,
+			'recipient': recipient
+		}
+
+		send_queue_email(_id, sender, recipient, "Taxonomic Classification")
+		taxonomic_classification_task.apply_async(kwargs=task_kwargs)
+
+	except AXIOME3Error as err:
+		current_app.logger.error(str(err))
+		return err.response
+
+	except FileNotFoundError as err:
+		current_app.logger.error(str(err))
+		return Response(str(err), status=400, mimetype='text/html')
+
+	except Exception as err:
+		current_app.logger.error(str(err))
+		return Response("Internal Server Error", status=500, mimetype='text/html')
+
+	return Response("Success!", status=200, mimetype='text/html')
+
 @blueprint.route("/analysis", methods=['POST'])
 def analysis():
 	# Email ricipient
@@ -243,6 +332,13 @@ def analysis():
 		else:
 			raise FileNotFoundError("Representative sequences must be uploaded!")
 
+		if("taxonomy_qza" in request.files):
+			taxonomy_qza = request.files["taxonomy_qza"]
+		elif("taxonomy_qza" in request.form):
+			taxonomy_qza = request.form["taxonomy_qza"]
+		else:
+			raise FileNotFoundError("Taxonomy file must be uploaded!")
+
 		if("metadata" in request.files):
 			metadata = request.files["metadata"]
 		elif("metadata" in request.form):
@@ -250,39 +346,28 @@ def analysis():
 		else:
 			raise FileNotFoundError("Metadata must be uploaded!")
 
-		if("classifier" in request.files):
-			classifier = request.files["classifier"]
-		elif("classifier" in request.form):
-			classifier = request.form["classifier"]
-		else:
-			# use default classifier it not specified by users
-			# read the value from env file?
-			#classifier = "/pipeline/AXIOME3/2020_06_classifier_silva138_NR99_V4V5.qza"
-			classifier = None
-
 		sampling_depth = request.form["sampling depth"]
 		n_cores = request.form["cores"]
 
-		feature_table_path, rep_seqs_path, metadata_path, classifier_path = analysis_helper.analysis_precheck(
+		feature_table_path, rep_seqs_path, taxonomy_path, metadata_path = analysis_helper.analysis_precheck(
 			_id=_id,
 			feature_table=feature_table,
 			rep_seqs=rep_seqs,
+			taxonomy=taxonomy_qza,
 			metadata=metadata,
-			classifier=classifier
 		)
 
 		# Prepare necessary files for anlysis
 		log_config_path = luigi_prep_helper.pipeline_setup(_id)
 		
 		# Copy input file to premade output dir
-		analysis_helper.analysis_setup(_id, feature_table_path, rep_seqs_path)
+		analysis_helper.analysis_setup(_id, feature_table_path, rep_seqs_path, taxonomy_path)
 
 		task_kwargs = {
 			'_id': _id,
 			'logging_config': log_config_path,
 			'sampling_depth': sampling_depth,
 			'metadata_path': metadata_path,
-			'classifier_path': classifier_path,
 			'n_cores': n_cores,
 			'URL': URL,
 			'task_progress_file': task_progress_file,

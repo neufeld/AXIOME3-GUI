@@ -108,7 +108,7 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 def import_data(_id, sender, recipient, email_subject, task_progress_file):
 	# Running luigi in python sub-shell so that each request can be logged in separate logfile.
 	# It's really hard to have separate logfile if running luigi as a module.
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Summarize", "--local-scheduler"]
+	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Run_Input_Upload_Tasks", "--local-scheduler"]
 	stdout, stderr = run_command(cmd)
 
 	decoded_stdout = stdout.decode('utf-8')

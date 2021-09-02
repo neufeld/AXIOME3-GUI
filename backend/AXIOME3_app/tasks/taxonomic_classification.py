@@ -24,9 +24,9 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	""" This function sets the 'celery.task' logger handler and formatter """
 	configure_celery_task_logger(logger)
 
-@celery.task(name="pipeline.run.analysis")
-def analysis_task(_id, logging_config, sampling_depth, metadata_path, 
-	n_cores, URL, task_progress_file, sender, recipient):
+@celery.task(name="pipeline.run.taxonomic_classification")
+def taxonomic_classification_task(_id, logging_config,
+	classifier_path, n_cores, URL, task_progress_file, sender, recipient):
 	local_socketio = SocketIO(message_queue=URL)
 	channel = 'test'
 	namespace = '/AXIOME3'
@@ -37,12 +37,11 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 		make_luigi_config(
 			_id=_id, 
 			logging_config=logging_config,
-			sampling_depth=sampling_depth,
-			metadata_path=metadata_path,
-			n_cores=n_cores,
+			classifier_path=classifier_path,
+			n_cores=n_cores
 		)
 
-		taskMessage = 'Analyzing samples...'
+		taskMessage = 'Performing Taxonomic Classification...'
 		emit_message(
 			socketio=local_socketio,
 			channel=channel,
@@ -51,7 +50,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 			room=room
 		)
 		log_status(task_progress_file, taskMessage)
-		analysis_module(
+		taxonomic_classification(
 			_id=_id,
 			sender=sender,
 			recipient=recipient,
@@ -59,6 +58,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 			task_progress_file=task_progress_file
 		)
 
+		# emit done message
 		doneMessage = "Done!"
 		emit_message(
 			socketio=local_socketio,
@@ -72,7 +72,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, doneMessage, "Analysis")
+			msgHtml=generate_html(_id, doneMessage, "Taxonomic classification")
 		)
 	except AXIOME3WebAppError as err:
 		message = "Error: " + str(err)
@@ -101,12 +101,12 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 		)
 		return
 
-def analysis_module(_id, sender, recipient, email_subject, task_progress_file):
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Analysis_Module", "--local-scheduler"]
+def taxonomic_classification(_id, sender, recipient, email_subject, task_progress_file):	
+	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Export_Taxa_Collapse", "--local-scheduler"]
 	stdout, stderr = run_command(cmd)
 
 	decoded_stdout = stdout.decode('utf-8')
-	
+
 	if("ERROR" in decoded_stdout):
 		# pipeline adds <--> to the error message as to extract the meaningful part 
 		if("<-->" in decoded_stdout):
@@ -120,30 +120,7 @@ def analysis_module(_id, sender, recipient, email_subject, task_progress_file):
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Analysis")
-		)
-
-		raise AXIOME3WebAppError(message_cleanup)
-
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "PCoA_Plots_jpeg", "--local-scheduler"]
-	stdout, stderr = run_command(cmd)
-	
-	decoded_stdout = stdout.decode('utf-8')
-	
-	if("ERROR" in decoded_stdout):
-		# pipeline adds <--> to the error message as to extract the meaningful part 
-		if("<-->" in decoded_stdout):
-			message = decoded_stdout.split("<-->")[1]
-		else:
-			message = decoded_stdout
-		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
-
-		log_status(task_progress_file, message_cleanup)
-		SendMessage(
-			sender=sender,
-			recipient=recipient,
-			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Analysis")
+			msgHtml=generate_html(_id, message_cleanup, "Taxonomic Classification")
 		)
 
 		raise AXIOME3WebAppError(message_cleanup)
