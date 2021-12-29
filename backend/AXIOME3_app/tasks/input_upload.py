@@ -5,12 +5,13 @@ from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
 from celery.utils.log import get_task_logger
 from celery.signals import after_setup_task_logger, after_setup_logger
 
-from flask_socketio import SocketIO
+from AXIOME3_app.notification.WebSocket import WebSocket
+from AXIOME3_app.notification.Email import EmailNotification
+
 import subprocess
 
 from AXIOME3_app.tasks.utils import (
 	log_status,
-	emit_message,
 	run_command,
 	cleanup_error_message,
 	generate_html,
@@ -28,10 +29,9 @@ def after_setup_celery_task_logger(logger, **kwargs):
 def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
 
-	local_socketio = SocketIO(message_queue=URL)
-	channel = 'test'
-	namespace = '/AXIOME3'
-	room = _id
+	
+	local_socketio = WebSocket(messageQueueURL=URL, room=_id)
+	email = EmailNotification(_id)
 	email_subject = "AXIOME3 task result"
 
 	try:
@@ -45,14 +45,9 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 		)
 
 		taskMessage = "Running import data!"
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=taskMessage,
-			namespace=namespace,
-			room=room
-		)
+		local_socketio.emit(taskMessage)
 		log_status(task_progress_file, taskMessage)
+
 		import_data(
 			_id=_id,
 			sender=sender,
@@ -62,46 +57,36 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 		)
 	
 		doneMessage = "Done!"
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=doneMessage,
-			namespace=namespace,
-			room=room
-		)
+		local_socketio.emit(doneMessage)
 		log_status(task_progress_file, doneMessage)
-		SendMessage(
+		#SendMessage(
+		#	sender=sender,
+		#	recipient=recipient,
+		#	subject=email_subject,
+		#	msgHtml=generate_html(_id, doneMessage, "Input Upload")
+		#)
+		email.send_email(
 			sender=sender,
 			recipient=recipient,
 			subject=email_subject,
-			msgHtml=generate_html(_id, doneMessage, "Input Upload")
+			task_name="Input Upload",
+			message=doneMessage,
 		)
+
 
 	except AXIOME3WebAppError as err:
 		message = "Error: " + str(err)
 		logger.error(message)
 		log_status(task_progress_file, message)
 
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=message,
-			namespace=namespace,
-			room=room
-		)
+		local_socketio.emit(message)
 		return
 	except Exception as err:
 		message = "Error: Internal Server Error..."
 		logger.error(str(err))
 		log_status(task_progress_file, message)
 
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=message,
-			namespace=namespace,
-			room=room
-		)
+		local_socketio.emit(message)
 		return
 
 
