@@ -5,24 +5,20 @@ import subprocess
 from AXIOME3_app.notification.WebSocket import WebSocket
 from AXIOME3_app.notification.Email import EmailNotification
 
+from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
+
 class Axiome3Task(object):
 	def __init__(self, messageQueueURL: str, task_id: str):
 		self.socketio = WebSocket(messageQueueURL=messageQueueURL, room=task_id)
 		self.email = EmailNotification(task_id=task_id)
+		self.email_subject = "AXIOME3 task result"
 
 		self.task_id = task_id
+		self.task_progress_file_path = os.path.join('/output', self.task_id, 'task_progress.txt')
 
-	def send_email(self, sender: str, recipient: str, subject: str,
-			task_name: str, message: str):
-		self.email.send_email(
-			sender=sender,
-			recipient=recipient,
-			subject=subject,
-			task_name=task_name,
-			message=message,
-		)
+		self.success_message = "Done!"
 
-	def _run_command(cmd: list):
+	def run_command(cmd: list):
 		proc = subprocess.Popen(
 			cmd,
 			stdout=subprocess.PIPE,
@@ -38,6 +34,10 @@ class Axiome3Task(object):
 
 	def execute(self):
 		raise NotImplementedError
+
+	def notify(self, message):
+		self.socketio.emit(message)
+		self.log_status(message)			
 
 	def filter_error(self, error: str) -> str:
 		"""
@@ -175,13 +175,15 @@ class Axiome3Task(object):
 
 		return ''.join(file_content)
 
-	def log_status(self, logfile_path: str, message: str):
-		with open(logfile, 'w') as fh:
+	def log_status(self, message: str):
+		with open(self.task_progress_file_path, 'w') as fh:
 			fh.write(message)
 
 class InputUploadTask(Axiome3Task):
 	def __init__(self, messageQueueURL: str, task_id: str):
 		super().__init__(messageQueueURL, task_id)
+
+		self.task_type = "Input Upload"
 
 	def generate_command(self):
 		cmd = [
@@ -192,3 +194,25 @@ class InputUploadTask(Axiome3Task):
 		]
 
 		return cmd
+
+	def execute(self):
+		command = self.generate_command()
+
+		task_message = "Running import data!"
+		self.notify(task_message)
+
+		stdout, stderr = self.run_command(command)
+		error = self.filter_error(stdout)
+
+		if(error):
+			raise AXIOME3WebAppError(error)
+			
+		self.notify(self.success_message)
+
+		self.email.send_email(
+			sender=sender,
+			recipient=recipient,
+			subject=self.email_subject,
+			task_name=self.task_type,
+			message=self.success_message,
+		)

@@ -7,6 +7,7 @@ from celery.signals import after_setup_task_logger, after_setup_logger
 
 from AXIOME3_app.notification.WebSocket import WebSocket
 from AXIOME3_app.notification.Email import EmailNotification
+from AXIOME3_app.tasks.Task import InputUploadTask
 
 import subprocess
 
@@ -29,10 +30,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
 
-	
-	local_socketio = WebSocket(messageQueueURL=URL, room=_id)
-	email = EmailNotification(_id)
-	email_subject = "AXIOME3 task result"
+	input_upload_task = InputUploadTask(messageQueueURL=URL, task_id=_id)
 
 	try:
 		make_luigi_config(
@@ -44,45 +42,17 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 			is_multiple=is_multiple
 		)
 
-		taskMessage = "Running import data!"
-		local_socketio.emit(taskMessage)
-		log_status(task_progress_file, taskMessage)
-
-		import_data(
-			_id=_id,
+		input_upload_task.execute()
+		input_upload_task.email.send_email(
 			sender=sender,
 			recipient=recipient,
-			email_subject=email_subject,
-			task_progress_file=task_progress_file
-		)
-	
-		doneMessage = "Done!"
-		local_socketio.emit(doneMessage)
-		log_status(task_progress_file, doneMessage)
-		#SendMessage(
-		#	sender=sender,
-		#	recipient=recipient,
-		#	subject=email_subject,
-		#	msgHtml=generate_html(_id, doneMessage, "Input Upload")
-		#)
-		email.send_email(
-			sender=sender,
-			recipient=recipient,
-			subject=email_subject,
-			task_name="Input Upload",
-			message=doneMessage,
+			subject=input_upload_task.email_subject,
+			task_name=input_upload_task.task_type,
+			message=input_upload_task.success_message,
 		)
 
-
-	except AXIOME3WebAppError as err:
-		message = "Error: " + str(err)
-		logger.error(message)
-		log_status(task_progress_file, message)
-
-		local_socketio.emit(message)
-		return
 	except Exception as err:
-		message = "Error: Internal Server Error..."
+		message = "Error: " + str(err)
 		logger.error(str(err))
 		log_status(task_progress_file, message)
 
