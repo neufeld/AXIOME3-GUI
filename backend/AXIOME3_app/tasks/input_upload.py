@@ -31,33 +31,37 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 	is_multiple, URL, task_progress_file, sender, recipient):
 
 	input_upload_task = InputUploadTask(messageQueueURL=URL, task_id=_id)
+	email = EmailNotification(task_id=_id)
 
 	try:
-		make_luigi_config(
-			_id=_id, 
+		input_upload_task.generate_config(
 			logging_config=logging_config,
 			manifest_path=manifest_path,
 			sample_type=sample_type,
 			input_format=input_format,
-			is_multiple=is_multiple
+			is_multiple=is_multiple,
 		)
 
 		input_upload_task.execute()
-		input_upload_task.email.send_email(
-			sender=sender,
-			recipient=recipient,
-			subject=input_upload_task.email_subject,
-			task_name=input_upload_task.task_type,
-			message=input_upload_task.success_message,
-		)
+
+		message = input_upload_task.success_message
 
 	except Exception as err:
 		message = "Error: " + str(err)
-		logger.error(str(err))
-		log_status(task_progress_file, message)
 
-		local_socketio.emit(message)
+		input_upload_task.notify(message)
+		logger.error(str(err))
+
 		return
+
+	finally:
+		email.send_email(
+			sender=sender,
+			recipient=recipient,
+			subject=email.email_subject,
+			task_name=input_upload_task.task_type,
+			message=message,
+		)
 
 
 def import_data(_id, sender, recipient, email_subject, task_progress_file):
