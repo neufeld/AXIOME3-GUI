@@ -23,6 +23,7 @@ class EmailNotification():
 		# send scope
 		self.task_id = task_id
 		self.scopes = 'https://www.googleapis.com/auth/gmail.send'
+		self.email_subject = "AXIOME3 Task Result"
 
 		self.credential = os.path.join(credential_dir, credential_file_name)
 
@@ -50,20 +51,22 @@ class EmailNotification():
 		return credentials
 
 	def send_email(self, sender, recipient, subject, task_name, message):
-		if(recipient is not None):
-			credentials = self._get_credentials()
+		if(recipient is None or sender is None):
+			return
 
-			http = credentials.authorize(httplib2.Http())
-			# disable cache? thie may be detrimental to performance...
-			# Keeps getting warning if enable cache
-			service = discovery.build('gmail', 'v1', http=http, cache_discovery=False)
-			#service = discovery.build('gmail', 'v1', http=http)
+		credentials = self._get_credentials()
 
-			html_message = generate_html(self.task_id, message, task_name)
-			email_message = self._create_message_html(sender, recipient, subject, html_message)
-			result = self._send_email_internal(service, "me", email_message)
+		http = credentials.authorize(httplib2.Http())
+		# disable cache? thie may be detrimental to performance...
+		# Keeps getting warning if enable cache
+		service = discovery.build('gmail', 'v1', http=http, cache_discovery=False)
+		#service = discovery.build('gmail', 'v1', http=http)
 
-			return result
+		html_message = generate_html(self.task_id, message, task_name)
+		email_message = self._create_message_html(sender, recipient, subject, html_message)
+		result = self._send_email_internal(service, "me", email_message)
+
+		return result
 
 	def _send_email_internal(self, service, user_id, message):
 		message = (service.users().messages().send(userId=user_id, body=message).execute())

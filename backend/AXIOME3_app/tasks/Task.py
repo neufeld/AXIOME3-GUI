@@ -3,22 +3,19 @@ import re
 import subprocess
 
 from AXIOME3_app.notification.WebSocket import WebSocket
-from AXIOME3_app.notification.Email import EmailNotification
 
 from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
 
 class Axiome3Task(object):
 	def __init__(self, messageQueueURL: str, task_id: str):
 		self.socketio = WebSocket(messageQueueURL=messageQueueURL, room=task_id)
-		self.email = EmailNotification(task_id=task_id)
-		self.email_subject = "AXIOME3 task result"
 
 		self.task_id = task_id
 		self.task_progress_file_path = os.path.join('/output', self.task_id, 'task_progress.txt')
 
 		self.success_message = "Done!"
 
-	def run_command(cmd: list):
+	def run_command(self, cmd: list):
 		proc = subprocess.Popen(
 			cmd,
 			stdout=subprocess.PIPE,
@@ -208,11 +205,3 @@ class InputUploadTask(Axiome3Task):
 			raise AXIOME3WebAppError(error)
 			
 		self.notify(self.success_message)
-
-		self.email.send_email(
-			sender=sender,
-			recipient=recipient,
-			subject=self.email_subject,
-			task_name=self.task_type,
-			message=self.success_message,
-		)
