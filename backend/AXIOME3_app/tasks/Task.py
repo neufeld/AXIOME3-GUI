@@ -195,7 +195,7 @@ class InputUploadTask(Axiome3Task):
 	def execute(self):
 		command = self.generate_command()
 
-		task_message = "Running import data!"
+		task_message = "Running Input Upload!"
 		self.notify(task_message)
 
 		stdout, stderr = self.run_command(command)
@@ -203,5 +203,87 @@ class InputUploadTask(Axiome3Task):
 
 		if(error):
 			raise AXIOME3WebAppError(error)
-			
-		self.notify(self.success_message)
+
+class DenoiseTask(Axiome3Task):
+	def __init__(self, messageQueueURL: str, task_id: str):
+		super().__init__(messageQueueURL, task_id)
+
+		self.task_type = "Denoise"
+
+	def generate_command(self):
+		cmd = [
+			"python",
+			"/pipeline/AXIOME3/pipeline.py",
+			"Run_Denoise_Tasks",
+			"--local-scheduler",
+		]
+
+		return cmd
+
+	def execute(self):
+		command = self.generate_command()
+
+		task_message = "Running Denoise!"
+		self.notify(task_message)
+
+		stdout, stderr = self.run_command(command)
+		error = self.filter_error(stdout)
+
+		if(error):
+			raise AXIOME3WebAppError(error)
+
+class TaxonomicClassificationTask(Axiome3Task):
+	def __init__(self, messageQueueURL: str, task_id: str):
+		super().__init__(messageQueueURL, task_id)
+
+		self.task_type = "Taxonomic Classification"
+
+	def generate_command(self):
+		cmd = [
+			"python",
+			"/pipeline/AXIOME3/pipeline.py",
+			"Run_TaxonomicClassification_Tasks",
+			"--local-scheduler",
+		]
+
+		return cmd
+
+	def execute(self):
+		command = self.generate_command()
+
+		task_message = "Running Taxonomic Classification!"
+		self.notify(task_message)
+
+		stdout, stderr = self.run_command(command)
+		error = self.filter_error(stdout)
+
+		if(error):
+			raise AXIOME3WebAppError(error)
+
+class AnalysisTask(Axiome3Task):
+	def __init__(self, messageQueueURL: str, task_id: str):
+		super().__init__(messageQueueURL, task_id)
+
+		self.task_type = "Analysis"
+
+	def generate_command(self):
+		cmd = [
+			"python",
+			"/pipeline/AXIOME3/pipeline.py",
+			"Run_Analysis_Tasks",
+			"--local-scheduler",
+		]
+
+		return cmd
+
+	def execute(self):
+		command = self.generate_command()
+
+		task_message = "Running Analysis!"
+		self.notify(task_message)
+
+		stdout, stderr = self.run_command(command)
+		error = self.filter_error(stdout)
+
+		if(error):
+			raise AXIOME3WebAppError(error)
