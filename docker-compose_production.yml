@@ -9,6 +9,17 @@ services:
       - RABBITMQ_DEFAULT_PASS=neufeld
       - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
+  flower:
+    build:
+      context: ./flower
+      dockerfile: Dockerfile
+    command: "/flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5555"
+    ports:
+      - 5555:5555
+    restart: on-failure
+    volumes:
+      - ./flower:/flower
+
   backend:
     build:
       context: ./backend
@@ -41,7 +52,7 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -62,7 +73,7 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery worker -A AXIOME3_app.celery_app:app --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
