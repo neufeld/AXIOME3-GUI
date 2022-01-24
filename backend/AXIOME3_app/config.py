@@ -1,5 +1,5 @@
 import os
-
+CELERY_BROKER_URL = 'pyamqp://axiome3:neufeld@rabbit/axiome3_host'
 # Gmail API
 GMAIL_SENDER = os.environ.get('GMAIL_SENDER')
 
