@@ -1,19 +1,11 @@
 from AXIOME3_app.extensions import celery
-from AXIOME3_app.email.gmail import SendMessage
-from AXIOME3_app.datahandle.config_generator import make_luigi_config
-from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
 from celery.utils.log import get_task_logger
 from celery.signals import after_setup_task_logger, after_setup_logger
 
-from flask_socketio import SocketIO
-import subprocess
+from AXIOME3_app.notification.Email import EmailNotification
+from AXIOME3_app.tasks.Task import InputUploadTask
 
 from AXIOME3_app.tasks.utils import (
-	log_status,
-	emit_message,
-	run_command,
-	cleanup_error_message,
-	generate_html,
 	configure_celery_task_logger
 )
 
@@ -28,105 +20,36 @@ def after_setup_celery_task_logger(logger, **kwargs):
 def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
 
-	local_socketio = SocketIO(message_queue=URL)
-	channel = 'test'
-	namespace = '/AXIOME3'
-	room = _id
-	email_subject = "AXIOME3 task result"
+	input_upload = InputUploadTask(messageQueueURL=URL, task_id=_id)
+	email = EmailNotification(task_id=_id)
 
 	try:
-		make_luigi_config(
-			_id=_id, 
+		input_upload.generate_config(
 			logging_config=logging_config,
 			manifest_path=manifest_path,
 			sample_type=sample_type,
 			input_format=input_format,
-			is_multiple=is_multiple
+			is_multiple=is_multiple,
 		)
 
-		taskMessage = "Running import data!"
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=taskMessage,
-			namespace=namespace,
-			room=room
-		)
-		log_status(task_progress_file, taskMessage)
-		import_data(
-			_id=_id,
-			sender=sender,
-			recipient=recipient,
-			email_subject=email_subject,
-			task_progress_file=task_progress_file
-		)
-	
-		doneMessage = "Done!"
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=doneMessage,
-			namespace=namespace,
-			room=room
-		)
-		log_status(task_progress_file, doneMessage)
-		SendMessage(
-			sender=sender,
-			recipient=recipient,
-			subject=email_subject,
-			msgHtml=generate_html(_id, doneMessage, "Input Upload")
-		)
+		input_upload.execute()
 
-	except AXIOME3WebAppError as err:
-		message = "Error: " + str(err)
-		logger.error(message)
-		log_status(task_progress_file, message)
+		message = input_upload.success_message
 
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=message,
-			namespace=namespace,
-			room=room
-		)
-		return
 	except Exception as err:
-		message = "Error: Internal Server Error..."
-		logger.error(str(err))
-		log_status(task_progress_file, message)
+		message = "Error: " + str(err)
 
-		emit_message(
-			socketio=local_socketio,
-			channel=channel,
-			message=message,
-			namespace=namespace,
-			room=room
-		)
+		logger.error(message)
+
 		return
 
+	finally:
+		input_upload.notify(message)
 
-def import_data(_id, sender, recipient, email_subject, task_progress_file):
-	# Running luigi in python sub-shell so that each request can be logged in separate logfile.
-	# It's really hard to have separate logfile if running luigi as a module.
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Run_Input_Upload_Tasks", "--local-scheduler"]
-	stdout, stderr = run_command(cmd)
-
-	decoded_stdout = stdout.decode('utf-8')
-
-	if("ERROR" in decoded_stdout):
-		# pipeline adds <--> to the error message as to extract the meaningful part
-		if("<-->" in decoded_stdout):
-			message = decoded_stdout.split("<-->")[1]
-		else:
-			message = decoded_stdout
-		message_cleanup = 'ERROR:\n' + cleanup_error_message(message)
-
-		log_status(task_progress_file, message_cleanup)
-		SendMessage(
+		email.send_email(
 			sender=sender,
 			recipient=recipient,
-			subject=email_subject,
-			msgHtml=generate_html(_id, message_cleanup, "Input Upload")
+			subject=email.email_subject,
+			task_name=input_upload.task_type,
+			message=message,
 		)
-
-		raise AXIOME3WebAppError(message_cleanup)

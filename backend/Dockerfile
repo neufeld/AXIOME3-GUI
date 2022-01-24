@@ -7,14 +7,14 @@ ARG CLASSIFIER_GDRIVE_ID
 # Make directory to store pipeline
 WORKDIR /pipeline
 # clone AXIOME3 Pipeline repository
-RUN git clone --single-branch --branch dev https://github.com/neufeld/AXIOME3.git
+RUN git clone --single-branch --branch master https://github.com/neufeld/AXIOME3.git
 
 # Make /backend working directory; flask code lives here
 WORKDIR /backend
 
 # Install from requirements.txt using pip
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 RUN rm requirements.txt
 
 # Install Gmail API O-Auth
@@ -32,8 +32,7 @@ RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula selec
 # Remove matplotlib cache dir
 RUN rm ~/.cache/matplotlib -fr
 # Install ms-core-font
-RUN apt-get --allow-releaseinfo-change update
-RUN apt-get install -y ttf-mscorefonts-installer fontconfig
+RUN apt-get update --allow-releaseinfo-change
 RUN fc-cache -f -v
 
 # Change workdir back to /backend (so the flask app can be run)

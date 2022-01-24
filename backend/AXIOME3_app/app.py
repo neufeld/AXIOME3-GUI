@@ -94,23 +94,7 @@ def init_celery(app=None):
 
 	# Set celery worker configuration
 	# Use this to load config information from flask config file
-	celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
-	celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
-
-	# Or from environment variables
-	#celery.conf.broker_url = os.environ["CELERY_BROKER_URL"]
-	#celery.conf.result_backend = os.environ["CELERY_RESULT_BACKEND"]
-
-	# Task routes
-	celery.conf.task_routes = {
-		'pipeline.run.*': {
-			'queue': 'pipeline'
-		},
-		'extension.*': {
-			'queue': 'extension'
-		}
-	}
-	#celery.conf.update(app.config)
+	celery.config_from_object("AXIOME3_app.celery_config")
 
 	class ContextTask(celery.Task):
 		"""Make celery tasks work with Flask app context"""
