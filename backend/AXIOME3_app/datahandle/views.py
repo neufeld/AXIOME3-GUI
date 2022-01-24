@@ -107,7 +107,7 @@ def inputupload():
 		}
 
 		send_queue_email(_id, sender, recipient, "Input Upload")
-		import_data_task.apply_async(kwargs=task_kwargs)
+		import_data_task.apply_async(kwargs=task_kwargs, task_id=_id)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -195,7 +195,7 @@ def denoise():
 		}
 		
 		send_queue_email(_id, sender, recipient, "Denoise")
-		denoise_task.apply_async(kwargs=task_kwargs)
+		denoise_task.apply_async(kwargs=task_kwargs, task_id=_id)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -282,7 +282,7 @@ def taxonomic_classification():
 		}
 
 		send_queue_email(_id, sender, recipient, "Taxonomic Classification")
-		taxonomic_classification_task.apply_async(kwargs=task_kwargs)
+		taxonomic_classification_task.apply_async(kwargs=task_kwargs, task_id=_id)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -376,7 +376,7 @@ def analysis():
 		}
 
 		send_queue_email(_id, sender, recipient, "Analysis")
-		analysis_task.apply_async(kwargs=task_kwargs)
+		analysis_task.apply_async(kwargs=task_kwargs, task_id=_id)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -470,7 +470,11 @@ def pcoa():
 			'legend_title_size': legend_title_size,
 			'legend_text_size': legend_text_size
 		}
-		pcoa_task.apply_async(args=[_id, URL, task_progress_file], kwargs=pcoa_kwargs)
+		pcoa_task.apply_async(
+			args=[_id, URL, task_progress_file],
+			kwargs=pcoa_kwargs,
+			task_id=_id,
+		)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -559,7 +563,11 @@ def bubbleplot():
 			'width': float(width),
 			'height': float(height)
 		}
-		bubbleplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=bubbleplot_kwargs)
+		bubbleplot_task.apply_async(
+			args=[_id, URL, task_progress_file],
+			kwargs=bubbleplot_kwargs,
+			task_id=_id,
+		)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
@@ -687,7 +695,11 @@ def triplot():
 			'taxa_text_size': taxa_text_size,
 			'vector_arrow_text_size': vector_arrow_text_size
 		}
-		triplot_task.apply_async(args=[_id, URL, task_progress_file], kwargs=triplot_kwargs)
+		triplot_task.apply_async(
+			args=[_id, URL, task_progress_file],
+			kwargs=triplot_kwargs,
+			task_id=_id,
+		)
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))
