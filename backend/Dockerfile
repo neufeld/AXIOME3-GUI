@@ -14,7 +14,7 @@ WORKDIR /backend
 
 # Install from requirements.txt using pip
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 RUN rm requirements.txt
 
 # Install Gmail API O-Auth
