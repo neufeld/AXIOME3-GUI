@@ -9,4 +9,4 @@ flask-socketio==4.3.1
 python-socketio>=4.3.0,<5
 dnspython==1.16.0
 eventlet==0.31.0
-gdown==3.12.2 # to wget from Google drive
+gdown==4.3.0 # to wget from Google drive
