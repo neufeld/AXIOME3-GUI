@@ -2,6 +2,7 @@ from AXIOME3_app.extensions import celery
 from celery.utils.log import get_task_logger
 from celery.signals import after_setup_task_logger, after_setup_logger
 
+from AXIOME3_app.notification.WebSocket import WebSocket
 from AXIOME3_app.notification.Email import EmailNotification
 from AXIOME3_app.tasks.Task import TaxonomicClassificationTask
 
@@ -20,7 +21,8 @@ def after_setup_celery_task_logger(logger, **kwargs):
 def taxonomic_classification_task(_id, logging_config,
 	classifier_path, n_cores, URL, task_progress_file, sender, recipient):
 	
-	taxonomic_classification = TaxonomicClassificationTask(messageQueueURL=URL, task_id=_id)
+	websocket = WebSocket(messageQueueURL=URL, room=_id,)
+	taxonomic_classification = TaxonomicClassificationTask(websocket=websocket, task_id=_id,)
 	email = EmailNotification(task_id=_id)
 
 	try:

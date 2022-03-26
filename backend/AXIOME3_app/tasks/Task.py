@@ -7,8 +7,8 @@ from AXIOME3_app.notification.WebSocket import WebSocket
 from AXIOME3_app.exceptions.exception import AXIOME3Error as AXIOME3WebAppError
 
 class Axiome3Task(object):
-	def __init__(self, messageQueueURL: str, task_id: str):
-		self.socketio = WebSocket(messageQueueURL=messageQueueURL, room=task_id)
+	def __init__(self, websocket: WebSocket, task_id: str):
+		self.socketio = websocket
 
 		self.task_id = task_id
 		self.task_progress_file_path = os.path.join('/output', self.task_id, 'task_progress.txt')
@@ -177,8 +177,8 @@ class Axiome3Task(object):
 			fh.write(message)
 
 class InputUploadTask(Axiome3Task):
-	def __init__(self, messageQueueURL: str, task_id: str):
-		super().__init__(messageQueueURL, task_id)
+	def __init__(self, websocket: WebSocket, task_id: str):
+		super().__init__(websocket, task_id)
 
 		self.task_type = "Input Upload"
 
@@ -205,8 +205,8 @@ class InputUploadTask(Axiome3Task):
 			raise AXIOME3WebAppError(error)
 
 class DenoiseTask(Axiome3Task):
-	def __init__(self, messageQueueURL: str, task_id: str):
-		super().__init__(messageQueueURL, task_id)
+	def __init__(self, websocket: WebSocket, task_id: str):
+		super().__init__(websocket, task_id)
 
 		self.task_type = "Denoise"
 
@@ -233,8 +233,8 @@ class DenoiseTask(Axiome3Task):
 			raise AXIOME3WebAppError(error)
 
 class TaxonomicClassificationTask(Axiome3Task):
-	def __init__(self, messageQueueURL: str, task_id: str):
-		super().__init__(messageQueueURL, task_id)
+	def __init__(self, websocket: WebSocket, task_id: str):
+		super().__init__(websocket, task_id)
 
 		self.task_type = "Taxonomic Classification"
 
@@ -261,8 +261,8 @@ class TaxonomicClassificationTask(Axiome3Task):
 			raise AXIOME3WebAppError(error)
 
 class AnalysisTask(Axiome3Task):
-	def __init__(self, messageQueueURL: str, task_id: str):
-		super().__init__(messageQueueURL, task_id)
+	def __init__(self, websocket: WebSocket, task_id: str):
+		super().__init__(websocket, task_id)
 
 		self.task_type = "Analysis"
 
