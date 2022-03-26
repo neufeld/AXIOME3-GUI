@@ -2,6 +2,7 @@ from AXIOME3_app.extensions import celery
 from celery.utils.log import get_task_logger
 from celery.signals import after_setup_task_logger, after_setup_logger
 
+from AXIOME3_app.notification.WebSocket import WebSocket
 from AXIOME3_app.notification.Email import EmailNotification
 from AXIOME3_app.tasks.Task import DenoiseTask
 
@@ -21,7 +22,8 @@ def denoise_task(_id, logging_config, manifest_path, sample_type, input_format,
 	trim_left_f, trunc_len_f, trim_left_r, trunc_len_r, is_multiple, n_cores,
 	URL, task_progress_file, sender, recipient):
 	
-	denoise = DenoiseTask(messageQueueURL=URL, task_id=_id)
+	websocket = WebSocket(messageQueueURL=URL, room=_id,)
+	denoise = DenoiseTask(websocket=websocket, task_id=_id)
 	email = EmailNotification(task_id=_id)
 
 	try:
