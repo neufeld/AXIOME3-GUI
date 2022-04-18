@@ -3,9 +3,9 @@ backup
 __pycache__
 output
 log
-pipeline
 #Data
 deprecated.py
 *.bak
 .env
 gmail-python-email-send.json
+*classifier*.qza

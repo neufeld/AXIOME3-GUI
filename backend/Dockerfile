@@ -4,24 +4,16 @@ FROM qiime2/core:${QIIME2_RELEASE}
 
 ARG CLASSIFIER_GDRIVE_ID
 
-# Make directory to store pipeline
-WORKDIR /pipeline
-# clone AXIOME3 Pipeline repository
-RUN git clone --single-branch --branch master https://github.com/neufeld/AXIOME3.git
-
 # Make /backend working directory; flask code lives here
 WORKDIR /backend
 
 # Install from requirements.txt using pip
 COPY requirements.txt requirements.txt
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
 RUN rm requirements.txt
 
-# Install Gmail API O-Auth
-RUN pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
-
 # wget classifier
-WORKDIR /pipeline/AXIOME3
+WORKDIR /pipeline
 RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}
 
 # Install ms-core-fonts to use Arial font

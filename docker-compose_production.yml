@@ -30,17 +30,17 @@ services:
     command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
       - ./backend:/backend
+      - ./pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - pipeline_volume:/pipeline/AXIOME3
     ports:
       - '5000'
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
     restart: on-failure
@@ -56,12 +56,12 @@ services:
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
+      - ./pipeline:/pipeline
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - pipeline_volume:/pipeline/AXIOME3
     environment:
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
     restart: on-failure
@@ -77,12 +77,12 @@ services:
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
+      - ./pipeline:/pipeline
       - ./output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - pipeline_volume:/pipeline/AXIOME3
     environment:
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
     restart: on-failure
 
   app:
@@ -104,4 +104,3 @@ services:
 volumes:
   input:
   node_module:
-  pipeline_volume:

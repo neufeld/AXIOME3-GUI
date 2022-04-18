@@ -52,7 +52,7 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
 
@@ -72,7 +72,7 @@ services:
       - input:/input # Named volume
       - ./pipeline:/pipeline
     environment:
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/AXIOME3/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
 
@@ -92,7 +92,7 @@ services:
       - input:/input # Named volume
       - ./pipeline:/pipeline
     environment:
-      - PYTHONPATH=/pipeline/AXIOME3 # Add AXIOME3 pipeline to PYTHONPATH
+      - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
 
   frontend:
     build:
