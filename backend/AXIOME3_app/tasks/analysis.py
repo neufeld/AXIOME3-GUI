@@ -56,7 +56,7 @@ def analysis_task(_id, logging_config, sampling_depth, metadata_path,
 		)
 
 def analysis_module(_id, sender, recipient, email_subject, task_progress_file):
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Analysis_Module", "--local-scheduler"]
+	cmd = ["python", "/pipeline/pipeline.py", "Analysis_Module", "--local-scheduler"]
 	stdout, stderr = run_command(cmd)
 
 	decoded_stdout = stdout.decode('utf-8')
@@ -79,7 +79,7 @@ def analysis_module(_id, sender, recipient, email_subject, task_progress_file):
 
 		raise AXIOME3WebAppError(message_cleanup)
 
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "PCoA_Plots_jpeg", "--local-scheduler"]
+	cmd = ["python", "/pipeline/pipeline.py", "PCoA_Plots_jpeg", "--local-scheduler"]
 	stdout, stderr = run_command(cmd)
 	
 	decoded_stdout = stdout.decode('utf-8')

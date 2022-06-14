@@ -74,13 +74,13 @@ class Axiome3Task(object):
 				classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 		"""
 		Make configuration file for luigi from the template file
-		(at /pipeline/AXIOME3/configuration/template.cfg).
+		(at /pipeline/configuration/template.cfg).
 
 		- Returns: path to the new configuration file.
 		"""
 		# AXIOME3 is installed in the container via a dockerfile.
 		# backend/dev.dockerfile
-		template_config_path = "/pipeline/AXIOME3/configuration/template.cfg"
+		template_config_path = "/pipeline/configuration/template.cfg"
 
 		config_data = self._read_template_config(template_config_path)
 
@@ -131,7 +131,7 @@ class Axiome3Task(object):
 		# Overwrite existing config file
 		# Can't set env variable inside docker container,
 		# so need to have one master config file
-		master_config_path = "/pipeline/AXIOME3/configuration/luigi.cfg"
+		master_config_path = "/pipeline/configuration/luigi.cfg"
 
 		try:
 			with open(master_config_path, 'w') as fh:
@@ -185,7 +185,7 @@ class InputUploadTask(Axiome3Task):
 	def generate_command(self):
 		cmd = [
 			"python",
-			"/pipeline/AXIOME3/pipeline.py",
+			"/pipeline/pipeline.py",
 			"Run_Input_Upload_Tasks",
 			"--local-scheduler",
 		]
@@ -213,7 +213,7 @@ class DenoiseTask(Axiome3Task):
 	def generate_command(self):
 		cmd = [
 			"python",
-			"/pipeline/AXIOME3/pipeline.py",
+			"/pipeline/pipeline.py",
 			"Run_Denoise_Tasks",
 			"--local-scheduler",
 		]
@@ -241,7 +241,7 @@ class TaxonomicClassificationTask(Axiome3Task):
 	def generate_command(self):
 		cmd = [
 			"python",
-			"/pipeline/AXIOME3/pipeline.py",
+			"/pipeline/pipeline.py",
 			"Run_TaxonomicClassification_Tasks",
 			"--local-scheduler",
 		]
@@ -269,7 +269,7 @@ class AnalysisTask(Axiome3Task):
 	def generate_command(self):
 		cmd = [
 			"python",
-			"/pipeline/AXIOME3/pipeline.py",
+			"/pipeline/pipeline.py",
 			"Run_Analysis_Tasks",
 			"--local-scheduler",
 		]

@@ -55,7 +55,7 @@ def taxonomic_classification_task(_id, logging_config,
 		)
 
 def taxonomic_classification(_id, sender, recipient, email_subject, task_progress_file):	
-	cmd = ["python", "/pipeline/AXIOME3/pipeline.py", "Export_Taxa_Collapse", "--local-scheduler"]
+	cmd = ["python", "/pipeline/pipeline.py", "Export_Taxa_Collapse", "--local-scheduler"]
 	stdout, stderr = run_command(cmd)
 
 	decoded_stdout = stdout.decode('utf-8')

@@ -12,7 +12,7 @@ def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None,
 	"""
 	# AXIOME3 is installed in the container via a dockerfile.
 	# backend/dev.dockerfile
-	template_config_path = "/pipeline/AXIOME3/configuration/template.cfg"
+	template_config_path = "/pipeline/configuration/template.cfg"
 
 	config_data = read_template_config(template_config_path)
 
@@ -63,7 +63,7 @@ def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None,
 	# Overwrite existing config file
 	# Can't set env variable inside docker container,
 	# so need to have one master config file
-	master_config_path = "/pipeline/AXIOME3/configuration/luigi.cfg"
+	master_config_path = "/pipeline/configuration/luigi.cfg"
 
 	try:
 		with open(master_config_path, 'w') as fh:
@@ -99,7 +99,7 @@ def make_log_config(_id):
 
 	Returns status code and result (fail messsage in case of a failure)
 	"""
-	template_config_path = "/pipeline/AXIOME3/configuration/logging.conf"
+	template_config_path = "/pipeline/configuration/logging.conf"
 	config_data = read_template_config(template_config_path)
 
 	base_dir = os.path.join('/log', _id)
