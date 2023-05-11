@@ -11,19 +11,19 @@ services:
       - RABBITMQ_DEFAULT_PASS=neufeld
       - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
-  flower2:
-    build:
-      context: ./flower
-      dockerfile: Dockerfile
-    # note: originally the command was: /flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5556
-    # However, due to flower using an outdated jQuery, it causes IST issues and has been disabled
-    # If one day jQuery is updated for flower, we can start using it again
-    command: "/flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host"
-    ports:
-      - 5556:5556
-    restart: on-failure
-    volumes:
-      - ./flower:/flower
+  # flower2:
+  #   build:
+  #     context: ./flower
+  #     dockerfile: Dockerfile
+  #   # note: originally the command was: /flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5556
+  #   # However, due to flower using an outdated jQuery, it causes IST issues and has been disabled
+  #   # If one day jQuery is updated for flower, we can start using it again
+  #   command: "/flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host"
+  #   ports:
+  #     - 5556:5556
+  #   restart: on-failure
+  #   volumes:
+  #     - ./flower:/flower
 
   backend2:
     build:
@@ -57,7 +57,7 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker3@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -78,7 +78,7 @@ services:
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker4@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
