@@ -9,3 +9,4 @@ deprecated.py
 .env
 gmail-python-email-send.json
 *classifier*.qza
+luigi.cfg
