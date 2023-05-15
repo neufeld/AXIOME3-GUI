@@ -115,7 +115,10 @@ export const submitData = (formData, endpoint) => async dispatch => {
 				alert("Internal server error...")
 			}
 		}	else {
+			alert(err)
 			alert("Server unexpectedly failed...")
+			
+			console.log(err)
 		}
 	}
 }
