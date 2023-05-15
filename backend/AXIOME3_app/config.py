@@ -1,5 +1,9 @@
 import os
 CELERY_BROKER_URL = 'pyamqp://axiome3:neufeld@rabbit/axiome3_host'
+
+# Following line doesn't work: need to figure out how env variables are transferred in docker.
+#CELERY_BROKER_URL = 'pyamqp://' + os.getenv("RABBITMQ_DEFAULT_USER") + ':' + os.getenv("RABBITMQ_DEFAULT_PASS") + 'neufeld@rabbit/' + os.getenv("RABBITMQ_DEFAULT_VHOST")
+
 # Gmail API
 GMAIL_SENDER = os.environ.get('GMAIL_SENDER')
 
