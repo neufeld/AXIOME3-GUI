@@ -14,8 +14,13 @@ class TaskStatus(object):
 	def _browse_queue(queue_name: str):
 		"""Browse rabbit mq queue. It's likely O(n) so not so scalable..."""
 		# Technically should hide credentials lol
+		# r = requests.post(
+		# 	f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
+		# 	auth=('axiome3', 'neufeld'),
+		# 	data=json.dumps(self.payload),
+		# )
 		r = requests.post(
-			f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
+			f'http://rabbit2:15672/api/queues/axiome3_host/{queue_name}/get',
 			auth=('axiome3', 'neufeld'),
 			data=json.dumps(self.payload),
 		)

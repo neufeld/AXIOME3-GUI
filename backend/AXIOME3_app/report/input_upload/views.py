@@ -9,7 +9,7 @@ blueprint = Blueprint("input_upload", __name__, url_prefix="/input_upload")
 
 @blueprint.route("/qza", methods=['POST'])
 def input_upload_qza():
-	uid = request.form["uid"]
+	uid = request.form["uid"] # this will be the id of the folder created in output (id of the run)
 	mb = 1000 * 1000
 	limit = 300 * mb
 

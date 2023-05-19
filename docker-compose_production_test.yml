@@ -5,7 +5,7 @@ services:
   rabbit2:
     image: rabbitmq:3.8.5-management
     ports:
-      - '15674:15673' # in case user has rabbitMQ installed on host
+      - '15674:15672' # in case user has rabbitMQ installed on host
     environment:
       - RABBITMQ_DEFAULT_USER=axiome3
       - RABBITMQ_DEFAULT_PASS=neufeld
@@ -95,9 +95,9 @@ services:
       context: .
       dockerfile: production_test.Dockerfile
     volumes:
-      - ./nginx/prod/nginx2.conf:/etc/nginx/nginx2.conf
+      - ./nginx/prod/nginx2.conf:/etc/nginx/nginx.conf
     ports:
-      - '8081:80'
+      - '8081:81'
     depends_on:
       - backend2
     environment:

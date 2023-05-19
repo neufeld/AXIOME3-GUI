@@ -1,5 +1,6 @@
 import os
-broker_url='pyamqp://axiome3:neufeld@rabbit/axiome3_host'
+broker_url='pyamqp://axiome3:neufeld@rabbit2/axiome3_host'
+#broker_url='pyamqp://axiome3:neufeld@rabbit/axiome3_host'
 
 # Following line doesn't work: need to figure out how env variables are transferred in docker.
 # broker_url='pyamqp://' + os.getenv("RABBITMQ_DEFAULT_USER") + ':' + os.getenv("RABBITMQ_DEFAULT_PASS") + 'neufeld@rabbit/' + os.getenv("RABBITMQ_DEFAULT_VHOST")
