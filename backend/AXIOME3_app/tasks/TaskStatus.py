@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 class TaskStatus(object):
 	def __init__(self):
@@ -14,16 +15,20 @@ class TaskStatus(object):
 	def _browse_queue(queue_name: str):
 		"""Browse rabbit mq queue. It's likely O(n) so not so scalable..."""
 		# Technically should hide credentials lol
-		# r = requests.post(
-		# 	f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
-		# 	auth=('axiome3', 'neufeld'),
-		# 	data=json.dumps(self.payload),
-		# )
-		r = requests.post(
-			f'http://rabbit2:15672/api/queues/axiome3_host/{queue_name}/get',
-			auth=('axiome3', 'neufeld'),
-			data=json.dumps(self.payload),
-		)
+		r = "UNDEFINED"
+		if os.environ.get("RUN_ENV") == "test":
+			r = requests.post(
+				f'http://rabbit2:15672/api/queues/axiome3_host/{queue_name}/get',
+				auth=('axiome3', 'neufeld'),
+				data=json.dumps(self.payload),
+			)
+		elif os.environ.get("RUN_ENV") == "official":
+			r = requests.post(
+				f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
+				auth=('axiome3', 'neufeld'),
+				data=json.dumps(self.payload),
+			)
+
 
 		return r.json()
 
