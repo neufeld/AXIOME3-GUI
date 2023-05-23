@@ -20,8 +20,9 @@ export const getUploadField = (data) => dispatch => {
 	})
 }
 
-export const getFiles = (id, endpoint, path='/hostfs') => async dispatch => {
+export const getFiles = (id, endpoint, path) => async dispatch => {
 	
+	console.log("getFiles path: " + path)
 	const data = JSON.stringify({path: path})
 	try {
 		const res = await axios.post(endpoint, data, {
@@ -39,7 +40,7 @@ export const getFiles = (id, endpoint, path='/hostfs') => async dispatch => {
 		})
 
 	} catch (err) {
-		console.log(err)
+		console.log(err.response.data)
 	}
 }
 

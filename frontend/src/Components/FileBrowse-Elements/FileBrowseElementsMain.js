@@ -40,7 +40,7 @@ export function populateList(id, files, selectedFiles) {
 
 export function FileBrowseElementsMain(props) {
 	// Redux states
-	const { id, files = [] } = props
+	const { id, files = [], sessionID } = props
 
 	// Redux action
 	const { selectedFiles } = props
@@ -48,6 +48,9 @@ export function FileBrowseElementsMain(props) {
 	const fileData = populateList(id, files, selectedFiles)
 
 	const shouldDisplay = (files.length > 0) ? true : false
+
+	// console.log("Session Id")
+	// console.log(sessionID)
 
 	return(
 		<div className="filebrowse-main-container" style={{display: shouldDisplay ? 'block' : 'none'}}>
@@ -78,6 +81,7 @@ const mapStateToProps = state => ({
 	files: state.upload.files,
 	id: state.upload.id,
 	selectedFiles: state.upload.selectedFiles,
+	//sessionID: state.submit.uid //session id if loaded by user
 })
 
 export default connect(mapStateToProps, { getFiles, selectFile })(FileBrowseElementsMain)
