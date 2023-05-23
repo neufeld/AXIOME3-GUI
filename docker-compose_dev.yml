@@ -21,16 +21,16 @@ services:
       - RABBITMQ_DEFAULT_PASS=neufeld
       - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
-  flower:
-    build:
-      context: ./flower
-      dockerfile: Dockerfile
-    command: "/flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5555"
-    ports:
-      - 5555:5555
-    restart: on-failure
-    volumes:
-      - ./flower:/flower
+  # flower:
+  #   build:
+  #     context: ./flower
+  #     dockerfile: Dockerfile
+  #   command: "/flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5555"
+  #   ports:
+  #     - 5555:5555
+  #   restart: on-failure
+  #   volumes:
+  #     - ./flower:/flower
 
   backend:
     build:
