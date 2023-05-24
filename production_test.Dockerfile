@@ -3,7 +3,7 @@ FROM node:12.16.0-alpine AS frontend
 ENV REACT_APP_QIIME2_RELEASE 2020.6
 ENV REACT_APP_SILVA_VERSION 138
 ENV REACT_APP_RUN_ENV test
-ENV REACT_APP_OUTPUT_DIR_PATH hostfs/Winnebago/kshen/AXIOME3-GUI_test/output/
+ENV REACT_APP_OUTPUT_DIR_PATH /hostfs/Winnebago/kshen/AXIOME3-GUI_test/output
 
 WORKDIR /frontend
 ENV PATH /app/node_modules/.bin:$PATH

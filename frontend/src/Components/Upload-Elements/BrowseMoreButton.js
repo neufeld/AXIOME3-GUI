@@ -15,9 +15,8 @@ export function BrowseMoreButton(props) {
 
 	const fileBrowseEndpoint = ENDPOINT_ROOT + FILEBROWSE_ENDPOINT
 
-	console.log("Session Id")
-	console.log(sessionID)
-	console.log(typeof(sessionID))
+	console.log("Session Id: " + sessionID)
+	
 
 	let startingBrowsePath = process.env.REACT_APP_OUTPUT_DIR_PATH
 	if (sessionID){
