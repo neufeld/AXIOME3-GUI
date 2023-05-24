@@ -76,6 +76,8 @@ function MainDisplayTemplate(props) {
 				<TourMain/>
 			</div>
 			<div className="sub-display" style={subDisplayStyles}>
+				<SessionRetrieveMain />
+				<StatusMain/>
 				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData)}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
@@ -84,8 +86,6 @@ function MainDisplayTemplate(props) {
 					<SubmitButton />
 				</form>
 			</div>
-			<SessionRetrieveMain />
-			<StatusMain/>
 		</div>
 	)
 }
