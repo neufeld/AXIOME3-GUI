@@ -37,7 +37,7 @@ services:
       - ./backend:/backend
       - ./pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     ports:
@@ -63,7 +63,7 @@ services:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
       - ./pipeline:/pipeline
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     environment:
@@ -85,7 +85,7 @@ services:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
       - ./pipeline:/pipeline
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     environment:
@@ -108,7 +108,7 @@ services:
       - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
       - REACT_APP_RUN_ENV=test
-      - REACT_APP_OUTPUT_DIR_PATH=hostfs/Winnebago/kshen/AXIOME3-GUI_test/output/
+      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output
     command: "nginx -g 'daemon off;'"
 
 volumes:

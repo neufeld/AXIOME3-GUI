@@ -78,7 +78,7 @@ function MainDisplayTemplate(props) {
 			<div className="sub-display" style={subDisplayStyles}>
 				<SessionRetrieveMain />
 				<StatusMain/>
-				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData)}}>
+				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData); window.scrollTo({top: 0, left: 0, behavior: 'smooth'});}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
