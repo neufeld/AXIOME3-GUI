@@ -106,10 +106,10 @@ services:
       - backend
     environment:
       - PORT=8080
-      #- REACT_APP_QIIME2_RELEASE=2022.2
       - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
       - REACT_APP_RUN_ENV=official
+      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
     command: "nginx -g 'daemon off;'"
 
 volumes:
