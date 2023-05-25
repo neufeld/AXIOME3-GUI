@@ -48,6 +48,7 @@
 	flex-direction: column;
 	flex: 0 0 15%;
 	min-width: 200px;
+	position: relative;
 }
 
 .sidebar-right {

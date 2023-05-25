@@ -1,118 +1,116 @@
+# This will spin up AXIOME3 on a different set of ports from regular AXIOME3 so we can use this yml for testing
+# Run docker-compose with the project name flag as -p axiome3-prod-test
 version: "3.5"
 services:
-  nginx:
-    image: nginx:1.19.1-alpine
-    ports:
-      - '8080:80'
-    volumes:
-      - ./nginx/dev/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - frontend
-      - backend
-    restart: on-failure
-
-  rabbit:
+  rabbit2:
     image: rabbitmq:3.8.5-management
     ports:
-      - 15673:15672 # in case user has rabbitMQ installed on host
-      - 5673:5672
+      - '15674:15672' # in case user has rabbitMQ installed on host
     environment:
       - RABBITMQ_DEFAULT_USER=axiome3
       - RABBITMQ_DEFAULT_PASS=neufeld
       - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
-  # flower:
+  # flower2:
   #   build:
   #     context: ./flower
   #     dockerfile: Dockerfile
-  #   command: "/flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5555"
+  #   # note: originally the command was: /flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5556
+  #   # However, due to flower using an outdated jQuery, it causes IST issues and has been disabled
+  #   # If one day jQuery is updated for flower, we can start using it again
+  #   command: "/flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host"
   #   ports:
-  #     - 5555:5555
+  #     - 5556:5556
   #   restart: on-failure
   #   volumes:
   #     - ./flower:/flower
 
-  backend:
+  backend2:
     build:
       context: ./backend
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: ["python", "dev_server.py", '--py-autoreload', '1'] #["flask", "run", "--host", "0.0.0.0"]
+    command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
       - ./backend:/backend
+      - ./pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
     ports:
-      - '5000'
+      - '5001'
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
+      - RUN_ENV=test
+    restart: on-failure
 
-  pipeline_worker:
+  pipeline_worker2:
     build:
       context: ./backend
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker3@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
-      - ./output:/output # Stores all the output to this directory
+      - ./pipeline:/pipeline
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
+      - RUN_ENV=test
+    restart: on-failure
 
-  extension_worker:
+  extension_worker2:
     build:
       context: ./backend
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker4@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
-      - ./output:/output # Stores all the output to this directory
+      - ./pipeline:/pipeline
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
-      - ./pipeline:/pipeline
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
+      - RUN_ENV=test
+    restart: on-failure
 
-  frontend:
+  app2:
     build:
-      context: ./frontend
-      dockerfile: dev.Dockerfile
-    command: ["npm", "start"]
+      context: .
+      dockerfile: production_test.Dockerfile
     volumes:
-      - ./frontend:/frontend
-      - node_module:/frontend/node_modules
+      - ./nginx/prod/nginx2.conf:/etc/nginx/nginx.conf
     ports:
-      - '3000'
+      - '8081:81'
+    depends_on:
+      - backend2
     environment:
-      - NODE_ENV=development
-      - HOST=0.0.0.0
-      - CHOKIDAR_USEPOLLING=true
+      - PORT=8081
       - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
-    links:
-      - backend
-    tty: true
+      - REACT_APP_RUN_ENV=test
+      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output
+    command: "nginx -g 'daemon off;'"
+
 volumes:
   input:
   node_module:
