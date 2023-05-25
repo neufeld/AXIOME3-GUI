@@ -133,7 +133,10 @@ export const retrieveSession = (formData, endpoint) => async dispatch => {
 			data: formData
 		};
 
-		await axios(config);
+		await axios(config); 
+		//axios call will either return a Response("Requested sesssion does NOT exist...", status=400)
+		// or Response("Good", status=200)
+		// if 400 then it's an error and will be caught by the catch(err). If 200, then the following two dispatches will be called
 
 		dispatch({
 		type: UPDATE_UID,
