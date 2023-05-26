@@ -36,7 +36,7 @@ services:
       - ./backend:/backend
       - ./pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     ports:
@@ -63,7 +63,7 @@ services:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
       - ./pipeline:/pipeline
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     environment:
@@ -86,7 +86,7 @@ services:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
       - ./pipeline:/pipeline
-      - ./output:/output # Stores all the output to this directory
+      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
       - ./log:/log # For logging
       - input:/input # Named volume
     environment:
