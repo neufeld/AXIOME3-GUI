@@ -603,12 +603,14 @@ def make_triplot(merged_df, vector_arrow_df, wascores_df, proportion_explained,
 		breakpoints, labels = get_axis_breakpoints(
 			wascores_df["abundance"].min(), wascores_df["abundance"].max(), 4
 		)
-		plot = plot + taxa_points + scale_size_area(
-			max_size=taxa_max_size,
-			breaks=breakpoints,
-			labels=labels,
-		) + taxa_anno
-		#plot = plot + taxa_points + scale_size_area(max_size=taxa_max_size,) + taxa_anno
+		# Unsure of why the first version was originally used and the second version was commented.
+		# plot = plot + taxa_points + scale_size_area(
+		# 	max_size=taxa_max_size,
+		# 	breaks=breakpoints,
+		# 	labels=labels,
+		# 	limits=limits
+		# ) + taxa_anno
+		plot = plot + taxa_points + scale_size_area(max_size=taxa_max_size,) + taxa_anno
 
 	# if vector arrows pass the thresohld
 	if(vector_arrow_df.shape[0] > 0):
@@ -647,6 +649,9 @@ def save_plot(plot, filename, output_dir='.',
 		file_format='pdf', width=100, height=100, units='mm'):
 
 	fname = filename + "." + file_format
+
+	print("triplot")
+	print(plot)
 
 	plot.save(
 		filename=fname,
