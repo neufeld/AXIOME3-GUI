@@ -1,9 +1,12 @@
 import os
 CELERY_BROKER_URL = 'UNDEFINED2'
-if os.environ.get("RUN_ENV") == "test":
+if os.environ.get("RUN_ENV") == "8081":
     CELERY_BROKER_URL = 'pyamqp://axiome3:neufeld@rabbit2/axiome3_host'
-elif os.environ.get("RUN_ENV") == "official":
+elif os.environ.get("RUN_ENV") == "8080":
     CELERY_BROKER_URL = 'pyamqp://axiome3:neufeld@rabbit/axiome3_host'
+elif os.environ.get("RUN_ENV") == "8082":
+    CELERY_BROKER_URL = 'pyamqp://axiome3:neufeld@rabbit3/axiome3_host'
+print("Celery Broker URL is: " + CELERY_BROKER_URL)
 
 # Following line doesn't work: need to figure out how env variables are transferred in docker.
 #CELERY_BROKER_URL = 'pyamqp://' + os.getenv("RABBITMQ_DEFAULT_USER") + ':' + os.getenv("RABBITMQ_DEFAULT_PASS") + 'neufeld@rabbit/' + os.getenv("RABBITMQ_DEFAULT_VHOST")

@@ -16,15 +16,21 @@ class TaskStatus(object):
 		"""Browse rabbit mq queue. It's likely O(n) so not so scalable..."""
 		# Technically should hide credentials lol
 		r = "UNDEFINED"
-		if os.environ.get("RUN_ENV") == "test":
+		if os.environ.get("RUN_ENV") == "8081":
 			r = requests.post(
 				f'http://rabbit2:15672/api/queues/axiome3_host/{queue_name}/get',
 				auth=('axiome3', 'neufeld'),
 				data=json.dumps(self.payload),
 			)
-		elif os.environ.get("RUN_ENV") == "official":
+		elif os.environ.get("RUN_ENV") == "8080":
 			r = requests.post(
 				f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
+				auth=('axiome3', 'neufeld'),
+				data=json.dumps(self.payload),
+			)
+		elif os.environ.get("RUN_ENV") == "8082":
+			r = requests.post(
+				f'http://rabbit3:15672/api/queues/axiome3_host/{queue_name}/get',
 				auth=('axiome3', 'neufeld'),
 				data=json.dumps(self.payload),
 			)
