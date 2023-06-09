@@ -8,6 +8,6 @@ flask-cors
 flask-socketio==4.3.1
 python-socketio>=4.6.0,<5
 dnspython==1.16.0
-eventlet==0.33.0
+eventlet==0.33.3
 gdown==4.6.4 # to wget from Google drive
 Werkzeug==2.0.3

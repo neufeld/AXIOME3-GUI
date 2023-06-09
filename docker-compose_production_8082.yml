@@ -49,7 +49,9 @@ services:
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
       - RUN_ENV=8082
-    restart: on-failure
+    restart: "no"
+    stdin_open: true
+    tty: true
 
   pipeline_worker3:
     build:
@@ -71,7 +73,7 @@ services:
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
       - RUN_ENV=8082
-    restart: on-failure
+    restart: "no"
 
   extension_worker3:
     build:
@@ -91,7 +93,7 @@ services:
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - RUN_ENV=8082
-    restart: on-failure
+    restart: "no"
 
   app3:
     build:
