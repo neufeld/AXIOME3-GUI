@@ -31,7 +31,9 @@ function MainDisplayTemplate(props) {
 	}
 
 	// Redux state
-	const { formType, selectedFiles, selectedOptions, uploadField } = props;
+	const { userSessionId, formType, selectedFiles, selectedOptions, uploadField } = props;
+
+	console.log("userSessionId in MainDisplayTemplate: " + userSessionId)
 
 	// props from parent component
 	const { description } = props;
@@ -78,7 +80,7 @@ function MainDisplayTemplate(props) {
 			<div className="sub-display" style={subDisplayStyles}>
 				<SessionRetrieveMain />
 				<StatusMain/>
-				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, formType, selectedFiles, selectedOptions, uploadField, submitData); window.scrollTo({top: 0, left: 0, behavior: 'smooth'});}}>
+				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, userSessionId, formType, selectedFiles, selectedOptions, uploadField, submitData); window.scrollTo({top: 0, left: 0, behavior: 'smooth'});}}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
@@ -95,6 +97,7 @@ const mapStateToProps  = state => ({
 	selectedOptions: state.option.selectedOptions,
 	formType: state.submit.formType,
 	uploadField: state.upload.uploadField,
+	userSessionId: state.submit.uid
 })
 
 const mapDispatchToProps = {

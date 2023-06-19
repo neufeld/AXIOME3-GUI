@@ -50,6 +50,22 @@ export const submitData = (formData, endpoint) => async dispatch => {
 		// Receive UUID for each request server generated
 		await axios(config);
 
+		console.log("Endpoint is: " + endpoint)
+		//don't create a new session ID if not datahandle/inputupload endpoint
+		// if(endpoint.split("/")[-2] === "datahandle" && endpoint.split("/")[-1] === "inputupload"){
+		// 	console.log("Creating new session: " + uuidV4)
+		// 	// Dispatch uid
+		// 	dispatch({
+		// 		type: UPDATE_UID,
+		// 		payload: {
+		// 			uid: uuidV4
+		// 		}
+		// 	})
+		// }
+		// else{
+		// 	console.log("Re-using session: " + )
+		// }
+		console.log(uuidV4)
 		// Dispatch uid
 		dispatch({
 			type: UPDATE_UID,

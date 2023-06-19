@@ -48,7 +48,7 @@ services:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
-      - RUN_ENV=test
+      - RUN_ENV=8081
     restart: on-failure
 
   pipeline_worker2:
@@ -70,7 +70,7 @@ services:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
-      - RUN_ENV=test
+      - RUN_ENV=8081
     restart: on-failure
 
   extension_worker2:
@@ -90,7 +90,7 @@ services:
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
-      - RUN_ENV=test
+      - RUN_ENV=8081
     restart: on-failure
 
   app2:
@@ -107,7 +107,7 @@ services:
       - PORT=8081
       - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
-      - REACT_APP_RUN_ENV=test
+      - REACT_APP_RUN_ENV=8081
       - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
     command: "nginx -g 'daemon off;'"
 

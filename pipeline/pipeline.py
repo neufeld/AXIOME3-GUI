@@ -368,9 +368,10 @@ class Denoise(luigi.Task):
     samples = Samples().get_samples()
     is_multiple = str2bool(Samples().is_multiple)
     denoise_dir = Output_Dirs().denoise_dir
+    out_dir = Output_Dirs().input_upload_dir
 
-    def requires(self):
-        return Import_Data()
+    # def requires(self):
+    #     return Import_Data()
 
     def output(self):
         # Multiple runs
@@ -491,11 +492,16 @@ class Denoise(luigi.Task):
                         os.path.join(self.denoise_dir, str(sample))],
                         self)
 
+                # construct output path from sample id
+                file_name = str(sample) + "_paired_end_demux.qza"
+                path = os.path.join(self.out_dir, file_name)
+
                 cmd = ["qiime",
                         "dada2",
                         "denoise-paired",
                         "--i-demultiplexed-seqs",
-                        self.input()[str(sample)].path,
+                        #self.input()[str(sample)].path,
+                        path,
                         "--p-trim-left-f",
                         self.trim_left_f,
                         "--p-trunc-len-f",
@@ -520,12 +526,17 @@ class Denoise(luigi.Task):
                 with self.output()[str(sample)]["log"].open('wb') as fh:
                     fh.write(output)
         else:
+            # construct output path from sample id
+            file_name = "paired_end_demux.qza"
+            path = os.path.join(self.out_dir, file_name)
+
             # Run dada2
             cmd = ["qiime",
                     "dada2",
                     "denoise-paired",
                     "--i-demultiplexed-seqs",
-                    self.input().path,
+                    #self.input().path,
+                    path,
                     "--p-trim-left-f",
                     self.trim_left_f,
                     "--p-trunc-len-f",

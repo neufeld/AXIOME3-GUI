@@ -14,10 +14,15 @@ import { ENDPOINT_ROOT } from '../../misc/apiConfig';
  *	- formType: which form is being submitted? (e.g. InputUpload, Denoise, Analysis)
  */
 
- const handleSubmit = async (e, formType, selectedFiles, selectedOptions, uploadField, submitData) => {
+ const handleSubmit = async (e, userSessionId, formType, selectedFiles, selectedOptions, uploadField, submitData) => {
  	e.preventDefault();
 
- 	const uuidV4 = uuid.v4()
+	console.log("userSessionId is: " + userSessionId)
+	let uuidV4 = uuid.v4()
+	if (userSessionId){
+		uuidV4 = userSessionId
+	}
+	console.log(uuidV4)
  	const endpoint = ENDPOINT_ROOT + MAIN_FORM_SUBMISSION_ENDPOINT + '/' + formType.toLowerCase();
  	const formData = new FormData();
 
