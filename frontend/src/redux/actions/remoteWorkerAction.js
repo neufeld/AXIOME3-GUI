@@ -8,6 +8,7 @@ import {
 	RESET_WORKER_MESSAGES,
 	RESET_SESSION,
 	RESET_REMOTE_WORKER,
+	RESET_REMOTE_WORKER_KEEP_SESSION
 } from '../types/types';
 
 export const trackWorkerStatus = (message) => dispatch => {
@@ -76,5 +77,11 @@ export const resetSessionId = () => dispatch => {
 export const resetRemoteWorker = () => dispatch => {
 	dispatch({
 		type: RESET_REMOTE_WORKER
+	})
+}
+
+export const resetRemoteWorkerKeepSession = () => dispatch => {
+	dispatch({
+		type: RESET_REMOTE_WORKER_KEEP_SESSION
 	})
 }

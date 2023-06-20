@@ -8,6 +8,7 @@ import {
 	RESET_WORKER_MESSAGES,
 	RESET_SESSION,
 	RESET_REMOTE_WORKER,
+	RESET_REMOTE_WORKER_KEEP_SESSION,
 } from '../types/types';
 
 const initialState = {
@@ -75,6 +76,18 @@ export default function(state = initialState, action) {
 		case RESET_REMOTE_WORKER:
 			return {
 				...initialState
+			}
+		
+		case RESET_REMOTE_WORKER_KEEP_SESSION:
+			console.log("State of remoteWorkerReducer")
+			console.log(state)
+			return {
+				...state,
+				isWorkerQueued: initialState.isWorkerQueued,
+				isWorkerRunning: initialState.isWorkerRunning,
+				isWorkerDone: initialState.isWorkerDone,
+				isWorkerFailed: initialState.isWorkerFailed,
+				workerMessages: initialState.workerMessages,
 			}
 
 		default:

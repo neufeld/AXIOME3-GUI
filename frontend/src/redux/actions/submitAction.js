@@ -154,8 +154,10 @@ export const retrieveSession = (formData, endpoint) => async dispatch => {
 		// or Response("Good", status=200)
 		// if 400 then it's an error and will be caught by the catch(err). If 200, then the following two dispatches will be called
 
+		console.log("Endpoint is: " + endpoint)
+		
 		dispatch({
-		type: UPDATE_UID,
+			type: UPDATE_UID,
 			payload: {
 				uid: uid
 			}

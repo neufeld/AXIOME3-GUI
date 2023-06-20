@@ -21,7 +21,18 @@ import { resetUpload } from '../redux/actions/uploadAction'
 // Option redux
 import { resetOptions, resetSelectedOptions } from '../redux/actions/optionAction'
 // RemoteWorker redux
-import { resetRemoteWorker } from '../redux/actions/remoteWorkerAction'
+import { resetRemoteWorker, resetRemoteWorkerKeepSession } from '../redux/actions/remoteWorkerAction'
+
+// Form type
+import { 
+	INPUT_UPLOAD_FORMTYPE,
+	DENOISE_FORMTYPE,
+	TAXONOMIC_CLASSIFICATION_FORMTYPE,
+	ANALYSIS_FORMTYPE,
+	PCOA_FORMTYPE,
+	BUBBLEPLOT_FORMTYPE,
+	TRIPLOT_FORMTYPE
+} from '../misc/FormTypeConfig';
 
 function MainDisplayTemplate(props) {
 	const subDisplayStyles = {
@@ -31,9 +42,11 @@ function MainDisplayTemplate(props) {
 	}
 
 	// Redux state
-	const { userSessionId, formType, selectedFiles, selectedOptions, uploadField } = props;
+	const { userSessionId, inputSessionId, formType, selectedFiles, selectedOptions, uploadField } = props;
 
 	console.log("userSessionId in MainDisplayTemplate: " + userSessionId)
+	console.log("inputSessionId in MainDisplayTemplate: " + inputSessionId)
+	console.log("formType: " + formType)
 
 	// props from parent component
 	const { description } = props;
@@ -48,7 +61,7 @@ function MainDisplayTemplate(props) {
 	const { resetSelectedOptions, resetOptions } = props;
 
 	// RemoteWorker redux action
-	const { resetRemoteWorker } = props;
+	const { resetRemoteWorker, resetRemoteWorkerKeepSession } = props;
 
 	useEffect(() => {
 		// Upload related redux
@@ -62,6 +75,7 @@ function MainDisplayTemplate(props) {
 
 		// Clean up
 		return () => {
+			console.log("CLEAN UP")
 			// Reset worker messages
 			resetRemoteWorker()
 
@@ -80,7 +94,20 @@ function MainDisplayTemplate(props) {
 			<div className="sub-display" style={subDisplayStyles}>
 				<SessionRetrieveMain />
 				<StatusMain/>
-				<form onSubmit={(e) => {resetRemoteWorker(); handleSubmit(e, userSessionId, formType, selectedFiles, selectedOptions, uploadField, submitData); window.scrollTo({top: 0, left: 0, behavior: 'smooth'});}}>
+				<form onSubmit={(e) => {
+						// //if submit button is clicked for Input Upload then we want a new session
+						// if (formType === INPUT_UPLOAD_FORMTYPE){
+						// 	resetRemoteWorker()
+						// } else {
+						// 	// otherwise, run the worker in whatever session that we're currently on
+						// 	resetRemoteWorkerKeepSession(); 
+						// }
+						// resetRemoteWorkerKeepSession()
+						resetRemoteWorker()
+						handleSubmit(e, userSessionId, formType, selectedFiles, selectedOptions, uploadField, submitData); 
+						window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+					}
+				}>
 					<DescriptionMain description={description}/>
 					<UploadElementsMain />
 					<OptionsMain />
@@ -97,7 +124,8 @@ const mapStateToProps  = state => ({
 	selectedOptions: state.option.selectedOptions,
 	formType: state.submit.formType,
 	uploadField: state.upload.uploadField,
-	userSessionId: state.submit.uid
+	userSessionId: state.submit.uid, //switch to state.remoteWorker.inputSessionId???
+	inputSessionId: state.remoteWorker.inputSessionId
 })
 
 const mapDispatchToProps = {
@@ -107,6 +135,7 @@ const mapDispatchToProps = {
 	submitData,
 	resetRemoteWorker,
 	resetSubmit,
+	resetRemoteWorkerKeepSession
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainDisplayTemplate)
