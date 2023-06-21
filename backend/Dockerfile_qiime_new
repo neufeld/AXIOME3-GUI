@@ -19,7 +19,7 @@ ARG CLASSIFIER_GDRIVE_ID
 # Make /backend working directory; flask code lives here
 WORKDIR /backend
 # Install from requirements.txt using pip
-#COPY requirements.txt requirements.txt
+COPY requirements.txt requirements.txt
 COPY requirements_new.txt requirements.txt
 RUN pip install --upgrade pip && pip install -r requirements.txt && pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
 RUN pip install dnspython==2.3.0
