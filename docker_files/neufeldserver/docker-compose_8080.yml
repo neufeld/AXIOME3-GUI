@@ -97,7 +97,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: production.Dockerfile
+      dockerfile: 8080.Dockerfile
     volumes:
       - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf
     ports:
