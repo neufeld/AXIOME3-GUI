@@ -2,8 +2,8 @@ ARG QIIME2_RELEASE
 
 #FROM qiime2/core:${QIIME2_RELEASE}
 #FROM qiime2/core:2020.6
-#FROM quay.io/qiime2/core:${QIIME2_RELEASE}
-FROM quay.io/qiime2/core:2023.5
+FROM quay.io/qiime2/core:${QIIME2_RELEASE}
+#FROM quay.io/qiime2/core:2023.5
 
 #FROM continuumio/miniconda3
 #FROM mambaorg/micromamba
