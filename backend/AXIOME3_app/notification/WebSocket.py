@@ -13,9 +13,9 @@ class WebSocket(object):
 			self.channel,
 			{'data': message},
 			namespace=self.namespace,
-			engineio_logger=True,
 			room=self.room,
 			logger=True,
 			async_mode='threading', 
 			broadcast=True,
+			engineio_logger=True
 		)

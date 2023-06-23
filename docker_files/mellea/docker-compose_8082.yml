@@ -3,7 +3,7 @@
 version: "3.5"
 services:
   rabbit3:
-    image: rabbitmq:3.8.5-management
+    image: rabbitmq:3.12.0-management
     ports:
       - '15675:15672' # in case user has rabbitMQ installed on host
     environment:
@@ -27,18 +27,18 @@ services:
 
   backend3:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile_qiime_new
       args:
         - QIIME2_RELEASE=2021.8
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
     command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
-      - ./backend:/backend
-      - ./pipeline:/pipeline
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - /Analysis/AXIOME3/output:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     ports:
       - '5002'
@@ -55,7 +55,7 @@ services:
 
   pipeline_worker3:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile_qiime_new
       args:
         - QIIME2_RELEASE=2021.8
@@ -63,10 +63,10 @@ services:
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker5@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./backend:/backend
-      - ./pipeline:/pipeline
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
+      - /Analysis/AXIOME3/output:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
@@ -77,7 +77,7 @@ services:
 
   extension_worker3:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile_qiime_new
       args:
         - QIIME2_RELEASE=2021.8
@@ -85,10 +85,10 @@ services:
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker6@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./backend:/backend
-      - ./pipeline:/pipeline
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
+      - /Analysis/AXIOME3/output:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
@@ -97,20 +97,20 @@ services:
 
   app3:
     build:
-      context: .
-      dockerfile: production_test_qiime_new.Dockerfile
+      context: ../../
+      dockerfile: ./docker_files/mellea/8082.Dockerfile
     volumes:
-      - ./nginx/prod/nginx3.conf:/etc/nginx/nginx.conf
+      - ../../nginx/prod/nginx3.conf:/etc/nginx/nginx.conf
     ports:
       - '8082:82'
     depends_on:
       - backend3
     environment:
       - PORT=8082
-      - REACT_APP_QIIME2_RELEASE=2021.8
+      - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
       - REACT_APP_RUN_ENV=8082
-      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
+      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Analysis/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
     command: "nginx -g 'daemon off;'"
 
 volumes:

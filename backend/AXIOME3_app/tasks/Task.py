@@ -197,6 +197,7 @@ class InputUploadTask(Axiome3Task):
 
 		task_message = "Running Input Upload!"
 		self.notify(task_message)
+		print("HERE BACKEND: RUNNING INPUT UPLOAD!!")
 
 		stdout, stderr = self.run_command(command)
 		error = self.filter_error(stdout)

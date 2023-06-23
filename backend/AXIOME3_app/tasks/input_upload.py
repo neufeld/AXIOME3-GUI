@@ -20,11 +20,14 @@ def after_setup_celery_task_logger(logger, **kwargs):
 @celery.task(name="pipeline.run.import")
 def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
+	
+	print("HERE import_data_task")
 
 	websocket = WebSocket(messageQueueURL=URL, room=_id,)
 	input_upload = InputUploadTask(websocket=websocket, task_id=_id)
 	email = EmailNotification(task_id=_id)
 
+	
 	try:
 		input_upload.generate_config(
 			logging_config=logging_config,
@@ -33,10 +36,14 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 			input_format=input_format,
 			is_multiple=is_multiple,
 		)
+		print("HERE input_upload generate config")
+		print(input_upload)
 
 		input_upload.execute()
 
 		message = input_upload.success_message
+		print("HERE backend celery task: ")
+		print(input_upload)
 
 	except Exception as err:
 		message = "Error: " + str(err)
