@@ -21,7 +21,9 @@ class Axiome3Task(object):
 			stdout=subprocess.PIPE,
 			stderr=subprocess.PIPE,
 		)
+	
 		stdout, stderr = proc.communicate()
+
 		return stdout, stderr
 
 	def generate_command(self):

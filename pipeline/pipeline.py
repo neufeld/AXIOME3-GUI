@@ -296,6 +296,7 @@ class Import_Data(luigi.Task):
                     self.output().path,
                     "--input-format",
                     self.input_format]
+
             run_cmd(cmd, self)
 
 class Summarize(luigi.Task):
