@@ -64,8 +64,6 @@ def inputupload():
 	URL = current_app.config["CELERY_BROKER_URL"]
 	sender = current_app.config["GMAIL_SENDER"]
 
-	print("HERE BACKEND celery broker url: " + URL)
-
 	# path to file to record task progress
 	# It will be used to retrieve working progress
 	# Maybe replace it with database later
@@ -108,13 +106,8 @@ def inputupload():
 			'recipient': recipient
 		}
 
-		print("HERE BACKEND task kwargs: ")
-		print(task_kwargs)
-
 		send_queue_email(_id, sender, recipient, "Input Upload")
-		print("HERE BACKEND: About to run apply_async")
 		import_data_task.apply_async(kwargs=task_kwargs, task_id=_id)
-		print("HERE BACKEND: after apply_async")
 
 	except AXIOME3Error as err:
 		current_app.logger.error(str(err))

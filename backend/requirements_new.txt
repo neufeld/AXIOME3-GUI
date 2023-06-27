@@ -2,16 +2,12 @@ python-dotenv==0.14.0 # to read in from .env file
 luigi==3.3.0
 plotnine==0.12.1
 #rpy2==3.3.5
-celery==5.1.2
-flask==2.0.0
+celery==5.2.7
+flask==2.0.3
 flask-cors
-flask-socketio==5.3.4
-python-socketio==5.7.2
-python-engineio==4.4.1
-#flask-socketio
-#python-socketio
-#python-engineio
-dnspython==2.3.0
+flask-socketio==4.3.1
+python-socketio>=4.6.0,<5
+dnspython==1.16.0
 eventlet==0.33.3
 gdown==4.6.4 # to wget from Google drive
-Werkzeug==2.3.6
+Werkzeug==2.0.3
