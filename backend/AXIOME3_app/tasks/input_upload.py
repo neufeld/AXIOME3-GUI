@@ -21,8 +21,6 @@ def after_setup_celery_task_logger(logger, **kwargs):
 def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
 	
-	print("HERE import_data_task")
-
 	websocket = WebSocket(messageQueueURL=URL, room=_id,)
 	input_upload = InputUploadTask(websocket=websocket, task_id=_id)
 	email = EmailNotification(task_id=_id)
