@@ -11,3 +11,5 @@ gmail-python-email-send.json
 *classifier*.qza
 luigi.cfg
 <LOGFILE_PATH>
+!docker_files/.env
+!docker_files/*/.env
