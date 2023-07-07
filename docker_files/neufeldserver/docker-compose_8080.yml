@@ -1,36 +1,35 @@
-# This will spin up AXIOME3 on a different set of ports from regular AXIOME3 so we can use this yml for testing
-# Run docker-compose with the project name flag as -p axiome3-prod-test
 version: "3.5"
 services:
-  rabbit3:
+  rabbit:
     image: rabbitmq:3.8.5-management
     ports:
-      - '15675:15672' # in case user has rabbitMQ installed on host
+      - '15673:15672' # in case user has rabbitMQ installed on host
     environment:
       - RABBITMQ_DEFAULT_USER=axiome3
       - RABBITMQ_DEFAULT_PASS=neufeld
       - RABBITMQ_DEFAULT_VHOST=axiome3_host
 
-  # flower2:
+  # flower:
   #   build:
   #     context: ./flower
   #     dockerfile: Dockerfile
-  #   # note: originally the command was: /flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5556
+  #   # note: originally the command was: /flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host flower --broker_api=http://axiome3:neufeld@rabbit:15672/api/axiome3_host --port=5555
   #   # However, due to flower using an outdated jQuery, it causes IST issues and has been disabled
   #   # If one day jQuery is updated for flower, we can start using it again
-  #   command: "/flower/wait-for-it.sh rabbit:5673 -- celery --broker=amqp://axiome3:neufeld@rabbit:5673/axiome3_host"
+  #   command: "/flower/wait-for-it.sh rabbit:5672 -- celery --broker=amqp://axiome3:neufeld@rabbit:5672/axiome3_host"
   #   ports:
-  #     - 5556:5556
+  #     - 5555:5555
   #   restart: on-failure
   #   volumes:
   #     - ./flower:/flower
 
-  backend3:
+  backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile_qiime_new
+      dockerfile: Dockerfile
       args:
-        - QIIME2_RELEASE=2023.2
+        #- QIIME2_RELEASE=2022.2
+        - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
     command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
@@ -41,26 +40,25 @@ services:
       - ./log:/log # For logging
       - input:/input # Named volume
     ports:
-      - '5002'
+      - '5000'
     environment:
       - FLASK_ENV=development
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
-      - RUN_ENV=8082
-    restart: "no"
-    stdin_open: true
-    tty: true
+      - RUN_ENV=8080
+    restart: on-failure
 
-  pipeline_worker3:
+  pipeline_worker:
     build:
       context: ./backend
-      dockerfile: Dockerfile_qiime_new
+      dockerfile: Dockerfile
       args:
-        - QIIME2_RELEASE=2023.2
+        #- QIIME2_RELEASE=2022.2
+        - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker5@%h -Q pipeline --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -72,17 +70,18 @@ services:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
       - GMAIL_SENDER=axiome333@gmail.com
-      - RUN_ENV=8082
-    restart: "no"
+      - RUN_ENV=8080
+    restart: on-failure
 
-  extension_worker3:
+  extension_worker:
     build:
       context: ./backend
-      dockerfile: Dockerfile_qiime_new
+      dockerfile: Dockerfile
       args:
-        - QIIME2_RELEASE=2023.2
+        #- QIIME2_RELEASE=2022.2
+        - QIIME2_RELEASE=2020.6
         - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
-    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker6@%h -Q extension --loglevel=INFO"
+    command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
       - ./backend:/backend
@@ -92,24 +91,24 @@ services:
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
-      - RUN_ENV=8082
-    restart: "no"
+      - RUN_ENV=8080
+    restart: on-failure
 
-  app3:
+  app:
     build:
       context: .
-      dockerfile: production_test_qiime_new.Dockerfile
+      dockerfile: 8080.Dockerfile
     volumes:
-      - ./nginx/prod/nginx3.conf:/etc/nginx/nginx.conf
+      - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - '8082:82'
+      - '8080:80'
     depends_on:
-      - backend3
+      - backend
     environment:
-      - PORT=8082
-      - REACT_APP_QIIME2_RELEASE=2023.2
+      - PORT=8080
+      - REACT_APP_QIIME2_RELEASE=2020.6
       - REACT_APP_SILVA_VERSION=138
-      - REACT_APP_RUN_ENV=8082
+      - REACT_APP_RUN_ENV=8080
       - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
     command: "nginx -g 'daemon off;'"
 

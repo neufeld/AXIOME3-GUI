@@ -14,24 +14,26 @@ class TaskStatus(object):
 
 	def _browse_queue(queue_name: str):
 		"""Browse rabbit mq queue. It's likely O(n) so not so scalable..."""
-		# Technically should hide credentials lol
 		r = "UNDEFINED"
+		user = os.environ.get("RABBITMQ_DEFAULT_USER")
+		password = os.environ.get("RABBITMQ_DEFAULT_PASS")
+		host = os.environ.get("RABBITMQ_DEFAULT_VHOST")
 		if os.environ.get("RUN_ENV") == "8081":
 			r = requests.post(
-				f'http://rabbit2:15672/api/queues/axiome3_host/{queue_name}/get',
-				auth=('axiome3', 'neufeld'),
+				f'http://rabbit2:15672/api/queues/' + host + '/{queue_name}/get',
+				auth=(user, password),
 				data=json.dumps(self.payload),
 			)
 		elif os.environ.get("RUN_ENV") == "8080":
 			r = requests.post(
-				f'http://rabbit:15672/api/queues/axiome3_host/{queue_name}/get',
-				auth=('axiome3', 'neufeld'),
+				f'http://rabbit:15672/api/queues/' + host + '/{queue_name}/get',
+				auth=(user, password),
 				data=json.dumps(self.payload),
 			)
 		elif os.environ.get("RUN_ENV") == "8082":
 			r = requests.post(
-				f'http://rabbit3:15672/api/queues/axiome3_host/{queue_name}/get',
-				auth=('axiome3', 'neufeld'),
+				f'http://rabbit3:15672/api/queues/' + host + '/{queue_name}/get',
+				auth=(user, password),
 				data=json.dumps(self.payload),
 			)
 
