@@ -1,13 +1,14 @@
 version: "3.5"
+
 services:
   rabbit:
     image: rabbitmq:3.8.5-management
     ports:
       - '15673:15672' # in case user has rabbitMQ installed on host
     environment:
-      - RABBITMQ_DEFAULT_USER=axiome3
-      - RABBITMQ_DEFAULT_PASS=neufeld
-      - RABBITMQ_DEFAULT_VHOST=axiome3_host
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
 
   # flower:
   #   build:
@@ -25,19 +26,18 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile
       args:
-        #- QIIME2_RELEASE=2022.2
-        - QIIME2_RELEASE=2020.6
-        - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
+        - QIIME2_RELEASE=${QIIME2_VERSION}
+        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
-      - ./backend:/backend
-      - ./pipeline:/pipeline
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
       - /:/hostfs:ro # Assumes host root is '/'
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - ${OUTPUT_PATH}:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     ports:
       - '5000'
@@ -46,70 +46,82 @@ services:
       - FLASK_APP=AXIOME3_app/app
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
-      - GMAIL_SENDER=axiome333@gmail.com
+      - GMAIL_SENDER=${GMAIL_SENDER}
       - RUN_ENV=8080
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
     restart: on-failure
 
   pipeline_worker:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile
       args:
-        #- QIIME2_RELEASE=2022.2
-        - QIIME2_RELEASE=2020.6
-        - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
+        - QIIME2_RELEASE=${QIIME2_VERSION}
+        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./backend:/backend
-      - ./pipeline:/pipeline
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
+      - ${OUTPUT_PATH}:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - LUIGI_CONFIG_PATH=/pipeline/configuration/luigi.cfg
-      - GMAIL_SENDER=axiome333@gmail.com
+      - GMAIL_SENDER=${GMAIL_SENDER}
       - RUN_ENV=8080
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
     restart: on-failure
 
   extension_worker:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile
       args:
-        #- QIIME2_RELEASE=2022.2
-        - QIIME2_RELEASE=2020.6
-        - CLASSIFIER_GDRIVE_ID=12jug9XZcbUefevtTnENGudjGqaAL0LCo
+        - QIIME2_RELEASE=${QIIME2_VERSION}
+        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
-      - ./backend:/backend
-      - ./pipeline:/pipeline
-      - /Winnebago/AXIOME3/output:/output # Stores all the output to this directory
-      - ./log:/log # For logging
+      - ../../backend:/backend
+      - ../../pipeline:/pipeline
+      - ${OUTPUT_PATH}:/output # Stores all the output to this directory
+      - ../../log:/log # For logging
       - input:/input # Named volume
     environment:
       - PYTHONPATH=/pipeline # Add AXIOME3 pipeline to PYTHONPATH
       - RUN_ENV=8080
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
     restart: on-failure
 
   app:
     build:
-      context: .
-      dockerfile: production.Dockerfile
+      context: ../../
+      dockerfile: ./docker_files/mellea/8080.Dockerfile
+      args:
+        - REACT_APP_QIIME2_RELEASE=${QIIME2_VERSION}
+        - REACT_APP_SILVA_VERSION=${SILVA_VERSION}
+        - REACT_APP_RUN_ENV=8080
+        - REACT_APP_OUTPUT_DIR_PATH=/hostfs${OUTPUT_PATH}
     volumes:
-      - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf
+      - ../../nginx/prod/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - '8080:80'
     depends_on:
       - backend
     environment:
       - PORT=8080
-      - REACT_APP_QIIME2_RELEASE=2020.6
-      - REACT_APP_SILVA_VERSION=138
-      - REACT_APP_RUN_ENV=8080
-      - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Winnebago/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
+      # - REACT_APP_QIIME2_RELEASE=2020.6
+      # - REACT_APP_SILVA_VERSION=138
+      # - REACT_APP_RUN_ENV=8080
+      # - REACT_APP_OUTPUT_DIR_PATH=/hostfs/Analysis/AXIOME3/output # will still run without this since it exists in Dockerfile, but leaving it in just in case
     command: "nginx -g 'daemon off;'"
 
 volumes:
