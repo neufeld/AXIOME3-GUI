@@ -251,6 +251,8 @@ class Import_Data(luigi.Task):
                 '-p',
                 self.out_dir],
                 step)
+        
+        print("HERE Output directory is: " + self.out_dir)
 
         #inputPath = Samples().manifest_file
         #

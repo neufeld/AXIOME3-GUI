@@ -98,7 +98,8 @@ function MainDisplayTemplate(props) {
 						// //if submit button is clicked for Input Upload then we want a new session
 						if (formType === INPUT_UPLOAD_FORMTYPE){
 							console.log("Is Input Upload)")
-							resetRemoteWorker()
+							//resetRemoteWorker();
+							resetRemoteWorkerKeepSession(); 
 						} else {
 							console.log("Is not Input Upload")
 							// otherwise, run the worker in whatever session that we're currently on

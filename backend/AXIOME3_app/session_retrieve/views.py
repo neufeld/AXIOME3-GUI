@@ -9,8 +9,8 @@ def retrieve_status():
 
 	task_status_file = os.path.join('/output', session_id, 'task_progress.txt')
 
-	if not(os.path.exists(task_status_file)):
-		return Response("Requested sesssion does NOT exist...", status=400, mimetype='text/html')
+	# if not(os.path.exists(task_status_file)):
+	# 	return Response("Requested sesssion does NOT exist...", status=400, mimetype='text/html')
 
 	return Response("Good", status=200, mimetype='text/html')
 	#with open(task_status_file, 'r') as fh:

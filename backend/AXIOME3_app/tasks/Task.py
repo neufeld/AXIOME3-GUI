@@ -199,6 +199,7 @@ class InputUploadTask(Axiome3Task):
 		self.notify(task_message)
 
 		stdout, stderr = self.run_command(command)
+		print(stdout.decode('utf-8'))
 		error = self.filter_error(stdout)
 
 		if(error):
