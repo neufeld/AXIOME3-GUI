@@ -58,6 +58,11 @@ def inputupload():
 		recipient = request.form["email"]
 	else:
 		recipient = None
+	
+	# get type of task
+	print("HERE backend inputupload")
+	task_type = str(request.form['formType'])
+	print("HERE backend task type: " + task_type)
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -95,6 +100,7 @@ def inputupload():
 
 		task_kwargs = {
 			'_id': _id,
+			'task_type': task_type,
 			'logging_config': log_config_path,
 			'manifest_path': manifest_path,
 			'sample_type': sample_type,
@@ -131,6 +137,8 @@ def denoise():
 	else:
 		recipient = None
 	sender = current_app.config["GMAIL_SENDER"]
+
+	task_type = str(request.form['formType'])
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -178,6 +186,7 @@ def denoise():
 
 		task_kwargs = {
 			'_id': _id,
+			'task_type': task_type,
 			'logging_config': log_config_path,
 			'manifest_path': manifest_path,
 			'sample_type': sample_type,

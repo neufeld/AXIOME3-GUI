@@ -18,7 +18,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="pipeline.run.denoise")
-def denoise_task(_id, logging_config, manifest_path, sample_type, input_format,
+def denoise_task(_id, task_type, logging_config, manifest_path, sample_type, input_format,
 	trim_left_f, trunc_len_f, trim_left_r, trunc_len_r, is_multiple, n_cores,
 	URL, task_progress_file, sender, recipient):
 	
@@ -28,6 +28,7 @@ def denoise_task(_id, logging_config, manifest_path, sample_type, input_format,
 
 	try:
 		denoise.generate_config(
+			task_type=task_type,
 			logging_config=logging_config,
 			manifest_path=manifest_path,
 			sample_type=sample_type,

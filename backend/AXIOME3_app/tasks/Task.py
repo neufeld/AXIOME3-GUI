@@ -69,7 +69,7 @@ class Axiome3Task(object):
 
 		return message.replace(to_remove, '').strip()
 
-	def generate_config(self, logging_config, manifest_path=None, sample_type=None, input_format=None,
+	def generate_config(self, task_type, logging_config, manifest_path=None, sample_type=None, input_format=None,
 				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None, is_multiple=None,
 				classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 		"""
@@ -83,6 +83,9 @@ class Axiome3Task(object):
 		template_config_path = "/pipeline/configuration/template.cfg"
 
 		config_data = self._read_template_config(template_config_path)
+
+		# Replace task type placefolder with actual task type
+		config_data = config_data.replace("<TASK_TYPE>", task_type)
 
 		# Replace output prefix placeholder with actual path
 		output_dir = os.path.join("/output", self.task_id)
@@ -199,7 +202,9 @@ class InputUploadTask(Axiome3Task):
 		self.notify(task_message)
 
 		stdout, stderr = self.run_command(command)
+		print("HERE stdout for input upload")
 		print(stdout.decode('utf-8'))
+		print("END")
 		error = self.filter_error(stdout)
 
 		if(error):
@@ -228,7 +233,11 @@ class DenoiseTask(Axiome3Task):
 		self.notify(task_message)
 
 		stdout, stderr = self.run_command(command)
+		print("HERE stdout for DenoiseTask")
+		print(stdout.decode('utf-8'))
+		print(stderr.decode('utf-8'))
 		error = self.filter_error(stdout)
+		print("END")
 
 		if(error):
 			raise AXIOME3WebAppError(error)

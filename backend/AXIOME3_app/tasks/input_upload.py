@@ -18,7 +18,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="pipeline.run.import")
-def import_data_task(_id, logging_config, manifest_path, sample_type, input_format,
+def import_data_task(_id, task_type, logging_config, manifest_path, sample_type, input_format,
 	is_multiple, URL, task_progress_file, sender, recipient):
 
 	websocket = WebSocket(messageQueueURL=URL, room=_id,)
@@ -27,6 +27,7 @@ def import_data_task(_id, logging_config, manifest_path, sample_type, input_form
 
 	try:
 		input_upload.generate_config(
+			task_type=task_type,
 			logging_config=logging_config,
 			manifest_path=manifest_path,
 			sample_type=sample_type,

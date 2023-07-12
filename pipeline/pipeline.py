@@ -116,12 +116,60 @@ def str2bool(v):
 class Out_Prefix(luigi.Config):
     prefix = luigi.Parameter()
 
+# class Run_Dirs(luigi.Config):
+#     # Append the correct run folder into the output path
+#     main_out_dir = Out_Prefix().prefix
+#     subdirs = [x[0] for x in os.walk(main_out_dir)]
+#     print("HERE subdirs: " + str(",".join(subdirs)))
+#     run = 1
+#     while("run" + str(run) in subdirs):
+#         run += 1 # runX folder already exists so increment
+#     # create the correct run folder
+#     run_dir = os.path.join(main_out_dir, "run" + str(run))
+#     print("HERE run_dir: " + run_dir)
+
+class Task_Type(luigi.Config):
+    task_type = luigi.Parameter()
+
 class Output_Dirs(luigi.Config):
+    # Task type
+    task_type = Task_Type().task_type
+    print("HERE tasktype: " + task_type)
+
     # Define output paths
     out_dir = Out_Prefix().prefix
-    input_upload_dir = os.path.join(out_dir, "input_upload")
-    manifest_dir = os.path.join(out_dir, "manifest")
+    print("HERE outdir: " + out_dir)
+    #print("HERE outdir split: ")
+    #print("/".join(out_dir.split("/")[:-1]))
+    #base_out_dir = "/".join(out_dir.split("/")[:-1]) # path up until second last directory
+    #print("HERE baseoutdir: " + base_out_dir)
+    #run_dir = Run_Dirs().run_dir
+
+    # strat is to check the which directory level contains luigi.cfg
+    # the one that does is the base out dir
+    # if user enters base out dir, then all good
+    # if user enters run out dir, then find the base out dir
+
+    # check if out_dir contains luigi.cfg and project.axiome
+    # we check for luigi.cfg since on the first input upload there is no project.axiome yet
+    #all_files = os.listdir(out_dir)
+    #print(all_files)
+
+    base_out_dir = out_dir
+    # if ("project.axiome" not in all_files) or ("luigi.cfg" not in all_files):
+    #     # go to one directory above since user must've entered run directory
+    #     base_out_dir = "/".join(out_dir.split("/")[:-1])
+
+    if task_type != "inputUpload":
+        base_out_dir = "/".join(out_dir.split("/")[:-1])
+    print("HERE base out dir: " + base_out_dir)
+
+    input_upload_dir = os.path.join(base_out_dir, "input_upload")
+    manifest_dir = os.path.join(base_out_dir, "manifest")
+
     denoise_dir = os.path.join(out_dir, "denoise")
+    #denoise_dir = os.path.join(run_dir, "denoise")
+    #print("HERE denoise dir: " + denoise_dir)
     rarefy_dir = os.path.join(out_dir, "rarefy")
     taxonomy_dir = os.path.join(out_dir, "taxonomic_classification")
     analysis_dir = os.path.join(out_dir, "analysis")
@@ -141,6 +189,10 @@ class Output_Dirs(luigi.Config):
     picrust_dir = os.path.join(post_analysis_dir, "PICRUST2")
 
     visualization_dir = os.path.join(out_dir, "visualization")
+
+    
+    
+
 
 class Samples(luigi.Config):
     """
@@ -215,14 +267,18 @@ class Split_Samples(luigi.Task):
             run_cmd(cmd, self)
 
 class Import_Data(luigi.Task):
+    print("HERE import data")
     # Options for qiime tools import
     sample_type = luigi.Parameter(
             default='SampleData[PairedEndSequencesWithQuality]')
     input_format = luigi.Parameter(default="PairedEndFastqManifestPhred33")
 
     out_dir = Output_Dirs().input_upload_dir
+    base_out_dir = Output_Dirs().base_out_dir
+
     samples = Samples().get_samples()
     is_multiple = str2bool(Samples().is_multiple)
+    print("HERE import data: " + out_dir)
 
     def requires(self):
         return Split_Samples()
@@ -246,13 +302,19 @@ class Import_Data(luigi.Task):
 
     def run(self):
         step = str(self)
+        print("HERE Import data about to mkdir")
         # Make output directory
         run_cmd(['mkdir',
                 '-p',
                 self.out_dir],
                 step)
+
+        # # Create a project data file (can be used to store configurations)
+        # run_cmd(['touch',
+        #         self.base_out_dir + "/project.axiome"],
+        #         step)
         
-        print("HERE Output directory is: " + self.out_dir)
+        print("HERE Import Data Output directory is: " + self.out_dir)
 
         #inputPath = Samples().manifest_file
         #
@@ -370,6 +432,7 @@ class Denoise(luigi.Task):
     samples = Samples().get_samples()
     is_multiple = str2bool(Samples().is_multiple)
     denoise_dir = Output_Dirs().denoise_dir
+    print("HERE Denoise denoise dir: " + denoise_dir)
     out_dir = Output_Dirs().input_upload_dir
 
     # def requires(self):
@@ -425,6 +488,8 @@ class Denoise(luigi.Task):
                 "-p",
                 self.denoise_dir],
                 self)
+
+        print("HERE Denoise run cmd: " + self.denoise_dir)
 
         if(self.is_multiple):
             # Get cutoff for each sample

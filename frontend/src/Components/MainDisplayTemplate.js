@@ -78,6 +78,7 @@ function MainDisplayTemplate(props) {
 			console.log("CLEAN UP")
 			// Reset worker messages
 			resetRemoteWorker()
+			// resetRemoteWorkerKeepSession()
 
 			// Reset submit related
 			resetSubmit()

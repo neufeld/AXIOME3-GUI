@@ -1,7 +1,7 @@
 import os
 import sys
 
-def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None, input_format=None,
+def make_luigi_config(_id, task_type, logging_config, manifest_path=None, sample_type=None, input_format=None,
 				trim_left_f=None, trunc_len_f=None, trim_left_r=None, trunc_len_r=None, is_multiple=None,
 				classifier_path=None, sampling_depth=None, metadata_path=None, n_cores=None):
 	"""
@@ -15,6 +15,9 @@ def make_luigi_config(_id, logging_config, manifest_path=None, sample_type=None,
 	template_config_path = "/pipeline/configuration/template.cfg"
 
 	config_data = read_template_config(template_config_path)
+
+	# Replace task type placeholder with actual task type
+	config_data = config_data.replace("<TASK_TYPE>", task_type)
 
 	# Replace output prefix placeholder with actual path
 	output_dir = os.path.join("/output", _id)
