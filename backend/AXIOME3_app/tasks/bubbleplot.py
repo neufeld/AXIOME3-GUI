@@ -30,7 +30,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="extension.bubbleplot")
-def bubbleplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
+def bubbleplot_task(_id, task_type, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path=None, level="asv", groupby_taxa="phylum", 
 	abundance_threshold=0.1, keyword=None, fill_variable=None, brewer_type="qual",
 	palette="Paired", alpha=0.9, stroke=0.6, width=300, height=300):

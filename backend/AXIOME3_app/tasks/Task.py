@@ -291,9 +291,12 @@ class AnalysisTask(Axiome3Task):
 
 		task_message = "Running Analysis!"
 		self.notify(task_message)
-
+		print("HERE stdout for analysisTask")
 		stdout, stderr = self.run_command(command)
 		error = self.filter_error(stdout)
+		print(stdout.decode('utf-8'))
+		print(stderr.decode('utf-8'))
+		print("END")
 
 		if(error):
 			raise AXIOME3WebAppError(error)

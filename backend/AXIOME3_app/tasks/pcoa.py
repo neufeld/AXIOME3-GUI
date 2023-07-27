@@ -32,7 +32,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="extension.pcoa")
-def pcoa_task(_id, URL, task_progress_file, pcoa, metadata,
+def pcoa_task(_id, task_type, URL, task_progress_file, pcoa, metadata,
 	fill_variable, shape_variable=None, colour_set="Paired",
 	brewer_type="qual", fill_variable_dtype='category', secondary_dtype='category',
 	alpha=0.8, stroke=0.6, point_size=6, width=100, height=90,

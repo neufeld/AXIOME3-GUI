@@ -139,27 +139,8 @@ class Output_Dirs(luigi.Config):
     # Define output paths
     out_dir = Out_Prefix().prefix
     print("HERE outdir: " + out_dir)
-    #print("HERE outdir split: ")
-    #print("/".join(out_dir.split("/")[:-1]))
-    #base_out_dir = "/".join(out_dir.split("/")[:-1]) # path up until second last directory
-    #print("HERE baseoutdir: " + base_out_dir)
-    #run_dir = Run_Dirs().run_dir
-
-    # strat is to check the which directory level contains luigi.cfg
-    # the one that does is the base out dir
-    # if user enters base out dir, then all good
-    # if user enters run out dir, then find the base out dir
-
-    # check if out_dir contains luigi.cfg and project.axiome
-    # we check for luigi.cfg since on the first input upload there is no project.axiome yet
-    #all_files = os.listdir(out_dir)
-    #print(all_files)
 
     base_out_dir = out_dir
-    # if ("project.axiome" not in all_files) or ("luigi.cfg" not in all_files):
-    #     # go to one directory above since user must've entered run directory
-    #     base_out_dir = "/".join(out_dir.split("/")[:-1])
-
     if task_type != "inputUpload":
         base_out_dir = "/".join(out_dir.split("/")[:-1])
     print("HERE base out dir: " + base_out_dir)

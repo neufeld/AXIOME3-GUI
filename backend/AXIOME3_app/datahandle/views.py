@@ -229,6 +229,8 @@ def taxonomic_classification():
 		recipient = None
 	sender = current_app.config["GMAIL_SENDER"]
 
+	task_type = str(request.form['formType'])
+
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
@@ -281,6 +283,7 @@ def taxonomic_classification():
 
 		task_kwargs = {
 			'_id': _id,
+			'task_type': task_type,
 			'logging_config': log_config_path,
 			'classifier_path': classifier_path,
 			'n_cores': n_cores,
@@ -309,12 +312,15 @@ def taxonomic_classification():
 
 @blueprint.route("/analysis", methods=['POST'])
 def analysis():
+	print("HERE analysis")
 	# Email ricipient
 	if("email" in request.form):
 		recipient = request.form["email"]
 	else:
 		recipient = None
 	sender = current_app.config["GMAIL_SENDER"]
+
+	task_type = str(request.form['formType'])
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -374,6 +380,7 @@ def analysis():
 
 		task_kwargs = {
 			'_id': _id,
+			'task_type': task_type,
 			'logging_config': log_config_path,
 			'sampling_depth': sampling_depth,
 			'metadata_path': metadata_path,
@@ -406,6 +413,8 @@ def pcoa():
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
+
+	task_type = str(request.form['formType'])
 
 	# path to file to record task progress
 	# It will be used to retrieve working progress
@@ -480,7 +489,7 @@ def pcoa():
 			'legend_text_size': legend_text_size
 		}
 		pcoa_task.apply_async(
-			args=[_id, URL, task_progress_file],
+			args=[_id, task_type, URL, task_progress_file],
 			kwargs=pcoa_kwargs,
 			task_id=_id,
 		)
@@ -504,6 +513,8 @@ def bubbleplot():
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
+
+	task_type = str(request.form['formType'])
 
 	# path to file to record task progress
 	# It will be used to retrieve working progress
@@ -573,7 +584,7 @@ def bubbleplot():
 			'height': float(height)
 		}
 		bubbleplot_task.apply_async(
-			args=[_id, URL, task_progress_file],
+			args=[_id, task_type, URL, task_progress_file],
 			kwargs=bubbleplot_kwargs,
 			task_id=_id,
 		)
@@ -597,6 +608,8 @@ def triplot():
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
 	URL = current_app.config["CELERY_BROKER_URL"]
+
+	task_type = str(request.form['formType'])
 
 	# path to file to record task progress
 	# It will be used to retrieve working progress
@@ -705,7 +718,7 @@ def triplot():
 			'vector_arrow_text_size': vector_arrow_text_size
 		}
 		triplot_task.apply_async(
-			args=[_id, URL, task_progress_file],
+			args=[_id, task_type, URL, task_progress_file],
 			kwargs=triplot_kwargs,
 			task_id=_id,
 		)

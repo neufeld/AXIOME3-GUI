@@ -97,16 +97,16 @@ function MainDisplayTemplate(props) {
 				<StatusMain/>
 				<form onSubmit={(e) => {
 						// //if submit button is clicked for Input Upload then we want a new session
-						if (formType === INPUT_UPLOAD_FORMTYPE){
-							console.log("Is Input Upload)")
-							//resetRemoteWorker();
-							resetRemoteWorkerKeepSession(); 
-						} else {
-							console.log("Is not Input Upload")
-							// otherwise, run the worker in whatever session that we're currently on
-							resetRemoteWorkerKeepSession(); 
-						}
-						// resetRemoteWorkerKeepSession()
+						// if (formType === INPUT_UPLOAD_FORMTYPE){
+						// 	console.log("Is Input Upload)")
+						// 	//resetRemoteWorker();
+						// 	resetRemoteWorkerKeepSession(); 
+						// } else {
+						// 	console.log("Is not Input Upload")
+						// 	// otherwise, run the worker in whatever session that we're currently on
+						// 	resetRemoteWorkerKeepSession(); 
+						// }
+						resetRemoteWorkerKeepSession()
 						handleSubmit(e, userSessionId, formType, selectedFiles, selectedOptions, uploadField, submitData); 
 						window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
 					}

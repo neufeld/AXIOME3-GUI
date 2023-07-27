@@ -18,7 +18,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="pipeline.run.taxonomic_classification")
-def taxonomic_classification_task(_id, logging_config,
+def taxonomic_classification_task(_id, task_type, logging_config,
 	classifier_path, n_cores, URL, task_progress_file, sender, recipient):
 	
 	websocket = WebSocket(messageQueueURL=URL, room=_id,)
@@ -27,6 +27,7 @@ def taxonomic_classification_task(_id, logging_config,
 
 	try:
 		taxonomic_classification.generate_config(
+			task_type=task_type,
 			logging_config=logging_config,
 			classifier_path=classifier_path,
 			n_cores=n_cores,

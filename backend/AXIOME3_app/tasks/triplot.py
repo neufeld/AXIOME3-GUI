@@ -30,7 +30,7 @@ def after_setup_celery_task_logger(logger, **kwargs):
 	configure_celery_task_logger(logger)
 
 @celery.task(name="extension.triplot")
-def triplot_task(_id, URL, task_progress_file, feature_table_artifact_path,
+def triplot_task(_id, task_type, URL, task_progress_file, feature_table_artifact_path,
 	taxonomy_artifact_path, metadata_path, environmental_metadata_path, 
 	sampling_depth, ordination_collapse_level, wascores_collapse_level,
 	dissmilarity_index, R2_threshold, pval_threshold, wa_threshold, fill_variable, 
