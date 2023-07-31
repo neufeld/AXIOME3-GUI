@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=${QIIME2_VERSION}
-        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
+        #- CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: ["python", "prod_server.py", '--py-autoreload', '1']
     volumes:
       - ../../backend:/backend
@@ -59,7 +59,7 @@ services:
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=${QIIME2_VERSION}
-        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
+        #- CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker1@%h -Q pipeline --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'
@@ -84,7 +84,7 @@ services:
       dockerfile: Dockerfile
       args:
         - QIIME2_RELEASE=${QIIME2_VERSION}
-        - CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
+        #- CLASSIFIER_GDRIVE_ID=${CLASSIFIER_GDRIVE_ID}
     command: "celery -A AXIOME3_app.celery_app:app worker --concurrency=1 -n worker2@%h -Q extension --loglevel=INFO"
     volumes:
       - /:/hostfs:ro # Assumes host root is '/'

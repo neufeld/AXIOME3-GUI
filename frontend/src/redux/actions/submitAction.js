@@ -28,9 +28,6 @@ export const submitData = (formData, endpoint) => async dispatch => {
 
 	const uuidV4 = formData.get('uuid');
 
-	console.log("HERE submitAction: ")
-	console.log(formData.get('formType'))
-
 	try {
 		// axios config
 		const config = {

@@ -60,9 +60,7 @@ def inputupload():
 		recipient = None
 	
 	# get type of task
-	print("HERE backend inputupload")
 	task_type = str(request.form['formType'])
-	print("HERE backend task type: " + task_type)
 
 	# Use UUID4 for unique identifier
 	_id = str(request.form['uuid'])
@@ -312,7 +310,6 @@ def taxonomic_classification():
 
 @blueprint.route("/analysis", methods=['POST'])
 def analysis():
-	print("HERE analysis")
 	# Email ricipient
 	if("email" in request.form):
 		recipient = request.form["email"]

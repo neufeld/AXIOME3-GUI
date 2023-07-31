@@ -116,41 +116,24 @@ def str2bool(v):
 class Out_Prefix(luigi.Config):
     prefix = luigi.Parameter()
 
-# class Run_Dirs(luigi.Config):
-#     # Append the correct run folder into the output path
-#     main_out_dir = Out_Prefix().prefix
-#     subdirs = [x[0] for x in os.walk(main_out_dir)]
-#     print("HERE subdirs: " + str(",".join(subdirs)))
-#     run = 1
-#     while("run" + str(run) in subdirs):
-#         run += 1 # runX folder already exists so increment
-#     # create the correct run folder
-#     run_dir = os.path.join(main_out_dir, "run" + str(run))
-#     print("HERE run_dir: " + run_dir)
-
 class Task_Type(luigi.Config):
     task_type = luigi.Parameter()
 
 class Output_Dirs(luigi.Config):
     # Task type
     task_type = Task_Type().task_type
-    print("HERE tasktype: " + task_type)
 
     # Define output paths
     out_dir = Out_Prefix().prefix
-    print("HERE outdir: " + out_dir)
 
     base_out_dir = out_dir
     if task_type != "inputUpload":
         base_out_dir = "/".join(out_dir.split("/")[:-1])
-    print("HERE base out dir: " + base_out_dir)
 
     input_upload_dir = os.path.join(base_out_dir, "input_upload")
     manifest_dir = os.path.join(base_out_dir, "manifest")
 
     denoise_dir = os.path.join(out_dir, "denoise")
-    #denoise_dir = os.path.join(run_dir, "denoise")
-    #print("HERE denoise dir: " + denoise_dir)
     rarefy_dir = os.path.join(out_dir, "rarefy")
     taxonomy_dir = os.path.join(out_dir, "taxonomic_classification")
     analysis_dir = os.path.join(out_dir, "analysis")
@@ -248,7 +231,6 @@ class Split_Samples(luigi.Task):
             run_cmd(cmd, self)
 
 class Import_Data(luigi.Task):
-    print("HERE import data")
     # Options for qiime tools import
     sample_type = luigi.Parameter(
             default='SampleData[PairedEndSequencesWithQuality]')
@@ -259,7 +241,6 @@ class Import_Data(luigi.Task):
 
     samples = Samples().get_samples()
     is_multiple = str2bool(Samples().is_multiple)
-    print("HERE import data: " + out_dir)
 
     def requires(self):
         return Split_Samples()
@@ -283,7 +264,6 @@ class Import_Data(luigi.Task):
 
     def run(self):
         step = str(self)
-        print("HERE Import data about to mkdir")
         # Make output directory
         run_cmd(['mkdir',
                 '-p',
@@ -295,7 +275,6 @@ class Import_Data(luigi.Task):
         #         self.base_out_dir + "/project.axiome"],
         #         step)
         
-        print("HERE Import Data Output directory is: " + self.out_dir)
 
         #inputPath = Samples().manifest_file
         #
@@ -413,7 +392,6 @@ class Denoise(luigi.Task):
     samples = Samples().get_samples()
     is_multiple = str2bool(Samples().is_multiple)
     denoise_dir = Output_Dirs().denoise_dir
-    print("HERE Denoise denoise dir: " + denoise_dir)
     out_dir = Output_Dirs().input_upload_dir
 
     # def requires(self):
@@ -469,8 +447,6 @@ class Denoise(luigi.Task):
                 "-p",
                 self.denoise_dir],
                 self)
-
-        print("HERE Denoise run cmd: " + self.denoise_dir)
 
         if(self.is_multiple):
             # Get cutoff for each sample
