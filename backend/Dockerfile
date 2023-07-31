@@ -14,7 +14,7 @@ RUN rm requirements.txt
 
 # wget classifier
 WORKDIR /pipeline
-RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}
+#RUN gdown https://drive.google.com/uc?id=${CLASSIFIER_GDRIVE_ID}
 
 # Install ms-core-fonts to use Arial font
 # Add contrib repo
