@@ -59,7 +59,7 @@ If you wish to install AXIOME3 in the remote server that is accessible via SSH, 
 
 3. To cleanly exit the app, run the following command. (If running the app in the foreground, press `CTRL+c` to terminate the app first.)
 
-   `docker compose -p [CUSTOM_NAME] -f docker-compose_production.yml down`
+   `docker compose -p [CUSTOM_NAME] -f docker_files/docker-compose_production.yml down`
 
 4. Then, remove Docker data volumes used in `AXIOME3-GUI` by running the command,
 
